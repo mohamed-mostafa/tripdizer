@@ -1,0 +1,204 @@
+.flow-tittle-override {
+	margin-left: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+.fullWidth {
+	width: 100%;
+}
+.majorOption {
+	font-weight: bolder;
+}
+.moinorOption {
+	font-weight: lighter;
+	font-style: italic;
+}
+.select-override {
+	color: black !important;
+}
+
+.menu-item-overried {
+	font-weight: bolder;
+    background: rgba(0, 0, 0, 0.12);
+}
+.blackbg {
+	background-color: black;
+}
+.left-aligned-text {
+	text-align: left;
+}
+.left {
+	float:left;
+}
+
+.wizard > .actions a, .wizard > .actions a:hover, .wizard > .actions a:active {
+    background: #ff6b6b !important; /* light red */
+    border: 1px #ff6b6b solid !important;
+	border-radius: 22px !important;
+    float: left;
+}
+
+.numeric-wizard-container ul.steps li .txt {
+	color: black !important;
+}
+
+.flow-tittle { 
+	background: black;
+	color: white;
+}
+
+.numeric-wizard-container ul.steps .num {
+	font-size: 24px;
+	background: black;
+	border: 4px grey solid;
+	color: white;
+}
+
+.numeric-wizard-container ul.steps li {
+    border-bottom: 3px grey solid !important;
+}
+
+#lcationPickupContainer .input-field select {
+    border-bottom: 2px solid black !important;
+    text-shadow: 0 0 0 black !important;
+}
+
+.add-btn, .remove-btn {
+    color: black !important;
+    border: 2px grey solid;
+}
+
+.input-field .prefix ~ input, .input-field .prefix ~ textarea, .input-field .prefix ~ label, .input-field .prefix ~ .validate ~ label, .input-field .prefix ~ .autocomplete-content, .input-field label {
+    color: black !important;
+}
+
+label[for="icon_prefix"], [type="radio"]:not(:checked)+label, [type="radio"]:checked+label {
+    color: black !important;
+}
+
+.material-icons {
+    color: black !important;
+}
+
+input:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
+	border-bottom: 2px solid black !important;
+}
+
+[type="radio"]:not(:checked)+label:before, [type="radio"]:not(:checked)+label:after, [type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    border: 1px black solid !important;
+}
+
+label.error.regError {
+    color: red !important;
+}
+
+.picker__date-display {
+    background: black !important;
+}
+
+.picker__weekday-display {
+    background: #ff6b6b !important;
+}
+
+.picker__close, .picker__today {
+    color: #ff6b6b !important;
+}
+
+.picker__day.picker__day--today {
+    color: #ff6b6b;
+}
+
+h3.range-tittle img {
+    width: 50px;
+	height: 50px;
+    float: left;
+}
+
+h3.range-tittle {
+    line-height: 50px;
+	color: black;
+}
+
+.last-child {
+	margin-bottom: 20px !important;
+}
+
+.sliders-row {
+	height: 70px !important;
+	min-height: 70px !important;
+ 
+}
+
+.percentage {
+	border-radius: 100%;
+	border-width: 2px;
+	width: 30px;
+	height: 30px;
+	line-height: 28px;
+	border-color: grey;
+	background-color: black;
+	color: white;
+	font-weight: bold;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: black;
+  cursor: pointer;
+  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+}
+
+.h3.trip-type {
+	color: #ff6b6b !important;
+}
+
+.h3.thanks-msg, .req-num-msg, .contact-msg {
+	color: #ff6b6b !important;
+}
+
+a.modal-action.modal-close.waves-effect.waves-green.btn-flat {
+	background-color: #ff6b6b !important;
+	border: 1px #ff6b6b solid !important;
+	border-radius: 22px !important;
+}
+
+.no-bottom-margin {
+	margin-bottom: auto;
+}
+
+.map-popup .popup-img-container img {
+    margin-left: -11px !important;
+    margin-top: -8px !important;
+}
+
+.map-popup .popup-description {
+    margin-left: -10px;
+}
+
+[type="checkbox"]:checked + label:before {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+span.form-description {
+    margin-bottom: 10px;
+}
+
+.specialRequestsTextArea {
+	height: 150px;
+}
+
+.cont {
+	padding-top: 100px;
+}
+
+.reqs {
+	width: 150px;
+	margin-top: 20px !important;
+}

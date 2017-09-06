@@ -1,0 +1,338 @@
+@media (max-width: 1990px) {
+
+    .numeric-wizard-container ul.steps li:first-child .txt {
+        text-align: right;
+    }
+    .numeric-wizard-container ul.steps li:last-child .txt {
+        text-align: right;
+    }
+  .numeric-wizard-container ul.steps li .txt {
+        position: relative;
+        bottom: -5px;
+        width: 100%;
+            transform: translateX(0%);
+             left: 0px; 
+      text-align: right;
+      margin-top: 8px;
+    }   
+}
+
+@media (max-width: 1940px) {
+
+    .numeric-wizard-container ul.steps li:first-child .txt {
+        text-align: right;
+    }
+    .numeric-wizard-container ul.steps li:last-child .txt {
+        text-align: right;
+    }
+  .numeric-wizard-container ul.steps li .txt {
+        position: relative;
+        bottom: -5px;
+        width: 100%;
+            transform: translateX(0%);
+             left: 0px; 
+      text-align: right;
+      margin-top: 8px;
+    }   
+}
+@media (max-width: 1450px) {
+
+    .numeric-wizard-container ul.steps li:first-child .txt {
+        text-align: right;
+    }
+    .numeric-wizard-container ul.steps li:last-child .txt {
+        text-align: right;
+    }
+  .numeric-wizard-container ul.steps li .txt {
+        position: relative;
+        bottom: -5px;
+        width: 100%;
+            transform: translateX(0%);
+             left: 0px; 
+      text-align: right;
+      margin-top: 8px;
+    }   
+}
+
+@media (max-width: 1190px) {
+
+    .numeric-wizard-container ul.steps li:last-child {
+        width: auto;
+        text-align: right;
+    }
+    .numeric-wizard-container ul.steps li {
+        text-align: center;
+    }
+    .numeric-wizard-container ul.steps li:last-child a {
+        float: right !important;
+    }
+    .numeric-wizard-container ul.steps li a {
+        margin: 0 auto !important;
+        float: none !important;
+        display: block;
+    }
+    .numeric-wizard-container ul.steps li:first-child a {
+        float: left;
+        text-align: left;
+    }
+    .numeric-wizard-container ul.steps .num {
+        margin: 0 auto !important;
+        float: none !important;
+        display: block;
+    }
+    .numeric-wizard-container ul.steps li:last-child .num {
+        float: right !important;
+    }
+   
+    
+h3.range-tittle {
+    margin-bottom: 30px;
+}
+
+.range .range-output .output {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    line-height: 47px;
+    min-width: 45px;
+    border-radius: 1000px;
+}
+.range .range-output{
+    width: 45px;
+    height: 60px;
+}
+}
+
+
+@media (max-width: 1190px) {
+
+    .wizard-tab-content .inner {
+  
+    }
+       .wizard > .actions {
+        position: inherit !important;
+    }
+    .wizard > .actions.firstStep {
+    right: inherit;
+    right: 10px !important;
+        position: absolute!important;
+}
+    .wizard > .content > .body {
+        width: 100%;
+    }
+    .ticket-container {
+        background-image: url(../images/live-it-all.png);
+        background-repeat: no-repeat;
+
+        
+    }
+    .live-it-all-bg {
+        display: none;
+    }
+    .ticket-container .col-lg-7.left-side.noPadding {
+        width: 100%;
+    }
+    .ticket-data {
+        background: rgba(255, 255, 255, .7);
+    }
+    .ticket-data h3 {
+        text-align: right;
+    }
+    .transparent-bg {
+        background: transparent;
+        border-radius: 4px;
+    }
+    span.form-description {
+        margin-top: 25px;
+    }}
+@media (max-width: 767px) {
+    
+
+.wizard > .actions.firstStep {
+    right: inherit;
+    left: 10px !important;
+    position: inherit !important;
+}
+    
+}
+
+
+@-moz-document url-prefix() { 
+  section#home {
+    min-height: auto;
+}
+}
+@media (max-width: 767px) {
+   #first,
+   #second,
+   #third,
+   #forth,
+   #fifth,
+   #sixth{
+
+    }
+
+
+.numeric-wizard-container{
+    margin-top: -40px;
+} 
+    .country .inner{
+        min-height: 200px;
+                
+    }
+    .step{
+        display: none !important;
+    }
+    .steps{
+        display: none;
+    }
+    #menuToggle{
+        display: block !important;
+    }
+.flow-tittle {
+    float: right;
+    margin-right:-20px;
+}
+
+    
+    .sliders-row{
+        margin-bottom: 40px;
+    }
+    .wizard > .actions a, .wizard > .actions
+    a:hover, .wizard > .actions a:active{
+        margin-top: 3px;
+    }
+    .flow-tittle-override{
+            margin-right: -20px;
+    }
+    .flow-tittle-override{
+        margin-right: -30px !important
+    }
+    .btn-ellipse{
+    margin: 0;
+    margin-right: 100px;
+}
+    #first .left-side{
+        margin-top: 30px !important;
+    }
+    
+    .flow-tittle-override{
+        margin-right: 15px !important
+    }
+
+@media (max-width: 370px) {
+    .rd-navbar-brand img{
+        width:150px;
+        height:32px;
+    }
+    .menu{
+        position: fixed;
+    }
+    #first, #second, #third, #forth, #fifth, #sixth{
+
+    }
+    
+   
+}
+
+
+
+
+@media (max-width: 767px) {
+    
+.country{
+    float: none !important;
+}
+.leave{
+        float: none !important;
+}
+.wizard > .actions.firstStep {
+    right: inherit;
+    left: 10px !important;
+    position: inherit !important;
+}
+.rd-navbar a {
+    transition: .3s all ease;
+    line-height: 34px !important;
+}
+    .btn-ellipse.btn{
+        
+    }
+     .contain{ 
+      display: flex;
+    flex-direction: column-reverse;
+         margin-left: 30%;
+         }
+     .contain p{  display: flex;
+    }
+}
+    
+    
+    
+
+    
+    @media (max-width: 333px) {
+        .flow-tittle-override{
+            margin-right: -2px !important;
+            min-width: 210px !important
+        }
+    }
+
+
+@-moz-document url-prefix() { 
+  section#home {
+    min-height: auto;
+}
+    
+}
+    @media (max-width: 370px) {
+ .othe{
+            margin-top: 40px;
+        }
+    }
+    @media (max-width: 290px) {
+ .othe{
+            margin-top: 50px;
+        }
+    }
+
+
+
+    @media (max-width: 320px) {
+   
+        .flow-tittle-override{
+            margin-right: 0 !important;
+            min-width: 210px !important;
+        }
+        .f-flow{
+                min-width: 170px !important;
+        }
+       
+    }
+     @media (max-width: 900px) {
+   
+ 
+        .f-flow{
+                min-width: 180px !important;
+        }
+       
+    }
+      @media (max-width: 300px) {
+   
+        .flow-tittle-override{
+            margin-right: 0 !important;
+            min-width: 180px !important;
+        }
+        .othe{
+            margin-top: 90px;
+        }
+      }
+@media (max-width: 767px){
+   .int{
+       float: none !important;
+   }
+   .range input[type=range]{
+           margin-top: -10px;
+   }
+
+}

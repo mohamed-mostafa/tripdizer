@@ -1,0 +1,544 @@
+
+<!DOCTYPE html>
+<html lang="en" class="wide wow-animation smoothscroll scrollTo">
+  <head>
+    <!-- Site Title-->
+    <title>Tripdizer</title>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="keywords" content="intense web design multipurpose template">
+    <meta name="date" content="Dec 26">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <!-- Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:400,600,700">
+    <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/materialdesignicons.min.css">
+          <link rel="stylesheet" href="//cdn.materialdesignicons.com/1.9.32/css/materialdesignicons.min.css">
+		<!--[if lt IE 10]>
+    <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+    <script src="js/html5shiv.min.js"></script>
+		<![endif]-->
+      <style>
+         .rd-navbar-default.rd-navbar-static .rd-navbar-menu-wrap {
+    float: left;
+}
+          .rd-parallax-layer[data-url] {
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center center;
+}
+          p, a, h5, h4, span,h2, h3{
+              direction: rtl;
+          }
+      </style>
+  </head>
+  <body ng-app="LandingPageApplication">
+    <!-- Page-->
+    <div class="page text-center" ng-controller="GroupTripsController">
+      <!-- Page Head-->
+      <header class="page-head slider-menu-position">
+        <!-- RD Navbar Transparent-->
+        <div class="rd-navbar-wrap">
+          <nav data-sm-layout="rd-navbar-static" data-sm-device-layout="rd-navbar-static" data-sm-auto-height="true" data-sm-stick-up="true" class="rd-navbar rd-navbar-default">
+            <div class="rd-navbar-inner">
+              <!-- RD Navbar Panel-->
+              <div class="rd-navbar-panel">
+                <!-- RD Navbar Toggle-->
+                <div data-rd-navbar-toggle=".rd-navbar, .rd-navbar-nav-wrap" class="rd-navbar-toggle"><span></span></div>
+                <!-- Navbar Brand-->
+                <div class="rd-navbar-brand navbar-right"><a href="index-ar.html"><img width="220" height="32" src="images/logo-light-220x32.png" alt=""></a></div>
+              
+              </div>
+              <div class="rd-navbar-menu-wrap">
+                <div class="rd-navbar-nav-wrap">
+                  <div class="rd-navbar-mobile-scroll ">
+                    <!-- RD Navbar Nav-->
+                    <ul class="rd-navbar-nav">
+                       <li><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز جولة</a></li>
+                       <li><a href="index.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"style="padding: 1px 10px; line-height: 23px;margin-top: .4%;font-size:12px;text-transform: capitalize;">English</a></li>
+                      <li><span class="mdi mdi-email-outline text-middle"></span><a href="/cdn-cgi/l/email-protection#d2b0bdbdb9bbbcb5a192a6a0bba2b6bba8b7a0fcb1bdbf" class="reveal-inline-block text-middle inset-left-10 text-middle"><span class="__cf_email__" data-cfemail="f3919c9c989a9d9480b387819a83979a899681dd909c9e">[email&#160;protected]</span><script data-cfhash='f9e31' type="text/javascript">/* <![CDATA[ */!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName('script'),e=t.length;e--;)if(t[e].getAttribute('data-cfhash'))return t[e]}();if(t&&(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute('data-cfemail')){for(e='',r='0x'+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+='%'+('0'+('0x'+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/* ]]> */</script></a></li>
+                     <li><span class="mdi mdi-phone text-middle"></span><a href="callto:+201003950090" class="reveal-inline-block text-middle inset-left-10 text-middle" style="direction: ltr">+2 0101 907 5876</a></li>
+ 
+              </ul>
+                  </div>
+                </div>
+              </div>
+                <div style="clear:both"></div>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <!-- Page Contents-->
+      <main class="page-content">
+        <section>
+          <!-- Swiper-->
+          <div data-height="100vh" data-min-height="400px" class="swiper-container swiper-slider">
+            <div class="swiper-wrapper">
+              <div data-slide-bg="images/slide-01-1920x1000.jpg" class="swiper-slide swiper-slide-overlay-disable">
+                <div class="swiper-slide-caption">
+                  <div class="shell">
+                    <div class="range range-xs-center range-lg-right">
+                      <div class="cell-xs-10 cell-lg-6 text-lg-right">
+                        <h1 data-caption-animate="fadeInUp" data-caption-delay="400">هل تعبت من البحث عن أفضل عرض لرحلتك؟</h1>
+                        <p data-caption-animate="fadeInUp" data-caption-delay="500">الحصول على العديد من العروض من أكبر وكالات السفر بنقرة واحدة فقط</p>
+                        <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز جولة</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-slide-bg="images/slide-02-1920x1000.jpg" class="swiper-slide">
+                <div class="swiper-slide-caption">
+                  <div class="shell">
+                    <div class="range range-xs-center range-lg-right">
+                      <div class="cell-xs-10 cell-lg-6 text-lg-right">
+                        <h1 data-caption-animate="fadeInUp" data-caption-delay="400">التخطيط لرحلة لم يكن سهلا</h1>
+                        <p data-caption-animate="fadeInUp" data-caption-delay="500">انقر فوق "احجز جولة" الآن للذهاب من خلال خطوات التخطيط رحلة بسيطة لدينا.</p>
+                        <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز جولة</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-slide-bg="images/slide-03-1920x1000.jpg" class="swiper-slide">
+                <div class="swiper-slide-caption">
+                  <div class="shell">
+                    <div class="range range-xs-center range-lg-right">
+                      <div class="cell-xs-10 cell-lg-6 text-lg-right">
+                        <h1 data-caption-animate="fadeInUp" data-caption-delay="400">مكان واحد، العديد من العروض</h1>
+                        <p data-caption-animate="fadeInUp" data-caption-delay="500">طريقة جديدة وأسهل وأسرع وأكثر ملاءمة للسفر.</p>
+                        <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز جولة</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Swiper Pagination-->
+            <div class="swiper-pagination"></div>
+          </div>
+        </section>
+        <!--We Provide Only the Best Tours-->
+        <section class="context-dark">
+          <div data-on="false" data-md-on="true" class="rd-parallax">
+            <div data-speed="0.35" data-type="media" data-url="images/bg-01-1920x643.jpg" class="rd-parallax-layer" style=" position: absolute;
+    background-image: url(images/bg-01-1920x643.jpg);
+    height: 646.1px;
+    transform: translate3d(0px, 0px, 0px);"></div>
+            <div data-speed="0" data-type="html" class="rd-parallax-layer">
+              <div class="shell section-90 section-md-110">
+                <div class="range range-xs-center">
+                  <div class="cell-sx-10 cell-md-8">
+                    <h2 style="direction:rtl">الرحلة التي كنت تنتظرها على بعد خطوات قليلة</h2>
+                        <p style="margin-top: 0px; margin-bottom: 0px;">۱.اختيار الوجهة المفضلة لديك والتواريخ والاهتمامات</p>
+                    	<p style="margin-top: 0px; margin-bottom: 0px;">۲.سوف نرسل لك العديد من خطط السفر من أفضل الوكالات.</p>
+                        <p style="margin-top: 0px; margin-bottom: 0px;">۳.اختيار أفضل عرض لك</p>
+                    <div class="offset-top-40"><a href="reservation-ar.html" class="btn btn-default btn-sm btn-icon btn-icon-left btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز الان</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!--Top Travel Tours-->
+        <section class="section-relative section-90">
+          <div class="shell">
+            <h2>رحلات قادمة</h2>
+            <div class="range range-xs-center offset-top-30">
+              <div class="cell-xs-10 cell-md-8">
+                <p>إستكشاف العالم! نقدم لك مجموعة واسعة من الجولات السياحية أياً كانت إهتماماتك. نأخذك إلى الوجهات الغير تقليدية و إيضاً المعروفة! إليكم بعض الأمثلة.</p>
+              </div>
+            </div>
+            <div class="range range-xs-center">
+              <div class="cell-xs-10 cell-sm-6 cell-md-3">
+                <div class="product">
+                
+                <img src="images/morocco.jpg" width="270" height="360" alt="" class="img-responsive">
+                  <div class="offset-md-top-38 offset-top-20">
+                    <ul class="list-inline list-inline-sm">
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star-half text-primary"></li>
+                    </ul>
+                  </div>
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">المغرب</a></h5>
+                  </div>
+                  <p class="small">كازابلانكا - مراكش - شفشاون - فاس</p>
+                   <p class="medium">من 21 سبتمبر الي 30 سبتمبر 2017 </p>
+                  <p class="small">الفيزا مطلوبة</p>
+                  <p class="small">المجموعة 15 مسافر</p>
+                  <ul class="list-inline">
+                    <li>
+                      <h6 class="text-bold text-darker">بدءا من 14,700  جنيه</h6>
+                    </li>
+                    <li>
+                      <a href="#" class="text-bold text-darker" ng-click="openSubmitGroupTripRequestDialog('Morocco')">سجل الأن</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-6 cell-md-3 offset-top-50 offset-sm-top-0">
+                <div class="product">
+                <!-- <span class="label bg-primary">جديد</span> -->
+                <img src="images/capetown.jpg" width="270" height="360" alt="" class="img-responsive">
+                  <div class="offset-md-top-38 offset-top-20">
+                    <ul class="list-inline list-inline-sm">
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                    </ul>
+                  </div>
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">جنوب افريقيا</a></h5>
+                  </div>
+                  <p class="small">كيب تاون</p>
+                  <p class="medium">من 24 ديسمبر 2017 الي 2 يناير 2018 </p>
+                  <p class="small">الفيزا مطلوبة</p>
+                  <p class="small">المجموعة 15 مسافر</p>
+                  <ul class="list-inline">
+                    <li>
+                      <h6 class="text-bold text-darker">بدءا من 18,000   جنيه</h6>
+                    </li>
+                    <li>
+                      <a href="#" class="text-bold text-darker" ng-click="openSubmitGroupTripRequestDialog('South Africa')">سجل الأن</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-6 cell-md-3 offset-top-50 offset-md-top-0">
+                <div class="product"><img src="images/semporna.jpg" width="270" height="360" alt="" class="img-responsive">
+                  <div class="offset-md-top-38 offset-top-20">
+                    <ul class="list-inline list-inline-sm">
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                    </ul>
+                  </div>
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">ماليزيا</a></h5>
+                  </div>
+                  <p class="small">کوتا کينا بالو - سنداکن - سيمبورنا</p>
+                  <p class="medium">من 21 يناير الي 4 فيراير 2018 </p>
+                  <p class="small">الفيزا غير مطلوبة</p>
+                  <p class="small">المجموعة 15 مسافر</p>
+                  <ul class="list-inline">
+                    <li>
+                      <h6 class="text-bold text-darker">بدءا من 13,200 جنيه</h6>
+                    </li>
+                    <li>
+                      <a href="#" class="text-bold text-darker" ng-click="openSubmitGroupTripRequestDialog('Malaysia')">سجل الأن</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- < div class="cell-xs-10 cell-sm-6 cell-md-3 offset-top-50 offset-md-top-0">
+                <div class="product"><img src="images/maldives.jpg" width="270" height="360" alt="" class="img-responsive">
+                  <div class="offset-md-top-38 offset-top-20">
+                    <ul class="list-inline list-inline-sm">
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                      <li class="icon icon-sm mdi mdi-star text-primary"></li>
+                    </ul>
+                  </div>
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">جزر المالديف</a></h5>
+                  </div>
+                  <p class="small">جزر المالديف</p>
+                  <ul class="list-inline">
+                    <li>
+                      <h6 class="text-bold text-darker">بدءا من ۱٥,۰۰۰ جنيه</h6>
+                    </li>
+                  </ul>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </section>
+		<!-- Videos -->
+		<section class="section-relative section-90">
+          <div class="shell">
+            <h2>فيديو</h2>
+            <div class="range range-xs-center offset-top-30">
+              <div class="cell-xs-10 cell-md-8">
+                <p>شاهد فيديوهاتنا</p>
+              </div>
+            </div>
+            <div class="range range-xs-center">
+              <div class="cell-xs-10 cell-sm-6 cell-md-3">
+                <div class="product"><iframe width="270" height="270"src="https://www.youtube.com/embed/Vsa2WZHRmcY"></iframe>
+                  <div class="offset-md-top-38 offset-top-20">
+                  </div>
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">بالي</a></h5>
+                  </div>
+                  <p class="small">دليل بالي</p>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-6 cell-md-3">
+                <div class="product"><iframe width="270" height="270"src="https://www.youtube.com/embed/URCaU0kULi4"></iframe>
+                  <div class="offset-md-top-38 offset-top-20">
+                  </div>
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">جزر المالديف</a></h5>
+                  </div>
+                  <p class="small">جزر المالديف ليست مستحيلة</p>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-6 cell-md-3">
+                <div class="product"><iframe width="270" height="270"src="https://www.youtube.com/embed/MOD4cpZmImk"></iframe>
+                  <div class="offset-md-top-38 offset-top-20">
+                  </div>
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">كوالا لامبور</a></h5>
+                  </div>
+                  <p class="small">أشياء يمكن ممارستها في كوالا لامبور</p>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-6 cell-md-3">
+                <div class="product"><iframe width="270" height="270"src="https://www.youtube.com/embed/hkYDiTXo6dU"></iframe>
+                  <div class="offset-md-top-38 offset-top-20">
+                  </div>
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">هونج كونج</a></h5>
+                  </div>
+                  <p class="small">عشرة أنشطة يمكن ممارستها في هونج كونج</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!--Why Us?-->
+        <section class="section-90 section-md-120">
+          <div class="shell">
+            <h2>لماذا نحن؟</h2>
+            <div class="range range-xs-center offset-sm-top-75">
+                <div class="cell-xs-10 cell-sm-4 offset-top-50 offset-sm-top-0"><span class="icon icon-circle icon-outlined icon-primary-filled mdi mdi-database"></span>
+                <div class="offset-top-28">
+                  <h4>خالية من المتاعب</h4>
+                </div>
+                <p>
+                   بذلنا جهداً كبيراً في إبتكار برامج سفر مفصلة لتساعدك خلال رحلتك. من خلال الحجز معنا نوفر عليك مجهود البحث لساعات طويلة لترتيب تفاصيل رحلتك و سنوفر لك برنامج متكامل يليق بإهتمامتك الشخصية و مناسب لميزانيتك و إحتياجاتك.</p>
+              </div>
+              
+              <div class="cell-xs-10 cell-sm-4 offset-top-50 offset-sm-top-0"><span class="icon icon-circle icon-outlined icon-primary-filled mdi mdi-silverware-variant"></span>
+                <div class="offset-top-28">
+                  <h4>تعزيز تجربة السفر</h4>
+                </div>
+                <p>
+                 نقوم بالتركيز على توفير العناصر التي تسهم في توفير رحلة ذات جودة عالية. سنكون مسؤولين عن ترتيب الرحلة، الإقامة و الأنشطة. كل ما عليك القيام به هو الإسترخاء، حزم الأمتعة و التمتع برحلتك.</p>
+              </div>
+              <div class="cell-xs-10 cell-sm-4"><span class="icon icon-circle icon-outlined icon-primary-filled mdi mdi-certificate"></span>
+                <div class="offset-top-28">
+                  <h4>رحلات مصممة خصيصا</h4>
+                </div>
+                <p>
+                 نولي إهتماماً بالتفاصيل لنقدم لكم تجربة سفر بأعلى جودة، حسب الطلب، مصممة خصيصاً لإهتمامات محددة طبقاً لميزانيتك، وفقاً لإحتياجاتك.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+		<!-- As featured in -->
+		<section class="section-relative section-90">
+          <div class="shell">
+            <h2>أعلن عنا...</h2>
+            <div class="range range-xs-center offset-top-30">
+              <div class="cell-xs-10 cell-md-8">
+                <p>كيف ظهرت في وسائل الإعلام المصرية ...</p>
+              </div>
+            </div>
+            <div class="range range-xs-center">
+              <div class="cell-xs-10 cell-sm-10 cell-md-4">
+                <div class="product">
+                  <div class="offset-md-top-38 offset-top-20">
+                  </div>
+                  <p class="big">"جولة حول العالم مع انخفاض التكلفة"</p>
+                <img width="90" height="90"src="images/alwatan.jpg">
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">أخبار الوطن</a></h5>
+                  </div>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-10 cell-md-4">
+                <div class="product">
+                  <div class="offset-md-top-38 offset-top-20">
+                  </div>
+                  <p class="big">"الطيران في جميع أنحاء العالم باسعار رخيصة"</p>
+                <img width="90" height="90"src="images/nogoumfm.png">
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">نجوم اف ام</a></h5>
+                  </div>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-10 cell-md-4">
+                <div class="product">
+                  <div class="offset-md-top-38 offset-top-20">
+                  </div>
+                  <p class="big">"أفضل موقع للسفر"</p>
+                <img width="90" height="90"src="images/shorouk.jpg">
+                  <div class="offset-top-10">
+                    <h5><a href="reservation-ar.html">الشروق</a></h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!--Our Partners-->
+        <section class="bg-gray-lighter section-65" style="display:none">
+          <div class="shell">
+            <h4>Our Partners</h4>
+            <div class="range offset-top-40">
+              <div class="cell-sm-6 cell-md-4 cell-lg-2"><img src="images/client-01-144x63.png" width="144" height="63" alt="" class="img-responsive reveal-inline-block"></div>
+              <div class="cell-sm-6 cell-md-4 cell-lg-2 offset-top-30 offset-sm-top-0"><img src="images/client-02-144x63.png" width="144" height="63" alt="" class="img-responsive reveal-inline-block"></div>
+              <div class="cell-sm-6 cell-md-4 cell-lg-2 offset-top-30 offset-md-top-0"><img src="images/client-03-144x63.png" width="144" height="63" alt="" class="img-responsive reveal-inline-block"></div>
+              <div class="cell-sm-6 cell-md-4 cell-lg-2 offset-top-30 offset-lg-top-0"><img src="images/client-04-144x63.png" width="144" height="63" alt="" class="img-responsive reveal-inline-block"></div>
+              <div class="cell-sm-6 cell-md-4 cell-lg-2 offset-top-30 offset-lg-top-0"><img src="images/client-05-144x63.png" width="144" height="63" alt="" class="img-responsive reveal-inline-block"></div>
+              <div class="cell-sm-6 cell-md-4 cell-lg-2 offset-top-30 offset-lg-top-0"><img src="images/client-06-144x63.png" width="144" height="63" alt="" class="img-responsive reveal-inline-block"></div>
+            </div>
+          </div>
+        </section>
+        <!--What Our Clients Say-->
+        <section class="section-90 section-md-120">
+          <div class="shell">
+            <h2>ماذا يقول عنا عملائنا</h2>
+            <div class="range range-xs-center">
+              <div class="cell-xs-10 cell-sm-4">
+                <div class="quote quote-classic">
+                  <div class="unit unit-md unit-md-horizontal">
+                    <div class="unit-left"><img src="images/user-lisa-evans-80x80.jpg" width="80" height="80" alt="" style="margin-top: 10px" class="img-responsive img-circle"></div>
+                    <div class="unit-body text-sm-left">
+                      <q class="quote-desc"> كانت رحلة عائلتي إلى ماليزيا مذهلة. التخطيط يوما بعد يوم لا يمكن أن يكون أفضل ويستحق كل قرش.</q>
+                      <cite class="quote-author">رانيا صالح</cite>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-4 offset-top-50 offset-sm-top-0">
+                <div class="quote quote-classic">
+                  <div class="unit unit-md unit-md-horizontal">
+                    <div class="unit-left"><img src="images/user-rania.jpg" width="80" height="80" alt="" style="margin-top: 10px" class="img-responsive img-circle"></div>
+                    <div class="unit-body text-sm-left">
+                      <q class="quote-desc">لقد استمتعت حقا برحلة بالي كثيرا، يا رفاق لقد جعلتم شهر العسل رائع من خلال التوصية أفضل الأشياء من أي وقت مضى والتي تطابق تماما ما نحب. مليون شكرا.</q>
+                      <cite class="quote-author">شهد طه</cite>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cell-xs-10 cell-sm-4 offset-top-50 offset-sm-top-0">
+                <div class="quote quote-classic">
+                  <div class="unit unit-md unit-md-horizontal">
+                    <div class="unit-left"><img src="images/user-nicholas-lane-80x80.jpg" width="80" height="80" alt="" style="margin-top: 10px" class="img-responsive img-circle"></div>
+                    <div class="unit-body text-sm-left">
+                      <q class="quote-desc">أفضل موقع للاستخدام إذا كنت تبحث عن خطة يطابق نمط السفر الخاص بك، سافرت إلى ماليزيا وبالي وأنا لا يمكن أن يتمتع بها أكثر من ذلك.</q>
+                      <cite class="quote-author">تامر محمد</cite>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="offset-top-60"><a href="#" class="btn btn-primary btn-sm btn-icon btn-icon-left btn-ellipse"><span class="icon mdi mdi-telegram"></span>تواصل معنا</a></div>
+        </section>
+        <!--We Provide Only the Best Tours-->
+        <section class="context-dark">
+          <div data-on="false" data-md-on="true" class="rd-parallax">
+            <div data-speed="0.35" data-type="media" data-url="images/bg-02-1920x643.jpg" class="rd-parallax-layer" style=" position: absolute;
+    background-image: url(images/bg-02-1920x643.jpg);
+    height: 646.1px;
+    transform: translate3d(0px, 0px, 0px);"></div>
+            <div data-speed="0" data-type="html" class="rd-parallax-layer">
+              <div class="shell section-90 section-md-110">
+                <h2>استكشف الزوايا البعيدة في العالم</h2>
+                <p>معنا يمكنك الوصول إلى أكثر الزوايا البعيدة في العالم</p>
+                <div class="offset-top-40"><a href="reservation-ar.html" class="btn btn-default btn-sm btn-icon btn-icon-left btn-ellipse"><span class="icon mdi mdi-telegram"></span>تواصل معنا</a></div>
+              </div>
+            </div>
+          </div>
+        </section>
+         <!-- Modal -->
+		  <div class="modal fade" id="groupTripsRegistrationModal" role="dialog" style="top: 50px;">
+		    <div class="modal-dialog">
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">سجل في رحلة</h4>
+		        </div>
+		        <form id='groupTripsForm'>
+			        <div class="modal-body">
+				      <p>
+				        <input id='name' name='name' placeholder="الاسم" type='text'>
+				      </p><p>
+				        <input id='email' name='email' placeholder="البريد الالكتروني" type='email'>
+				      </p><p>
+				        <input id='phone' name='phone' placeholder="التليفون" type='text'>
+			          </p><p>
+				        <input id='pex' name='pex' placeholder="عدد المسافرين" type='number'>
+				      </p><p>
+				        <textarea id='message' name='message' placeholder="اترك لنا رسالة" rows='5'></textarea>
+				      </p>
+				      <p>
+				        <input type="hidden" id='trip' name='trip' value="{{selectedGroupTrip}}">
+				      </p>
+				      <p>
+				        <input type="hidden" id='date' name='date' value="{{currentDate}}">
+				      </p>
+				        <div id='success'></div>
+				        <div class="modal-footer">
+						  <button class="btn btn-default left" type='submit'>سجل</button>
+				          <!-- <button type="button" class="btn btn-default right" data-dismiss="modal">Close</button> -->
+				        </div>
+			        </div>
+			    </form>
+		      </div>
+		    </div>
+ 		</div>
+      </main>
+      <!-- Default footer-->
+      <footer class="section-50 section-sm-30 page-footer bg-gray-base context-dark">
+        <!-- Default footer-->
+        <div class="shell text-sm-left">
+          <!-- Footer brand-->
+          <div class="footer-brand reveal-inline-block"><a href="index.html"><img src="images/logo-footer-138x55.png" width="138" height="55" alt="" class="img-responsive reveal-inline-block"></a></div>
+          <div class="pull-sm-right offset-top-30 offset-sm-top-10">
+            <ul class="list-inline">
+              <li><a href="https://www.facebook.com/hezahawsafer" class="icon fa fa-facebook icon-xxs icon-circle icon-gray-darkest-filled"></a></li>
+              <li><a href="https://twitter.com/hezahawsafer" class="icon fa fa-twitter icon-xxs icon-circle icon-gray-darkest-filled"></a></li>
+              <li><a href="https://www.youtube.com/channel/UCS_PqcRKZ_pkGgh34c2elQQ" class="icon fa fa-youtube icon-xxs icon-circle icon-gray-darkest-filled"></a></li>
+              <li><a href="https://www.instagram.com/hezahawsafer/" class="icon fa fa-instagram icon-xxs icon-circle icon-gray-darkest-filled"></a></li>
+            </ul>
+            <!-- {%FOOTER_LINK} -->
+          </div>
+          </div>
+      </footer>
+</div>
+    <!-- Global Mailform Output-->
+    <div id="form-output-global" class="snackbars"></div>
+    <!-- Java script-->
+    <!-- angular js library and hws angular js controllers -->
+    <!-- jQuery 2.1.3 -->
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <!-- jQuery UI 1.11.2 -->
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="application/LandingPageApplication.js"></script>
+	<script src="application/GroupTripsController.js"></script>
+    <script src="js/core.min.js"></script>
+    <script src="js/script-ar.js"></script>
+    <script src='js/google-sheets.js'></script>
+  <script>/* <![CDATA[ */(function(d,s,a,i,j,r,l,m,t){try{l=d.getElementsByTagName('a');t=d.createElement('textarea');for(i=0;l.length-i;i++){try{a=l[i].href;s=a.indexOf('/cdn-cgi/l/email-protection');m=a.length;if(a&&s>-1&&m>28){j=28+s;s='';if(j<m){r='0x'+a.substr(j,2)|0;for(j+=2;j<m&&a.charAt(j)!='X';j+=2)s+='%'+('0'+('0x'+a.substr(j,2)^r).toString(16)).slice(-2);j++;s=decodeURIComponent(s)+a.substr(j,m-j)}t.innerHTML=s.replace(/</g,'&lt;').replace(/\>/g,'&gt;');l[i].href='mailto:'+t.value}}catch(e){}}}catch(e){}})(document);/* ]]> */</script></body>
+</html>

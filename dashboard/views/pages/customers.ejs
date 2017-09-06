@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>G2G | Dashboard</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- Bootstrap 3.3.2 -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    
+    <!-- FontAwesome 4.3.0 -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons 2.0.0 -->
+    <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />    
+    <!-- Theme style -->
+    <link href="/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins 
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <!-- iCheck -->
+    <link href="/plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
+    <!-- Morris chart -->
+    <!-- <link href="/plugins/morris/morris.css" rel="stylesheet" type="text/css" /> -->
+    <!-- jvectormap -->
+    <!-- <link href="/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" /> -->
+    <!-- Date Picker -->
+    <link href="/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" /
+    <!-- Daterange picker -->
+    <link href="/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+	<!-- DATA TABLES -->
+    <link href="../../plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+	<!-- g2g stylesheet -->
+    <link href="/g2g/css/g2g.css" rel="stylesheet" type="text/css" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body ng-app="G2GControlCenterApplication" class="skin-blue">
+    <div class="wrapper">
+      
+      <header class="main-header">
+        <% include ../partials/header %>
+      </header>
+      
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+       <% include ../partials/side %>
+      </aside>
+
+      <!-- Contains the navbar and content of the page -->
+      <div class="content-wrapper" ng-controller="CustomersPageContentController">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            G2G Dashboard
+            <small>Customers</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="home"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Customers</li>
+          </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+          <!-- Small boxes (Stat box) -->
+          <div class="box box-info">
+                <div class="box-header">
+                  <h3 class="box-title">Search Customers</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                <div class="overlay"  ng-show="loading == true">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                
+                <!-- UNCOMMENT THIS -->
+              	 
+              	<div class="box-body">
+              		<div class="row">
+	                    <div class="col-xs-3">
+	                    <label>Customer's Name</label>
+	           			<input type="text" placeHolder="Search by Name" class="form-control" id="nameSearchCriterion" ng-model="searchCriteria.name"/>
+	                    </div>
+	                    <div class="col-xs-3">
+	                    <label>Customer's Phone</label>
+           				<input type="text" placeHolder="Search by Phone" class="form-control" id="phoneSearchCriterion" ng-model="searchCriteria.phone"/>
+	                    </div>
+	                    <div class="col-xs-6">
+	                    <label>Customer's Email</label>
+	           			<input type="text" placeHolder="Search by Email" class="form-control" id="emailSearchCriterion" ng-model="searchCriteria.email"/>
+	                    </div>
+                 	 </div>
+                 	 <div class="row">
+	                    <div class="col-xs-3">
+	                    <label>Customer's Zip Code</label>
+           				<input type="text" placeHolder="Search by Zip Code" class="form-control" id="zipCodeSearchCriterion" ng-model="searchCriteria.zipCode"/>
+	                    </div>
+	                    <div class="col-xs-3">
+	                    <label>Customer's City</label>
+           				<input type="text" placeHolder="Search by City" class="form-control" id="citySearchCriterion" ng-model="searchCriteria.city"/>
+	                    </div>
+	                    <div class="col-xs-6">
+	                    <label>Customer's Address</label>
+           				<input type="text" placeHolder="Search by Address" class="form-control" id="addressSearchCriterion" ng-model="searchCriteria.address"/>
+           				</div>
+                 	 </div>
+                 	  
+	                 <div class="row">
+	                 	 <div class="col-xs-3">
+	                      <div class="form-group">
+	                      	<label>Customer's Plan</label>
+		                      <select class="form-control" ng-model="searchCriteria.plan">
+		                      	<option value="" disabled selected>Plan</option>
+		                        <option value="NIGHT OWL">NIGHT OWL</option>
+		                      </select>
+		                    </div>
+	                    </div>
+	                  <div class="col-xs-3">
+	                      <div class="form-group">
+	                      	<label>Customer's Status</label>
+		                      <select class="form-control" ng-model="searchCriteria.status">
+		                      	<option value="" disabled selected>Status</option>
+		                        <option value="ACTIVE">ACTIVE</option>
+		                        <option value="AWAITING_ACTIVATION">AWAITING_ACTIVATION</option>
+		                        <option value="LOCKED">LOCKED</option>
+		                      </select>
+		                    </div>
+                 	 </div>
+                 	 <div class="col-xs-6">
+                 	 		<label>Customer's registration date range</label>
+                    		<div class="input-group">
+                      			<div class="input-group-addon">
+                        			<i class="fa fa-clock-o"></i>
+                      			</div>
+                      			<input type="text" class="form-control pull-right" id="registrationTime" placeHolder="Registration range" />
+                    		</div><!-- /.input group -->
+	                    </div>
+	                 </div>
+	                 <div class="row">
+                 	  	<div class="col-xs-3">
+	           			 <div class="checkbox">
+	                      <label>
+	                        <input type="checkbox" ng-model="searchCriteria.eligibleForFreeDelivery">Only those eligible for free delivery
+	                      </label>
+	                    </div>
+	                    </div>
+	                    <div class="col-xs-3">
+	                     <div class="checkbox">
+	                      <label>
+	                        <input type="checkbox" ng-model="searchCriteria.eligibleForLifetimeFreeDelivery">Only those eligible for lifetime free delivery
+	                      </label>
+	                    </div>
+	                    </div>
+	                    <div class="col-xs-6">
+	           				<button class="btn btn-default pull-right" ng-click="searchCustomers()">
+	           					Search
+	           				</button>
+	           				<button class="btn btn-default pull-right" ng-click="searchCustomersAndExport()">
+	           					Search & Export
+	           				</button>
+	                    </div>
+	                 </div>
+           		</div>
+        		
+                 <div class="box-body table-responsive no-padding"  ng-show="loading == false">
+                  <table id="customersTable" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Zip Code(s)</th>
+                        <th>City(ies)</th>
+                        <th>Registration date</th>
+                        <th>Orders</th>
+                        <th>Full Details</th>
+                        <th>SMS Customer</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="customer in customers">
+                      	<td ng-bind="customer.id"></td>
+                        <td ng-bind="customer.username"></td>
+                        <td>{{customer.firstName + " " + customer.lastName}}</td>
+                        <td ng-bind="customer.phone"></td>
+                        <td ng-bind="customer.zipCodes"></td> <!-- Calculated property -->
+                        <td ng-bind="customer.cities"></td> <!-- Calculated property -->
+                        <td>{{customer.registrationDate | date: dd/MM/yyyy}}</td>
+                        <td>{{customer.totalOrdersCount}}</td>
+                        <td>
+                        	<i class="ion-clipboard cursor" ng-click="openCustomer(customer)"> View details</i>
+                        </td>
+                        <td>
+							<i class="ion-clipboard cursor" ng-click="openSMSCustomer(customer)"> SMS Customer</i>
+						</td>
+                      </tr>
+                    </tbody>
+                   </table>
+                   </div>
+                   
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+          <!-- Main row -->
+          <div class="row">
+		
+		<!-- MODALS -->
+		
+		<div class="modal fade" id="sendCustomerSMS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="sendCustomerSMSLabel">Send SMS to Customer</h4>
+	      		<div class="overlay pull-right" ng-show="sendingSMS == true">
+             		<i class="fa fa-refresh fa-spin"></i>
+           		</div>
+		      </div>
+				<div class="callout callout-danger" ng-show="serverError==true">
+		             <h4>Sending SMS failed!</h4>
+		             <p>{{serverErrorMessage}}</p>
+		         </div>
+		         <div class="callout callout-info" ng-show="notification==true">
+		             <h4>Notification from G2G!</h4>
+		             <p>{{notificationMessage}}</p>
+		         </div>
+		      <div class="modal-body">
+		        <form role="form" id="smsForm">
+                <div class="box-body">
+					<label for="mobileNumber">Mobile Number</label>
+					<input type="text" class="form-control" id="mobileNumber" ng-model="smsRecepient"/>
+					<label for="sms">SMS</label>
+					<textarea class="form-control" id="sms" ng-model="sms"></textarea>
+                </div><!-- /.box-body -->
+              </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" ng-click="sendSMSToCustomer()" >Send</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+        
+		<div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Edit Customer</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="callout callout-danger" ng-show="serverError==true">
+		             <h4>Saving failed!</h4>
+		             <p>{{serverErrorMessage}}</p>
+		         </div>
+		        <form role="form" id="customerForm">
+	                  <div class="box-body">
+	                  	<div class="overlay" ng-show="saving == true">
+                  			<i class="fa fa-refresh fa-spin"></i>
+                		</div>
+		                <div class="nav-tabs-custom">
+               				<ul class="nav nav-tabs">
+                  				<li class="active"><a href="#infoTab" id="infoTabLink" data-toggle="tab">Info</a></li>
+                  				<li ng-repeat="address in currentCustomer.addresses"><a href="#addressesTab{{address.nickname}}" data-toggle="tab">Address - {{address.nickname}}</a></li>
+                  				<li><a href="#profileTab" data-toggle="tab">Profile</a></li>
+                			</ul>
+                			<div class="tab-content">
+                  				<div class="tab-pane active" id="infoTab">
+            			          	<label for="id">ID</label>
+            			          	<input type="text" class="form-control" id="id" ng-model="currentCustomer.id" disabled/>
+            			          	
+  			                    	<label for="username">Email</label>
+            			          	<input type="text" class="form-control" id="username" ng-model="currentCustomer.username" disabled/>
+            			          	
+            			          	<label for="fullName">Full name</label>
+            			          	<input type="text" class="form-control" id="fullName" disabled value="{{currentCustomer.firstName + ' ' + currentCustomer.lastName}}"></input>
+            			          	
+            			          	<label for="phone">Phone</label>
+            			          	<input type="text" class="form-control" id="phone" ng-model="currentCustomer.phone" disabled/>
+            			          	
+            			          	<label for="dob">Date of birth</label>
+            			          	<input type="text" class="form-control" id="dob" value="{{currentCustomer.dateOfBirth | date: dd/MM/yyyy}}" disabled/>
+            			          	
+            			          	<label for="registrationDate">registrationDate</label>
+            			          	<input type="text" class="form-control" id="registrationDate" disabled value="{{currentCustomer.registrationDate | date: dd/MM/yyyy}}"></input>
+								</div>
+								<div class="tab-pane" ng-repeat="address in currentCustomer.addresses" id="addressesTab{{address.nickname}}">
+									<div class="box-body">
+	                  					<label for="nickname">Nickname</label>
+	            			          	<input type="text" class="form-control" ng-model="address.nickname" disabled/>
+	            			          	
+	            			          	<label for="streetAddress1">Street address1</label>
+	            			          	<input type="text" class="form-control" ng-model="address.streetAddress1" disabled/>
+	            			          	
+	            			          	<label for="streetAddress2">Street address 2</label>
+	            			          	<input type="text" class="form-control" ng-model="address.streetAddress2" disabled/>
+	            			          	
+	            			          	<label for="city">City</label>
+	            			          	<input type="text" class="form-control" ng-model="address.city" disabled/>
+	            			          	
+	            			          	<label for="state">State</label>
+	            			          	<input type="text" class="form-control" ng-model="address.state" disabled/>
+	            			          	
+	            			          	<label for="zipCode">Zip code</label>
+	            			          	<input type="text" class="form-control" ng-model="address.zipCode" disabled/>
+	            			          	
+	            			          	<label for="addressDetails">Address details</label>
+	            			          	<input type="text" class="form-control" ng-model="address.addressDetails" disabled/>
+	            			        </div>
+								</div>
+								<div class="tab-pane" id="profileTab">
+									<table>
+										<tr>
+											<td>
+												Status:
+											</td>
+											<td>
+												{{currentCustomer.status}}
+											</td>
+											<td>
+												<a href="#" ng-click="activateUser(currentCustomer)" ng-show="currentCustomer.status == 'AWAITING_ACTIVATION' || currentCustomer.status == 'LOCKED'">Activate</a>
+												<a href="#" ng-click="lockUser(currentCustomer)" ng-show="currentCustomer.status == 'ACTIVE'">Lock</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Lifetime free delivery:
+											</td>
+											<td ng-show="currentCustomer.eligibleForLifetimeFreeDelivery == true">
+												Enabled
+											</td>
+											<td ng-show="currentCustomer.eligibleForLifetimeFreeDelivery == false">
+												Disabled
+											</td>
+											<td>
+												<a href="#" ng-click="markUserEligibileForLifetimeFreeDelivery(currentCustomer)" ng-show="currentCustomer.eligibleForLifetimeFreeDelivery == false">Enable</a>
+												<a href="#" ng-click="markUserUnEligibileForLifetimeFreeDelivery(currentCustomer)" ng-show="currentCustomer.eligibleForLifetimeFreeDelivery == true">Disable</a>
+											</td>
+										</tr>
+										<tr>
+											<td width="150px;">
+												Next delivery free:
+											</td>
+											<td ng-show="currentCustomer.eligibleForFreeDelivery == true" width="150px;">
+												Enabled
+											</td>
+											<td ng-show="currentCustomer.eligibleForFreeDelivery == false" width="150px;">
+												Disabled
+											</td>
+											<td>
+												<a href="#" ng-click="markUserEligibileForFreeDelivery(currentCustomer)" ng-show="currentCustomer.eligibleForFreeDelivery == false && currentCustomer.eligibleForLifetimeFreeDelivery == false" width="150px;">Enable</a>
+												<a href="#" ng-click="markUserUnEligibileForFreeDelivery(currentCustomer)" ng-show="currentCustomer.eligibleForFreeDelivery == true && currentCustomer.eligibleForLifetimeFreeDelivery == false" width="150px;">Disable</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Plan:
+											</td>
+											<td colspan="2">
+												<select class="form-control" ng-model="currentCustomer.plan" ng-options="plan.name for plan in plans track by plan.name" ng-change="updateCustomersPlan();">
+									            </select>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+	                  </div><!-- /.box-body -->
+	                </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+        <!-- MODALS END -->
+
+          </div><!-- /.row (main row) -->
+		</div>
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+      
+      <footer class="main-footer">
+        <% include ../partials/footer %>
+      </footer>
+    </div><!-- ./wrapper -->
+
+    <!-- jQuery 2.1.3 -->
+    <script src="/plugins/jQuery/jQuery-2.1.3.min.js"></script>
+    <!-- jQuery UI 1.11.2 -->
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.2 JS -->
+    <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>    
+    <!-- Morris.js charts -->
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> -->
+    <!-- <script src="/plugins/morris/morris.min.js" type="text/javascript"></script> -->
+    <!-- Sparkline -->
+    <!-- <script src="/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script> -->
+    <!-- jvectormap -->
+    <!-- <script src="/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script> -->
+    <!-- <script src="/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script> -->
+    <!-- jQuery Knob Chart -->
+    <!-- <script src="/plugins/knob/jquery.knob.js" type="text/javascript"></script> -->
+    <!-- daterangepicker -->
+    <script src="/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+    <!-- datepicker -->
+    <script src="/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+    <!-- iCheck -->
+    <script src="/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+    <!-- Slimscroll -->
+    <script src="/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <!-- FastClick -->
+    <script src='/plugins/fastclick/fastclick.min.js'></script>
+    <!-- AdminLTE App -->
+    <script src="/dist/js/app.min.js" type="text/javascript"></script>
+
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <!-- <script src="/dist/js/pages/dashboard.js" type="text/javascript"></script> -->
+
+    <!-- AdminLTE for demo purposes -->
+    <!-- <script src="/dist/js/demo.js" type="text/javascript"></script> -->
+    <!-- DATA TABES SCRIPT -->
+    <script src="../../plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="../../plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+    <!-- angular js library and g2g angular js controllers -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="/g2g/js/G2GControlCenterApplication.js" type="text/javascript"></script>
+    <script src="/g2g/js/CustomersPageContentController.js" type="text/javascript"></script>    
+    <script src="/g2g/js/HeaderContentController.js" type="text/javascript"></script>
+  </body>
+</html>

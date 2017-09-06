@@ -1,0 +1,22 @@
+{
+  "name": "g2g-controlcenter",
+  "description": "g2g Control Center Websige",
+  "version": "1.0.0",
+  "dependencies": {
+        "express": "3.x",
+        "cors": "latest",
+        "ejs": "latest"
+  },
+  "author": {
+    "name": "Mohamed Mostafa",
+    "email": "eng.mmustafa84@gmail.com",
+    "url": "http://about.me/eng.mmustafa84"
+  },
+  "homepage": "http://about.me/eng.mmustafa84",
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+  "private": true,
+  "main": "server.js"
+}
