@@ -93,68 +93,15 @@ var placeRequest = function(request, onSuccess, onFailure, onUserError) {
 };
 
 var getRequestById = requestsDao.getRequestById;
-
-//------------------------- Get by status  ---------------------
-var getCompletedRequestSummaries = function(onSuccess, onFailure) { // 'completed' requests at the admin app are all requests that are delivered
-	var statuses = ['Completed']; 
-	requestsDao.getRequestSummariesByStatus(statuses, onSuccess, onFailure);
-};
-var getPlacedRequestSummaries = function(onSuccess, onFailure) { // 'completed' requests at the admin app are all requests that are delivered
-	var statuses = ['New']; 
-	requestsDao.getRequestSummariesByStatus(statuses, onSuccess, onFailure);
-};
-var getInProgressRequestSummaries = function(onSuccess, onFailure) { // 'in proress' requests at the admin app are all requests that are currently running
-	var statuses = ['In Progress']; 
-	requestsDao.getRequestSummariesByStatus(statuses, onSuccess, onFailure);
-};
-
-// ------------------------- COUNTS ---------------------
-var getPlacedRequestSummariesCount = function(onSuccess, onFailure) {
-	var statuses = ['New']; 
-	requestsDao.getRequestSummariesCountByStatus(statuses, onSuccess, onFailure);
-};
-var getInProgressRequestSummariesCount = function(onSuccess, onFailure) { // 'in progress' requests at the admin app are all requests that are being prepared or picked up
-	var statuses = ['In Progress']; 
-	requestsDao.getRequestSummariesCountByStatus(statuses, onSuccess, onFailure);
-};
-var getCompletedRequestSummariesCount = function(onSuccess, onFailure) { // 'completed' requests at the admin app are all requests that are delivered but not yet archived
-	var statuses = ['Completed']; 
-	requestsDao.getRequestSummariesCountByStatus(statuses, onSuccess, onFailure);
-};
-
-//------------------------- SET STATUS ---------------------
-
-var markRequestPlaced = function(requestId, onSuccess, onFailure) {
-	markRequestWithStatus(requestId, 'New', {}, onSuccess, onFailure);
-};
-var markRequestDelivered = function(requestId, onSuccess, onFailure) {
-	markRequestWithStatus(requestId, 'Completed', {deliveredAt: new Date()}, function() {
-		onSuccess();
-	}, onFailure);
-};
-var markRequestBeingPrepared = function(requestId, onSuccess, onFailure) {
-	markRequestWithStatus(requestId, 'In Progress', {}, function() {
-		onSuccess();
-	}, onFailure);
-};
-
-var markRequestWithStatus = requestsDao.modifyRequestStatusById;
-
-
+var getRequestSummaries = requestsDao.getRequestSummariesByStatus
+var getRequestSummariesCount = requestsDao.getRequestSummariesCountByStatus
+var changeRequestStatus = requestsDao.modifyRequestStatusById
 
 exports.placeRequest = placeRequest;
 exports.getRequestById = getRequestById;
 exports.assignRequestToUser = requestsDao.assignRequestToUser;
 exports.saveRequestToComment = requestsDao.saveRequestToComment;
 
-exports.getCompletedRequestSummaries = getCompletedRequestSummaries;
-exports.getPlacedRequestSummaries = getPlacedRequestSummaries;
-exports.getInProgressRequestSummaries = getInProgressRequestSummaries;
-
-exports.getCompletedRequestSummariesCount = getCompletedRequestSummariesCount;
-exports.getPlacedRequestSummariesCount = getPlacedRequestSummariesCount;
-exports.getInProgressRequestSummariesCount = getInProgressRequestSummariesCount;
-
-exports.markRequestPlaced = markRequestPlaced;
-exports.markRequestDelivered = markRequestDelivered;
-exports.markRequestBeingPrepared = markRequestBeingPrepared;
+exports.getRequestSummaries = getRequestSummaries;
+exports.getRequestSummariesCount = getRequestSummariesCount;
+exports.changeRequestStatus = changeRequestStatus;

@@ -257,7 +257,7 @@ var saveRequestToComment = function(orderId, comment, onSuccess, onFailure) {
 
 //calls the onSuccess
 //calls the onFailure with an err object in case of technical error
-var modifyRequestStatusById = function(orderId, status, statusDates, onSuccess, onFailure) {
+var modifyRequestStatusById = function(orderId, status, onSuccess, onFailure) {
 	// get a connection and open it
 	var connection = daoUtilities.createConnection();
 	connection.connect(function(err) {

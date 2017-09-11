@@ -71,19 +71,12 @@ var start = function () {
 	app.get('/request/:requestId', requestsInterface.getRequestById);
 	app.put('/request/comment', requestsInterface.saveCommentToRequest);
 	app.post('/request/assign', requestsInterface.assignRequestToUser);
+	app.get('/request/statuses/summaries', requestsInterface.getRequestSummaries);
+	app.get('/request/statuses/count', requestsInterface.getRequestSummariesCount);
+	app.post('/request/status', requestsInterface.changeRequestStatus);
 	
 	// questions
 	app.get('/questions', questionsInterface.getAllQuestions);
-	
-	//		counts
-	app.get('/request/status/delivered/count', requestsInterface.getCompletedRequestSummariesCount);
-	app.get('/request/status/inprogress/count', requestsInterface.getInProgressRequestSummariesCount);
-	app.get('/request/status/placed/count', requestsInterface.getPlacedRequestSummariesCount);
-	
-	// 		get by status
-	app.get('/request/status/placed', requestsInterface.getPlacedRequestSummaries);
-	app.get('/request/status/inprogress', requestsInterface.getInProgressRequestSummaries);
-	app.get('/request/status/delivered', requestsInterface.getCompletedRequestSummaries);
 	
 	// 		set status
 	app.post('/request/status/placed', requestsInterface.markRequestPlaced);
