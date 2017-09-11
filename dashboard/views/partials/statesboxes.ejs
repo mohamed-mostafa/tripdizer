@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-lg-2 col-xs-3" ng-repeat="status in statuses">
+        <!-- small box -->
+        <div class="small-box bg-{{status.color}}">
+            <div class="inner">
+                <h3 ng-bind="status.count">0</h3>
+                <p>{{status.title}} Requests</p>
+            </div>
+            <div class="icon">
+                <i class="ion-ios-{{status.watermark}}-outline" ng-show="status.refresh==false"></i>
+                <i class="fa fa-refresh fa-spin" ng-show="status.refresh==true"></i>
+            </div>
+            <a href="#" class="small-box-footer" ng-click="refreshOrders(status.title)">View All <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+</div>

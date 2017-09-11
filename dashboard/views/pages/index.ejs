@@ -69,61 +69,7 @@
         <!-- Main content -->
         <section class="content">
           <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-4 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-info" ng-show="newOrdersCount==0">
-                <div class="inner">
-                  <h3 ng-bind="newOrdersCount">0</h3>
-                  <p>New Requests</p>
-                </div>
-                <div class="icon">
-                  <i class="ion-ios-bell-outline" ng-show="refreshingNewOrdersCount==false"></i>
-                  <i class="fa fa-refresh fa-spin" ng-show="refreshingNewOrdersCount==true"></i>
-                </div>
-                <a href="#" class="small-box-footer" ng-click="refreshNewOrders()">View All <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-              <div class="small-box bg-red" ng-show="newOrdersCount!=0">
-                <div class="inner">
-                  <h3 ng-bind="newOrdersCount">0</h3>
-                  <p>New Requests</p>
-                </div>
-                <div class="icon">
-                  <i class="ion-ios-bell-outline" ng-show="refreshingNewOrdersCount==false"></i>
-                  <i class="fa fa-refresh fa-spin" ng-show="refreshingNewOrdersCount==true"></i>
-                </div>
-                <a href="#" class="small-box-footer" ng-click="refreshNewOrders()">View All <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-            <div class="col-lg-4 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-yellow">
-                <div class="inner">
-                  <h3 ng-bind="inProgressOrdersCount">0<!-- <sup style="font-size: 20px">%</sup> --></h3>
-                  <p>In Progress Requests</p>
-                </div>
-                <div class="icon">
-                  <i class="ion-ios-gear-outline" ng-show="refreshingInProgressOrdersCount==false"></i>
-                  <i class="fa fa-refresh fa-spin" ng-show="refreshingInProgressOrdersCount==true"></i>
-                </div>
-                <a href="#" class="small-box-footer" ng-click="refreshInProgressOrders()">View All <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-            <div class="col-lg-4 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-green">
-                <div class="inner">
-                  <h3 ng-bind="completedOrdersCount">0</h3>
-                  <p>Completed Requests</p>
-                </div>
-                <div class="icon">
-                  <i class="ion-ios-checkmark-outline" ng-show="refreshingCompletedOrdersCount==false"></i>
-                  <i class="fa fa-refresh fa-spin" ng-show="refreshingCompletedOrdersCount==true"></i>
-                </div>
-                <a href="#" class="small-box-footer" ng-click="refreshCompletedOrders()">View All <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-          </div><!-- /.row -->
+          <% include ../partials/statesboxes %><!-- /.row -->
               	<div class="box box-primary">
                 <div class="box-header with-border">
                   <h3 class="box-title">Advanced Search</h3>
@@ -150,7 +96,7 @@
 	                   
 	                    <div class="col-xs-4">
 	                    	<label>Request's Status</label>
-           					<select class="form-control" ng-model="searchCriteria.status" ng-options="status.name for status in statuses track by status.id">
+           					<select class="form-control" ng-model="searchCriteria.status" ng-options="status.title for status in statuses track by status.title">
 									<option value="">Select Status</option> 
 		                      </select>
            				</div>
@@ -192,39 +138,28 @@
                   <table id="example2" class="table table-bordered table-hover">
                     <thead>
                       <tr>
-                        <th>ID</th>
-                        <th>Traveler Name</th>
-                        <th>Traveler Email</th>
-                        <th>Traveler Mobile</th>
-                        <th>Request Date</th>
-                        <th>Request Status</th>
-						<th></th>
-						<th>Request Details</th>
-						<th>User</th>
+                          <th>ID</th>
+                          <th>Traveler Name</th>
+                          <th>Traveler Email</th>
+                          <th>Traveler Mobile</th>
+                          <th>Request Date</th>
+                          <th>Request Status</th>
+                          <th>Request Details</th>
+                          <th>User</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="order in currentOrders" ng-show="currentOrders.length != 0">
-                        <td ng-bind="order.id">
-                        </td>
-                        <td ng-bind="order.traveler.name">
-                        </td>
-                        <td  ng-bind="order.traveler.emailAddress">
-						</td>
-                        <td ng-bind="order.traveler.mobile">
-                        </td>
-                        <td  ng-bind="order.date">
-                        </td>
-                        <td ng-bind="order.status">
-						</td>
+                        <td ng-bind="order.id"></td>
+                        <td ng-bind="order.traveler.name"></td>
+                        <td ng-bind="order.traveler.emailAddress"></td>
+                        <td ng-bind="order.traveler.mobile"></td>
+                        <td ng-bind="order.date"></td>
                         <td>
-                     		<small class="label label-danger" ng-show="order.status=='New'">New</small>
-                     		<small class="label label-default cursor" ng-hide="order.status=='New'" ng-click="markOrderPlaced(order)">Mark New</small>
-                        	<small class="label label-warning" ng-show="order.status=='In Progress'">Being Prepared</small>
-                        	<small class="label label-default cursor" ng-hide="order.status=='In Progress' " ng-click="markOrderBeingPrepared(order)">Mark In Progress</small>
-                      		<small class="label label-success" ng-show="order.status=='Completed'">Delivered</small>
-                      		<small class="label label-default cursor" ng-hide="order.status=='Completed'" ng-click="markOrderDelivered(order)">Mark Completed</small>
-						</td>
+                          <select ng-model="order.status" ng-change="changeOrderStatus(order)">
+                            <option ng-repeat="status in statuses" ng-value="status.title">{{status.title}}</option>
+                          </select>
+                        </td>
 						<td>
 							<i class="ion-clipboard cursor" ng-click="openFullDetailsDialog(order.id)"> Full Details</i>
 						</td>

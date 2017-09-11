@@ -4,14 +4,100 @@
 
 g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', function($rootScope, $scope, $http, $location) {
 	// fields
-    $scope.newOrdersCount = 0;
-    $scope.inProgressOrdersCount = 0;
-    $scope.completedOrdersCount = 0;
+	$scope.statuses = [
+		{
+			title: 'New',
+			count: 0,
+			refresh: false,
+			color: 'gray',
+			watermark: 'bell'
+		},
+		{
+			title: 'Unreachable',
+			count: 0,
+			refresh: false,
+			color: 'danger',
+			watermark: 'gear'
+		},
+		{
+			title: 'Fake',
+			count: 0,
+			refresh: false,
+			color: 'red-gradient',
+			watermark: 'gear'
+		},
+		{
+			title: 'Contacted',
+			count: 0,
+			refresh: false,
+			color: 'maroon-gradient',
+			watermark: 'gear'
+		},
+		{
+			title: 'P Send Dizer',
+			count: 0,
+			refresh: false,
+			color: 'orange-active',
+			watermark: 'gear'
+		},
+		{
+			title: 'P Send Agencies',
+			count: 0,
+			refresh: false,
+			color: 'orange',
+			watermark: 'gear'
+		},
+		{
+			title: 'P Send Customer',
+			count: 0,
+			refresh: false,
+			color: 'yellow-active',
+			watermark: 'gear'
+		},
+		{
+			title: 'P Dizer Response',
+			count: 0,
+			refresh: false,
+			color: 'yellow',
+			watermark: 'gear'
+		},
+		{
+			title: 'P Agencies Response',
+			count: 0,
+			refresh: false,
+			color: 'yellow-gradient',
+			watermark: 'gear'
+		},
+		{
+			title: 'Sent Customer',
+			count: 0,
+			refresh: false,
+			color: 'purple-gradient',
+			watermark: 'gear'
+		},
+		{
+			title: 'Rejected',
+			count: 0,
+			refresh: false,
+			color: 'red',
+			watermark: 'gear'
+		},
+		{
+			title: 'Confirmed',
+			count: 0,
+			refresh: false,
+			color: 'blue',
+			watermark: 'gear'
+		},
+		{
+			title: 'Booked',
+			count: 0,
+			refresh: false,
+			color: 'green',
+			watermark: 'checkmark'
+		}
+	];
     $scope.currentOrders = [];
-    $scope.statuses = [{id: "New", name: "New"},  {id: "In Progress", name: "In Progress"}, {id: "Completed", name:"Completed"}];
-    $scope.refreshingNewOrdersCount = false;
-    $scope.refreshingCompletedOrdersCount = false;
-    $scope.refreshingInProgressOrdersCount = false;
     $scope.refreshingOrders = false;
 	$scope.markingOrder = false;
 	$scope.currentOrder = null;
@@ -34,40 +120,41 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.serverErrorMessage = "";
 	
     // functions
-	$scope.refreshNewOrdersCount = function() {
-		$scope.refreshingNewOrdersCount = true;
-		$http.get($rootScope.serverURL + "/request/status/placed/count").success(
+	$scope.refreshOrdersCount = function(title) {
+		var index = $scope.statuses.findIndex(state => state.title === title);
+		$scope.statuses[index].refresh = true;
+		$http.get($rootScope.serverURL + "/request/statuses/count?statuses="+$scope.statuses[index].title).success(
 			function(response) {
-				$scope.newOrdersCount = response.count;
-				$scope.refreshingNewOrdersCount = false;
+				$scope.statuses[index].count = response.count;
+				$scope.statuses[index].refresh = false;
 			}
 		).error(function(err){
-			$scope.newOrdersCount = "N/A";
-			$scope.refreshingNewOrdersCount = false;
+			$scope.statuses[index].count = "N/A";
+			$scope.statuses[index].refresh = false;
 		});
 	};
-	$scope.refreshInProgressOrdersCount = function() {
-		$scope.refreshingInProgressOrdersCount = true;
-		$http.get($rootScope.serverURL + "/request/status/inprogress/count").success(
-			function(response) {
-				$scope.inProgressOrdersCount = response.count;
-				$scope.refreshingInProgressOrdersCount = false;
-			}
+	$scope.refreshOrders = function(request) {
+		$scope.refreshingOrders = true;
+		$scope.collapseAdvancedSearchIfExpanded();
+		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses="+request).success(
+				function(response) {
+					$scope.currentOrders = response;
+					$scope.refreshingOrders = false;
+				}
 		).error(function(err){
-			$scope.inProgressOrdersCount = "N/A";
-			$scope.refreshingInProgressOrdersCount = false;
+			$scope.currentOrders = [];
+			$scope.refreshingOrders = false;
 		});
 	};
-	$scope.refreshCompletedOrdersCount = function() {
-		$scope.refreshingCompletedOrdersCount = true;
-		$http.get($rootScope.serverURL + "/request/status/delivered/count").success(
-			function(response) {
-				$scope.completedOrdersCount = response.count;
-				$scope.refreshingCompletedOrdersCount = false;
+	$scope.changeOrderStatus = function(order) {
+		$scope.markingOrder = true;
+		$http.post($rootScope.serverURL + "/request/status", {requestId: order.id,status: order.status}).success(
+			function() {
+				$scope.markingOrder = false;
+				$scope.refreshContent();
 			}
-		).error(function(err){
-			$scope.completedOrdersCount = "N/A";
-			$scope.refreshingCompletedOrdersCount = false;
+		).error(function(err) {
+			$scope.markingOrder = false;
 		});
 	};
 	$scope.refreshRegisteredUsersCount = function() {
@@ -95,45 +182,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 				}
 		).error(function(err){
 			$scope.users = [];
-		});
-	};
-	$scope.refreshNewOrders = function() {
-		$scope.refreshingOrders = true;
-		$scope.collapseAdvancedSearchIfExpanded();
-		$http.get($rootScope.serverURL + "/request/status/placed").success(
-				function(response) {
-					$scope.currentOrders = response;
-					$scope.refreshingOrders = false;
-				}
-		).error(function(err){
-			$scope.currentOrders = [];
-			$scope.refreshingOrders = false;
-		});
-	};
-	$scope.refreshInProgressOrders = function() {
-		$scope.collapseAdvancedSearchIfExpanded();
-		$scope.refreshingOrders = true;
-		$http.get($rootScope.serverURL + "/request/status/inprogress").success(
-				function(response) {
-					$scope.currentOrders = response;
-					$scope.refreshingOrders = false;
-				}
-		).error(function(err){
-			$scope.currentOrders = [];
-			$scope.refreshingOrders = false;
-		});
-	};
-	$scope.refreshCompletedOrders = function() {
-		$scope.collapseAdvancedSearchIfExpanded();
-		$scope.refreshingOrders = true;
-		$http.get($rootScope.serverURL + "/request/status/delivered").success(
-				function(response) {
-					$scope.currentOrders = response;
-					$scope.refreshingOrders = false;
-				}
-		).error(function(err){
-			$scope.currentOrders = [];
-			$scope.refreshingOrders = false;
 		});
 	};
 	$scope.searchOrders = function() {
@@ -200,9 +248,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	};
 	
 	$scope.refreshContent = function() {
-		$scope.refreshNewOrdersCount();
-		$scope.refreshInProgressOrdersCount();
-		$scope.refreshCompletedOrdersCount();
+		for (var i = 0; i < $scope.statuses.length; ++i) $scope.refreshOrdersCount($scope.statuses[i].title);
 		$scope.refreshRegisteredUsersCount();
 	};
 	$scope.openFullDetailsDialog = function(requestId) {
@@ -277,7 +323,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	// refresh the numbers every 30 seconds
 	$scope.refreshContent(); // refresh once
 	$scope.getAllUsers();
-	$scope.refreshNewOrders();
+	var temp_statuses = [];
+	for (var i = 0; i < $scope.statuses.length; ++i) temp_statuses.push($scope.statuses[i].title);
+	$scope.refreshOrders(temp_statuses);
 	window.setInterval($scope.refreshContent, 30000); // set the timer
 	window.setInterval($scope.refreshLocations, 5000); // set the timer
 }]);
