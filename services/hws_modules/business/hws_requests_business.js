@@ -38,6 +38,7 @@ var placeRequest = function(request, onSuccess, onFailure, onUserError) {
 					
 					// notify creation
 					emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
+					emailBusiness.sendEmail(request.traveler.emailAddress, "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", "Hello " + request.traveler.name + ",\nThank you for submitting your travel request at Tripdizer. We'll respond to your request as soon as possible.\nYour request # is " + request.id + ".\n\nTripdizer Team.");
 					partnersBusiness.notifyPartners(request, function(){
 						console.log("Notified Partners");
 					}, function(){
@@ -73,6 +74,7 @@ var placeRequest = function(request, onSuccess, onFailure, onUserError) {
 				
 				// notify creation
 				emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
+				emailBusiness.sendEmail(request.traveler.emailAddress, "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", "Hello " + request.traveler.name + ",\nThank you for submitting your travel request at Tripdizer. We'll respond to your request as soon as possible.\nYour request # is " + request.id + ".\n\nTripdizer Team.");
 				partnersBusiness.notifyPartners(request, function(){
 					console.log("Notified Partners");
 				}, function(){
