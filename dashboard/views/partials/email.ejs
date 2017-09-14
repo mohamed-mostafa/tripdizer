@@ -1,0 +1,43 @@
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">New mail to {{email.recipients}}</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="sendMailForm">
+                    <div class="box-body">
+                        <div class="overlay" ng-show="saving == true">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="recipients" ng-show="email.recipientsMissing == false">To:</label>
+                            <label class="control-label text-red" for="recipients" ng-show="email.recipientsMissing == true"><i class="fa fa-times-circle-o"></i>Recipients is missing</label>
+                            <label ng-repeat="status in statuses" style="background-color: #ecf0f5; padding: 5px 10px; margin: 0 2.5px 2.5px; border-radius: 5px">
+                                <input type="checkbox" ng-checked="existsCheckBox(status.title, email.recipients)" ng-click="toggleCheckBox(status.title, email.recipients)"/>
+                                {{ status.title }}
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="subject" ng-show="email.subjectMissing == false">Subject:</label>
+                            <label class="control-label text-red" for="subject" ng-show="email.subjectMissing == true"><i class="fa fa-times-circle-o"></i>Subject is missing</label>
+                            <input type="text" class="form-control" id="subject" ng-model="email.subject" placeholder="Enter subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="body" ng-show="email.bodyMissing == false">Body:</label>
+                            <label class="control-label text-red" for="body" ng-show="email.bodyMissing == true"><i class="fa fa-times-circle-o"></i>Body is missing</label>
+                            <textarea type="text" class="form-control" id="body" ng-model="email.body" placeholder="Enter body" required></textarea>
+                        </div>
+                        <!-- /.form group -->
+                    </div>
+                </form>
+                <!-- /.box-body -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" ng-click="sendMail()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
