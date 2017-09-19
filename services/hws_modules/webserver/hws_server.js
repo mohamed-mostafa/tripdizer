@@ -69,7 +69,7 @@ var start = function () {
 	// requests
 	app.put('/request/place', requestsInterface.placeRequest);
 	app.get('/request/:requestId', requestsInterface.getRequestById);
-	app.put('/request/comment', requestsInterface.saveCommentToRequest);
+	app.put('/request', requestsInterface.updateRequest);
 	app.post('/request/assign', requestsInterface.assignRequestToUser);
 	app.get('/request/statuses/summaries', requestsInterface.getRequestSummaries);
 	app.get('/request/statuses/count', requestsInterface.getRequestSummariesCount);

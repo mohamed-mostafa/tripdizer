@@ -59,8 +59,8 @@ var getRequestSummariesCount = function (req, res) {
 	try {
 		// call the business function and give it a callback function 
 		var statuses = req.query.statuses;
-		requestsBusiness.getRequestSummariesCount(statuses.split(','), function (count) {
-			res.json({ count: count });
+		requestsBusiness.getRequestSummariesCount(statuses.split(','), function (response) {
+			res.json(response);
 		},
 			function (error) {
 				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
@@ -184,12 +184,11 @@ var assignRequestToUser = function (req, res) {
 	}
 };
 
-var saveCommentToRequest = function (req, res) {
+var updateRequest = function (req, res) {
 	try {
-		var requestId = req.body.requestId;
-		var comment = req.body.comment;
+		var request = req.body.request;
 		// call the business function and give it a callback function 
-		requestsBusiness.saveRequestToComment(requestId, comment,
+		requestsBusiness.updateRequest(request,
 			function () {
 				res.json();
 			},
@@ -197,7 +196,7 @@ var saveCommentToRequest = function (req, res) {
 				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
 			});
 	} catch (error) {
-		console.log("An error occured in /request/comment");
+		console.log("An error occured in /request");
 		console.log(error);
 		res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
 	}
@@ -208,7 +207,7 @@ var saveCommentToRequest = function (req, res) {
 exports.placeRequest = placeRequest;
 exports.getRequestById = getRequestById;
 exports.assignRequestToUser = assignRequestToUser;
-exports.saveCommentToRequest = saveCommentToRequest;
+exports.updateRequest = updateRequest;
 
 exports.getRequestSummaries = getRequestSummaries;
 exports.getRequestSummariesCount = getRequestSummariesCount;

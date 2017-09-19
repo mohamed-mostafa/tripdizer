@@ -119,7 +119,7 @@ var changeRequestStatus = requestsDao.modifyRequestStatusById
 exports.placeRequest = placeRequest;
 exports.getRequestById = getRequestById;
 exports.assignRequestToUser = requestsDao.assignRequestToUser;
-exports.saveRequestToComment = requestsDao.saveRequestToComment;
+exports.updateRequest = requestsDao.updateRequest;
 
 exports.getRequestSummaries = getRequestSummaries;
 exports.getRequestSummariesCount = getRequestSummariesCount;

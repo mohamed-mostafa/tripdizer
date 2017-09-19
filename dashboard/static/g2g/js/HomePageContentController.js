@@ -8,6 +8,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'New',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'gray',
 			watermark: 'bell'
@@ -15,6 +17,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'Unreachable',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'danger',
 			watermark: 'gear'
@@ -22,6 +26,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'Fake',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'red-gradient',
 			watermark: 'gear'
@@ -29,6 +35,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'Contacted',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'maroon-gradient',
 			watermark: 'gear'
@@ -36,6 +44,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'P Send Dizer',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'orange-active',
 			watermark: 'gear'
@@ -43,6 +53,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'P Send Agencies',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'orange',
 			watermark: 'gear'
@@ -50,6 +62,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'P Send Customer',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'yellow-active',
 			watermark: 'gear'
@@ -57,6 +71,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'P Dizer Response',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'yellow',
 			watermark: 'gear'
@@ -64,6 +80,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'P Agencies Response',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'yellow-gradient',
 			watermark: 'gear'
@@ -71,6 +89,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'Sent Customer',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'purple-gradient',
 			watermark: 'gear'
@@ -78,6 +98,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'Rejected',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'red',
 			watermark: 'gear'
@@ -85,6 +107,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'Confirmed',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'blue',
 			watermark: 'gear'
@@ -92,12 +116,15 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		{
 			title: 'Booked',
 			count: 0,
+			revenue: 0,
+			profit: 0,
 			refresh: false,
 			color: 'green',
 			watermark: 'checkmark'
 		}
 	];
 	$scope.currentOrders = [];
+	$scope.total = { title: '', count: 0, revenue: 0, profit: 0 };
 	$scope.refreshingOrders = false;
 	$scope.markingOrder = false;
 	$scope.currentOrder = null;
@@ -125,8 +152,14 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$scope.statuses[index].refresh = true;
 		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + $scope.statuses[index].title).success(
 			function (response) {
+				if (!response.count) response.count = 0;
+				if (!response.revenue) response.revenue = 0;
+				if (!response.profit) response.profit = 0;
 				$scope.statuses[index].count = response.count;
+				$scope.statuses[index].revenue = response.revenue;
+				$scope.statuses[index].profit = response.profit;
 				$scope.statuses[index].refresh = false;
+				$scope.calculateTotals();
 			}
 		).error(function (err) {
 			$scope.statuses[index].count = "N/A";
@@ -159,7 +192,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	};
 	$scope.showMailModal = function (request) {
 		$scope.email = { recipients: [], recipientsMissing: false, subjectMissing: false, bodyMissing: false };
-		$scope.email.recipients.push(request);
+		if (Array.isArray(request)) $scope.email.recipients = request;
+		else $scope.email.recipients.push(request);
 		$('#emailModal').modal('show');
 	};
 	$scope.sendMail = function (request) {
@@ -187,6 +221,17 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.existsCheckBox = function (item, list) {
 		if (!list) list = [];
 		return list.indexOf(item) > -1;
+	};
+	$scope.calculateTotals = function () {
+		var total = { count: 0, revenue: 0, profit: 0 };
+		for (var i = 0, statuses = $scope.statuses; i < statuses.length; ++i) {
+			total.count += statuses[i].count;
+			total.revenue += statuses[i].revenue;
+			total.profit += statuses[i].profit;
+		}
+		$scope.total.count = total.count;
+		$scope.total.revenue = total.revenue;
+		$scope.total.profit = total.profit;
 	};
 	$scope.refreshRegisteredUsersCount = function () {
 		$scope.refreshingRegisteredUsersCount = true;
@@ -298,10 +343,10 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		});
 	};
 
-	$scope.saveCommentToOrder = function (requestId) {
+	$scope.updateOrder = function () {
 		$scope.loading = true;
 		$scope.serverError = false;
-		$http.put($rootScope.serverURL + "/request/comment", { requestId: requestId, comment: $scope.currentOrder.comments }).success(
+		$http.put($rootScope.serverURL + "/request", { request: $scope.currentOrder }).success(
 			function () {
 				$scope.loading = false;
 				$('#orderDetailsModal').modal('hide');
@@ -356,9 +401,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	// refresh the numbers every 30 seconds
 	$scope.refreshContent(); // refresh once
 	$scope.getAllUsers();
-	var temp_statuses = [];
-	for (var i = 0; i < $scope.statuses.length; ++i) temp_statuses.push($scope.statuses[i].title);
-	$scope.refreshOrders(temp_statuses);
+	$scope.total.title = [];
+	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title);
+	$scope.refreshOrders($scope.total.title);
 	window.setInterval($scope.refreshContent, 30000); // set the timer
 	window.setInterval($scope.refreshLocations, 5000); // set the timer
 }]);
