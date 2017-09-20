@@ -161,7 +161,7 @@
                       <tr ng-repeat="order in currentOrders" ng-show="currentOrders.length != 0">
                         <td ng-bind="order.id"></td>
                         <td ng-bind="order.traveler.name"></td>
-                        <td ng-bind="order.traveler.emailAddress"></td>
+                        <td><a ng-click="showMailModal('traveler', order.traveler.emailAddress)"><i class="fa fa-envelope"></i> {{order.traveler.emailAddress}}</a></td>
                         <td ng-bind="order.traveler.mobile"></td>
                         <td ng-bind="order.date"></td>
                         <td>

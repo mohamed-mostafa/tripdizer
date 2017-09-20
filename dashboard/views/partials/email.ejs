@@ -6,7 +6,7 @@
                 <h4 class="modal-title" id="myModalLabel">New mail to {{email.recipients}}</h4>
             </div>
             <div class="modal-body">
-                <form role="form" id="sendMailForm">
+                <form role="form" id="sendMailForm" enctype="multipart/form-data">
                     <div class="box-body">
                         <div class="overlay" ng-show="saving == true">
                             <i class="fa fa-refresh fa-spin"></i>
@@ -14,9 +14,13 @@
                         <div class="form-group">
                             <label class="control-label" for="recipients" ng-show="email.recipientsMissing == false">To:</label>
                             <label class="control-label text-red" for="recipients" ng-show="email.recipientsMissing == true"><i class="fa fa-times-circle-o"></i>Recipients is missing</label>
-                            <label ng-repeat="status in statuses" style="background-color: #ecf0f5; padding: 5px 10px; margin: 0 2.5px 2.5px; border-radius: 5px">
+                            <label ng-show="email.type == 'request'" ng-repeat="status in statuses" style="background-color: #ecf0f5; padding: 5px 10px; margin: 0 2.5px 2.5px; border-radius: 5px">
                                 <input type="checkbox" ng-checked="existsCheckBox(status.title, email.recipients)" ng-click="toggleCheckBox(status.title, email.recipients)"/>
                                 {{ status.title }}
+                            </label>
+                            <label ng-show="email.type == 'traveler'" ng-repeat="recipient in email.recipients" style="background-color: #ecf0f5; padding: 5px 10px; margin: 0 2.5px 2.5px; border-radius: 5px">
+                                <input type="checkbox" ng-checked="existsCheckBox(recipient, email.recipients)"/>
+                                {{ recipient }}
                             </label>
                         </div>
                         <div class="form-group">
@@ -28,6 +32,10 @@
                             <label class="control-label" for="body" ng-show="email.bodyMissing == false">Body:</label>
                             <label class="control-label text-red" for="body" ng-show="email.bodyMissing == true"><i class="fa fa-times-circle-o"></i>Body is missing</label>
                             <textarea type="text" class="form-control" id="body" ng-model="email.body" placeholder="Enter body" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="attachments">Attachments:</label>
+                            <input type="file" class="form-control" id="attachments" ng-file-model="email.attachments" multiple>
                         </div>
                         <!-- /.form group -->
                     </div>

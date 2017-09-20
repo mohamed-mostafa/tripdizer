@@ -96,19 +96,32 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 
 var sendMailsToRequestTraveler = function (email, onSuccess, onFailure) {
-	requestsDao.getRequestSummariesByStatus(email.recipients, function (travelers) {
-		email.done = [];
-		email.count = travelers.length;
-		for (var i = 0; i < email.count; ++i) {
-			emailBusiness.sendEmail(travelers[i].emailAddress, "notifications@tripdizer.com", email.subject, email.body);
-			email.done.push(travelers[i]);
-		}
+	if (email.type === "traveler") {
+		sendMails(email.recipients, email, onSuccess);
+	}
+	else if (email.type === "request") {
+		requestsDao.getRequestSummariesByStatus(email.recipients, function (travelers) {
+			var emails = [];
+			for (var i = 0; i < travelers.length; i++)
+				emails.push(travelers[i].traveler.emailAddress)
+			sendMails(emails, email, onSuccess);
+		}, function (err) {
+			console.log("An error occured while getting travelers");
+			console.log(err);
+			onFailure(err);
+		});
+	}
+}
+
+var sendMails = function (emails, email, onSuccess) {
+	responses = [];
+	for (var i = 0; i < emails.length; ++i)
+		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(response => response).catch(response => response));
+	Promise.all(responses).then(resp => {
+		email.response = resp;
+		email.count = { success: resp.filter(function (item) { return item.done }).length, fail: resp.filter(function (item) { return !item.done }).length };
 		onSuccess(email);
-	}, function (err) {
-		console.log("An error occured while getting travelers");
-		console.log(err);
-		onFailure(err);
-	})
+	});
 }
 
 var getRequestById = requestsDao.getRequestById;

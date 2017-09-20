@@ -190,8 +190,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$scope.markingOrder = false;
 		});
 	};
-	$scope.showMailModal = function (request) {
-		$scope.email = { recipients: [], recipientsMissing: false, subjectMissing: false, bodyMissing: false };
+	$scope.showMailModal = function (type, request) {
+		$scope.email = { recipients: [], recipientsMissing: false, subjectMissing: false, bodyMissing: false, attachments: [], type: type };
 		if (Array.isArray(request)) $scope.email.recipients = request;
 		else $scope.email.recipients.push(request);
 		$('#emailModal').modal('show');
@@ -406,4 +406,34 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.refreshOrders($scope.total.title);
 	window.setInterval($scope.refreshContent, 30000); // set the timer
 	window.setInterval($scope.refreshLocations, 5000); // set the timer
+}]);
+
+g2gControlCenterApplication.directive('ngFileModel', ['$parse', function ($parse) {
+	return {
+		restrict: 'A',
+		link: function (scope, element, attrs) {
+			var model = $parse(attrs.ngFileModel);
+			var isMultiple = attrs.multiple;
+			var modelSetter = model.assign;
+			element.bind('change', function () {
+				var values = [];
+				angular.forEach(element[0].files, function (item) {
+					var value = {
+						filename: item.name,
+						path: URL.createObjectURL(item),
+						contentType: item.type,
+						_file: item
+					};
+					values.push(value);
+				});
+				scope.$apply(function () {
+					if (isMultiple) {
+						modelSetter(scope, values);
+					} else {
+						modelSetter(scope, values[0]);
+					}
+				});
+			});
+		}
+	};
 }]);

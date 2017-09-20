@@ -10,7 +10,7 @@
             <div class="icon">
                 <i class="ion-ios-pie-chart-outline"></i>
             </div>
-            <a href="#" class="small-box-footer col-xs-6" ng-click="showMailModal(total.title)">Send Email <i class="fa fa-envelope"></i></a>
+            <a href="#" class="small-box-footer col-xs-6" ng-click="showMailModal('request', total.title)">Send Email <i class="fa fa-envelope"></i></a>
             <a href="#" class="small-box-footer col-xs-6" ng-click="refreshOrders(total.title)">View All <i class="fa fa-arrow-circle-right"></i></a>
             <div style="clear: both;"></div>
         </div>
@@ -27,7 +27,7 @@
                 <i class="ion-ios-{{status.watermark}}-outline" ng-show="status.refresh==false"></i>
                 <i class="fa fa-refresh fa-spin" ng-show="status.refresh==true"></i>
             </div>
-            <a href="#" class="small-box-footer col-xs-6" ng-click="showMailModal(status.title)">Send Email <i class="fa fa-envelope"></i></a>
+            <a href="#" class="small-box-footer col-xs-6" ng-click="showMailModal('request', status.title)">Send Email <i class="fa fa-envelope"></i></a>
             <a href="#" class="small-box-footer col-xs-6" ng-click="refreshOrders(status.title)">View All <i class="fa fa-arrow-circle-right"></i></a>
             <div style="clear: both;"></div>
         </div>
