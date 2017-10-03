@@ -31,7 +31,8 @@
                         <div class="form-group">
                             <label class="control-label" for="body" ng-show="email.bodyMissing == false">Body:</label>
                             <label class="control-label text-red" for="body" ng-show="email.bodyMissing == true"><i class="fa fa-times-circle-o"></i>Body is missing</label>
-                            <textarea type="text" class="form-control" id="body" ng-model="email.body" placeholder="Enter body" required></textarea>
+                            <text-angular id="body" ng-model="email.body" placeholder="Enter body" ta-text-editor-class="form-control richtext" ta-html-editor-class="form-control richtext"
+                                ta-toolbar="[['h1', 'h2', 'h3', 'p', 'pre', 'quote'],['insertImage','insertLink', 'insertVideo'],['html','wordcount'],['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent']]"></text-angular>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="attachments">Attachments:</label>
