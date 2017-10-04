@@ -239,6 +239,7 @@
                               <li><a href="#travelerTab" data-toggle="tab">Traveler</a></li>
                               <li><a href="#answersTab" data-toggle="tab">Q/A Answers</a></li>
                               <li><a href="#revenueTab" data-toggle="tab">Revenue & Profit</a></li>
+                              <li><a href="#mailshistoryTab" data-toggle="tab">Mails History</a></li>
                             </ul>
                             <div class="tab-content">
                               <div class="tab-pane active" id="requestTab">
@@ -297,6 +298,29 @@
                                   <label for="profit">Profit</label>
                                   <input type="number" min="0.00" step="1" class="form-control" id="profit" ng-model="currentOrder.profit">
                                 </div>
+                              </div>
+                              <!-- /.tab-pane -->
+                              <div class="tab-pane" id="mailshistoryTab">
+                                <table class="table table-bordered table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Date</th>
+                                      <th>Subject</th>
+                                      <th>Files</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr ng-repeat="mail in currentOrder.mailsHistory" ng-show="currentOrder.questionAnswers.length != 0">
+                                      <td ng-bind="mail.date"></td>
+                                      <td ng-bind="mail.subject"></td>
+                                      <td>
+                                        <ul>
+                                          <li ng-repeat="attachment in mail.attachments">{{attachment}}</li>
+                                        </ul>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
                               </div>
                             </div>
                             <!-- /.tab-content -->
@@ -377,7 +401,7 @@
   <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-rangy.min.js'></script>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-sanitize.min.js'></script>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular.min.js'></script>
-  
+
   <script src="/g2g/js/libraries/socket.io.js" type="text/javascript"></script>
   <script src="/g2g/js/G2GControlCenterApplication.js" type="text/javascript"></script>
   <script src="/g2g/js/HomePageContentController.js" type="text/javascript"></script>

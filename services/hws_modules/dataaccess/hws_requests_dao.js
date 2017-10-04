@@ -188,7 +188,8 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 								emailAddress: rows[0].email_address,
 								dateOfBirth: rows[0].date_of_birth,
 							},
-							questionAnswers: []
+							questionAnswers: [],
+							mailsHistory: []
 						};
 						// get the questions answers
 						connection.query('SELECT * FROM hws.traveler_question_answer JOIN hws.question ON id = question_id WHERE traveler_request_id = ?', [requestId], function (itemsErr, itemsRows) {
@@ -211,8 +212,27 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 									};
 									request.questionAnswers.push(questionAnswer);
 								}
-								connection.end();
-								onSuccess(request);
+								// get mail history
+								connection.query('SELECT * FROM hws.traveler_mail_history WHERE Email = ?', [request.traveler.emailAddress], function (mailsErr, mailsRows) {
+									// if an error is thrown, end the connection and throw an error
+									if (itemsErr) {
+										console.log("An error occurred while trying to find the question answers of request with id " + requestId);
+										console.log(mailsErr);
+										connection.end();
+										onFailure(mailsErr);
+									} else {
+										for (var i = 0; i < mailsRows.length; i++) {
+											var mailHistory = {
+												subject: mailsRows[i].Subject,
+												attachments: JSON.parse(mailsRows[i].Attachments),
+												date: mailsRows[i].Date
+											};
+											request.mailsHistory.push(mailHistory);
+										}
+										connection.end();
+										onSuccess(request);
+									}
+								});
 							}
 						});
 					} else {
@@ -329,6 +349,53 @@ var assignRequestToUser = function (requestId, userId, onSuccess, onFailure) {
 	});
 };
 
+
+var addNewMailHistory = function (object, onSuccess, onFailure) {
+	// get a connection and open it
+	var connection = daoUtilities.createConnection();
+	connection.connect(function (err) {
+		if (err) {
+			console.log("An error occurred while trying to open a database connection");
+			console.log(err);
+			onFailure(err);
+		} else {
+			// begin a transaction to insert the mail history
+			connection.beginTransaction(function (err) {
+				// execute the query
+				if (err) {
+					// end the connection
+					connection.end();
+					console.log("An error occurred while trying to begin a database transaction");
+					console.log(err);
+					onFailure(err);
+				} else {
+					var attachmentFileNames = [];
+					object.attachments.forEach(function (attachment) {
+						attachmentFileNames.push(attachment.filename);
+					});
+					connection.query('INSERT INTO hws.traveler_mail_history (Email, Subject, Attachments) values (?, ?, ?)', [object.email, object.subject, JSON.stringify(attachmentFileNames)], function (err, result) {
+						// if an error is thrown, end the connection and throw an error
+						if (err) { // if the first insert statement fails
+							// end the connection
+							connection.end();
+							console.log("An error occurred while trying to add new mail history " + object.email);
+							console.log(err);
+							connection.rollback(); // rollback the transaction
+							onFailure(err);
+						} else {
+							// end the connection
+							connection.commit();
+							connection.end();
+							// call the callback function provided by the caller, and give it the response
+							onSuccess(object);
+						}
+					});
+				}
+			});
+		}
+	});
+};
+
 exports.assignRequestToUser = assignRequestToUser;
 exports.updateRequest = updateRequest;
 exports.createNewRequest = createNewRequest;
@@ -336,3 +403,4 @@ exports.getRequestSummariesByStatus = getRequestSummariesByStatus;
 exports.getRequestSummariesCountByStatus = getRequestSummariesCountByStatus;
 exports.modifyRequestStatusById = modifyRequestStatusById;
 exports.getRequestById = getRequestById;
+exports.addNewMailHistory = addNewMailHistory;

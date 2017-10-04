@@ -3,6 +3,8 @@
  */
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var hwsPartnersDao = require('../dataaccess/hws_requests_dao.js');
+var Promise = require('promise');
 
 var transporter = nodemailer.createTransport(smtpTransport({
 	//    host: 'smtp.office365.com',
@@ -12,7 +14,7 @@ var transporter = nodemailer.createTransport(smtpTransport({
 	debug: true,
 	auth: {
 		user: 'bookings@tripdizer.com',
-		pass: 'E7gezma3ana'
+		pass: 'e7gezma3ana'
 	}
 }));
 
@@ -29,8 +31,10 @@ var sendEmail = function (to, from, subject, body, attachments = []) {
 				console.log(error);
 				reject({ email: to, done: false, message: error });
 			} else {
-				console.log('Message sent: ' + info.response);
-				resolve({ email: to, done: true, message: info.response });
+				hwsPartnersDao.addNewMailHistory({ email: to, subject: subject, attachments: attachments }, function () {
+					console.log('Message sent: ' + info.response);
+					resolve({ email: to, done: true, message: info.response });
+				}, function () { });
 			}
 		});
 	})
