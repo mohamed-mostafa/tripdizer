@@ -24,15 +24,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			watermark: 'gear'
 		},
 		{
-			title: 'Fake',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			refresh: false,
-			color: 'red-gradient',
-			watermark: 'gear'
-		},
-		{
 			title: 'Contacted',
 			count: 0,
 			revenue: 0,
@@ -42,7 +33,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			watermark: 'gear'
 		},
 		{
-			title: 'P Send Dizer',
+			title: 'Pending Send to Dizer',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -51,7 +42,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			watermark: 'gear'
 		},
 		{
-			title: 'P Send Agencies',
+			title: 'Pending Send to Agencies',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -60,7 +51,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			watermark: 'gear'
 		},
 		{
-			title: 'P Send Customer',
+			title: 'Pending Send to Customer',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -69,7 +60,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			watermark: 'gear'
 		},
 		{
-			title: 'P Dizer Response',
+			title: 'Pending Dizer Response',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -78,7 +69,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			watermark: 'gear'
 		},
 		{
-			title: 'P Agencies Response',
+			title: 'Pending Agencies Response',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -87,12 +78,21 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			watermark: 'gear'
 		},
 		{
-			title: 'Sent Customer',
+			title: 'Sent to Customer',
 			count: 0,
 			revenue: 0,
 			profit: 0,
 			refresh: false,
 			color: 'purple-gradient',
+			watermark: 'gear'
+		},
+		{
+			title: 'Not Serious',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			refresh: false,
+			color: 'red-gradient',
 			watermark: 'gear'
 		},
 		{
@@ -102,6 +102,15 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'red',
+			watermark: 'gear'
+		},
+		{
+			title: 'Future Requests',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			refresh: false,
+			color: 'blue-gradient',
 			watermark: 'gear'
 		},
 		{

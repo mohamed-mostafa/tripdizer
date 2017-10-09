@@ -67,6 +67,7 @@
                   <!-- RD Navbar Nav-->
                   <ul class="rd-navbar-nav">
                     <li><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز جولة</a></li>
+                    <li><a id="joinGroupTrip0" href="#" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>أنضم الي رحلة</a></li>
                     <li><a href="index.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" style="padding: 1px 10px; line-height: 23px;margin-top: .4%;font-size:12px;text-transform: capitalize;">English</a></li>
                     <li><span class="mdi mdi-email-outline text-middle"></span><a href="/cdn-cgi/l/email-protection#d2b0bdbdb9bbbcb5a192a6a0bba2b6bba8b7a0fcb1bdbf"
                         class="reveal-inline-block text-middle inset-left-10 text-middle"><span class="__cf_email__" data-cfemail="f3919c9c989a9d9480b387819a83979a899681dd909c9e">[email&#160;protected]</span><script data-cfhash='f9e31' type="text/javascript">/* <![CDATA[ */!function (t, e, r, n, c, a, p) { try { t = document.currentScript || function () { for (t = document.getElementsByTagName('script'), e = t.length; e--;)if (t[e].getAttribute('data-cfhash')) return t[e] }(); if (t && (c = t.previousSibling)) { p = t.parentNode; if (a = c.getAttribute('data-cfemail')) { for (e = '', r = '0x' + a.substr(0, 2) | 0, n = 2; a.length - n; n += 2)e += '%' + ('0' + ('0x' + a.substr(n, 2) ^ r).toString(16)).slice(-2); p.replaceChild(document.createTextNode(decodeURIComponent(e)), c) } p.removeChild(t) } } catch (u) { } }()/* ]]> */</script></a></li>
@@ -96,6 +97,7 @@
                       <h1 data-caption-animate="fadeInUp" data-caption-delay="400">هل تعبت من البحث عن أفضل عرض لرحلتك؟</h1>
                       <p data-caption-animate="fadeInUp" data-caption-delay="500">الحصول على العديد من العروض من أكبر وكالات السفر بنقرة واحدة فقط</p>
                       <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز جولة</a></div>
+                      <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a id="joinGroupTrip1" href="#" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>انضم الي رحلة</a></div>
                     </div>
                   </div>
                 </div>
@@ -109,6 +111,7 @@
                       <h1 data-caption-animate="fadeInUp" data-caption-delay="400">التخطيط لرحلة لم يكن سهلا</h1>
                       <p data-caption-animate="fadeInUp" data-caption-delay="500">انقر فوق "احجز جولة" الآن للذهاب من خلال خطوات التخطيط رحلة بسيطة لدينا.</p>
                       <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز جولة</a></div>
+                      <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a id="joinGroupTrip2" href="#" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>انضم الي رحلة</a></div>
                     </div>
                   </div>
                 </div>
@@ -122,6 +125,7 @@
                       <h1 data-caption-animate="fadeInUp" data-caption-delay="400">مكان واحد، العديد من العروض</h1>
                       <p data-caption-animate="fadeInUp" data-caption-delay="500">طريقة جديدة وأسهل وأسرع وأكثر ملاءمة للسفر.</p>
                       <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>احجز جولة</a></div>
+                      <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a id="joinGroupTrip3" href="#" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>انضم الي رحلة</a></div>
                     </div>
                   </div>
                 </div>
@@ -155,7 +159,7 @@
         </div>
       </section>
       <!--Top Travel Tours-->
-      <section class="section-relative section-90">
+      <section class="section-relative section-90" id="upcomingGroupTripsSection">
         <div class="shell">
           <h2>رحلات قادمة</h2>
           <div class="range range-xs-center offset-top-30">
@@ -576,6 +580,26 @@
 
     ga('create', 'UA-106443087-1', 'auto');
     ga('send', 'pageview');
+    $("#joinGroupTrip0").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#upcomingGroupTripsSection").offset().top
+      }, 2000);
+    });
+    $("#joinGroupTrip1").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#upcomingGroupTripsSection").offset().top
+      }, 2000);
+    });
+    $("#joinGroupTrip2").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#upcomingGroupTripsSection").offset().top
+      }, 2000);
+    });
+    $("#joinGroupTrip3").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#upcomingGroupTripsSection").offset().top
+      }, 2000);
+    });
   </script>
 </body>
 

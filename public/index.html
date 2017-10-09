@@ -51,6 +51,7 @@
                     <li><span class="mdi mdi-email-outline text-middle"></span><a href="mailto:bookings@tripdizer.com" class="reveal-inline-block text-middle inset-left-10 text-middle">bookings@tripdizer.com</a></li>
                     <li><a href="index-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" style="padding: 1px 10px; line-height: 23px;margin-top: .4%;font-size:12px;text-transform: capitalize;">عربي</a></li>
                     <li><a href="reservation.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>BOOK A TOUR</a></li>
+                    <li><a href="#" id="joinGroupTrip0" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>JOIN A GROUP TRIP</a></li>
                   </ul>
                 </div>
               </div>
@@ -73,6 +74,7 @@
                       <h1 data-caption-animate="fadeInUp" data-caption-delay="400">Tired of looking for the best offer for your trip?</h1>
                       <p data-caption-animate="fadeInUp" data-caption-delay="500">Get many offers from the top travel agencies with just one click.</p>
                       <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>BOOK a TOUR</a></div>
+                      <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="#" id="joinGroupTrip1" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>JOIN a GROUP TRIP</a></div>
                     </div>
                   </div>
                 </div>
@@ -86,6 +88,7 @@
                       <h1 data-caption-animate="fadeInUp" data-caption-delay="400">Planning a trip has never been easier</h1>
                       <p data-caption-animate="fadeInUp" data-caption-delay="500">Click 'Book a tour' now to go through our simple trip planning steps.</p>
                       <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>BOOK a TOUR</a></div>
+                      <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="#" id="joinGroupTrip2" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>JOIN a GROUP TRIP</a></div>
                     </div>
                   </div>
                 </div>
@@ -99,6 +102,7 @@
                       <h1 data-caption-animate="fadeInUp" data-caption-delay="400">One place, many offers</h1>
                       <p data-caption-animate="fadeInUp" data-caption-delay="500">A new, easier, faster and more convenient way to travel.</p>
                       <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="reservation.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>BOOK a TOUR</a></div>
+                      <div data-caption-animate="fadeInUp" data-caption-delay="600" class="offset-top-30 offset-lg-top-60"><a href="#" id="joinGroupTrip3" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"><span class="icon mdi mdi-telegram"></span>JOIN a GROUP TRIP</a></div>
                     </div>
                   </div>
                 </div>
@@ -129,7 +133,7 @@
         </div>
       </section>
       <!--Top Travel Tours-->
-      <section class="section-relative section-90">
+      <section class="section-relative section-90" id="upcomingGroupTripsSection">
         <div class="shell">
           <h2>Upcoming Group Trips</h2>
           <div class="range range-xs-center offset-top-30">
@@ -553,6 +557,26 @@
 
     ga('create', 'UA-106443087-1', 'auto');
     ga('send', 'pageview');
+    $("#joinGroupTrip0").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#upcomingGroupTripsSection").offset().top
+      }, 2000);
+    });
+    $("#joinGroupTrip1").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#upcomingGroupTripsSection").offset().top
+      }, 2000);
+    });
+    $("#joinGroupTrip2").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#upcomingGroupTripsSection").offset().top
+      }, 2000);
+    });
+    $("#joinGroupTrip3").click(function () {
+      $('html, body').animate({
+        scrollTop: $("#upcomingGroupTripsSection").offset().top
+      }, 2000);
+    });
   </script>
 </body>
 

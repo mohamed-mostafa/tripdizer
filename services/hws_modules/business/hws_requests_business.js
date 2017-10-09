@@ -38,7 +38,7 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 					// notify creation
 					emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
-					emailBusiness.sendEmail(request.traveler.emailAddress, "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", "Hello " + request.traveler.name + ",\nThank you for submitting your travel request at Tripdizer. We'll respond to your request as soon as possible.\nYour request # is " + request.id + ".\n\nTripdizer Team.");
+					notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
 					partnersBusiness.notifyPartners(request, function () {
 						console.log("Notified Partners");
 					}, function () {
@@ -74,7 +74,7 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 				// notify creation
 				emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
-				emailBusiness.sendEmail(request.traveler.emailAddress, "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", "Hello " + request.traveler.name + ",\nThank you for submitting your travel request at Tripdizer. We'll respond to your request as soon as possible.\nYour request # is " + request.id + ".\n\nTripdizer Team.");
+				notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
 				partnersBusiness.notifyPartners(request, function () {
 					console.log("Notified Partners");
 				}, function () {
@@ -94,7 +94,23 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 	});
 };
 
+var notifyCustomer = function (to, customerName, requestId) {
+	// prepare email body
+	var emailBody = "";
+	emailBody += "<html>";
+	emailBody += "<p style='font-weight: bold;'>Dear {customerName}</p>";
+	emailBody += "<p>Thank you for submitting your travel request at Tripdizer. One of our agents will contact you as soon as possible.</p>";
+	emailBody += "<p style='font-weight: bolder;'>Regards,</p>";
+	emailBody += "<p style='font-weight: bold;'>Tripdizer Booking Team</p>";
+	emailBody += "<p style='font-weight: italic; font-size: 8px; color: red;'>Important! Please don't reply to this email</p>";
+	emailBody += "</html>";
 
+	emailBody = emailBody.replace("{requestId}", requestId);
+	emailBody = emailBody.replace("{customerName}", customerName);
+
+	// notify creation
+	emailBusiness.sendEmail(to, "Tripdizer Notifications <do-not-reply@tripdizer.com>", "Your Tripdizer request has been received", emailBody);
+};
 var sendMailsToRequestTraveler = function (email, onSuccess, onFailure) {
 	if (email.type === "traveler") {
 		sendMails(email.recipients, email, onSuccess);
