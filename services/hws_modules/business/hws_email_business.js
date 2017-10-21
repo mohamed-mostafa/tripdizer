@@ -18,8 +18,9 @@ var transporter = nodemailer.createTransport(smtpTransport({
 	}
 }));
 
-var sendEmail = function (to, from, subject, body, attachments = []) {
-	return new Promise((resolve, reject) => {
+var sendEmail = function (to, from, subject, body, attachments) {
+	if (attachments == null) attachments = [];
+	return new Promise(function(resolve, reject) {
 		transporter.sendMail({
 			from: from,
 			to: to,

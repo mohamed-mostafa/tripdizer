@@ -132,8 +132,8 @@ var sendMailsToRequestTraveler = function (email, onSuccess, onFailure) {
 var sendMails = function (emails, email, onSuccess) {
 	responses = [];
 	for (var i = 0; i < emails.length; ++i)
-		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(response => response).catch(response => response));
-	Promise.all(responses).then(resp => {
+		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(function(response) {return response}).catch(function(response) {return response}));
+	Promise.all(responses).then(function(resp) {
 		email.response = resp;
 		email.count = { success: resp.filter(function (item) { return item.done }).length, fail: resp.filter(function (item) { return !item.done }).length };
 		onSuccess(email);

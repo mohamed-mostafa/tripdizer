@@ -33,12 +33,14 @@ var start = function () {
 	var usersInterface = require('./hws_users_interface.js');
 	var questionsInterface = require('./hws_questions_interface.js');
 	var partnersInterface = require('./hws_partners_interface.js');
+	var grouptripInterface = require('./hws_grouptrip_interface.js');
 
 	var json2xls = require('json2xls');
 	var app = express();
 	// your express configuration here
 
 	app.use(cors());// add CORS middleware (to enable cross-domain requests from clients.)
+	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());// for parsing application/json
 	app.use(json2xls.middleware); // middleware to return contenttype xls
 	app.use(session({
@@ -96,6 +98,9 @@ var start = function () {
 	app.get('/partners/active', partnersInterface.getAllActivePartners);
 	app.put('/partner', partnersInterface.createPartner);
 	app.post('/partner', partnersInterface.updatePartner);
+	
+	// group trip mail
+	app.post('/grouptrip/register', grouptripInterface.register);
 
 	// routing - end
 

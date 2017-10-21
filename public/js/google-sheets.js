@@ -36,7 +36,9 @@ $("#groupTripsForm").submit(function(event){
         console.log(response);
         console.log(textStatus);
         console.log(jqXHR);
-        $('#groupTripsRegistrationModal').modal('hide');
+        $.post("http://localhost:8080/grouptrip/register", { email: jQuery('input[name="email"]').val() }, function (resp) {
+            if (resp.done) $('#groupTripsRegistrationModal').modal('hide');
+        });
     });
 
     // Callback handler that will be called on failure

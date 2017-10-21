@@ -86,7 +86,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT tr.*, t.*, u.full_name FROM hws.traveler_request tr JOIN hws.traveler t on t.email_address = tr.traveler_email_address LEFT OUTER JOIN hws.user u on tr.assigned_user_id = u.id WHERE tr.status in (?) ORDER BY tr.request_date DESC ', [statuses], function (err, rows) {
+			connection.query('SELECT tr.*, t.*, q.text, qa.answer, u.full_name FROM hws.traveler_question_answer qa JOIN hws.question q ON id = question_id JOIN hws.traveler_request tr ON tr.id = qa.traveler_request_id JOIN hws.traveler t on t.email_address = tr.traveler_email_address LEFT OUTER JOIN hws.user u on tr.assigned_user_id = u.id WHERE tr.status in (?) ORDER BY tr.request_date DESC, q.id ASC', [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to find requests with statuses " + statuses);
@@ -115,7 +115,16 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								},
 								questionAnswers: []
 							};
-							requests.push(request);
+							var questionAnswer = {
+								question: rows[i].text,
+								answer: rows[i].answer,
+							};
+							requestIndex = requests.findIndex(function (request) { return request.id === rows[i].id; });
+							if (requestIndex === -1) {
+								request.questionAnswers.push(questionAnswer);
+								requests.push(request);
+							}
+							else requests[requestIndex].questionAnswers.push(questionAnswer);
 						}
 					}
 					connection.end();

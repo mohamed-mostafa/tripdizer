@@ -154,6 +154,26 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.loading = false;
 	$scope.serverError = false;
 	$scope.serverErrorMessage = "";
+	$scope.excelFields = {
+		'id': 'ID',
+		'traveler.name': 'Traveler Name',
+		'traveler.mobile': 'Traveler Mobile',
+		'traveler.emailAddress': 'Traveler Email',
+		'traveler.dateOfBirth': 'Traveler Birthdate',
+		'date': 'Request Date',
+		'status': 'Request Status',
+		'comments': 'Comments',
+		'revenue': 'Revenue',
+		'profit': 'Profit',
+		'questionAnswers.0.answer': 'Desinations',
+		'questionAnswers.1.answer': 'Dates',
+		'questionAnswers.2.answer': 'Type',
+		'questionAnswers.3.answer': 'Budget',
+		'questionAnswers.4.answer': 'Interests',
+		'questionAnswers.5.answer': 'Visa Assistant',
+		'questionAnswers.6.answer': 'Tour Guide',
+		'questionAnswers.7.answer': 'Special Requests'
+	};
 
 	// functions
 	$scope.refreshOrdersCount = function (title) {
@@ -334,7 +354,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	$scope.refreshContent = function () {
 		for (var i = 0; i < $scope.statuses.length; ++i) $scope.refreshOrdersCount($scope.statuses[i].title);
-		$scope.refreshRegisteredUsersCount();
+//		$scope.refreshRegisteredUsersCount();
 	};
 	$scope.openFullDetailsDialog = function (requestId) {
 		$scope.loading = true;
@@ -412,7 +432,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.getAllUsers();
 	$scope.total.title = [];
 	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title);
-	$scope.refreshOrders($scope.total.title);
+	$scope.refreshOrders("New"); // initialize by loading the 'New' orders
 	window.setInterval($scope.refreshContent, 30000); // set the timer
 	window.setInterval($scope.refreshLocations, 5000); // set the timer
 }]);
@@ -446,3 +466,95 @@ g2gControlCenterApplication.directive('ngFileModel', ['$parse', function ($parse
 		}
 	};
 }]);
+
+g2gControlCenterApplication.directive('exportExcel', function () {
+	return {
+		restrict: 'AE',
+		scope: {
+			data : '=',
+			filename: '=?',
+			reportFields: '='
+		},
+		link: function (scope, element) {
+			scope.filename = !!scope.filename ? scope.filename : 'export-excel';
+
+			var fields = [];
+			var header = [];
+
+			angular.forEach(scope.reportFields, function(field, key) {
+				if(!field || !key) {
+					throw new Error('error json report fields');
+				}
+
+				fields.push(key);
+				header.push(field);
+			});
+
+			element.bind('click', function() {
+				var bodyData = _bodyData();
+				var strData = _convertToExcel(bodyData);
+
+				var blob = new Blob([strData], {type: "text/plain;charset=utf-8"});
+
+				return saveAs(blob, [scope.filename + '.xls']);
+			});
+
+			function _bodyData() {
+				var data = scope.data;
+				var body = "";
+				angular.forEach(data, function(dataItem) {
+					var rowItems = [];
+
+					angular.forEach(fields, function(field) {
+						if(field.indexOf('.')) {
+							field = field.split(".");
+							var curItem = dataItem;
+
+							// deep access to obect property
+							angular.forEach(field, function(prop){
+								if (curItem !== null && curItem !== undefined) {
+									curItem = curItem[prop];
+								}
+							});
+
+							data = curItem;
+						}
+						else {
+							data = dataItem[field];
+						}
+
+						var fieldValue = data !== null ? data : ' ';
+
+						if (fieldValue !== undefined && angular.isObject(fieldValue)) {
+							fieldValue = _objectToString(fieldValue);
+						}
+
+						if (fieldValue !== undefined) {
+							fieldValue = fieldValue.toString().replace(/,/g , " ");
+							fieldValue = fieldValue.toString().replace(/\n/g , " ");
+						}
+
+						rowItems.push(fieldValue);
+					});
+
+					body += rowItems.toString() + '\n';
+				});
+
+				return body;
+			}
+
+			function _convertToExcel(body) {
+				return header + '\n' + body;
+			}
+
+			function _objectToString(object) {
+				var output = '';
+				angular.forEach(object, function(value, key) {
+					output += key + ':' + value + ' ';
+				});
+
+				return '"' + output + '"';
+			}
+		}
+	};
+});

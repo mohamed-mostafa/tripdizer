@@ -1,6 +1,6 @@
 {
-  "name": "g2g-controlcenter",
-  "description": "g2g Control Center Websige",
+  "name": "Tripdizer-Dashboard",
+  "description": "Tripdizer Dashboard",
   "version": "1.0.0",
   "dependencies": {
         "express": "3.x",

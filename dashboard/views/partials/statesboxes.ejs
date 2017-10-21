@@ -1,26 +1,10 @@
 <div class="row">
-    <div class="col-lg-2 col-xs-3">
-        <!-- small box -->
-        <div class="small-box bg-blue">
-            <div class="inner">
-                <h3 ng-bind="total.count">0</h3>
-                <p>All Requests</p>
-                <p>{{total.revenue}} Revenue, {{total.profit}} Profit</p>
-            </div>
-            <div class="icon">
-                <i class="ion-ios-pie-chart-outline"></i>
-            </div>
-            <a href="#" class="small-box-footer col-xs-6" ng-click="showMailModal('request', total.title)">Send Email <i class="fa fa-envelope"></i></a>
-            <a href="#" class="small-box-footer col-xs-6" ng-click="refreshOrders(total.title)">View All <i class="fa fa-arrow-circle-right"></i></a>
-            <div style="clear: both;"></div>
-        </div>
-    </div>
     <div class="col-lg-2 col-xs-3" ng-repeat="status in statuses">
         <!-- small box -->
         <div class="small-box bg-{{status.color}}">
             <div class="inner">
                 <h3 ng-bind="status.count">0</h3>
-                <p>{{status.title}} Requests</p>
+                <p>{{status.title}}</p>
                 <p>{{status.revenue}} Revenue, {{status.profit}} Profit</p>
             </div>
             <div class="icon">
