@@ -87,6 +87,15 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			watermark: 'gear'
 		},
 		{
+			title: 'Group Trip',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			refresh: false,
+			color: 'maroon-gradient',
+			watermark: 'gear'
+		},
+		{
 			title: 'Not Serious',
 			count: 0,
 			revenue: 0,

@@ -6,12 +6,18 @@
 var fs = require("fs");
 var emailBusiness = require('./hws_email_business.js');
 
+
 var sendMail = function (email, onSuccess, onFailure) {
-	fs.readFile("./hws_modules/business/attachment.txt", function (err, data) {
-		if (err) throw err
-		emailBusiness.sendEmail(email, "Tripdizer Bookings <bookings@tripdizer.com>", "subject", "body", [{ 'filename': "attachment.txt", 'content': data }])
-			.then(function(response) { onSuccess(response)})
-			.catch(function(response) {onFailure(response)})
+	fs.readFile("./attachments/MoroccoPackageResponse.html", function (err0, data0) {
+		fs.readFile("./attachments/Morocco Group Trip - 24 Nov-01 Dec 2017 - Hezaha W Safer.pdf", function (err1, data1) {
+			if (err1) throw err1;
+			fs.readFile("./attachments/Morocco Group Trip - 24 Nov-03 Dec 2017 - Hezaha W Safer.pdf", function (err2, data2) {
+				if (err2) throw err2;
+				emailBusiness.sendEmail(email, "Tripdizer Bookings <bookings@tripdizer.com>", "Hezaha w Safer - Morocco Trip Package", data0, [{ 'filename': "Morocco Group Trip - 24 Nov-01 Dec 2017 - Hezaha W Safer.pdf", 'content': data1 }, {'filename': "Morocco Group Trip - 24 Nov-03 Dec 2017 - Hezaha W Safer.pdf", 'content': data2}])
+				.then(function(response) { onSuccess(response)})
+				.catch(function(response) {onFailure(response)})
+			});
+		});
 	});
 }
 

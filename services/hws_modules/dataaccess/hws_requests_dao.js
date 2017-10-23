@@ -119,7 +119,13 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								question: rows[i].text,
 								answer: rows[i].answer,
 							};
-							requestIndex = requests.findIndex(function (request) { return request.id === rows[i].id; });
+							var requestIndex = -1;
+							for (var j = 0; j < requests.length; j++) {
+								if (requests[j].id === rows[i].id) {
+									requestIndex = j;
+								}
+							}
+//							requestIndex = requests.findIndex(function (request) { return request.id === rows[i].id; });
 							if (requestIndex === -1) {
 								request.questionAnswers.push(questionAnswer);
 								requests.push(request);
