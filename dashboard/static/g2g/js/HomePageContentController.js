@@ -12,7 +12,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'gray',
-			watermark: 'bell'
+			watermark: 'bell',
+			size: { xs: 6, lg: 4 },
+			role: 0
 		},
 		{
 			title: 'Unreachable',
@@ -21,7 +23,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'danger',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 1
 		},
 		{
 			title: 'Contacted',
@@ -30,7 +34,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'maroon-gradient',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 2
 		},
 		{
 			title: 'Pending Send to Dizer',
@@ -39,7 +45,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'orange-active',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 6, lg: 4 },
+			role: 3
 		},
 		{
 			title: 'Pending Send to Agencies',
@@ -48,7 +56,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'orange',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 4
 		},
 		{
 			title: 'Pending Send to Customer',
@@ -57,7 +67,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'yellow-active',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 5
 		},
 		{
 			title: 'Pending Dizer Response',
@@ -66,7 +78,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'yellow',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 6
 		},
 		{
 			title: 'Pending Agencies Response',
@@ -75,7 +89,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'yellow-gradient',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 7
 		},
 		{
 			title: 'Sent to Customer',
@@ -84,7 +100,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'purple-gradient',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 8
 		},
 		{
 			title: 'Group Trip',
@@ -93,7 +111,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'maroon-gradient',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 9
 		},
 		{
 			title: 'Not Serious',
@@ -102,7 +122,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'red-gradient',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 10
 		},
 		{
 			title: 'Rejected',
@@ -111,7 +133,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'red',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 11
 		},
 		{
 			title: 'Future Requests',
@@ -120,7 +144,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'blue-gradient',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 12
 		},
 		{
 			title: 'Confirmed',
@@ -129,7 +155,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'blue',
-			watermark: 'gear'
+			watermark: 'gear',
+			size: { xs: 4, lg: 3 },
+			role: 13
 		},
 		{
 			title: 'Booked',
@@ -138,7 +166,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			profit: 0,
 			refresh: false,
 			color: 'green',
-			watermark: 'checkmark'
+			watermark: 'checkmark',
+			size: { xs: 5, lg: 3 },
+			role: 14
 		}
 	];
 	$scope.currentOrders = [];
