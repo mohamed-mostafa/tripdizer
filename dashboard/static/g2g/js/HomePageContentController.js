@@ -13,30 +13,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			refresh: false,
 			color: 'red',
 			watermark: 'bell',
-			size: { xs: 4, lg: 3 },
+			size: { xs: 4, lg: 4 },
 			role: 0
-		},
-		{
-			title: 'Unreachable',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			refresh: false,
-			color: 'red',
-			watermark: 'gear',
-			size: { xs: 4, lg: 3 },
-			role: 1
-		},
-		{
-			title: 'Contacted',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			refresh: false,
-			color: 'red',
-			watermark: 'gear',
-			size: { xs: 4, lg: 3 },
-			role: 2
 		},
 		{
 			title: 'Group Trip',
@@ -46,8 +24,19 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			refresh: false,
 			color: 'red',
 			watermark: 'gear',
-			size: { xs: 4, lg: 3 },
-			role: 3
+			size: { xs: 4, lg: 4 },
+			role: 1
+		},
+		{
+			title: 'Total',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			refresh: false,
+			color: 'white',
+			watermark: 'checkmark',
+			size: { xs: 4, lg: 4 },
+			role: 2
 		},
 		{
 			title: 'Pending Send to Dizer',
@@ -58,7 +47,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
-			role: 4
+			role: 3
 		},
 		{
 			title: 'Pending Send to Agencies',
@@ -69,7 +58,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
-			role: 5
+			role: 4
 		},
 		{
 			title: 'Pending Send to Customer',
@@ -80,7 +69,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
-			role: 6
+			role: 5
 		},
 		{
 			title: 'Pending Dizer Response',
@@ -91,7 +80,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
-			role: 7
+			role: 6
 		},
 		{
 			title: 'Pending Agencies Response',
@@ -102,7 +91,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
-			role: 8
+			role: 7
 		},
 		{
 			title: 'Sent to Customer',
@@ -113,7 +102,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
-			role: 9
+			role: 8
 		},
 		{
 			title: 'Not Serious',
@@ -123,8 +112,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			refresh: false,
 			color: 'gray-active',
 			watermark: 'gray',
-			size: { xs: 4, lg: 2 },
-			role: 10
+			size: { xs: 3, lg: 2 },
+			role: 9
 		},
 		{
 			title: 'Rejected',
@@ -134,7 +123,18 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			refresh: false,
 			color: 'gray-active',
 			watermark: 'gear',
-			size: { xs: 4, lg: 2 },
+			size: { xs: 3, lg: 2 },
+			role: 10
+		},
+		{
+			title: 'Unreachable',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			refresh: false,
+			color: 'gray-active',
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
 			role: 11
 		},
 		{
@@ -145,7 +145,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			refresh: false,
 			color: 'gray-active',
 			watermark: 'purple',
-			size: { xs: 4, lg: 2 },
+			size: { xs: 3, lg: 2 },
 			role: 12
 		},
 		{
@@ -156,7 +156,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			refresh: false,
 			color: 'green-gradient',
 			watermark: 'gear',
-			size: { xs: 4, lg: 2 },
+			size: { xs: 3, lg: 2 },
 			role: 13
 		},
 		{
@@ -167,18 +167,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			refresh: false,
 			color: 'green-active',
 			watermark: 'checkmark',
-			size: { xs: 4, lg: 2 },
-			role: 14
-		},
-		{
-			title: 'Total',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			refresh: false,
-			color: 'white',
-			watermark: 'checkmark',
-			size: { xs: 4, lg: 2 },
+			size: { xs: 3, lg: 2 },
 			role: 14
 		}
 	];
