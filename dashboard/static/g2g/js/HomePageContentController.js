@@ -11,9 +11,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'gray',
+			color: 'red',
 			watermark: 'bell',
-			size: { xs: 6, lg: 4 },
+			size: { xs: 4, lg: 3 },
 			role: 0
 		},
 		{
@@ -22,9 +22,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'danger',
+			color: 'red',
 			watermark: 'gear',
-			size: { xs: 3, lg: 2 },
+			size: { xs: 4, lg: 3 },
 			role: 1
 		},
 		{
@@ -33,10 +33,21 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'maroon-gradient',
+			color: 'red',
 			watermark: 'gear',
-			size: { xs: 3, lg: 2 },
+			size: { xs: 4, lg: 3 },
 			role: 2
+		},
+		{
+			title: 'Group Trip',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			refresh: false,
+			color: 'red',
+			watermark: 'gear',
+			size: { xs: 4, lg: 3 },
+			role: 3
 		},
 		{
 			title: 'Pending Send to Dizer',
@@ -44,10 +55,10 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'orange-active',
+			color: 'yellow',
 			watermark: 'gear',
-			size: { xs: 6, lg: 4 },
-			role: 3
+			size: { xs: 3, lg: 2 },
+			role: 4
 		},
 		{
 			title: 'Pending Send to Agencies',
@@ -55,24 +66,13 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'orange',
-			watermark: 'gear',
-			size: { xs: 3, lg: 2 },
-			role: 4
-		},
-		{
-			title: 'Pending Send to Customer',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			refresh: false,
-			color: 'yellow-active',
+			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
 			role: 5
 		},
 		{
-			title: 'Pending Dizer Response',
+			title: 'Pending Send to Customer',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -83,15 +83,26 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 6
 		},
 		{
+			title: 'Pending Dizer Response',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			refresh: false,
+			color: 'yellow',
+			watermark: 'gear',
+			size: { xs: 3, lg: 2 },
+			role: 7
+		},
+		{
 			title: 'Pending Agencies Response',
 			count: 0,
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'yellow-gradient',
+			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
-			role: 7
+			role: 8
 		},
 		{
 			title: 'Sent to Customer',
@@ -99,18 +110,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'purple-gradient',
-			watermark: 'gear',
-			size: { xs: 3, lg: 2 },
-			role: 8
-		},
-		{
-			title: 'Group Trip',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			refresh: false,
-			color: 'maroon-gradient',
+			color: 'yellow',
 			watermark: 'gear',
 			size: { xs: 3, lg: 2 },
 			role: 9
@@ -121,9 +121,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'red-gradient',
-			watermark: 'gear',
-			size: { xs: 3, lg: 2 },
+			color: 'gray-active',
+			watermark: 'gray',
+			size: { xs: 4, lg: 2 },
 			role: 10
 		},
 		{
@@ -132,9 +132,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'red',
+			color: 'gray-active',
 			watermark: 'gear',
-			size: { xs: 3, lg: 2 },
+			size: { xs: 4, lg: 2 },
 			role: 11
 		},
 		{
@@ -143,9 +143,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'blue-gradient',
-			watermark: 'gear',
-			size: { xs: 3, lg: 2 },
+			color: 'gray-active',
+			watermark: 'purple',
+			size: { xs: 4, lg: 2 },
 			role: 12
 		},
 		{
@@ -154,9 +154,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'blue',
+			color: 'green-gradient',
 			watermark: 'gear',
-			size: { xs: 4, lg: 3 },
+			size: { xs: 4, lg: 2 },
 			role: 13
 		},
 		{
@@ -165,9 +165,20 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			revenue: 0,
 			profit: 0,
 			refresh: false,
-			color: 'green',
+			color: 'green-active',
 			watermark: 'checkmark',
-			size: { xs: 5, lg: 3 },
+			size: { xs: 4, lg: 2 },
+			role: 14
+		},
+		{
+			title: 'Total',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			refresh: false,
+			color: 'white',
+			watermark: 'checkmark',
+			size: { xs: 4, lg: 2 },
 			role: 14
 		}
 	];
@@ -216,9 +227,18 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	// functions
 	$scope.refreshOrdersCount = function (title) {
+		var query = '';
+		if (title == 'Total') {
+			$scope.total.title = [];
+			for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title);
+			query = $scope.total.title;
+		} else {
+			i = $scope.statuses.findIndex(state => state.title === title);
+			query = $scope.statuses[i].title
+		}
 		var index = $scope.statuses.findIndex(state => state.title === title);
 		$scope.statuses[index].refresh = true;
-		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + $scope.statuses[index].title).success(
+		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + query).success(
 			function (response) {
 				if (!response.count) response.count = 0;
 				if (!response.revenue) response.revenue = 0;
@@ -237,6 +257,11 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.refreshOrders = function (request) {
 		$scope.refreshingOrders = true;
 		$scope.collapseAdvancedSearchIfExpanded();
+		
+		if (request === 'Total') {
+			request = $scope.total.title;
+		}
+		
 		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses=" + request).success(
 			function (response) {
 				$scope.currentOrders = response;
