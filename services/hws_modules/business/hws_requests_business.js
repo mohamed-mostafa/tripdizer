@@ -7,6 +7,7 @@ var requestsDao = require('../dataaccess/hws_requests_dao.js');
 var travelersDao = require('../dataaccess/hws_travelers_dao.js');
 var partnersBusiness = require('./hws_partners_business.js');
 var emailBusiness = require('./hws_email_business.js');
+var Promise = require('promise');
 
 //calls the onSuccess with a user object if the user was successfully created
 var placeRequest = function (request, onSuccess, onFailure, onUserError) {

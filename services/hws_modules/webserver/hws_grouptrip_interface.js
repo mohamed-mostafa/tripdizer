@@ -14,7 +14,13 @@ var register = function (req, res) {
 		
 		// send the package to the customer, only if it is morocco
 		if (trip == "Morocco") {
-			grouptripBusiness.sendMail(email, function (response) {
+			grouptripBusiness.sendMoroccoMail(email, function (response) {
+				res.json(response)
+			}, function (response) {
+				res.json(response)
+			});
+		} else if (trip == "South Africa") {
+			grouptripBusiness.sendCapetownMail(email, function (response) {
 				res.json(response)
 			}, function (response) {
 				res.json(response)
