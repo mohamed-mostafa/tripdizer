@@ -64,7 +64,10 @@
           <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li>
+            <a href="#">
+              <i class="fa fa-dashboard"></i> Home</a>
+          </li>
           <li class="active">Tripdizer Dashboard</li>
         </ol>
       </section>
@@ -78,7 +81,9 @@
             <div class="box-header with-border">
               <h3 class="box-title">Advanced Search</h3>
               <div class="box-tools pull-right">
-                <button id="collapseExpandBtn" class="btn btn-box-tool" data-widget="collapse"><i id="collapseExpandIcon" class="fa fa-minus"></i></button>
+                <button id="collapseExpandBtn" class="btn btn-box-tool" data-widget="collapse">
+                  <i id="collapseExpandIcon" class="fa fa-minus"></i>
+                </button>
               </div>
             </div>
             <!-- /.box-header -->
@@ -96,15 +101,15 @@
                 <div class="col-xs-4">
                   <label>Request's Country</label>
                   <select class="form-control" ng-model="searchCriteria.restaurant" ng-options="restaurant.name for restaurant in restaurants track by restaurant.id">
-									<option value="0">Select Country</option> 
-		                      </select>
+                    <option value="0">Select Country</option>
+                  </select>
                 </div>
 
                 <div class="col-xs-4">
                   <label>Request's Status</label>
                   <select class="form-control" ng-model="searchCriteria.status" ng-options="status.title for status in statuses track by status.title">
-									<option value="">Select Status</option> 
-		                      </select>
+                    <option value="">Select Status</option>
+                  </select>
                 </div>
               </div>
 
@@ -124,11 +129,11 @@
               <div class="row">
                 <div class="col-xs-12">
                   <button class="btn btn-default pull-right" ng-click="searchOrders()">
-	           					Search
-	           				</button>
+                    Search
+                  </button>
                   <button class="btn btn-default pull-right" ng-click="searchOrdersAndExport()">
-	           					Search & Export
-	           				</button>
+                    Search & Export
+                  </button>
                 </div>
               </div>
 
@@ -139,7 +144,8 @@
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Requests</h3>
-              <i class="fa fa-file-excel-o" style="float: right; cursor: pointer;" export-excel data="currentOrders" report-fields="excelFields" filename="filename"> Export to Excel</i>
+              <i class="fa fa-file-excel-o" style="float: right; cursor: pointer;" export-excel data="excelCurrentOrders" report-fields="excelFields"
+                filename="filename"> Export to Excel</i>
               <div class="box-body">
                 <div class="overlay" ng-show="refreshingOrders == true">
                   <i class="fa fa-refresh fa-spin"></i>
@@ -162,7 +168,10 @@
                       <tr ng-repeat="order in currentOrders" ng-show="currentOrders.length != 0">
                         <td ng-bind="order.id"></td>
                         <td ng-bind="order.traveler.name"></td>
-                        <td><a style="cursor: pointer;" ng-click="showMailModal('traveler', order.traveler.emailAddress)"><i class="fa fa-envelope"></i> {{order.traveler.emailAddress}}</a></td>
+                        <td>
+                          <a style="cursor: pointer;" ng-click="showMailModal('traveler', order.traveler.emailAddress)">
+                            <i class="fa fa-envelope"></i> {{order.traveler.emailAddress}}</a>
+                        </td>
                         <td ng-bind="order.traveler.mobile"></td>
                         <td ng-bind="order.date"></td>
                         <td>
@@ -178,7 +187,8 @@
                             <i class="cursor" ng-click="openAssignRequestToUser(order)"> Assign</i>
                           </div>
                           <div ng-show="order.userFullName != null">
-                            {{order.userFullName}} | <i class="cursor" ng-click="openAssignRequestToUser(order)"> Re-assign</i>
+                            {{order.userFullName}} |
+                            <i class="cursor" ng-click="openAssignRequestToUser(order)"> Re-assign</i>
                           </div>
                         </td>
                       </tr>
@@ -199,7 +209,9 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                       <h4 class="modal-title" id="myModalLabel">Assign user to work on a request</h4>
                     </div>
                     <div class="modal-body">
@@ -225,7 +237,9 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                       <h4 class="modal-title" id="myModalLabel">Order Details</h4>
                     </div>
                     <div class="modal-body">
@@ -236,11 +250,24 @@
                           </div>
                           <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                              <li class="active"><a href="#requestTab" data-toggle="tab">Request</a></li>
-                              <li><a href="#travelerTab" data-toggle="tab">Traveler</a></li>
-                              <li><a href="#answersTab" data-toggle="tab">Q/A Answers</a></li>
-                              <li><a href="#revenueTab" data-toggle="tab">Revenue & Profit</a></li>
-                              <li><a href="#mailshistoryTab" data-toggle="tab">Mails History</a></li>
+                              <li class="active">
+                                <a href="#requestTab" data-toggle="tab">Request</a>
+                              </li>
+                              <li>
+                                <a href="#travelerTab" data-toggle="tab">Traveler</a>
+                              </li>
+                              <li>
+                                <a href="#answersTab" data-toggle="tab">Interests</a>
+                              </li>
+                              <li>
+                                <a href="#detailsTab" data-toggle="tab">Details</a>
+                              </li>
+                              <li>
+                                <a href="#revenueTab" data-toggle="tab">Revenue & Profit</a>
+                              </li>
+                              <li>
+                                <a href="#mailshistoryTab" data-toggle="tab">Mails History</a>
+                              </li>
                             </ul>
                             <div class="tab-content">
                               <div class="tab-pane active" id="requestTab">
@@ -275,20 +302,74 @@
                                 <table id="example2" class="table table-bordered table-hover">
                                   <thead>
                                     <tr>
-                                      <th>Question</th>
-                                      <th>Answer</th>
+                                      <th>Interest</th>
+                                      <th>Percentage</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr ng-repeat="questionAnswer in currentOrder.questionAnswers" ng-show="currentOrder.questionAnswers.length != 0">
-                                      <td ng-bind="questionAnswer.question.text">
-                                      </td>
-                                      <td ng-bind="questionAnswer.answer.answer">
-                                      </td>
+                                    <tr ng-repeat="interest in currentOrder.interests" ng-show="currentOrder.interests.length != 0">
+                                      <td>{{interests[interest.id - 1].en_name}}</td>
+                                      <td>{{interest.percentage | number}}%</td>
                                     </tr>
                                   </tbody>
                                 </table>
                                 <div>
+                                </div>
+                              </div>
+                              <!-- /.tab-pane -->
+                              <div class="tab-pane" id="detailsTab">
+                                <div>
+                                  <label for="departureDate">Departure Date</label>
+                                  <input type="text" class="form-control" id="departureDate" ng-model="currentOrder.departureDate" disabled>
+                                  <label for="returnDate">Return Date</label>
+                                  <input type="text" class="form-control" id="returnDate" ng-model="currentOrder.returnDate" disabled>
+                                  <label for="flexibleDates">Flexible Dates</label>
+                                  <select class="form-control" id="flexibleDates" ng-model="currentOrder.flexibleDates" disabled>
+                                    <option ng-selected="currentOrder.flexibleDates === 1">True</option>
+                                    <option ng-selected="currentOrder.flexibleDates === 0">False</option>
+                                  </select>
+                                  <label for="leavingCountry">Leaving Country</label>
+                                  <input type="text" class="form-control" id="leavingCountry" ng-model="currentOrder.leavingCountry" disabled>
+                                  <label for="firstCountry">First Country</label>
+                                  <select class="form-control" id="firstCountry" ng-model="currentOrder.firstCountry" disabled>
+                                    <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.firstCountry">{{country.en_name}}</option>
+                                  </select>
+                                  <div ng-if="currentOrder.secondCountry !== 0">
+                                    <label for="secondCountry">Second Country</label>
+                                    <select class="form-control" id="secondCountry" ng-model="currentOrder.secondCountry" disabled>
+                                      <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.secondCountry">{{country.en_name}}</option>
+                                    </select>
+                                  </div>
+                                  <div ng-if="currentOrder.thirdCountry !== 0">
+                                    <label for="thirdCountry">Third Country</label>
+                                    <select class="form-control" id="thirdCountry" ng-model="currentOrder.thirdCountry" disabled>
+                                      <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.thirdCountry">{{country.en_name}}</option>
+                                    </select>
+                                  </div>
+                                  <label for="travelPurpose">Travel Purpose</label>
+                                  <select class="form-control" id="travelPurpose" ng-model="currentOrder.travelPurpose" disabled>
+                                    <option ng-repeat="purpose in purposes" ng-value="purpose.id" ng-selected="purpose.id === currentOrder.travelPurpose">{{purpose.en_name}}</option>
+                                  </select>
+                                  <label for="numberOfTravelers">Number Of Travelers</label>
+                                  <input type="budgetCategory" class="form-control" id="numberOfTravelers" ng-model="currentOrder.numberOfTravelers" disabled>
+                                  <label for="budgetCategory">Budget Category</label>
+                                  <select class="form-control" id="budgetCategory" ng-model="currentOrder.budgetCategory" disabled>
+                                    <option ng-repeat="budget in budgetCategories" ng-value="budget.id" ng-selected="budget.id === currentOrder.budgetCategory">{{budget.en_name}}</option>
+                                  </select>
+                                  <div ng-if="currentOrder.budgetCategory === '1'">
+                                    <label for="leavingCountry">Budget</label>
+                                    <input type="text" class="form-control" id="leavingCountry" ng-model="currentOrder.budget">
+                                  </div>
+                                  <label for="visaAssistanceNeeded">Visa Assistance Needed</label>
+                                  <select class="form-control" id="visaAssistanceNeeded" ng-model="currentOrder.visaAssistanceNeeded" disabled>
+                                    <option ng-selected="currentOrder.visaAssistanceNeeded === 1">True</option>
+                                    <option ng-selected="currentOrder.visaAssistanceNeeded === 0">False</option>
+                                  </select>
+                                  <label for="tourGuideNeeded">Tour Guide Needed</label>
+                                  <select class="form-control" id="tourGuideNeeded" ng-model="currentOrder.tourGuideNeeded" disabled>
+                                    <option ng-selected="currentOrder.tourGuideNeeded === 1">True</option>
+                                    <option ng-selected="currentOrder.tourGuideNeeded === 0">False</option>
+                                  </select>
                                 </div>
                               </div>
                               <!-- /.tab-pane -->

@@ -1,5 +1,6 @@
 var grouptripBusiness = require('../business/hws_grouptrip_business.js');
 var requestBusiness = require('../business/hws_requests_business.js');
+var countryBusiness = require('../business/hws_countries_business.js');
 
 var register = function (req, res) {
 	try {
@@ -11,7 +12,7 @@ var register = function (req, res) {
 		var trip = req.body.trip;
 		var from = req.body.from;
 		var to = req.body.to;
-		
+
 		// send the package to the customer, only if it is morocco
 		if (trip == "Morocco") {
 			grouptripBusiness.sendMoroccoMail(email, function (response) {
@@ -26,64 +27,56 @@ var register = function (req, res) {
 				res.json(response)
 			});
 		}
-		
+		countryBusiness.getAll("", function (countries) {
+			var targetedTrip = countries.find(country => country.en_name === trip || country.ar_name === trip);
+			if (targetedTrip) {
+				var tripCountry = targetedTrip.id;
+				var request = {
+					traveler: {
+						name: name,
+						mobile: phone,
+						emailAddress: email,
+						dateOfBirth: "",
+					},
+					departure_date: from,
+					return_date: to,
+					flexible_dates: 0,
+					leaving_country: 'Cairo',
+					first_country: tripCountry,
+					second_country: 0,
+					third_country: 0,
+					travel_purpose: 4,
+					number_of_travelers: pex,
+					budget_category: 3,
+					budget: 0,
+					visa_assistance_needed: 1,
+					tour_guide_needed: 1,
+					specialRequests: message,
+					interests: [{ id: 1, percentage: 0 }]
+				};
+				requestBusiness.placeRequest(request, function (request) {
+					// done
+					console.log("Changing status of request: " + request.id);
+					requestBusiness.changeRequestStatus(request.id, "Group Trip", function (resp) {
+
+					}, function (err) {
+						res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+					})
+				}, function (err) {
+					res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+				}, function (userErr) {
+					res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+				})
+			}
+			else
+				res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for the inconvinence.");
+		},
+			function (error) {
+				res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for the inconvinence.");
+			});
+
 		// add the request in the database
-		var request = {
-			traveler: {
-				name: name,
-				mobile: phone,
-				emailAddress: email,
-				dateOfBirth: "",
-			},
-			questionAnswers: [
-				{
-					question: {id: 1, text: "Destinations", type: "MCQ"},
-					answer: {answer: "Starting & ending at: Cairo, travelling to: " + trip}
-				},
-				{
-					question: {id: 2, text: "Dates", type: "MCQ"},
-					answer: {answer: "From: " + from + ", To: " + to}
-				},
-				{
-					question: {id: 3, text: "Type", type: "MCQ"},
-					answer: {answer: "Group Trip (" + pex + ")"}
-				},
-				{
-					question: {id: 4, text: "Budget", type: "MCQ"},
-					answer: {answer: "Economy"}
-				},
-				{
-					question: {id: 5, text: "Interests", type: "MCQ"},
-					answer: {answer: "N/A"}
-				},
-				{
-					question: {id: 6, text: "Visa", type: "MCQ"},
-					answer: {answer: "Visa assistance needed"}
-				},
-				{
-					question: {id: 7, text: "TourGuide", type: "MCQ"},
-					answer: {answer: "Tour guide needed"}
-				},
-				{
-					question: {id: 8, text: "SpecialRequests", type: "MCQ"},
-					answer: {answer: message}
-				},
-			],
-		};
-		requestBusiness.placeRequest(request, function(request) {
-			// done
-			console.log("Changing status of request: " + request.id);
-			requestBusiness.changeRequestStatus(request.id.substring(3), "Group Trip", function(resp) {
-				
-			}, function (err) {
-				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
-			})
-		}, function(err) {
-			res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
-		}, function(userErr) {
-			res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
-		})
-		
+
 	} catch (error) {
 		console.log("An error occured in /grouptrip/register");
 		console.log(error);

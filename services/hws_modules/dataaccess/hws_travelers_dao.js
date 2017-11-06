@@ -15,7 +15,7 @@ var getTravelerByEmailAddress = function(emailAddress, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT t.* FROM hws.traveler t WHERE t.email_address = ?', [emailAddress], function(err, rows) {
+			connection.query('SELECT t.* FROM traveler t WHERE t.email_address = ?', [emailAddress], function(err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to find a traveler with email " + emailAddress);
@@ -62,7 +62,7 @@ var createNewTraveler = function(traveler, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO hws.traveler (name, mobile, email_address, date_of_birth) values (?, ?, ?, ?)',
+					connection.query('INSERT INTO traveler (name, mobile, email_address, date_of_birth) values (?, ?, ?, ?)',
 							[traveler.name, traveler.mobile, traveler.emailAddress, traveler.dateOfBirth], function(err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails

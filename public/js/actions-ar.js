@@ -113,15 +113,6 @@
             });
         });
         /**************************change active nav on scroll E*************************/
-        $(document).on("click", ".budget-options", function() {
-            if ($('#budget4').is(':checked')) {
-                $("#your-budget").removeClass("hidden");
-            }
-            else {
-                $("#your-budget").addClass("hidden");
-            }
-        });
-        $("#your-budget").addClass("hidden");
 
         /*********************smooth scroll S***************************/
         var $root = $('html, body');

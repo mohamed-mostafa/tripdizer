@@ -31,9 +31,12 @@ var start = function () {
 	// interfaces
 	var requestsInterface = require('./hws_requests_interface.js');
 	var usersInterface = require('./hws_users_interface.js');
-	var questionsInterface = require('./hws_questions_interface.js');
 	var partnersInterface = require('./hws_partners_interface.js');
 	var grouptripInterface = require('./hws_grouptrip_interface.js');
+	var countriesInterface = require('./hws_countries_interface.js');
+	var purposesInterface = require('./hws_purposes_interface.js');
+	var interestsInterface = require('./hws_interests_interface.js');
+	var budgetcategoriesInterface = require('./hws_budgetcategories_interface.js');
 
 	var json2xls = require('json2xls');
 	var app = express();
@@ -78,9 +81,6 @@ var start = function () {
 	app.post('/request/statuses/sendmails', requestsInterface.sendMailsToRequestTraveler);
 	app.post('/request/status', requestsInterface.changeRequestStatus);
 
-	// questions
-	app.get('/questions', questionsInterface.getAllQuestions);
-
 	// 		set status
 	app.post('/request/status/placed', requestsInterface.markRequestPlaced);
 	app.post('/request/status/beingprepared', requestsInterface.markRequestBeingPrepared);
@@ -98,9 +98,33 @@ var start = function () {
 	app.get('/partners/active', partnersInterface.getAllActivePartners);
 	app.put('/partner', partnersInterface.createPartner);
 	app.post('/partner', partnersInterface.updatePartner);
-	
+
 	// group trip mail
 	app.post('/grouptrip/register', grouptripInterface.register);
+
+	//		countries
+	app.get('/countries', countriesInterface.getAll);
+	app.get('/country/:id', countriesInterface.getById);
+	app.put('/country', countriesInterface.create);
+	app.post('/country', countriesInterface.update);
+
+	//		Purposes
+	app.get('/purposes', purposesInterface.getAll);
+	app.get('/purpose/:id', purposesInterface.getById);
+	app.put('/purpose', purposesInterface.create);
+	app.post('/purpose', purposesInterface.update);
+
+	//		Interests
+	app.get('/interests', interestsInterface.getAll);
+	app.get('/interest/:id', interestsInterface.getById);
+	app.put('/interest', interestsInterface.create);
+	app.post('/interest', interestsInterface.update);
+
+	//		BudgetCategories
+	app.get('/budgetcategories', budgetcategoriesInterface.getAll);
+	app.get('/budgetcategory/:id', budgetcategoriesInterface.getById);
+	app.put('/budgetcategory', budgetcategoriesInterface.create);
+	app.post('/budgetcategory', budgetcategoriesInterface.update);
 
 	// routing - end
 

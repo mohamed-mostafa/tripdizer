@@ -72,17 +72,24 @@
                         <!-- RD Navbar Panel-->
                         <div class="rd-navbar-panel">
                             <!-- RD Navbar Toggle-->
-                            <div data-rd-navbar-toggle=".rd-navbar, .rd-navbar-nav-wrap" class="rd-navbar-toggle"><span></span></div>
+                            <div data-rd-navbar-toggle=".rd-navbar, .rd-navbar-nav-wrap" class="rd-navbar-toggle">
+                                <span></span>
+                            </div>
                             <!-- Navbar Brand-->
-                            <div class="rd-navbar-brand"><a href="index.html"><img width="220" height="32" src="images/logo-light-220x32.png" alt=""></a></div>
+                            <div class="rd-navbar-brand">
+                                <a href="index.html">
+                                    <img width="220" height="32" src="images/logo-light-220x32.png" alt="">
+                                </a>
+                            </div>
                         </div>
                         <div class="rd-navbar-menu-wrap">
                             <div class="rd-navbar-nav-wrap">
                                 <div class="rd-navbar-mobile-scroll">
                                     <!-- RD Navbar Nav-->
                                     <ul>
-                                        <li><a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse"
-                                                style="  line-height: 28px;font-size: 16px;color: #fff;background-color: #ff6b6b;border-color: #ff6b6b;bottom: 16px;  margin-right: 100px;font-weight:700">عربي</a></li>
+                                        <li>
+                                            <a href="reservation-ar.html" class="btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" style="  line-height: 28px;font-size: 16px;color: #fff;background-color: #ff6b6b;border-color: #ff6b6b;bottom: 16px;  margin-right: 100px;font-weight:700">عربي</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -91,10 +98,10 @@
                         <div id="menuToggle">
                             <input type="checkbox" />
                             <a href="javascript:void(0)" id="nuToggle">
-                                         <span class="menuToggle"></span>
-                                         <span class="menuToggle"></span>
-                                         <span class="menuToggle"></span> 
-                                         </a>
+                                <span class="menuToggle"></span>
+                                <span class="menuToggle"></span>
+                                <span class="menuToggle"></span>
+                            </a>
                         </div>
 
                     </div>
@@ -129,125 +136,56 @@
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
 
-                                                            <span class="glyphicon glyphicon-map-marker"></span> Pick your
-                                                            destinations :
+                                                            <span class="glyphicon glyphicon-map-marker"></span> Pick your destinations :
                                                         </h3>
                                                     </div>
-                                                    <div class="row"> <span class="form-description">Choose up to 3 destinations ...</span>
+                                                    <div class="row">
+                                                        <span class="form-description">Choose up to 3 destinations ...</span>
                                                         <div class="col s12">
                                                             <div class="row" id="lcationPickupContainer">
                                                                 <div class="input-field col s11">
                                                                     <select id="from" name="from" ng-model="selectedSource" class="select-override">
-                                                            <option value="" disabled selected>Travelling From ...</option>
-                                                            <option class="majorOption" value="Egypt">Egypt</option>
-															<option value="Cairo">Cairo</option>
-															<option value="Alexandria">Alexandria</option>
-															<option value="Hurghada">Hurghada</option>
-															<option value="Sharm El-Sheikh">Sharm El-Sheikh</option>
-                                                        </select>
+                                                                        <option value="" disabled selected>Travelling From ...</option>
+                                                                        <option class="majorOption" value="Egypt">Egypt</option>
+                                                                        <option value="Cairo">Cairo</option>
+                                                                        <option value="Alexandria">Alexandria</option>
+                                                                        <option value="Hurghada">Hurghada</option>
+                                                                        <option value="Sharm El-Sheikh">Sharm El-Sheikh</option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="row col s12 noPadding toDestinationField">
                                                                     <div class="input-field col s11">
                                                                         <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[0]">
-                                                                <option value="" disabled selected>And I wish to travel to ...</option>
-																<option disabled class="majorOption">Countries</option>
-                                                                <option value="Austria" 	data-latlng="46.5162, 14.5501" 	data-description="No country waltzes so effortlessly between the urban and the outdoors as Austria.">Austria</option> 
-																<option value="Belgium" 	data-latlng="49.5039, 4.4699" 	data-description="Smack-bang in the middle of Western Europe, this compact multilingual country effortlessly blends the historic with the new.">Belgium</option> 
-																<option value="Cambodia" 	data-latlng="12.5657,104.9910" 	data-description="Ever since Angelina Jolie swung through temple ruins in Cambodia as Lara Croft, Tomb Raider, the place has been crawling with tourists.">Cambodia</option> 
-																<option value="Czech" 		data-latlng="49.0755, 14.4378" 	data-description="Prague, City of a Hundred Spires, a UNESCO monument and one of the most beautiful cities in the world.">Czech</option>
-																<option value="France" 		data-latlng="47.8566, 2.3522" 	data-description="Sure, everyone knows about the Eiffel Tower and the Louvre, but what else does France have to offer?">France</option> 
-																<option value="Germany" 	data-latlng="51.5200, 13.4050" 	data-description="Visitors from all over the world travel to Germany to see architectural treasures and fascinating places of natural beauty.">Germany</option> 
-																<!-- <option value="Georgia" 	data-latlng="‎41.8831, 43.6659" data-description="From its green valleys spread with vineyards to its old churches and watchtowers perched in fantastic mountain scenery.">Georgia</option> -->
-																<option value="Greece" 		data-latlng="38.0742, 21.8243" 	data-description=" Greece is renowned for its wonderful rugged landscape, its untouched gems, its endless coastlines, and its 6,000 islands and islets.">Greece</option> 
-																<option value="Holland" 	data-latlng="51.3702, 4.8952" 	data-description="Most visitors focus on Amsterdam, the country's vibrant capital with its great museums and art galleries">Holland</option> 
-																<option value="Hongkong" 	data-latlng="22.3964,114.1095" 	data-description="“A New York minute is a Hong Kong second” is a saying you’ll hear from expats who live in this thrilling, idiosyncratic city of 7 million residents, and it’s not hard to see why. Hong Kong teems with energy from the moment you arrive, and it never lets up.">Hongkong</option>
-																<option value="Hungary" 	data-latlng="46.49801, 19.03991" data-description="Stunning architecture, vital folk art, thermal spas and Europe's most exciting capital after dark are Hungary's major drawing cards.">Hungary</option> 
-																<option value="Indonesia" 	data-latlng="0.7893,113.9213" 	data-description="With its laid-back atmosphere and dreamy landscapes, Bali is the perfect destination for any romantic getaway. ">Indonesia</option>
-																<option value="Italy" 		data-latlng="40.9028, 12.4964" 	data-description="People mainly visit Italy for its rich art, cuisine, history, fashion and culture, its beautiful coastline and beaches, its mountains, and priceless ancient monuments.">Italy</option> 
-																<option value="Laos" 		data-latlng="19.8563,102.4955" 	data-description="Laos is often called the forgotten land of South-East Asia. One of the perfect backpacking trips.">Laos</option> 
-																<option value="Macau" 		data-latlng="22.1987,113.5439" 	data-description="Just an hour away from Hong Kong by ferry, Macau is another special administrative region of China. Because of the presence of many casinos and high-end shopping centers in such a small peninsula, Macau earned the nickname ‘Las Vegas of Asia.’">Macau</option>
-																<option value="Malaysia" 	data-latlng="4.2105,101.9758" 	data-description="A beautiful country with a rich cultural heritage that blends Asian and European influence, Malaysia offers many attractions.">Malaysia</option> 
-																<option value="Philippines" data-latlng="12.8797,121.7740" 	data-description="Visiting the Philippines is big fun. Perfect beaches. Friendly locals. Beautiful nature. Plus, it's a cheap country to travel, you'll get a great value for your money.">Philippines</option> 
-																<option value="Singapore" 	data-latlng="1.3521,103.8198" 	data-description="Enjoy both urban and natural attractions in this mega-metropolis. Perusing the designer stores on the commercial Orchard Road will showcase the city's fast pace. Head to Sentosa, the island that hosts Universal Studios, beaches and luxury resorts.">Singapore</option>
-																<option value="Spain" 		data-latlng="40.4168, -3.7038" 	data-description="What happens in Ibiza stays in Ibiza !">Spain</option> 
-																<option value="Switzerland" data-latlng="45.8182, 8.2275" 	data-description="Look past the silk-smooth chocolate, cuckoo clocks and yodelling – contemporary Switzerland, land of four languages, is all about epic journeys.">Switzerland</option> 
-																<option value="Thailand" 	data-latlng="15.8700,100.9925" 	data-description="Thailand is the number one tourist location in South East Asia, and it is easy to see why. Best known for its breath-taking beaches, its stunning temples and the modern urban sprawl that is Bangkok, it is a country where getting bored is just not an option.">Thailand</option> 
-																<option value="Turkey" 		data-latlng="39.0082, 32.9784" 	data-description="Tourism in Turkey is focused largely on a variety of historical sites, and on seaside resorts along its Aegean and Mediterranean Sea coasts.">Turkey</option> 
-																<option value="UK" 			data-latlng="50.5074, 0.1278" 	data-description="Big Ben, London Eye, and much more ...">UK</option> 
-																<option value="Vatican" 	data-latlng="41.9041, 12.4525" 	data-description="Vatican City is a popular destination for tourists, especially Christians wishing to see the Pope or practice their faith.">Vatican</option> 
-																<option value="Vietnam" 	data-latlng="14.0583,108.2772" 	data-description="One of the most popular backpacking destinations in South East Asia, Vietnam is a fascinating country to visit. The food is outstanding, the people welcoming and the country itself is as beautiful as it is diverse.">Vietnam</option>
-																<option class="majorOption" value="other" ng-hide="selectedDestinations[2] == 'other' || selectedDestinations[1] == 'other'">Other</option>
-                                                            </select>
+                                                                            <option value="" disabled selected>And I wish to travel to ...</option>
+                                                                            <option disabled class="majorOption">Countries</option>
+                                                                            <option value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}" data-description="{{country.description}}"
+                                                                                ng-repeat="country in countries">{{country.name}}</option>
+                                                                            <option class="majorOption" value="other" ng-hide="selectedDestinations[2] == 'other' || selectedDestinations[1] == 'other'">Other</option>
+                                                                        </select>
                                                                     </div>
                                                                     <div class="col s1">
                                                                         <button class="add-btn" ng-click="addDestination();" style="margin-top: 15px;" type="button">+</button>
                                                                     </div>
                                                                     <div class="input-field col s11" ng-show="secondDestinationShown == true">
                                                                         <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[1]">
-                                                                <option value="" disabled selected>And I wish to travel to ...</option>
-																<option disabled class="majorOption">Countries</option>
-                                                                <option value="Austria" 	data-latlng="46.5162, 14.5501" 	data-description="No country waltzes so effortlessly between the urban and the outdoors as Austria.">Austria</option> 
-																<option value="Belgium" 	data-latlng="49.5039, 4.4699" 	data-description="Smack-bang in the middle of Western Europe, this compact multilingual country effortlessly blends the historic with the new.">Belgium</option> 
-																<option value="Cambodia" 	data-latlng="12.5657,104.9910" 	data-description="Ever since Angelina Jolie swung through temple ruins in Cambodia as Lara Croft, Tomb Raider, the place has been crawling with tourists.">Cambodia</option> 
-																<option value="Czech" 		data-latlng="49.0755, 14.4378" 	data-description="Prague, City of a Hundred Spires, a UNESCO monument and one of the most beautiful cities in the world.">Czech</option>
-																<option value="France" 		data-latlng="47.8566, 2.3522" 	data-description="Sure, everyone knows about the Eiffel Tower and the Louvre, but what else does France have to offer?">France</option> 
-																<option value="Germany" 	data-latlng="51.5200, 13.4050" 	data-description="Visitors from all over the world travel to Germany to see architectural treasures and fascinating places of natural beauty.">Germany</option> 
-																<!-- <option value="Georgia" 	data-latlng="‎41.8831, 43.6659" data-description="From its green valleys spread with vineyards to its old churches and watchtowers perched in fantastic mountain scenery.">Georgia</option> -->
-																<option value="Greece" 		data-latlng="38.0742, 21.8243" 	data-description=" Greece is renowned for its wonderful rugged landscape, its untouched gems, its endless coastlines, and its 6,000 islands and islets.">Greece</option> 
-																<option value="Holland" 	data-latlng="51.3702, 4.8952" 	data-description="Most visitors focus on Amsterdam, the country's vibrant capital with its great museums and art galleries">Holland</option> 
-																<option value="Hongkong" 	data-latlng="22.3964,114.1095" 	data-description="“A New York minute is a Hong Kong second” is a saying you’ll hear from expats who live in this thrilling, idiosyncratic city of 7 million residents, and it’s not hard to see why. Hong Kong teems with energy from the moment you arrive, and it never lets up.">Hongkong</option>
-																<option value="Hungary" 	data-latlng="46.49801, 19.03991" data-description="Stunning architecture, vital folk art, thermal spas and Europe's most exciting capital after dark are Hungary's major drawing cards.">Hungary</option> 
-																<option value="Indonesia" 	data-latlng="0.7893,113.9213" 	data-description="With its laid-back atmosphere and dreamy landscapes, Bali is the perfect destination for any romantic getaway. ">Indonesia</option>
-																<option value="Italy" 		data-latlng="40.9028, 12.4964" 	data-description="People mainly visit Italy for its rich art, cuisine, history, fashion and culture, its beautiful coastline and beaches, its mountains, and priceless ancient monuments.">Italy</option> 
-																<option value="Laos" 		data-latlng="19.8563,102.4955" 	data-description="Laos is often called the forgotten land of South-East Asia. One of the perfect backpacking trips.">Laos</option> 
-																<option value="Macau" 		data-latlng="22.1987,113.5439" 	data-description="Just an hour away from Hong Kong by ferry, Macau is another special administrative region of China. Because of the presence of many casinos and high-end shopping centers in such a small peninsula, Macau earned the nickname ‘Las Vegas of Asia.’">Macau</option>
-																<option value="Malaysia" 	data-latlng="4.2105,101.9758" 	data-description="A beautiful country with a rich cultural heritage that blends Asian and European influence, Malaysia offers many attractions.">Malaysia</option> 
-																<option value="Philippines" data-latlng="12.8797,121.7740" 	data-description="Visiting the Philippines is big fun. Perfect beaches. Friendly locals. Beautiful nature. Plus, it's a cheap country to travel, you'll get a great value for your money.">Philippines</option> 
-																<option value="Singapore" 	data-latlng="1.3521,103.8198" 	data-description="Enjoy both urban and natural attractions in this mega-metropolis. Perusing the designer stores on the commercial Orchard Road will showcase the city's fast pace. Head to Sentosa, the island that hosts Universal Studios, beaches and luxury resorts.">Singapore</option>
-																<option value="Spain" 		data-latlng="40.4168, -3.7038" 	data-description="What happens in Ibiza stays in Ibiza !">Spain</option> 
-																<option value="Switzerland" data-latlng="45.8182, 8.2275" 	data-description="Look past the silk-smooth chocolate, cuckoo clocks and yodelling – contemporary Switzerland, land of four languages, is all about epic journeys.">Switzerland</option> 
-																<option value="Thailand" 	data-latlng="15.8700,100.9925" 	data-description="Thailand is the number one tourist location in South East Asia, and it is easy to see why. Best known for its breath-taking beaches, its stunning temples and the modern urban sprawl that is Bangkok, it is a country where getting bored is just not an option.">Thailand</option> 
-																<option value="Turkey" 		data-latlng="39.0082, 32.9784" 	data-description="Tourism in Turkey is focused largely on a variety of historical sites, and on seaside resorts along its Aegean and Mediterranean Sea coasts.">Turkey</option> 
-																<option value="UK" 			data-latlng="50.5074, 0.1278" 	data-description="Big Ben, London Eye, and much more ...">UK</option> 
-																<option value="Vatican" 	data-latlng="41.9041, 12.4525" 	data-description="Vatican City is a popular destination for tourists, especially Christians wishing to see the Pope or practice their faith.">Vatican</option> 
-																<option value="Vietnam" 	data-latlng="14.0583,108.2772" 	data-description="One of the most popular backpacking destinations in South East Asia, Vietnam is a fascinating country to visit. The food is outstanding, the people welcoming and the country itself is as beautiful as it is diverse.">Vietnam</option>
-																<option class="majorOption" value="other" ng-hide="selectedDestinations[0] == 'other' || selectedDestinations[2] == 'other'">Other</option>
-                                                            </select>
+                                                                            <option value="" disabled selected>And I wish to travel to ...</option>
+                                                                            <option disabled class="majorOption">Countries</option>
+                                                                            <option value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}" data-description="{{country.description}}"
+                                                                                ng-repeat="country in countries">{{country.name}}</option>
+                                                                            <option class="majorOption" value="other" ng-hide="selectedDestinations[0] == 'other' || selectedDestinations[2] == 'other'">Other</option>
+                                                                        </select>
                                                                     </div>
                                                                     <div class="col s1" ng-show="secondDestinationShown == true">
                                                                         <button class="add-btn" ng-click="removeSecondDestination();" style="margin-top: 20px;" type="button">-</button>
                                                                     </div>
                                                                     <div class="input-field col s11" ng-show="thirdDestinationShown == true">
                                                                         <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[2]">
-                                                               <option value="" disabled selected>And I wish to travel to ...</option>
-																<option disabled class="majorOption">Countries</option>
-                                                                <option value="Austria" 	data-latlng="46.5162, 14.5501" 	data-description="No country waltzes so effortlessly between the urban and the outdoors as Austria.">Austria</option> 
-																<option value="Belgium" 	data-latlng="49.5039, 4.4699" 	data-description="Smack-bang in the middle of Western Europe, this compact multilingual country effortlessly blends the historic with the new.">Belgium</option> 
-																<option value="Cambodia" 	data-latlng="12.5657,104.9910" 	data-description="Ever since Angelina Jolie swung through temple ruins in Cambodia as Lara Croft, Tomb Raider, the place has been crawling with tourists.">Cambodia</option> 
-																<option value="Czech" 		data-latlng="49.0755, 14.4378" 	data-description="Prague, City of a Hundred Spires, a UNESCO monument and one of the most beautiful cities in the world.">Czech</option>
-																<option value="France" 		data-latlng="47.8566, 2.3522" 	data-description="Sure, everyone knows about the Eiffel Tower and the Louvre, but what else does France have to offer?">France</option> 
-																<option value="Germany" 	data-latlng="51.5200, 13.4050" 	data-description="Visitors from all over the world travel to Germany to see architectural treasures and fascinating places of natural beauty.">Germany</option> 
-																<!-- <option value="Georgia" 	data-latlng="‎41.8831, 43.6659" data-description="From its green valleys spread with vineyards to its old churches and watchtowers perched in fantastic mountain scenery.">Georgia</option> -->
-																<option value="Greece" 		data-latlng="38.0742, 21.8243" 	data-description=" Greece is renowned for its wonderful rugged landscape, its untouched gems, its endless coastlines, and its 6,000 islands and islets.">Greece</option> 
-																<option value="Holland" 	data-latlng="51.3702, 4.8952" 	data-description="Most visitors focus on Amsterdam, the country's vibrant capital with its great museums and art galleries">Holland</option> 
-																<option value="Hongkong" 	data-latlng="22.3964,114.1095" 	data-description="“A New York minute is a Hong Kong second” is a saying you’ll hear from expats who live in this thrilling, idiosyncratic city of 7 million residents, and it’s not hard to see why. Hong Kong teems with energy from the moment you arrive, and it never lets up.">Hongkong</option>
-																<option value="Hungary" 	data-latlng="46.49801, 19.03991" data-description="Stunning architecture, vital folk art, thermal spas and Europe's most exciting capital after dark are Hungary's major drawing cards.">Hungary</option> 
-																<option value="Indonesia" 	data-latlng="0.7893,113.9213" 	data-description="With its laid-back atmosphere and dreamy landscapes, Bali is the perfect destination for any romantic getaway. ">Indonesia</option>
-																<option value="Italy" 		data-latlng="40.9028, 12.4964" 	data-description="People mainly visit Italy for its rich art, cuisine, history, fashion and culture, its beautiful coastline and beaches, its mountains, and priceless ancient monuments.">Italy</option> 
-																<option value="Laos" 		data-latlng="19.8563,102.4955" 	data-description="Laos is often called the forgotten land of South-East Asia. One of the perfect backpacking trips.">Laos</option> 
-																<option value="Macau" 		data-latlng="22.1987,113.5439" 	data-description="Just an hour away from Hong Kong by ferry, Macau is another special administrative region of China. Because of the presence of many casinos and high-end shopping centers in such a small peninsula, Macau earned the nickname ‘Las Vegas of Asia.’">Macau</option>
-																<option value="Malaysia" 	data-latlng="4.2105,101.9758" 	data-description="A beautiful country with a rich cultural heritage that blends Asian and European influence, Malaysia offers many attractions.">Malaysia</option> 
-																<option value="Philippines" data-latlng="12.8797,121.7740" 	data-description="Visiting the Philippines is big fun. Perfect beaches. Friendly locals. Beautiful nature. Plus, it's a cheap country to travel, you'll get a great value for your money.">Philippines</option> 
-																<option value="Singapore" 	data-latlng="1.3521,103.8198" 	data-description="Enjoy both urban and natural attractions in this mega-metropolis. Perusing the designer stores on the commercial Orchard Road will showcase the city's fast pace. Head to Sentosa, the island that hosts Universal Studios, beaches and luxury resorts.">Singapore</option>
-																<option value="Spain" 		data-latlng="40.4168, -3.7038" 	data-description="What happens in Ibiza stays in Ibiza !">Spain</option> 
-																<option value="Switzerland" data-latlng="45.8182, 8.2275" 	data-description="Look past the silk-smooth chocolate, cuckoo clocks and yodelling – contemporary Switzerland, land of four languages, is all about epic journeys.">Switzerland</option> 
-																<option value="Thailand" 	data-latlng="15.8700,100.9925" 	data-description="Thailand is the number one tourist location in South East Asia, and it is easy to see why. Best known for its breath-taking beaches, its stunning temples and the modern urban sprawl that is Bangkok, it is a country where getting bored is just not an option.">Thailand</option> 
-																<option value="Turkey" 		data-latlng="39.0082, 32.9784" 	data-description="Tourism in Turkey is focused largely on a variety of historical sites, and on seaside resorts along its Aegean and Mediterranean Sea coasts.">Turkey</option> 
-																<option value="UK" 			data-latlng="50.5074, 0.1278" 	data-description="Big Ben, London Eye, and much more ...">UK</option> 
-																<option value="Vatican" 	data-latlng="41.9041, 12.4525" 	data-description="Vatican City is a popular destination for tourists, especially Christians wishing to see the Pope or practice their faith.">Vatican</option> 
-																<option value="Vietnam" 	data-latlng="14.0583,108.2772" 	data-description="One of the most popular backpacking destinations in South East Asia, Vietnam is a fascinating country to visit. The food is outstanding, the people welcoming and the country itself is as beautiful as it is diverse.">Vietnam</option>
-																<option class="majorOption" value="other" ng-hide="selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other'">Other</option> 
-														   </select>
+                                                                            <option value="" disabled selected>And I wish to travel to ...</option>
+                                                                            <option disabled class="majorOption">Countries</option>
+                                                                            <option value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}" data-description="{{country.description}}"
+                                                                                ng-repeat="country in countries">{{country.name}}</option>
+                                                                            <option class="majorOption" value="other" ng-hide="selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other'">Other</option>
+                                                                        </select>
                                                                     </div>
                                                                     <div class="col s1" ng-show="thirdDestinationShown == true">
                                                                         <button class="add-btn" ng-click="removeThirdDestination();" style="margin-top: 20px;" type="button">-</button>
@@ -280,22 +218,24 @@
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
 
-                                                            <span class="iconTitle infoIconTitle"></span> Trip Information
-                                                            :
+                                                            <span class="iconTitle infoIconTitle"></span> Trip Information :
                                                         </h3>
                                                     </div>
-                                                    <div class="row"> <span class="form-description">Tell us the date, purpose and budget of your trip ...</span>
+                                                    <div class="row">
+                                                        <span class="form-description">Tell us the date, purpose and budget of your trip ...</span>
                                                         <div class="col s12">
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-sm-12 noPadding">
-                                                                    <div class="input-field col s12"> <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
+                                                                    <div class="input-field col s12">
+                                                                        <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
                                                                         <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom">
                                                                         <label for="date_from" class="left-aligned-text">Depart</label>
 
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-sm-12 noPadding">
-                                                                    <div class="input-field col s12"> <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
+                                                                    <div class="input-field col s12">
+                                                                        <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
                                                                         <input id="date_to" name="date_to" type="text" class="datepicker" ng-model="selectedTo">
                                                                         <label for="date_to" class="left-aligned-text">Return</label>
 
@@ -311,43 +251,10 @@
                                                             <div class="row ">
                                                                 <label class="tittle full-width left-aligned-text">Purpose of travel:</label>
                                                                 <div class="radio-btn-container left">
-                                                                    <p>
-                                                                        <input name="trip_type" type="radio" id="test1" ng-model="tripTypeString" value="Solo Trip" ng-click="soloSelected()" />
-
-                                                                        <label for="test1" class="left-aligned-text">Solo</label>
-                                                                    </p>
-                                                                    <p>
-                                                                        <input name="trip_type" type="radio" id="test2" ng-model="tripTypeString" value="Family Trip" ng-click="familySelected()"
+                                                                    <p ng-repeat="purpose in purposes">
+                                                                        <input name="purpose" type="radio" id="purpose-{{purpose.id}}" ng-click="selectPurpose(purpose)" ng-checked="$index === 0"
                                                                         />
-
-                                                                        <label for="test2" class="left-aligned-text">Family</label>
-                                                                    </p>
-                                                                    <p>
-                                                                        <input name="trip_type" type="radio" id="test3" ng-model="tripTypeString" value="Group Trip" ng-click="groupSelected()" />
-
-                                                                        <label for="test3" class="left-aligned-text">Group</label>
-                                                                    </p>
-                                                                    <p>
-                                                                        <input name="trip_type" type="radio" id="test4" ng-model="tripTypeString" value="Honeymoon Trip" ng-click="honeymoonSelected()"
-                                                                        />
-
-                                                                        <label for="test4" class="left-aligned-text">Honeymoon</label>
-                                                                    </p>
-                                                                    <p>
-                                                                        <input name="trip_type" type="radio" id="test6" ng-model="tripTypeString" value="Business Trip" ng-click="businessSelected()"
-                                                                        />
-
-                                                                        <label for="test6" class="left-aligned-text">Business</label>
-                                                                    </p>
-                                                                    <!-- <p>
-                                                                        <input name="trip_type" type="radio" id="test7" ng-model="tripTypeString" value="Join a group trip" ng-click="joinGroupSelected()"
-                                                                        />
-
-                                                                        <label for="test7" class="left-aligned-text">Join a group of youth</label>
-                                                                    </p> -->
-                                                                    <p class="test8">
-                                                                        <input name="trip_type" type="radio" id="test8" ng-model="tripTypeString" value="Other" />
-                                                                        <label for="test8" class="left-aligned-text ">Other purpose</label>
+                                                                        <label for="purpose-{{purpose.id}}" class="left-aligned-text">{{purpose.name}}</label>
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -364,7 +271,7 @@
                                                                     </div>
                                                                     <div class="col-lg-6 col-sm-12 noPadding">
                                                                         <div class="input-field col s12">
-                                                                            <div ng-show="tripTypeString == 'Other'">
+                                                                            <div ng-show="selectedPurpose.name.includes('Other')">
                                                                                 <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" />
                                                                                 <label for="other_people_number">Other</label>
                                                                             </div>
@@ -373,31 +280,15 @@
                                                                     <div class="row">
                                                                         <label class="tittle full-width left-aligned-text">Budget</label>
                                                                         <div class="radio-btn-container">
-                                                                            <p>
-                                                                                <input name="budget1" type="radio" id="budget1" class="budget-options" value="Super Economy" ng-model="budgetString" checked/>
-                                                                                <label for="budget1" title="Dorms, Public Transportation, ...">Super Economy</label>
+                                                                            <p ng-repeat="budgetCategory in budgetCategories">
+                                                                                <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
+                                                                                    ng-checked="$index === 0" />
+                                                                                <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
                                                                             </p>
-                                                                            <p>
-                                                                                <input name="budget2" type="radio" id="budget2" class="budget-options" value="Economy" ng-model="budgetString" />
-                                                                                <label for="budget2" title="Hostels, Guesthouses, 2-star hotels, budget flights, ...">Economy</label>
-                                                                            </p>
-                                                                            <p>
-                                                                                <input name="budget3" type="radio" id="budget3" class="budget-options" value="Mid Range" ng-model="budgetString" />
-                                                                                <label for="budget3" title="Service apartments, 3-4 stars hotels, Airport transportation, Optional Guide, ...">Mid Range</label>
-                                                                            </p>
-                                                                            <p>
-                                                                                <input name="budget5" type="radio" id="budget5" class="budget-options" value="Splurge" ng-model="budgetString" />
-                                                                                <label for="budget5" title="Luxuary hotels, Full board, Optional guide, Private transportation">Splurge</label>
-                                                                            </p>
-                                                                            <p>
-                                                                                <input name="budget4" type="radio" id="budget4" class="budget-options" value="Own Budget" ng-model="budgetString" />
-                                                                                <label for="budget4">I have my own budget</label>
-                                                                            </p>
-
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-6 col-sm-12">
-                                                                        <div class="input-field col s12" id="your-budget">
+                                                                        <div class="input-field col s12" ng-show="selectedBudgetCategory.name.includes('Own')">
                                                                             <i class="material-icons prefix fa fa-money"></i>
                                                                             <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
                                                                             <label for="own_budget">Enter your budget</label>
@@ -421,109 +312,23 @@
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
 
-                                                            <span class="iconTitle purposeIconTitle"></span> Your Interests
-                                                            :
+                                                            <span class="iconTitle purposeIconTitle"></span> Your Interests :
                                                         </h3>
                                                     </div>
-                                                    <div class="row"> <span class="form-description">Tell us the activities you like the most</span>
-                                                        <div class="row">
+                                                    <div class="row">
+                                                        <span class="form-description">Tell us the activities you like the most</span>
+                                                        <div class="row" ng-repeat="interest in interests">
                                                             <main class="row col-lg-12 sliders-row">
                                                                 <div class="col-lg-4 col-sm-4 noPadding">
                                                                     <h3 class="range-tittle">
-                                                                        <img src="images/activities.png" />
-                                                                        <span ng-bind="activitiesTitle"></span>
+                                                                        <img src="images/{{interest.name}}.png" />
+                                                                        <span>{{interest.name}}: {{interest.percent || 0}}%</span>
                                                                     </h3>
                                                                 </div>
                                                                 <div class="col-lg-8 col-sm-8 noPadding">
                                                                     <fieldset>
                                                                         <div class="range">
-                                                                            <input name="range_1" type="range" min="0" max="100" value="0" ng-model="activitiesPercent" ng-change="activitiesChanged();">
-                                                                            <output for="range_1" onforminput="value = range_1.valueAsNumber;"></output>
-                                                                        </div>
-                                                                    </fieldset>
-                                                                </div>
-                                                            </main>
-                                                        </div>
-                                                        <div class="row">
-                                                            <main class="row col-lg-12 sliders-row">
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
-                                                                    <h3 class="range-tittle">
-                                                                        <img src="images/nature.png" />
-                                                                        <span ng-bind="natureTitle"></span>
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="col-lg-8 col-sm-8 noPadding">
-                                                                    <fieldset>
-                                                                        <div class="range">
-                                                                            <input name="range_2" type="range" min="0" max="100" value="0" ng-model="naturePercent" ng-change="natureChanged();">
-                                                                        </div>
-                                                                    </fieldset>
-                                                                </div>
-                                                            </main>
-                                                        </div>
-                                                        <div class="row">
-                                                            <main class="row col-lg-12 sliders-row">
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
-                                                                    <h3 class="range-tittle">
-                                                                        <img src="images/beaches.png" />
-                                                                        <span ng-bind="beachesTitle"></span>
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="col-lg-8 col-sm-8 noPadding">
-                                                                    <fieldset>
-                                                                        <div class="range">
-                                                                            <input name="range_3" type="range" min="0" max="100" value="0" ng-model="beachesPercent" ng-change="beachesChanged();">
-                                                                        </div>
-                                                                    </fieldset>
-                                                                </div>
-                                                            </main>
-                                                        </div>
-                                                        <div class="row">
-                                                            <main class="row col-lg-12 sliders-row">
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
-                                                                    <h3 class="range-tittle">
-                                                                        <img src="images/nightlife.png" />
-                                                                        <span ng-bind="nightlifeTitle"></span>
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="col-lg-8 col-sm-8 noPadding">
-                                                                    <fieldset>
-                                                                        <div class="range">
-                                                                            <input name="range_4" type="range" min="0" max="100" value="0" ng-model="nightlifePercent" ng-change="nightlifeChanged();">
-                                                                        </div>
-                                                                    </fieldset>
-                                                                </div>
-                                                            </main>
-                                                        </div>
-                                                        <div class="row">
-                                                            <main class="row col-lg-12 sliders-row">
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
-                                                                    <h3 class="range-tittle">
-                                                                        <img src="images/shopping.png" />
-                                                                        <span ng-bind="shoppingTitle"></span>
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="col-lg-8 col-sm-8 noPadding">
-                                                                    <fieldset>
-                                                                        <div class="range">
-                                                                            <input name="range_4" type="range" min="0" max="100" value="0" ng-model="shoppingPercent" ng-change="shoppingChanged();">
-                                                                        </div>
-                                                                    </fieldset>
-                                                                </div>
-                                                            </main>
-                                                        </div>
-                                                        <div class="row">
-                                                            <main class="row col-lg-12 last-child sliders-row">
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
-                                                                    <h3 class="range-tittle">
-                                                                        <img src="images/history.png" />
-                                                                        <span ng-bind="historyTitle"></span>
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="col-lg-8 col-sm-8 noPadding">
-                                                                    <fieldset>
-                                                                        <div class="range">
-                                                                            <input name="range_4" type="range" min="0" max="100" value="0" ng-model="historyPercent" ng-change="historyChanged();">
+                                                                            <input name="range-{{interest.id}}" type="range" min="0" max="100" value="0" ng-model="interest.percent">
                                                                         </div>
                                                                     </fieldset>
                                                                 </div>
@@ -544,11 +349,11 @@
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
 
-                                                            <span class="iconTitle yDetailsIconTitle"></span> Further Assistance
-                                                            :
+                                                            <span class="iconTitle yDetailsIconTitle"></span> Further Assistance :
                                                         </h3>
                                                     </div>
-                                                    <div class="row"> <span class="form-description">How can we provide futher assistance ?</span>
+                                                    <div class="row">
+                                                        <span class="form-description">How can we provide futher assistance ?</span>
                                                         <div class="col s12">
                                                             <div class="row left">
                                                                 <div class="col-lg-12 col-sm-12 left">
@@ -591,28 +396,32 @@
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
 
-                                                            <span class="iconTitle yDetailsIconTitle"></span> Your Details
-                                                            :
+                                                            <span class="iconTitle yDetailsIconTitle"></span> Your Details :
                                                         </h3>
                                                     </div>
-                                                    <div class="row"> <span class="form-description">How our tripdizers will reach out to you</span>
+                                                    <div class="row">
+                                                        <span class="form-description">How our tripdizers will reach out to you</span>
                                                         <div class="col s12">
                                                             <div class="row">
-                                                                <div class="input-field col s12"> <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                <div class="input-field col s12">
+                                                                    <i class="material-icons prefix glyphicon glyphicon-user"></i>
                                                                     <input id="full_name" name="full_name" type="text" ng-model="request.traveler.name">
                                                                     <label for="full_name" class="left-aligned-text">Full Name</label>
                                                                 </div>
-                                                                <div class="input-field col s12"> <i class="material-icons prefix glyphicon glyphicon-envelope"></i>
+                                                                <div class="input-field col s12">
+                                                                    <i class="material-icons prefix glyphicon glyphicon-envelope"></i>
                                                                     <input id="email" name="email" type="email" ng-model="request.traveler.emailAddress">
 
                                                                     <label for="email" class="left-aligned-text">Email</label>
                                                                 </div>
-                                                                <div class="input-field col s12"> <i class="material-icons prefix glyphicon glyphicon-phone"></i>
+                                                                <div class="input-field col s12">
+                                                                    <i class="material-icons prefix glyphicon glyphicon-phone"></i>
                                                                     <input id="mobile" name="mobile" type="tel" ng-model="request.traveler.mobile">
 
                                                                     <label for="mobile" class="left-aligned-text">Mobile</label>
                                                                 </div>
-                                                                <div class="input-field col s12"> <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
+                                                                <div class="input-field col s12">
+                                                                    <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
                                                                     <input id="birth_date" name="birth_date" type="text" class="birthDate" ng-model="request.traveler.dateOfBirth">
                                                                     <label for="birth_date" class="left-aligned-text">Birth Date</label>
                                                                 </div>
@@ -642,28 +451,34 @@
 
                                                             <div class="transparent-bg">
                                                                 <div class="place border-bottom">
-                                                                    <h3 class="bold tittle"><span class="txt left">From</span>
+                                                                    <h3 class="bold tittle">
+                                                                        <span class="txt left">From</span>
                                                                         <span class=" normal value" ng-bind="selectedSource"></span>
 
                                                                     </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">To</span>
-                                                                        <span class=" normal value" ng-bind="getDestinations();"></span>
+                                                                    <h3 class="bold tittle">
+                                                                        <span class="txt left">To</span>
+                                                                        <span class=" normal value">{{countries[$scope.selectedDestinations[0]]}}, {{countries[$scope.selectedDestinations[1]]}},
+                                                                            {{countries[$scope.selectedDestinations[2]]}}</span>
 
                                                                     </h3>
                                                                 </div>
                                                                 <div class="time">
-                                                                    <h3 class="bold tittle"><span class="txt left">From</span>
+                                                                    <h3 class="bold tittle">
+                                                                        <span class="txt left">From</span>
                                                                         <span class=" normal value" ng-bind="selectedFrom"></span>
 
                                                                     </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">To</span>
+                                                                    <h3 class="bold tittle">
+                                                                        <span class="txt left">To</span>
                                                                         <span class=" normal value" ng-bind="selectedTo"></span>
 
                                                                     </h3>
                                                                 </div>
                                                                 <div class="budget">
-                                                                    <h3 class="bold tittle"><span class="txt left">Budget</span>
-                                                                        <span class=" normal value" ng-bind="budgetString"></span>
+                                                                    <h3 class="bold tittle">
+                                                                        <span class="txt left">Budget</span>
+                                                                        <span class=" normal value" ng-bind="myOwnBudget"></span>
 
                                                                     </h3>
                                                                 </div>
@@ -681,8 +496,11 @@
                                                         </div>
                                                         <div class="trip-type-data col-lg-4 col-md-6 col-sm-12">
                                                             <h3 class="trip-type">
-                                                                <span>{{tripTypeString}}</span><br><span ng-show="numberOfTravelers == 1">{{numberOfTravelers}} person</span>
-                                                                <span ng-show="numberOfTravelers > 1">{{numberOfTravelers}} persons</span></h3>
+                                                                <span>{{selectedPurpose.name}}</span>
+                                                                <br>
+                                                                <span ng-show="numberOfTravelers == 1">{{numberOfTravelers}} person</span>
+                                                                <span ng-show="numberOfTravelers > 1">{{numberOfTravelers}} persons</span>
+                                                            </h3>
                                                         </div>
 
 
@@ -691,42 +509,26 @@
 
                                                             <div class="transparent-bg" style="">
                                                                 <div class="place border-bottom">
-                                                                    <h3 class="bold tittle"><span class="txt left">Email</span>
+                                                                    <h3 class="bold tittle">
+                                                                        <span class="txt left">Email</span>
                                                                         <span class=" normal value" ng-bind="request.traveler.emailAddress"></span>
 
                                                                     </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">Mobile</span>
+                                                                    <h3 class="bold tittle">
+                                                                        <span class="txt left">Mobile</span>
                                                                         <span class=" normal value" ng-bind="request.traveler.mobile"></span>
 
                                                                     </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">Birth date</span>
+                                                                    <h3 class="bold tittle">
+                                                                        <span class="txt left">Birth date</span>
                                                                         <span class=" normal value" ng-bind="request.traveler.dateOfBirth"></span>
 
                                                                     </h3>
                                                                 </div>
                                                                 <div class="time">
-                                                                    <h3 class="bold tittle"><span class="txt left">Activities</span>
-                                                                        <span class=" normal value">{{activitiesPercent}} %</span>
-                                                                    </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">Nature</span>
-                                                                        <span class=" normal value">{{naturePercent}} %</span>
-
-                                                                    </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">Beaches</span>
-                                                                        <span class=" normal value">{{beachesPercent}} %</span>
-
-                                                                    </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">Nightlife</span>
-                                                                        <span class=" normal value">{{nightlifePercent}} %</span>
-
-                                                                    </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">Shopping</span>
-                                                                        <span class=" normal value">{{shoppingPercent}} %</span>
-
-                                                                    </h3>
-                                                                    <h3 class="bold tittle"><span class="txt left">History</span>
-                                                                        <span class=" normal value">{{historyPercent}} %</span>
-
+                                                                    <h3 class="bold tittle" ng-repeat="interest in interests">
+                                                                        <span class="txt left">{{interest.name}}</span>
+                                                                        <span class=" normal value">{{interest.percent || 0}} %</span>
                                                                     </h3>
                                                                 </div>
                                                             </div>
@@ -740,7 +542,8 @@
                                         </div>-->
                                                 </div>
                                             </div>
-                                            <div class="col-lg-5 right-side live-it-all-bg noPadding"> <img src="images/live-it-all.png" /> </div>
+                                            <div class="col-lg-5 right-side live-it-all-bg noPadding">
+                                                <img src="images/live-it-all.png" /> </div>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -752,7 +555,8 @@
                 <!-- Modal Structure -->
                 <div id="success-modal" class="modal modal-fixed-footer col-lg-5 col-sm-6 col-xs-10 no-bottom-margin" style="margin-bottom: 200px;">
                     <div class="modal-content">
-                        <div class="modal-header"> <img src="images/hand-icon.png" /> </div>
+                        <div class="modal-header">
+                            <img src="images/hand-icon.png" /> </div>
                         <h3 class="bold thanks-msg">Thank You !</h3>
                         <div class="progress" ng-show="submitting == true">
                             <div class="indeterminate"></div>
@@ -766,7 +570,9 @@
                         <p class="bold req-num-msg" ng-show="submitting == false && submittingError == true">Oops. This is embarrasing ...</p>
                         <p class="req-num-msg" ng-show="submitting == false && submittingError == true">Tripdizer is experiencing some problems. We're now aware of them and will get them fixed right away</p>
                     </div>
-                    <div class="modal-footer"> <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Ok</a> </div>
+                    <div class="modal-footer">
+                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+                    </div>
                 </div>
             </section>
         </main>

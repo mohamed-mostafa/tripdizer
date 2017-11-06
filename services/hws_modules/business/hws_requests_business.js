@@ -13,6 +13,9 @@ var Promise = require('promise');
 var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 	// insert the request in our database
 	request.date = new Date();
+	request.departure_date = new Date(request.departure_date);
+	request.return_date = new Date(request.return_date);
+	if (!request.budget) request.budget = 0;
 
 	travelersDao.getTravelerByEmailAddress(request.traveler.emailAddress, function (traveler) {
 		if (traveler == null) { // traveler doesn't exist before, create a traveler first
@@ -21,20 +24,20 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 				// create the traveler
 				requestsDao.createNewRequest(request, function (request) { // then create the request
-					if (request.questionAnswers[0].answer.answer.indexOf("Cambodia") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Hongkong") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Indonesia") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Laos") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Macau") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Malaysia") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Philippines") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Thailand") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Vietnam") > -1 ||
-						request.questionAnswers[0].answer.answer.indexOf("Singapore") > -1) {
-						request.id = "A100" + request.id; // asia
-					} else {
-						request.id = "E200" + request.id;
-					}
+					// if (request.questionAnswers[0].answer.answer.indexOf("Cambodia") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Hongkong") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Indonesia") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Laos") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Macau") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Malaysia") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Philippines") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Thailand") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Vietnam") > -1 ||
+					// 	request.questionAnswers[0].answer.answer.indexOf("Singapore") > -1) {
+					// 	request.id = "A100" + request.id; // asia
+					// } else {
+					// 	request.id = "E200" + request.id;
+					// }
 					onSuccess(request);
 
 					// notify creation
@@ -58,19 +61,19 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 			});
 		} else { // traveler exists before, create the request immediately
 			requestsDao.createNewRequest(request, function (request) { // create the request
-				if (request.questionAnswers[0].answer.answer.indexOf("Cambodia") > -1 || request.questionAnswers[0].answer.answer.indexOf("Hongkong") > -1 ||
-					request.questionAnswers[0].answer.answer.indexOf("Indonesia") > -1 ||
-					request.questionAnswers[0].answer.answer.indexOf("Laos") > -1 ||
-					request.questionAnswers[0].answer.answer.indexOf("Macau") > -1 ||
-					request.questionAnswers[0].answer.answer.indexOf("Malaysia") > -1 ||
-					request.questionAnswers[0].answer.answer.indexOf("Philippines") > -1 ||
-					request.questionAnswers[0].answer.answer.indexOf("Thailand") > -1 ||
-					request.questionAnswers[0].answer.answer.indexOf("Vietnam") > -1 ||
-					request.questionAnswers[0].answer.answer.indexOf("Singapore") > -1) {
-					request.id = "A100" + request.id; // asia
-				} else {
-					request.id = "E200" + request.id;
-				}
+				// if (request.questionAnswers[0].answer.answer.indexOf("Cambodia") > -1 || request.questionAnswers[0].answer.answer.indexOf("Hongkong") > -1 ||
+				// 	request.questionAnswers[0].answer.answer.indexOf("Indonesia") > -1 ||
+				// 	request.questionAnswers[0].answer.answer.indexOf("Laos") > -1 ||
+				// 	request.questionAnswers[0].answer.answer.indexOf("Macau") > -1 ||
+				// 	request.questionAnswers[0].answer.answer.indexOf("Malaysia") > -1 ||
+				// 	request.questionAnswers[0].answer.answer.indexOf("Philippines") > -1 ||
+				// 	request.questionAnswers[0].answer.answer.indexOf("Thailand") > -1 ||
+				// 	request.questionAnswers[0].answer.answer.indexOf("Vietnam") > -1 ||
+				// 	request.questionAnswers[0].answer.answer.indexOf("Singapore") > -1) {
+				// 	request.id = "A100" + request.id; // asia
+				// } else {
+				// 	request.id = "E200" + request.id;
+				// }
 				onSuccess(request);
 
 				// notify creation
@@ -133,8 +136,8 @@ var sendMailsToRequestTraveler = function (email, onSuccess, onFailure) {
 var sendMails = function (emails, email, onSuccess) {
 	responses = [];
 	for (var i = 0; i < emails.length; ++i)
-		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(function(response) {return response}).catch(function(response) {return response}));
-	Promise.all(responses).then(function(resp) {
+		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(function (response) { return response }).catch(function (response) { return response }));
+	Promise.all(responses).then(function (resp) {
 		email.response = resp;
 		email.count = { success: resp.filter(function (item) { return item.done }).length, fail: resp.filter(function (item) { return !item.done }).length };
 		onSuccess(email);

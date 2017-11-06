@@ -23,8 +23,8 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO hws.traveler_request (request_date, traveler_email_address) values (?, ?)',
-						[request.date, request.traveler.emailAddress],
+					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Travelers`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Comments`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+						[request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_travelers, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.specialRequests],
 						function (err, result) {
 							// if an error is thrown, end the connection and throw an error
 							if (err) { // if the first insert statement fails
@@ -38,16 +38,16 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 								// set the id to the order
 								request.id = result.insertId;
 								// insert the answers
-								if (request.questionAnswers.length > 0) {
-									var batchInsertStatement = "INSERT INTO hws.traveler_question_answer (traveler_request_id, question_id, answer) values (" + request.id + ", " + connection.escape(request.questionAnswers[0].question.id) + ", " + connection.escape(request.questionAnswers[0].answer.answer) + ")";
-									for (var i = 1; i < request.questionAnswers.length; i++) {
+								if (request.interests.length > 0) {
+									var batchInsertStatement = "INSERT INTO `traveler_interests` (`Interest_Id`, `Request_Id`, `Percentage`) VALUES (" + connection.escape(request.interests[0].id) + ", " + request.id + ", " + connection.escape(request.interests[0].percentage) + ")";
+									for (var i = 1; i < request.interests.length; ++i) {
 										// for each other answer, 
-										batchInsertStatement += ", (" + request.id + ", " + connection.escape(request.questionAnswers[i].question.id) + ", " + connection.escape(request.questionAnswers[i].answer.answer) + ")";
+										batchInsertStatement += ", (" + connection.escape(request.interests[i].id) + ", " + request.id + ", " + connection.escape(request.interests[i].percentage) + ")";
 									}
 									connection.query(batchInsertStatement, function (err, result) {
 										// if an error is thrown, end the connection and throw an error
 										if (err) { // if the 2nd insert statement fails
-											console.log("An error occurred while trying to create the question answers of the request: " + JSON.stringify(request));
+											console.log("An error occurred while trying to create the question answers of the requestaa: " + JSON.stringify(request));
 											console.log(err);
 											connection.rollback();
 											// end the connection
@@ -86,7 +86,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT tr.*, t.*, q.text, qa.answer, u.full_name FROM hws.traveler_question_answer qa JOIN hws.question q ON id = question_id JOIN hws.traveler_request tr ON tr.id = qa.traveler_request_id JOIN hws.traveler t on t.email_address = tr.traveler_email_address LEFT OUTER JOIN hws.user u on tr.assigned_user_id = u.id WHERE tr.status in (?) ORDER BY tr.request_date DESC, q.id ASC', [statuses], function (err, rows) {
+			connection.query('SELECT tr.*, t.*, ti.Interest_Id, ti.Percentage AS Interset_Percentage, u.full_name FROM traveler_request tr JOIN traveler t on t.email_address = tr.Traveler_Email_Address LEFT OUTER JOIN user u on tr.Assigned_User = u.id JOIN `traveler_interests` ti ON tr.Id = ti.Request_Id WHERE tr.Status in (?) ORDER BY tr.Date DESC, ti.Interest_Id', [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to find requests with statuses " + statuses);
@@ -100,37 +100,49 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 						// populate the user attributes
 						for (var i = 0; i < rows.length; i++) {
 							var request = {
-								id: rows[i].id,
-								status: rows[i].status,
-								date: rows[i].request_date,
-								revenue: rows[i].revenue,
-								profit: rows[i].profit,
-								comments: rows[i].comments,
-								userFullName: rows[i].full_name,
+								id: rows[i].Id,
+								date: rows[i].Date,
+								status: rows[i].Status,
+								revenue: rows[i].Revenue,
+								profit: rows[i].Profit,
+								comments: rows[i].Comments,
 								traveler: {
 									name: rows[i].name,
 									mobile: rows[i].mobile,
 									emailAddress: rows[i].email_address,
 									dateOfBirth: rows[i].date_of_birth,
 								},
-								questionAnswers: []
+								departureDate: rows[i].Departure_Date,
+								returnDate: rows[i].Return_Date,
+								flexibleDates: rows[i].Flexible_Dates,
+								leavingCountry: rows[i].Leaving_Country,
+								firstCountry: rows[i].First_Country,
+								secondCountry: rows[i].Second_Country,
+								thirdCountry: rows[i].Third_Country,
+								travelPurpose: rows[i].Travel_Purpose,
+								numberOfTravelers: rows[i].Number_Of_Travelers,
+								budgetCategory: rows[i].Budget_Category,
+								budget: rows[i].Budget,
+								visaAssistanceNeeded: rows[i].Visa_Assistance_Needed,
+								tourGuideNeeded: rows[i].Tour_Guide_Needed,
+								interests: []
 							};
-							var questionAnswer = {
-								question: rows[i].text,
-								answer: rows[i].answer,
+							var interest = {
+								id: rows[i].Interest_Id,
+								percentage: rows[i].Interset_Percentage,
 							};
 							var requestIndex = -1;
 							for (var j = 0; j < requests.length; j++) {
-								if (requests[j].id === rows[i].id) {
+								if (requests[j].id === rows[i].Id) {
 									requestIndex = j;
 								}
 							}
-//							requestIndex = requests.findIndex(function (request) { return request.id === rows[i].id; });
+							//							requestIndex = requests.findIndex(function (request) { return request.id === rows[i].id; });
 							if (requestIndex === -1) {
-								request.questionAnswers.push(questionAnswer);
+								request.interests.push(interest);
 								requests.push(request);
 							}
-							else requests[requestIndex].questionAnswers.push(questionAnswer);
+							else requests[requestIndex].interests.push(interest);
 						}
 					}
 					connection.end();
@@ -152,7 +164,7 @@ var getRequestSummariesCountByStatus = function (statuses, onSuccess, onFailure)
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit FROM hws.traveler_request WHERE status IN (?)', [statuses], function (err, rows) {
+			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit FROM traveler_request WHERE status IN (?)', [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to count order summaries with statuses " + statuses);
@@ -179,7 +191,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT tr.*, t.*, u.* FROM hws.traveler_request tr JOIN hws.traveler t on t.email_address = tr.traveler_email_address LEFT OUTER JOIN hws.user u on tr.assigned_user_id = u.id WHERE tr.id = ?', [requestId], function (err, rows) {
+			connection.query('SELECT tr.*, t.*, u.* FROM traveler_request tr JOIN traveler t on t.email_address = tr.traveler_email_address LEFT OUTER JOIN user u on tr.Assigned_User = u.id WHERE tr.id = ?', [requestId], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to find a request with id " + requestId);
@@ -190,24 +202,36 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 					// no error is thrown
 					if (rows.length != 0) {
 						var request = {
-							id: requestId,
-							status: rows[0].status,
-							date: rows[0].request_date,
-							revenue: rows[0].revenue,
-							profit: rows[0].profit,
-							comments: rows[0].comments,
-							userFullName: rows[0].full_name,
+							id: rows[0].Id,
+							date: rows[0].Date,
+							status: rows[0].Status,
+							revenue: rows[0].Revenue,
+							profit: rows[0].Profit,
+							comments: rows[0].Comments,
 							traveler: {
 								name: rows[0].name,
 								mobile: rows[0].mobile,
 								emailAddress: rows[0].email_address,
 								dateOfBirth: rows[0].date_of_birth,
 							},
-							questionAnswers: [],
-							mailsHistory: []
+							departureDate: rows[0].Departure_Date,
+							returnDate: rows[0].Return_Date,
+							flexibleDates: rows[0].Flexible_Dates,
+							leavingCountry: rows[0].Leaving_Country,
+							firstCountry: rows[0].First_Country,
+							secondCountry: rows[0].Second_Country,
+							thirdCountry: rows[0].Third_Country,
+							travelPurpose: rows[0].Travel_Purpose,
+							numberOfTravelers: rows[0].Number_Of_Travelers,
+							budgetCategory: rows[0].Budget_Category,
+							budget: rows[0].Budget,
+							visaAssistanceNeeded: rows[0].Visa_Assistance_Needed,
+							tourGuideNeeded: rows[0].Tour_Guide_Needed,
+							interests: [],
+							mailsHistory: [],
 						};
 						// get the questions answers
-						connection.query('SELECT * FROM hws.traveler_question_answer JOIN hws.question ON id = question_id WHERE traveler_request_id = ?', [requestId], function (itemsErr, itemsRows) {
+						connection.query('SELECT * FROM traveler_interests WHERE Request_Id = ? ORDER BY Interest_Id', [requestId], function (itemsErr, itemsRows) {
 							// if an error is thrown, end the connection and throw an error
 							if (itemsErr) {
 								console.log("An error occurred while trying to find the question answers of request with id " + requestId);
@@ -217,18 +241,14 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							} else {
 
 								for (var i = 0; i < itemsRows.length; i++) {
-									var questionAnswer = {
-										question: {
-											text: itemsRows[i].text,
-										},
-										answer: {
-											answer: itemsRows[i].answer,
-										}
+									var interest = {
+										id: itemsRows[i].Interest_Id,
+										percentage: itemsRows[i].Percentage
 									};
-									request.questionAnswers.push(questionAnswer);
+									request.interests.push(interest);
 								}
 								// get mail history
-								connection.query('SELECT * FROM hws.traveler_mail_history WHERE Email = ?', [request.traveler.emailAddress], function (mailsErr, mailsRows) {
+								connection.query('SELECT * FROM traveler_mail_history WHERE Email = ?', [request.traveler.emailAddress], function (mailsErr, mailsRows) {
 									// if an error is thrown, end the connection and throw an error
 									if (itemsErr) {
 										console.log("An error occurred while trying to find the question answers of request with id " + requestId);
@@ -272,7 +292,7 @@ var updateRequest = function (request, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			var statement = 'UPDATE hws.traveler_request SET comments = ' + connection.escape(request.comments);
+			var statement = 'UPDATE traveler_request SET comments = ' + connection.escape(request.comments);
 			statement += ', revenue = ' + request.revenue;
 			statement += ', profit = ' + request.profit;
 			statement += ' WHERE id = ?';
@@ -308,7 +328,7 @@ var modifyRequestStatusById = function (orderId, status, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			var statement = 'UPDATE hws.traveler_request SET status = ' + connection.escape(status);
+			var statement = 'UPDATE traveler_request SET status = ' + connection.escape(status);
 
 			statement += ' WHERE id = ?';
 			connection.query(statement, [orderId], function (err, rows) {
@@ -343,7 +363,7 @@ var assignRequestToUser = function (requestId, userId, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			var statement = 'UPDATE hws.traveler_request SET assigned_user_id = ' + userId + " WHERE hws.traveler_request.id = " + requestId;
+			var statement = 'UPDATE traveler_request SET Assigned_User = ' + userId + " WHERE traveler_request.id = " + requestId;
 			connection.query(statement, [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				//				connection.end();
@@ -388,7 +408,7 @@ var addNewMailHistory = function (object, onSuccess, onFailure) {
 					object.attachments.forEach(function (attachment) {
 						attachmentFileNames.push(attachment.filename);
 					});
-					connection.query('INSERT INTO hws.traveler_mail_history (Email, Subject, Attachments) values (?, ?, ?)', [object.email, object.subject, JSON.stringify(attachmentFileNames)], function (err, result) {
+					connection.query('INSERT INTO traveler_mail_history (Email, Subject, Attachments) values (?, ?, ?)', [object.email, object.subject, JSON.stringify(attachmentFileNames)], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
