@@ -215,6 +215,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		'flexibleDates': 'Flexible Dates',
 		'leavingCountry': 'Leaving Country',
 		'firstCountryName': 'First Country',
+		'otherCountry': 'Other Country',
 		'secondCountryName': 'Second Country',
 		'thirdCountryName': 'Third Country',
 		'travelPurposeName': 'Travel Purpose',
@@ -285,6 +286,12 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 						return new Date(request.date).getTime() <= new Date($scope.filter.to).getTime();
 					})
 				}
+				response = response.map(function (request) {
+					request.date = request.date.split('T')[0];
+					request.departureDate = request.departureDate.split('T')[0];
+					request.returnDate = request.returnDate.split('T')[0];
+					return request;
+				});
 				$scope.currentOrders = response;
 				$scope.excelCurrentOrders = response.map(request => {
 					request.firstCountryName = request.firstCountry ? $scope.countries.find(country => country.id === request.firstCountry).en_name : '';
@@ -462,6 +469,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$http.get($rootScope.serverURL + "/request/" + requestId).success(
 			function (response) {
 				$scope.loading = false;
+				response.date = response.date.split('T')[0];
+				response.departureDate = response.departureDate.split('T')[0];
+				response.returnDate = response.returnDate.split('T')[0];
 				$scope.currentOrder = response;
 			}
 		).error(function (err) {

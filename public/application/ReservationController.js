@@ -124,6 +124,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.request.first_country = $scope.selectedDestinations[0];
 		$scope.request.second_country = $scope.selectedDestinations[1] || 0;
 		$scope.request.third_country = $scope.selectedDestinations[2] || 0;
+		$scope.request.other_country = $scope.selectedOtherDestinations;
 		$scope.request.travel_purpose = $scope.selectedPurpose.id;
 		$scope.request.number_of_travelers = $scope.numberOfTravelers;
 		$scope.request.budget_category = $scope.selectedBudgetCategory.id;

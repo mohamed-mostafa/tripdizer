@@ -191,7 +191,7 @@
                                                                         <button class="add-btn" ng-click="removeThirdDestination();" style="margin-top: 20px;" type="button">-</button>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="otherCountries" name="otherCountries" ng-show="selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other' || selectedDestinations[2] == 'other'"
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="selectedDestinations[0] === '1' || selectedDestinations[1] === '1' || selectedDestinations[2] === '1'"
                                                                         />
                                                                         <label for="otherCountries">Specify other countries</label>
                                                                     </div>
@@ -459,7 +459,8 @@
                                                                     <h3 class="bold tittle">
                                                                         <span class="txt left">To</span>
                                                                         <span class=" normal value">{{countries[$scope.selectedDestinations[0]]}}, {{countries[$scope.selectedDestinations[1]]}},
-                                                                            {{countries[$scope.selectedDestinations[2]]}}</span>
+                                                                            {{countries[$scope.selectedDestinations[2]]}}
+                                                                        </span>
 
                                                                     </h3>
                                                                 </div>

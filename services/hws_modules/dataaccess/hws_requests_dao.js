@@ -23,8 +23,8 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Travelers`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Comments`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-						[request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_travelers, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.specialRequests],
+					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Travelers`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Comments`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+						[request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_travelers, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.specialRequests],
 						function (err, result) {
 							// if an error is thrown, end the connection and throw an error
 							if (err) { // if the first insert statement fails
@@ -117,6 +117,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								flexibleDates: rows[i].Flexible_Dates,
 								leavingCountry: rows[i].Leaving_Country,
 								firstCountry: rows[i].First_Country,
+								otherCountry: rows[i].Other_Country,
 								secondCountry: rows[i].Second_Country,
 								thirdCountry: rows[i].Third_Country,
 								travelPurpose: rows[i].Travel_Purpose,
@@ -223,6 +224,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							flexibleDates: rows[0].Flexible_Dates,
 							leavingCountry: rows[0].Leaving_Country,
 							firstCountry: rows[0].First_Country,
+							otherCountry: rows[0].Other_Country,
 							secondCountry: rows[0].Second_Country,
 							thirdCountry: rows[0].Third_Country,
 							travelPurpose: rows[0].Travel_Purpose,
@@ -296,26 +298,24 @@ var updateRequest = function (request, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			var statement = 'UPDATE traveler_request SET comments = ' + connection.escape(request.comments);
-			statement += ', revenue = ' + request.revenue;
-			statement += ', profit = ' + request.profit;
-			statement += ' WHERE id = ?';
-			connection.query(statement, [request.id], function (err, rows) {
-				// if an error is thrown, end the connection and throw an error
-				//				connection.end();
-				if (err) {
-					console.log("An error occurred while trying to set a comment to a request with id " + request.id);
-					console.log(err);
-					connection.rollback();
-					connection.end();
-					onFailure(err);
-				} else {
-					// no error is thrown
-					connection.commit();
-					connection.end();
-					onSuccess();
-				}
-			});
+			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Travelers` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Comments` = ? WHERE Id = ?',
+				[new Date(request.departureDate), new Date(request.returnDate), request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfTravelers, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.comments || '', request.id],
+				function (err, rows) {
+					// if an error is thrown, end the connection and throw an error
+					//				connection.end();
+					if (err) {
+						console.log("An error occurred while trying to set a comment to a request with id " + request.id);
+						console.log(err);
+						connection.rollback();
+						connection.end();
+						onFailure(err);
+					} else {
+						// no error is thrown
+						connection.commit();
+						connection.end();
+						onSuccess();
+					}
+				});
 		}
 	});
 };

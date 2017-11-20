@@ -209,7 +209,7 @@
                                                                         <button class="add-btn" ng-click="removeThirdDestination();" style="margin-top: 20px;" type="button">-</button>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="otherCountries" name="otherCountries" ng-show="selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other' || selectedDestinations[2] == 'other'"
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other' || selectedDestinations[2] == 'other'"
                                                                         />
                                                                         <label for="otherCountries" style="direction:rtl">حدد بلدان اخري</label>
                                                                     </div>
@@ -484,7 +484,8 @@
                                                                         <span class="txt ">من</span>
                                                                     </h3>
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" normal value">{{countries[$scope.selectedDestinations[0]]}}, {{countries[$scope.selectedDestinations[1]]}}, {{countries[$scope.selectedDestinations[2]]}}</span>
+                                                                        <span class=" normal value">{{countries[$scope.selectedDestinations[0]]}}, {{countries[$scope.selectedDestinations[1]]}},
+                                                                            {{countries[$scope.selectedDestinations[2]]}}</span>
                                                                         <span class="txt ">الي</span>
                                                                     </h3>
                                                                 </div>
