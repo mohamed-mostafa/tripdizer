@@ -154,7 +154,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 };
 
 
-var getRequestSummariesCountByStatus = function (statuses, onSuccess, onFailure) {
+var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, onFailure) {
 	// get a connection and open it
 	var connection = daoUtilities.createConnection();
 	connection.connect(function (err) {
@@ -163,8 +163,12 @@ var getRequestSummariesCountByStatus = function (statuses, onSuccess, onFailure)
 			console.log(err);
 			onFailure(err);
 		} else {
+			var query = "";
+			if (filter.from) query += " AND Date > '" + filter.from + "'";
+			if (filter.to) query += " AND Date <= '" + filter.to + "'";
+			console.log(query);
 			// execute the query
-			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit FROM traveler_request WHERE status IN (?)', [statuses], function (err, rows) {
+			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit FROM traveler_request WHERE status IN (?)' + query, [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to count order summaries with statuses " + statuses);

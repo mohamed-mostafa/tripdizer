@@ -59,7 +59,8 @@ var getRequestSummariesCount = function (req, res) {
 	try {
 		// call the business function and give it a callback function 
 		var statuses = req.query.statuses;
-		requestsBusiness.getRequestSummariesCount(statuses.split(','), function (response) {
+		var filter = req.query.filter ? JSON.parse(req.query.filter) : {};
+		requestsBusiness.getRequestSummariesCount(statuses.split(','), filter, function (response) {
 			res.json(response);
 		},
 			function (error) {

@@ -224,6 +224,16 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		'isVisaAssistanceNeeded': 'Visa Assistance Needed',
 		'isTourGuideNeeded': 'Tour Guide Needed',
 	};
+	$scope.currentRequest = "New";
+	$scope.filter = {};
+	$scope.$watch("filter.from", function () {
+		$scope.refreshOrders($scope.currentRequest);
+		$scope.refreshContent();
+	})
+	$scope.$watch("filter.to", function () {
+		$scope.refreshOrders($scope.currentRequest);
+		$scope.refreshContent();
+	});
 
 	// functions
 	$scope.refreshOrdersCount = function (title) {
@@ -238,7 +248,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		}
 		var index = $scope.statuses.findIndex(state => state.title === title);
 		$scope.statuses[index].refresh = true;
-		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + query).success(
+		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + query + "&filter=" + JSON.stringify($scope.filter)).success(
 			function (response) {
 				if (!response.count) response.count = 0;
 				if (!response.revenue) response.revenue = 0;
@@ -255,6 +265,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		});
 	};
 	$scope.refreshOrders = function (request) {
+		$scope.currentRequest = request;
 		$scope.refreshingOrders = true;
 		$scope.collapseAdvancedSearchIfExpanded();
 
@@ -264,6 +275,16 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses=" + request).success(
 			function (response) {
+				if ($scope.filter.from) {
+					response = response.filter(function (request) {
+						return new Date(request.date).getTime() > new Date($scope.filter.from).getTime();
+					})
+				}
+				if ($scope.filter.to) {
+					response = response.filter(function (request) {
+						return new Date(request.date).getTime() <= new Date($scope.filter.to).getTime();
+					})
+				}
 				$scope.currentOrders = response;
 				$scope.excelCurrentOrders = response.map(request => {
 					request.firstCountryName = request.firstCountry ? $scope.countries.find(country => country.id === request.firstCountry).en_name : '';
@@ -529,7 +550,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$scope.interests = interests;
 	});
 
-	$scope.refreshOrders("New");
+	$scope.refreshOrders($scope.currentRequest);
 }]);
 
 g2gControlCenterApplication.directive('ngFileModel', ['$parse', function ($parse) {
