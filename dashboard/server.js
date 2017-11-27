@@ -33,6 +33,9 @@ var start = function () {
 	app.get('/admin/partners', function(req, res) {
 		res.render('pages/partners');
 	});
+	app.get('/admin/countries', function(req, res) {
+		res.render('pages/countries');
+	});
 	
 	// routes end
 	var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";

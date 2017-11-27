@@ -17,7 +17,7 @@ var getUserByUsername = function(username, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM hws.user WHERE username = ?', [username], function(err, rows) {
+			connection.query('SELECT * FROM user WHERE username = ?', [username], function(err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -65,7 +65,7 @@ var getUserById = function(id, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM hws.user WHERE id = ?', [id], function(err, rows) {
+			connection.query('SELECT * FROM user WHERE id = ?', [id], function(err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -122,7 +122,7 @@ var createNewUser = function(user, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO hws.user (username, password, full_name, phone, active) values (?, ?, ?, ?, ?)', [user.username, user.password, user.fullName, user.phone, 1], function(err, result) {
+					connection.query('INSERT INTO user (username, password, full_name, phone, active) values (?, ?, ?, ?, ?)', [user.username, user.password, user.fullName, user.phone, 1], function(err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
@@ -169,7 +169,7 @@ var updateExistingUser = function(user, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('UPDATE hws.user SET password = ?, full_name= ?, phone= ?, active= ? WHERE id=?', [user.password, user.fullName, user.phone, user.active, user.id], function(err, result) {
+					connection.query('UPDATE user SET password = ?, full_name= ?, phone= ?, active= ? WHERE id=?', [user.password, user.fullName, user.phone, user.active, user.id], function(err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing user: " + user.username);
@@ -203,7 +203,7 @@ var getAllUsers = function(onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM hws.user', [], function(err, rows) {
+			connection.query('SELECT * FROM user', [], function(err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection

@@ -119,14 +119,6 @@
             });
         });
         /**************************change active nav on scroll E*************************/
-        $(".budget-options").click(function () {
-            if ($('#budget4').is(':checked')) {
-                $("#your-budget").removeClass("hidden");
-            }
-            else {
-                $("#your-budget").addClass("hidden");
-            }
-        });
         var toDestinationContent = '<div class="row col s12 noPadding toDestinationField">' + '<div class="input-field col s11">' + '<select class="to-destination">' + ' <option value="" disabled selected>To</option>' + ' <option onclick="alert();" value="1" data-latlng="35.861660,104.195397">China</option>' + '  <option value="2" data-latlng="6.550080,-72.383340">Mosco</option>' + '  <option value="3" data-latlng="38.963745,35.243322">Turkey</option>' + ' </select>' + ' </div>' + ' <div class="col s1">' + '    <button class="remove-btn" type="button">-</button>' + ' </div>' + ' </div>';
         $(".add-btn").click(function () {
             $(toDestinationContent).appendTo("#lcationPickupContainer");

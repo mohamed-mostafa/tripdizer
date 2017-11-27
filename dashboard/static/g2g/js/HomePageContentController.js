@@ -2,7 +2,7 @@
  * 
  */
 
-g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', function ($rootScope, $scope, $http, $location) {
+g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService) {
 	// fields
 	$scope.statuses = [
 		{
@@ -204,15 +204,37 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		'comments': 'Comments',
 		'revenue': 'Revenue',
 		'profit': 'Profit',
-		'questionAnswers.0.answer': 'Desinations',
-		'questionAnswers.1.answer': 'Dates',
-		'questionAnswers.2.answer': 'Type',
-		'questionAnswers.3.answer': 'Budget',
-		'questionAnswers.4.answer': 'Interests',
-		'questionAnswers.5.answer': 'Visa Assistant',
-		'questionAnswers.6.answer': 'Tour Guide',
-		'questionAnswers.7.answer': 'Special Requests'
+		'interests.0.percentage': 'Activities',
+		'interests.1.percentage': 'History',
+		'interests.2.percentage': 'Nightlife',
+		'interests.3.percentage': 'Beaches',
+		'interests.4.percentage': 'Nature',
+		'interests.5.percentage': 'Shopping',
+		'departureDate': 'Departure Date',
+		'returnDate': 'Return Date',
+		'flexibleDates': 'Flexible Dates',
+		'leavingCountry': 'Leaving Country',
+		'firstCountryName': 'First Country',
+		'otherCountry': 'Other Country',
+		'secondCountryName': 'Second Country',
+		'thirdCountryName': 'Third Country',
+		'travelPurposeName': 'Travel Purpose',
+		'numberOfTravelers': 'Number Of Travelers',
+		'budgetCategoryName': 'Budget Category',
+		'budget': 'Budget',
+		'isVisaAssistanceNeeded': 'Visa Assistance Needed',
+		'isTourGuideNeeded': 'Tour Guide Needed',
 	};
+	$scope.currentRequest = "New";
+	$scope.filter = {};
+	$scope.$watch("filter.from", function () {
+		$scope.refreshOrders($scope.currentRequest);
+		$scope.refreshContent();
+	})
+	$scope.$watch("filter.to", function () {
+		$scope.refreshOrders($scope.currentRequest);
+		$scope.refreshContent();
+	});
 
 	// functions
 	$scope.refreshOrdersCount = function (title) {
@@ -227,7 +249,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		}
 		var index = $scope.statuses.findIndex(state => state.title === title);
 		$scope.statuses[index].refresh = true;
-		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + query).success(
+		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + query + "&filter=" + JSON.stringify($scope.filter)).success(
 			function (response) {
 				if (!response.count) response.count = 0;
 				if (!response.revenue) response.revenue = 0;
@@ -244,16 +266,47 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		});
 	};
 	$scope.refreshOrders = function (request) {
+		$scope.currentRequest = request;
 		$scope.refreshingOrders = true;
 		$scope.collapseAdvancedSearchIfExpanded();
-		
+
 		if (request === 'Total') {
 			request = $scope.total.title;
 		}
-		
+
 		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses=" + request).success(
 			function (response) {
+				if ($scope.filter.from) {
+					response = response.filter(function (request) {
+						return new Date(request.date).getTime() > new Date($scope.filter.from).getTime();
+					})
+				}
+				if ($scope.filter.to) {
+					response = response.filter(function (request) {
+						return new Date(request.date).getTime() <= new Date($scope.filter.to).getTime();
+					})
+				}
+				response = response.map(function (request) {
+					request.date = request.date.split('T')[0];
+					request.departureDate = request.departureDate.split('T')[0];
+					request.returnDate = request.returnDate.split('T')[0];
+					return request;
+				});
 				$scope.currentOrders = response;
+				$scope.excelCurrentOrders = response.map(request => {
+					request.firstCountryName = request.firstCountry ? $scope.countries.find(country => country.id === request.firstCountry).en_name : '';
+					request.secondCountryName = request.secondCountry ? $scope.countries.find(country => country.id === request.secondCountry).en_name : '';
+					request.thirdCountryName = request.thirdCountry ? $scope.countries.find(country => country.id === request.thirdCountry).en_name : '';
+					request.budgetCategoryName = request.budgetCategory ? $scope.budgetCategories.find(country => country.id === request.budgetCategory).en_name : '';
+					request.travelPurposeName = request.travelPurpose ? $scope.purposes.find(country => country.id === request.travelPurpose).en_name : '';
+					request.isVisaAssistanceNeeded = request.visaAssistanceNeeded === 1 ? 'True' : 'False';
+					request.isTourGuideNeeded = request.tourGuideNeeded === 1 ? 'True' : 'False';
+					request.interests = request.interests.map(interest => {
+						interest.name = $scope.interests.find(i => i.id === interest.id).en_name;
+						return interest;
+					});
+					return request
+				});
 				$scope.refreshingOrders = false;
 			}
 		).error(function (err) {
@@ -407,7 +460,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	$scope.refreshContent = function () {
 		for (var i = 0; i < $scope.statuses.length; ++i) $scope.refreshOrdersCount($scope.statuses[i].title);
-//		$scope.refreshRegisteredUsersCount();
+		//		$scope.refreshRegisteredUsersCount();
 	};
 	$scope.openFullDetailsDialog = function (requestId) {
 		$scope.loading = true;
@@ -416,6 +469,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$http.get($rootScope.serverURL + "/request/" + requestId).success(
 			function (response) {
 				$scope.loading = false;
+				response.date = response.date.split('T')[0];
+				response.departureDate = response.departureDate.split('T')[0];
+				response.returnDate = response.returnDate.split('T')[0];
 				$scope.currentOrder = response;
 			}
 		).error(function (err) {
@@ -484,10 +540,27 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.refreshContent(); // refresh once
 	$scope.getAllUsers();
 	$scope.total.title = [];
-	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title);
-	$scope.refreshOrders("New"); // initialize by loading the 'New' orders
+	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title); // initialize by loading the 'New' orders
 	window.setInterval($scope.refreshContent, 30000); // set the timer
 	window.setInterval($scope.refreshLocations, 5000); // set the timer
+
+	CountriesService.getAll().then(function (countries) {
+		$scope.countries = countries;
+	});
+
+	PurposesService.getAll().then(function (purposes) {
+		$scope.purposes = purposes;
+	});
+
+	BudgetCategoriesService.getAll().then(function (budgetCategories) {
+		$scope.budgetCategories = budgetCategories;
+	});
+
+	InterestsService.getAll().then(function (interests) {
+		$scope.interests = interests;
+	});
+
+	$scope.refreshOrders($scope.currentRequest);
 }]);
 
 g2gControlCenterApplication.directive('ngFileModel', ['$parse', function ($parse) {
@@ -519,12 +592,11 @@ g2gControlCenterApplication.directive('ngFileModel', ['$parse', function ($parse
 		}
 	};
 }]);
-
 g2gControlCenterApplication.directive('exportExcel', function () {
 	return {
 		restrict: 'AE',
 		scope: {
-			data : '=',
+			data: '=',
 			filename: '=?',
 			reportFields: '='
 		},
@@ -534,8 +606,8 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 			var fields = [];
 			var header = [];
 
-			angular.forEach(scope.reportFields, function(field, key) {
-				if(!field || !key) {
+			angular.forEach(scope.reportFields, function (field, key) {
+				if (!field || !key) {
 					throw new Error('error json report fields');
 				}
 
@@ -543,11 +615,11 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 				header.push(field);
 			});
 
-			element.bind('click', function() {
+			element.bind('click', function () {
 				var bodyData = _bodyData();
 				var strData = _convertToExcel(bodyData);
 
-				var blob = new Blob([strData], {type: "text/plain;charset=utf-8"});
+				var blob = new Blob([strData], { type: "text/plain;charset=utf-8" });
 
 				return saveAs(blob, [scope.filename + '.xls']);
 			});
@@ -555,16 +627,16 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 			function _bodyData() {
 				var data = scope.data;
 				var body = "";
-				angular.forEach(data, function(dataItem) {
+				angular.forEach(data, function (dataItem) {
 					var rowItems = [];
 
-					angular.forEach(fields, function(field) {
-						if(field.indexOf('.')) {
+					angular.forEach(fields, function (field) {
+						if (field.indexOf('.')) {
 							field = field.split(".");
 							var curItem = dataItem;
 
 							// deep access to obect property
-							angular.forEach(field, function(prop){
+							angular.forEach(field, function (prop) {
 								if (curItem !== null && curItem !== undefined) {
 									curItem = curItem[prop];
 								}
@@ -583,8 +655,8 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 						}
 
 						if (fieldValue !== undefined) {
-							fieldValue = fieldValue.toString().replace(/,/g , " ");
-							fieldValue = fieldValue.toString().replace(/\n/g , " ");
+							fieldValue = fieldValue.toString().replace(/,/g, " ");
+							fieldValue = fieldValue.toString().replace(/\n/g, " ");
 						}
 
 						rowItems.push(fieldValue);
@@ -602,7 +674,7 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 
 			function _objectToString(object) {
 				var output = '';
-				angular.forEach(object, function(value, key) {
+				angular.forEach(object, function (value, key) {
 					output += key + ':' + value + ' ';
 				});
 
