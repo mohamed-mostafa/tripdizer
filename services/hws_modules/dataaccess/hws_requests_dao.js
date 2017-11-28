@@ -39,7 +39,7 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 								request.id = result.insertId;
 								// insert the answers
 								if (request.interests.length > 0) {
-									var batchInsertStatement = "INSERT INTO `traveler_interests` (`Interest_Id`, `Request_Id`, `Percentage`) VALUES (" + connection.escape(request.interests[0].id) + ", " + request.id + ", " + connection.escape(request.interests[0].percentage) + ")";
+									var batchInsertStatement = "INSERT INTO `Traveler_Interests` (`Interest_Id`, `Request_Id`, `Percentage`) VALUES (" + connection.escape(request.interests[0].id) + ", " + request.id + ", " + connection.escape(request.interests[0].percentage) + ")";
 									for (var i = 1; i < request.interests.length; ++i) {
 										// for each other answer, 
 										batchInsertStatement += ", (" + connection.escape(request.interests[i].id) + ", " + request.id + ", " + connection.escape(request.interests[i].percentage) + ")";
@@ -86,7 +86,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT tr.*, t.*, ti.Interest_Id, ti.Percentage AS Interset_Percentage, u.full_name FROM traveler_request tr JOIN traveler t on t.email_address = tr.Traveler_Email_Address LEFT OUTER JOIN user u on tr.Assigned_User = u.id JOIN `traveler_interests` ti ON tr.Id = ti.Request_Id WHERE tr.Status in (?) ORDER BY tr.Date DESC, ti.Interest_Id', [statuses], function (err, rows) {
+			connection.query('SELECT tr.*, t.*, ti.Interest_Id, ti.Percentage AS Interset_Percentage, u.full_name FROM traveler_request tr JOIN traveler t on t.email_address = tr.Traveler_Email_Address LEFT OUTER JOIN user u on tr.Assigned_User = u.id JOIN `Traveler_Interests` ti ON tr.Id = ti.Request_Id WHERE tr.Status in (?) ORDER BY tr.Date DESC, ti.Interest_Id', [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to find requests with statuses " + statuses);
@@ -237,7 +237,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							mailsHistory: [],
 						};
 						// get the questions answers
-						connection.query('SELECT * FROM traveler_interests WHERE Request_Id = ? ORDER BY Interest_Id', [requestId], function (itemsErr, itemsRows) {
+						connection.query('SELECT * FROM Traveler_Interests WHERE Request_Id = ? ORDER BY Interest_Id', [requestId], function (itemsErr, itemsRows) {
 							// if an error is thrown, end the connection and throw an error
 							if (itemsErr) {
 								console.log("An error occurred while trying to find the question answers of request with id " + requestId);

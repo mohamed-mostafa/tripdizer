@@ -14,7 +14,7 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM interests WHERE id = ?', [id], function (err, rows) {
+			connection.query('SELECT * FROM Interests WHERE id = ?', [id], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -73,7 +73,7 @@ var create = function (interest, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO interests (EN_Name, AR_Name) values (?, ?)', [interest.en_name, interest.ar_name], function (err, result) {
+					connection.query('INSERT INTO Interests (EN_Name, AR_Name) values (?, ?)', [interest.en_name, interest.ar_name], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
@@ -120,7 +120,7 @@ var update = function (interest, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('UPDATE interests SET EN_Name = ?, AR_Name = ?', [interest.en_name, interest.ar_name, interest.id], function (err, result) {
+					connection.query('UPDATE Interests SET EN_Name = ?, AR_Name = ?', [interest.en_name, interest.ar_name, interest.id], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing interest: " + interest.en_name);
@@ -154,7 +154,7 @@ var getAll = function (lang, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM interests', [], function (err, rows) {
+			connection.query('SELECT * FROM Interests', [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection

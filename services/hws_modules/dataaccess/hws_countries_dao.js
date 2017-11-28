@@ -14,7 +14,7 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM countries WHERE id = ?', [id], function (err, rows) {
+			connection.query('SELECT * FROM Countries WHERE id = ?', [id], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -80,7 +80,7 @@ var create = function (country, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO countries (EN_Name, EN_Description, AR_Name, AR_Description, Thumbnail, Latitude, Longitude, Budget_Category, Travel_Purpose) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [country.en_name, country.en_description, country.ar_name, country.ar_description, country.thumbnail, country.lat, country.lng, country.budget, country.purpose], function (err, result) {
+					connection.query('INSERT INTO Countries (EN_Name, EN_Description, AR_Name, AR_Description, Thumbnail, Latitude, Longitude, Budget_Category, Travel_Purpose) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [country.en_name, country.en_description, country.ar_name, country.ar_description, country.thumbnail, country.lat, country.lng, country.budget, country.purpose], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
@@ -127,7 +127,7 @@ var update = function (country, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('UPDATE countries SET EN_Name = ?, EN_Description = ?, AR_Name = ?, AR_Description = ?, Thumbnail = ?, Latitude = ?, Longitude = ?, Budget_Category = ?, Travel_Purpose = ? WHERE Id = ?', [country.en_name, country.en_description, country.ar_name, country.ar_description, country.thumbnail, country.lat, country.lng, country.budget, country.purpose, country.id], function (err, result) {
+					connection.query('UPDATE Countries SET EN_Name = ?, EN_Description = ?, AR_Name = ?, AR_Description = ?, Thumbnail = ?, Latitude = ?, Longitude = ?, Budget_Category = ?, Travel_Purpose = ? WHERE Id = ?', [country.en_name, country.en_description, country.ar_name, country.ar_description, country.thumbnail, country.lat, country.lng, country.budget, country.purpose, country.id], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing country: " + country.en_name);
@@ -161,7 +161,7 @@ var getAll = function (lang, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM countries', [], function (err, rows) {
+			connection.query('SELECT * FROM Countries', [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
