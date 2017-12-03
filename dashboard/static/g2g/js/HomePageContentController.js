@@ -10,6 +10,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'red',
 			watermark: 'bell',
@@ -21,6 +22,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'red',
 			watermark: 'gear',
@@ -32,6 +34,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'white',
 			watermark: 'checkmark',
@@ -43,6 +46,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'yellow',
 			watermark: 'gear',
@@ -54,6 +58,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'yellow',
 			watermark: 'gear',
@@ -65,6 +70,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'yellow',
 			watermark: 'gear',
@@ -76,6 +82,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'yellow',
 			watermark: 'gear',
@@ -87,6 +94,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'yellow',
 			watermark: 'gear',
@@ -98,6 +106,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'yellow',
 			watermark: 'gear',
@@ -109,6 +118,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'gray-active',
 			watermark: 'gray',
@@ -120,6 +130,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'gray-active',
 			watermark: 'gear',
@@ -131,6 +142,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'gray-active',
 			watermark: 'gear',
@@ -142,6 +154,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'gray-active',
 			watermark: 'purple',
@@ -153,6 +166,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'green-gradient',
 			watermark: 'gear',
@@ -164,6 +178,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			count: 0,
 			revenue: 0,
 			profit: 0,
+			numberOfTravelers: 0,
 			refresh: false,
 			color: 'green-active',
 			watermark: 'checkmark',
@@ -172,7 +187,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		}
 	];
 	$scope.currentOrders = [];
-	$scope.total = { title: '', count: 0, revenue: 0, profit: 0 };
+	$scope.total = { title: '', count: 0, revenue: 0, profit: 0, numberOfTravelers: 0 };
 	$scope.refreshingOrders = false;
 	$scope.markingOrder = false;
 	$scope.currentOrder = null;
@@ -234,9 +249,11 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 				if (!response.count) response.count = 0;
 				if (!response.revenue) response.revenue = 0;
 				if (!response.profit) response.profit = 0;
+				if (!response.numberOfTravelers) response.numberOfTravelers = 0;
 				$scope.statuses[index].count = response.count;
 				$scope.statuses[index].revenue = response.revenue;
 				$scope.statuses[index].profit = response.profit;
+				$scope.statuses[index].numberOfTravelers = response.numberOfTravelers;
 				$scope.statuses[index].refresh = false;
 				$scope.calculateTotals();
 			}
@@ -316,15 +333,17 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		return list.indexOf(item) > -1;
 	};
 	$scope.calculateTotals = function () {
-		var total = { count: 0, revenue: 0, profit: 0 };
+		var total = { count: 0, revenue: 0, profit: 0, numberOfTravelers: 0 };
 		for (var i = 0, statuses = $scope.statuses; i < statuses.length; ++i) {
 			total.count += statuses[i].count;
 			total.revenue += statuses[i].revenue;
 			total.profit += statuses[i].profit;
+			total.numberOfTravelers += statuses[i].numberOfTravelers;
 		}
 		$scope.total.count = total.count;
 		$scope.total.revenue = total.revenue;
 		$scope.total.profit = total.profit;
+		$scope.total.numberOfTravelers = total.numberOfTravelers;
 	};
 	$scope.refreshRegisteredUsersCount = function () {
 		$scope.refreshingRegisteredUsersCount = true;
