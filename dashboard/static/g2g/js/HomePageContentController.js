@@ -177,18 +177,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.markingOrder = false;
 	$scope.currentOrder = null;
 	$scope.selectedUser = null;
-	$scope.searchCriteria = {
-		restaurant: null,
-		driver: null,
-		customerName: null,
-		customerZipCode: null,
-		customerCity: null,
-		placedAtRange: { from: null, to: null },
-		status: null,
-		rating: null,
-		onTime: false,
-		excludeArchived: false,
-	};
+	$scope.searchCriteria = {};
 	$scope.users = [];
 	$scope.loading = false;
 	$scope.serverError = false;
@@ -226,15 +215,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		'isTourGuideNeeded': 'Tour Guide Needed',
 	};
 	$scope.currentRequest = "New";
-	$scope.filter = {};
-	$scope.$watch("filter.from", function () {
-		$scope.refreshOrders($scope.currentRequest);
-		$scope.refreshContent();
-	})
-	$scope.$watch("filter.to", function () {
-		$scope.refreshOrders($scope.currentRequest);
-		$scope.refreshContent();
-	});
 
 	// functions
 	$scope.refreshOrdersCount = function (title) {
@@ -249,7 +229,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		}
 		var index = $scope.statuses.findIndex(state => state.title === title);
 		$scope.statuses[index].refresh = true;
-		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + query + "&filter=" + JSON.stringify($scope.filter)).success(
+		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + query + "&filter=" + JSON.stringify($scope.searchCriteria)).success(
 			function (response) {
 				if (!response.count) response.count = 0;
 				if (!response.revenue) response.revenue = 0;
@@ -276,16 +256,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses=" + request).success(
 			function (response) {
-				if ($scope.filter.from) {
-					response = response.filter(function (request) {
-						return new Date(request.date).getTime() > new Date($scope.filter.from).getTime();
-					})
-				}
-				if ($scope.filter.to) {
-					response = response.filter(function (request) {
-						return new Date(request.date).getTime() <= new Date($scope.filter.to).getTime();
-					})
-				}
 				response = response.map(function (request) {
 					request.date = request.date.split('T')[0];
 					request.departureDate = request.departureDate.split('T')[0];
@@ -293,20 +263,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 					return request;
 				});
 				$scope.currentOrders = response;
-				$scope.excelCurrentOrders = response.map(request => {
-					request.firstCountryName = request.firstCountry ? $scope.countries.find(country => country.id === request.firstCountry).en_name : '';
-					request.secondCountryName = request.secondCountry ? $scope.countries.find(country => country.id === request.secondCountry).en_name : '';
-					request.thirdCountryName = request.thirdCountry ? $scope.countries.find(country => country.id === request.thirdCountry).en_name : '';
-					request.budgetCategoryName = request.budgetCategory ? $scope.budgetCategories.find(country => country.id === request.budgetCategory).en_name : '';
-					request.travelPurposeName = request.travelPurpose ? $scope.purposes.find(country => country.id === request.travelPurpose).en_name : '';
-					request.isVisaAssistanceNeeded = request.visaAssistanceNeeded === 1 ? 'True' : 'False';
-					request.isTourGuideNeeded = request.tourGuideNeeded === 1 ? 'True' : 'False';
-					request.interests = request.interests.map(interest => {
-						interest.name = $scope.interests.find(i => i.id === interest.id).en_name;
-						return interest;
-					});
-					return request
-				});
+				$scope.originalOrders = response;
+				$scope.searchOrders();
 				$scope.refreshingOrders = false;
 			}
 		).error(function (err) {
@@ -396,29 +354,64 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		});
 	};
 	$scope.searchOrders = function () {
-		$scope.refreshingOrders = true;
-		$http.post($rootScope.serverURL + "/requests/search", { searchCriteria: $scope.searchCriteria }).success(
-			function (response) {
-				$scope.currentOrders = response;
-				$scope.refreshingOrders = false;
-			}
-		).error(function (err) {
-			$scope.currentOrders = [];
-			$scope.refreshingOrders = false;
-		});
-	};
-	$scope.searchOrdersAndExport = function () {
-		$scope.refreshingOrders = true;
-		$http.post($rootScope.serverURL + "/requests/search", { searchCriteria: $scope.searchCriteria }).success(
-			function (response) {
-				$scope.currentOrders = response;
-				$scope.refreshingOrders = false;
-				window.location = $rootScope.serverURL + "/orders/searchAndExport" + "?searchCriteria=" + JSON.stringify($scope.searchCriteria);
-			}
-		).error(function (err) {
-			$scope.currentOrders = [];
-			$scope.refreshingOrders = false;
-		});
+		$scope.currentOrders = $scope.originalOrders;
+		if ($scope.searchCriteria.name) {
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return request.traveler.name.toLowerCase().includes($scope.searchCriteria.name.toLowerCase());
+			})
+		} else delete $scope.searchCriteria.name;
+
+		if ($scope.searchCriteria.from) {
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return new Date(request.date).getTime() > new Date($scope.searchCriteria.from).getTime();
+			})
+		} else delete $scope.searchCriteria.from;
+
+		if ($scope.searchCriteria.to) {
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return new Date(request.date).getTime() <= new Date($scope.searchCriteria.to).getTime();
+			})
+		} else delete $scope.searchCriteria.to;
+
+		if ($scope.searchCriteria.departureDate) {
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return new Date(request.date).getTime() === new Date($scope.searchCriteria.departureDate).getTime();
+			})
+		} else delete $scope.searchCriteria.departureDate;
+
+		if ($scope.searchCriteria.returnDate) {
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return new Date(request.date).getTime() === new Date($scope.searchCriteria.returnDate).getTime();
+			})
+		} else delete $scope.searchCriteria.returnDate;
+
+		if ($scope.searchCriteria.destination) {
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return request.firstCountry == $scope.searchCriteria.destination ||
+					request.secondCountry == $scope.searchCriteria.destination ||
+					request.thirdCountry == $scope.searchCriteria.destination
+			})
+		} else delete $scope.searchCriteria.destination;
+
+		if ($scope.searchCriteria.status) {
+			$scope.currentRequest = $scope.searchCriteria.status;
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return request.status === $scope.searchCriteria.status
+			})
+		} else delete $scope.searchCriteria.status;
+
+		if ($scope.searchCriteria.travelPurpose) {
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return request.travelPurpose == $scope.searchCriteria.travelPurpose
+			})
+		} else delete $scope.searchCriteria.travelPurpose;
+
+		if ($scope.searchCriteria.budgetCategory) {
+			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
+				return request.budgetCategory == $scope.searchCriteria.budgetCategory
+			})
+		} else delete $scope.searchCriteria.budgetCategory;
+		$scope.refreshContent();
 	};
 	$scope.markOrderDelivered = function (order) {
 		$scope.markingOrder = true;
@@ -522,19 +515,19 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	};
 
 	// initialize the date range picker
-	var format = 'MM/DD/YYYY h:mm A';
-	var from = moment().subtract('days', 30);
-	var to = moment();
-	$('#placedTime')[0].value = from.format(format) + " - " + to.format(format);
-	$('#placedTime').daterangepicker({
-		timePicker: true, timePickerIncrement: 30, format: format, startDate: from.format(format),
-		endDate: to.format(format)
-	}, function (start, end) {
-		$scope.searchCriteria.placedAtRange.from = start.toDate();
-		$scope.searchCriteria.placedAtRange.to = end.toDate();
-	});
-	$scope.searchCriteria.placedAtRange.from = from.toDate();
-	$scope.searchCriteria.placedAtRange.to = to.toDate();
+	// var format = 'MM/DD/YYYY h:mm A';
+	// var from = moment().subtract('days', 30);
+	// var to = moment();
+	// $('#placedTime')[0].value = from.format(format) + " - " + to.format(format);
+	// $('#placedTime').daterangepicker({
+	// 	timePicker: true, timePickerIncrement: 30, format: format, startDate: from.format(format),
+	// 	endDate: to.format(format)
+	// }, function (start, end) {
+	// 	$scope.searchCriteria.placedAtRange.from = start.toDate();
+	// 	$scope.searchCriteria.placedAtRange.to = end.toDate();
+	// });
+	// $scope.searchCriteria.placedAtRange.from = from.toDate();
+	// $scope.searchCriteria.placedAtRange.to = to.toDate();
 
 	// refresh the numbers every 30 seconds
 	$scope.refreshContent(); // refresh once
@@ -598,7 +591,11 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 		scope: {
 			data: '=',
 			filename: '=?',
-			reportFields: '='
+			reportFields: '=',
+			countries: '=',
+			budgetCategories: '=',
+			purposes: '=',
+			interests: '='
 		},
 		link: function (scope, element) {
 			scope.filename = !!scope.filename ? scope.filename : 'export-excel';
@@ -625,7 +622,20 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 			});
 
 			function _bodyData() {
-				var data = scope.data;
+				var data = scope.data.map(request => {
+					request.firstCountryName = request.firstCountry && scope.countries ? scope.countries.find(country => country.id === request.firstCountry).en_name : '';
+					request.secondCountryName = request.secondCountry && scope.countries ? scope.countries.find(country => country.id === request.secondCountry).en_name : '';
+					request.thirdCountryName = request.thirdCountry && scope.countries ? scope.countries.find(country => country.id === request.thirdCountry).en_name : '';
+					request.budgetCategoryName = request.budgetCategory && scope.budgetCategories ? scope.budgetCategories.find(country => country.id === request.budgetCategory).en_name : '';
+					request.travelPurposeName = request.travelPurpose && scope.purposes ? scope.purposes.find(country => country.id === request.travelPurpose).en_name : '';
+					request.isVisaAssistanceNeeded = request.visaAssistanceNeeded === 1 ? 'True' : 'False';
+					request.isTourGuideNeeded = request.tourGuideNeeded === 1 ? 'True' : 'False';
+					request.interests = scope.interests ? request.interests.map(interest => {
+						interest.name = scope.interests.find(i => i.id === interest.id).en_name;
+						return interest;
+					}) : [];
+					return request
+				});
 				var body = "";
 				angular.forEach(data, function (dataItem) {
 					var rowItems = [];

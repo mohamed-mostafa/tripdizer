@@ -1,0 +1,88 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Advanced Search</h3>
+        <div class="box-tools pull-right">
+            <button id="collapseExpandBtn" class="btn btn-box-tool" data-widget="collapse">
+                <i id="collapseExpandIcon" class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-8">
+                <label>Request's Traveller Name</label>
+                <input type="text" placeHolder="Search by Traveller Name" class="form-control" ng-model="searchCriteria.name" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <label>Request Placed From</label>
+                <input type="date" ng-model="searchCriteria.from" class="form-control" aria-describedby="basic-from">
+            </div>
+            <div class="col-xs-4">
+                <label>Request Placed To</label>
+                <input type="date" ng-model="searchCriteria.to" class="form-control" aria-describedby="basic-to">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <label>Request Departure Date</label>
+                <input type="date" ng-model="searchCriteria.departureDate" class="form-control" aria-describedby="basic-from">
+            </div>
+            <div class="col-xs-4">
+                <label>Request Return Date</label>
+                <input type="date" ng-model="searchCriteria.returnDate" class="form-control" aria-describedby="basic-to">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <label>Request's Country</label>
+                <select class="form-control" ng-model="searchCriteria.destination">
+                    <option value="">Select Country</option>
+                    <option ng-repeat="country in countries" ng-value="country.id">{{country.en_name}}</option>
+                </select>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Request's Status</label>
+                <select class="form-control" ng-model="searchCriteria.status">
+                    <option value="">Select Status</option>
+                    <option ng-repeat="status in statuses">{{status.title}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <label>Request's Travel Purpose</label>
+                <select class="form-control" ng-model="searchCriteria.travelPurpose">
+                    <option value="">Select Travel Purpose</option>
+                    <option ng-repeat="purpose in purposes" ng-value="purpose.id">{{purpose.en_name}}</option>
+                </select>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Request's Budget Category</label>
+                <select class="form-control" ng-model="searchCriteria.budgetCategory">
+                    <option value="">Select Budget Category</option>
+                    <option ng-repeat="budget in budgetCategories" ng-value="budget.id">{{budget.en_name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 btn-group">
+                <button class="btn btn-default pull-right" ng-click="searchOrders()">Search</button>
+                <button class="btn btn-default pull-right" ng-click="searchOrders()" export-excel data="currentOrders" report-fields="excelFields"
+                    filename="filename" countries="countries" budgetCategories="budgetCategories" purposes="purposes" interests="interests">Search & Export</button>
+                <button class="btn btn-default pull-right" ng-click="searchCriteria = {};searchOrders();">Reset</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.box-body -->
+</div>

@@ -165,9 +165,15 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 			onFailure(err);
 		} else {
 			var query = "";
-			if (filter.from) query += " AND Date > '" + filter.from + "'";
-			if (filter.to) query += " AND Date <= '" + filter.to + "'";
-			console.log(query);
+			// if (filter.name) query += " AND Date > '" + filter.name + "'";
+			if (filter.from) query += " AND `Date` > '" + filter.from + "'";
+			if (filter.to) query += " AND `Date` <= '" + filter.to + "'";
+			if (filter.departureDate) query += " AND `Departure_Date` = '" + filter.departureDate + "'";
+			if (filter.returnDate) query += " AND `Return_Date` = '" + filter.returnDate + "'";
+			if (filter.destination) query += " AND (`First_Country` = '" + filter.destination + "' OR `Second_Country` = '" + filter.destination + "' OR `Third_Country` = '" + filter.destination + "')";
+			// if (filter.status) statuses = [filter.status];
+			if (filter.travelPurpose) query += " AND `Travel_Purpose` = '" + filter.travelPurpose + "'";
+			if (filter.budgetCategory) query += " AND `Budget_Category` = '" + filter.budgetCategory + "'";
 			// execute the query
 			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit FROM traveler_request WHERE status IN (?)' + query, [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
