@@ -375,60 +375,60 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.searchOrders = function () {
 		$scope.currentOrders = $scope.originalOrders;
 		if ($scope.searchCriteria.name) {
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return request.traveler.name.toLowerCase().includes($scope.searchCriteria.name.toLowerCase());
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].traveler.name.toLowerCase().includes($scope.searchCriteria.name.toLowerCase())) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.name;
 
 		if ($scope.searchCriteria.from) {
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return new Date(request.date).getTime() > new Date($scope.searchCriteria.from).getTime();
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).getTime() > new Date($scope.searchCriteria.from).getTime()) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.from;
 
 		if ($scope.searchCriteria.to) {
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return new Date(request.date).getTime() <= new Date($scope.searchCriteria.to).getTime();
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).getTime() <= new Date($scope.searchCriteria.to).getTime()) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.to;
 
 		if ($scope.searchCriteria.departureDate) {
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return new Date(request.date).getTime() === new Date($scope.searchCriteria.departureDate).getTime();
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).getTime() === new Date($scope.searchCriteria.departureDate).getTime()) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.departureDate;
 
 		if ($scope.searchCriteria.returnDate) {
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return new Date(request.date).getTime() === new Date($scope.searchCriteria.returnDate).getTime();
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).getTime() === new Date($scope.searchCriteria.returnDate).getTime()) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.returnDate;
 
 		if ($scope.searchCriteria.destination) {
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return request.firstCountry == $scope.searchCriteria.destination ||
-					request.secondCountry == $scope.searchCriteria.destination ||
-					request.thirdCountry == $scope.searchCriteria.destination
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].firstCountry == $scope.searchCriteria.destination ||
+				$scope.currentOrders[i].secondCountry == $scope.searchCriteria.destination ||
+				$scope.currentOrders[i].thirdCountry == $scope.searchCriteria.destination) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.destination;
 
 		if ($scope.searchCriteria.status) {
 			$scope.currentRequest = $scope.searchCriteria.status;
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return request.status === $scope.searchCriteria.status
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].status === $scope.searchCriteria.status) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.status;
 
 		if ($scope.searchCriteria.travelPurpose) {
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return request.travelPurpose == $scope.searchCriteria.travelPurpose
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].travelPurpose == $scope.searchCriteria.travelPurpose) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.travelPurpose;
 
 		if ($scope.searchCriteria.budgetCategory) {
-			$scope.currentOrders = $scope.currentOrders.filter(function (request) {
-				return request.budgetCategory == $scope.searchCriteria.budgetCategory
-			})
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].budgetCategory == $scope.searchCriteria.budgetCategory) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.budgetCategory;
 		$scope.refreshContent();
 	};
