@@ -54,7 +54,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 3
 		},
 		{
-			title: 'Pending Send to Agencies',
+			title: 'Pending Send to Customer',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -66,7 +66,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 4
 		},
 		{
-			title: 'Pending Send to Customer',
+			title: 'Sent to Customer',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -78,7 +78,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 5
 		},
 		{
-			title: 'Pending Dizer Response',
+			title: 'Follow Up',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -90,7 +90,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 6
 		},
 		{
-			title: 'Pending Agencies Response',
+			title: 'Pending Dizer Response',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -102,7 +102,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 7
 		},
 		{
-			title: 'Sent to Customer',
+			title: 'Pending Agencies Response',
 			count: 0,
 			revenue: 0,
 			profit: 0,
