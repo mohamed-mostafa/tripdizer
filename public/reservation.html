@@ -158,9 +158,9 @@
                                                                         <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[0]">
                                                                             <option value="" disabled selected>And I wish to travel to ...</option>
                                                                             <option disabled class="majorOption">Countries</option>
-                                                                            <option value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}" data-description="{{country.description}}"
-                                                                                ng-repeat="country in countries">{{country.name}}</option>
-                                                                            <option class="majorOption" value="other" ng-hide="selectedDestinations[2] == 'other' || selectedDestinations[1] == 'other'">Other</option>
+                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
+                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
+                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="col s1">
@@ -170,9 +170,9 @@
                                                                         <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[1]">
                                                                             <option value="" disabled selected>And I wish to travel to ...</option>
                                                                             <option disabled class="majorOption">Countries</option>
-                                                                            <option value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}" data-description="{{country.description}}"
-                                                                                ng-repeat="country in countries">{{country.name}}</option>
-                                                                            <option class="majorOption" value="other" ng-hide="selectedDestinations[0] == 'other' || selectedDestinations[2] == 'other'">Other</option>
+                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
+                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
+                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="col s1" ng-show="secondDestinationShown == true">
@@ -182,9 +182,9 @@
                                                                         <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[2]">
                                                                             <option value="" disabled selected>And I wish to travel to ...</option>
                                                                             <option disabled class="majorOption">Countries</option>
-                                                                            <option value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}" data-description="{{country.description}}"
-                                                                                ng-repeat="country in countries">{{country.name}}</option>
-                                                                            <option class="majorOption" value="other" ng-hide="selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other'">Other</option>
+                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
+                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
+                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="col s1" ng-show="thirdDestinationShown == true">
@@ -458,10 +458,9 @@
                                                                     </h3>
                                                                     <h3 class="bold tittle">
                                                                         <span class="txt left">To</span>
-                                                                        <span class=" normal value">{{countries[selectedDestinations[0]].en_name}}, {{countries[selectedDestinations[1]].en_name}},
-                                                                            {{countries[selectedDestinations[2]].en_name}}
+                                                                        <span class=" normal value">
+                                                                                {{selectedDestinations[0] ? countries[selectedDestinations[0] - 1].en_name : ''}}{{selectedDestinations[1] ? ', ' + (selectedDestinations[1] == 1 ? selectedOtherDestinations : countries[selectedDestinations[1] - 1].en_name) : ''}}{{selectedDestinations[2] ? ', ' + (selectedDestinations[2] == 1 ? selectedOtherDestinations : countries[selectedDestinations[2] - 1].en_name) : ''}}
                                                                         </span>
-
                                                                     </h3>
                                                                 </div>
                                                                 <div class="time">
