@@ -459,7 +459,7 @@
                                                                     <h3 class="bold tittle">
                                                                         <span class="txt left">To</span>
                                                                         <span class=" normal value">
-                                                                                {{selectedDestinations[0] ? countries[selectedDestinations[0] - 1].en_name : ''}}{{selectedDestinations[1] ? ', ' + (selectedDestinations[1] == 1 ? selectedOtherDestinations : countries[selectedDestinations[1] - 1].en_name) : ''}}{{selectedDestinations[2] ? ', ' + (selectedDestinations[2] == 1 ? selectedOtherDestinations : countries[selectedDestinations[2] - 1].en_name) : ''}}
+                                                                                {{selectedDestinations[0] ? (selectedDestinations[0] == 1 ? selectedOtherDestinations : countries[selectedDestinations[0] - 1].en_name) : ''}}{{selectedDestinations[1] ? ', ' + (selectedDestinations[1] == 1 ? selectedOtherDestinations : countries[selectedDestinations[1] - 1].en_name) : ''}}{{selectedDestinations[2] ? ', ' + (selectedDestinations[2] == 1 ? selectedOtherDestinations : countries[selectedDestinations[2] - 1].en_name) : ''}}
                                                                         </span>
                                                                     </h3>
                                                                 </div>
