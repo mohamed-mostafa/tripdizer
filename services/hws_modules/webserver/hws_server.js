@@ -344,10 +344,10 @@ var start = function () {
 
 	// routing - end
 
-	var port = process.env.PORT || 8081;
+	var port = process.env.PORT || 8080;
 
 	app.listen(port, function () {
-		console.log('%s: Node server started on %s:%d ...', Date(Date.now()), port);
+		console.log('%s: Node server started on %d ...', Date(Date.now()), port);
 	});
 };
 

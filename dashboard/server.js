@@ -38,10 +38,9 @@ var start = function () {
 	});
 	
 	// routes end
-	var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-    var port      = process.env.OPENSHIFT_NODEJS_PORT || 8081;
-	app.listen(port, ipaddress, function() {
-        console.log('%s: ControlCenter Node server started on %s:%d ...', Date(Date.now() ), ipaddress, port);
+    var port      = process.env.PORT || 8081;
+	app.listen(port, function() {
+        console.log('%s: ControlCenter Node server started on %d ...', Date(Date.now() ), port);
     });
 };
 
