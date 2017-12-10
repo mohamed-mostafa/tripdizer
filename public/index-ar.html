@@ -193,7 +193,7 @@
                     <h6 class="text-bold text-darker">بدءا من 16,660 جنيه</h6>
                   </li>
                   <li>
-                    <a href="#" class="text-bold btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" ng-click="openSubmitGroupTripRequestDialog('South Africa', '25 January, 2018', '31 January, 2018')">سجل الأن</a>
+                    <a href="#" class="text-bold btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" onclick="openSubmitGroupTripRequestDialog('South Africa', '25 January, 2018', '31 January, 2018')">سجل الأن</a>
                   </li>
                 </ul>
               </div>
@@ -586,6 +586,13 @@
   	        scrollTop: $("#upcomingGroupTripsSection").offset().top
   	    }, 2000);
   	});
+    function openSubmitGroupTripRequestDialog(destination, from, to) {
+      jQuery('input[name="trip"]').val(destination);
+      jQuery('input[name="from"]').val(new Date(from).toISOString().substring(0, 10));
+      jQuery('input[name="to"]').val(new Date(to).toISOString().substring(0, 10));
+      jQuery('input[name="date"]').val(new Date().toISOString().substring(0, 10));
+      $('#groupTripsRegistrationModal').modal('show');
+    }
   </script>
 </body>
 
