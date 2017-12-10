@@ -1,0 +1,7 @@
+gcloud sql instances describe tripdizer
+
+gsutil acl ch -u xqu5ykcruzgnvbhbsnmamwgvr4@speckle-umbrella-13.iam.gserviceaccount.com:W gs://feisty-parity-188109.appspot.com
+
+gsutil acl ch -u xqu5ykcruzgnvbhbsnmamwgvr4@speckle-umbrella-13.iam.gserviceaccount.com:R gs://feisty-parity-188109.appspot.com/hws_db_20171210_004300.sql
+
+gcloud sql instances import tripdizer gs://feisty-parity-188109.appspot.com/hws_db_20171210_004300.sql --database hws
