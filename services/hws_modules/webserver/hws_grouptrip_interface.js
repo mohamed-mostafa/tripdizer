@@ -28,58 +28,47 @@ var register = function (req, res) {
 			});
 		}
 		countryBusiness.getAll("", function (countries) {
-			var targetedTrip = null;
-			console.log(countries.length);
-			for (var i = 0; i < countries.length; i++) {
-				console.log(countries[i].en_name);
-				if (countries[i].en_name === trip || countries[i].ar_name === trip) {
-					targetedTrip = countries[i];
-				}
-			}
-			// var targetedTrip = countries.find(country => country.en_name === trip || country.ar_name === trip);
-			if (targetedTrip) {
-				var tripCountry = targetedTrip.id;
-				var request = {
-					traveler: {
-						name: name,
-						mobile: phone,
-						emailAddress: email,
-						dateOfBirth: "",
-					},
-					departure_date: from,
-					return_date: to,
-					flexible_dates: 0,
-					leaving_country: 'Cairo',
-					first_country: tripCountry,
-					second_country: 0,
-					third_country: 0,
-					travel_purpose: 4,
-					number_of_travelers: pex,
-					budget_category: 3,
-					budget: 0,
-					visa_assistance_needed: 1,
-					tour_guide_needed: 1,
-					specialRequests: message,
-					interests: [{ id: 1, percentage: 0 }]
-				};
-				requestBusiness.placeRequest(request, function (request) {
-					// done
-					console.log("Changing status of request: " + request.id);
-					requestBusiness.changeRequestStatus(request.id, "Group Trip", function (resp) {
+			var targetedTrip = 1;
+			for (var i = 0; i < countries.length; i++)
+				if (countries[i].en_name === trip || countries[i].ar_name === trip)
+					targetedTrip = countries[i].id;
+			var request = {
+				traveler: {
+					name: name,
+					mobile: phone,
+					emailAddress: email,
+					dateOfBirth: "",
+				},
+				departure_date: from,
+				return_date: to,
+				flexible_dates: 0,
+				leaving_country: 'Cairo',
+				first_country: targetedTrip,
+				other_country: targetedTrip === 1 ? trip : '',
+				second_country: 0,
+				third_country: 0,
+				travel_purpose: 4,
+				number_of_travelers: pex,
+				budget_category: 3,
+				budget: 0,
+				visa_assistance_needed: 1,
+				tour_guide_needed: 1,
+				specialRequests: message,
+				interests: [{ id: 1, percentage: 0 }]
+			};
+			requestBusiness.placeRequest(request, function (request) {
+				// done
+				console.log("Changing status of request: " + request.id);
+				requestBusiness.changeRequestStatus(request.id, "Group Trip", function (resp) {
 
-					}, function (err) {
-						res.status(500).send("1; HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
-					})
 				}, function (err) {
-					res.status(500).send("2: HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
-				}, function (userErr) {
-					res.status(500).send("3; HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+					res.status(500).send("1; HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
 				})
-			}
-			else {
-				console.log("Not found");
-				res.status(500).send("4: Tripdizer servers are unable to serve your request at this time. We're sorry for the inconvinence.");
-			}
+			}, function (err) {
+				res.status(500).send("2: HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+			}, function (userErr) {
+				res.status(500).send("3; HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+			})
 		},
 			function (error) {
 				res.status(500).send("5: Tripdizer servers are unable to serve your request at this time. We're sorry for the inconvinence.");
