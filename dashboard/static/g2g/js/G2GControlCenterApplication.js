@@ -63,4 +63,17 @@ var g2gControlCenterApplication = angular.module("G2GControlCenterApplication", 
 				return response.data
 			})
 		}
+	}])
+	.factory('ItinerariesService', ['$rootScope', '$http', function ItinerariesService($rootScope, $http) {
+		var prefix = $rootScope.serverURL + '/';
+
+		return {
+			getAll: getAll
+		}
+
+		function getAll() {
+			return $http.get(prefix + 'itineraries').then(function (response) {
+				return response.data
+			})
+		}
 	}]);
