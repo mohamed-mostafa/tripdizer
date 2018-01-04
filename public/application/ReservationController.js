@@ -34,7 +34,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	$scope.plusOrMinusThreeDays = false,
 
-		$scope.numberOfTravelers = 1,
+		$scope.numberOfAdults = 1,
+		$scope.numberOfKids = 1,
+		$scope.numberOfInfants = 1,
 		$scope.otherType = "",
 
 		$scope.secondDestinationShown = false,
@@ -58,7 +60,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	// functions
 	$scope.selectPurpose = function (purpose) {
 		$scope.selectedPurpose = purpose;
-		$scope.numberOfTravelers = purpose.numberOfTravelers;
+		$scope.numberOfAdults = purpose.numberOfAdults;
+		$scope.numberOfKids = purpose.numberOfKids;
+		$scope.numberOfInfants = purpose.numberOfInfants;
 	},
 		$scope.selectBudgetCategory = function (budgetCategory) {
 			$scope.selectedBudgetCategory = budgetCategory;
@@ -126,7 +130,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.request.third_country = $scope.selectedDestinations[2] || 0;
 		$scope.request.other_country = $scope.selectedOtherDestinations;
 		$scope.request.travel_purpose = $scope.selectedPurpose.id;
-		$scope.request.number_of_travelers = $scope.numberOfTravelers;
+		$scope.request.number_of_adults = $scope.numberOfAdults;
+		$scope.request.number_of_kids = $scope.numberOfKids;
+		$scope.request.number_of_infants = $scope.numberOfInfants;
 		$scope.request.budget_category = $scope.selectedBudgetCategory.id;
 		$scope.request.budget = $scope.myOwnBudget;
 		$scope.request.visa_assistance_needed = $scope.needVisaAssistance;

@@ -23,8 +23,8 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Travelers`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Comments`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-						[request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_travelers, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.specialRequests],
+					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Comments`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+						[request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.specialRequests],
 						function (err, result) {
 							// if an error is thrown, end the connection and throw an error
 							if (err) { // if the first insert statement fails
@@ -121,7 +121,9 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								secondCountry: rows[i].Second_Country,
 								thirdCountry: rows[i].Third_Country,
 								travelPurpose: rows[i].Travel_Purpose,
-								numberOfTravelers: rows[i].Number_Of_Travelers,
+								numberOfAdults: rows[i].Number_Of_Adults,
+								numberOfKids: rows[i].Number_Of_Kids,
+								numberOfInfants: rows[i].Number_Of_Infants,
 								budgetCategory: rows[i].Budget_Category,
 								budget: rows[i].Budget,
 								visaAssistanceNeeded: rows[i].Visa_Assistance_Needed,
@@ -175,7 +177,7 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 			if (filter.travelPurpose) query += " AND `Travel_Purpose` = '" + filter.travelPurpose + "'";
 			if (filter.budgetCategory) query += " AND `Budget_Category` = '" + filter.budgetCategory + "'";
 			// execute the query
-			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit, sum(Number_Of_Travelers) as numberOfTravelers FROM traveler_request WHERE status IN (?)' + query, [statuses], function (err, rows) {
+			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit, sum(Number_Of_Adults + Number_Of_Kids + Number_Of_Infants) as numberOfTravelers FROM traveler_request WHERE status IN (?)' + query, [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to count order summaries with statuses " + statuses);
@@ -234,7 +236,9 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							secondCountry: rows[0].Second_Country,
 							thirdCountry: rows[0].Third_Country,
 							travelPurpose: rows[0].Travel_Purpose,
-							numberOfTravelers: rows[0].Number_Of_Travelers,
+							numberOfAdults: rows[0].Number_Of_Adults,
+							numberOfKids: rows[0].Number_Of_Kids,
+							numberOfInfants: rows[0].Number_Of_Infants,
 							budgetCategory: rows[0].Budget_Category,
 							budget: rows[0].Budget,
 							visaAssistanceNeeded: rows[0].Visa_Assistance_Needed,
@@ -304,8 +308,8 @@ var updateRequest = function (request, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Travelers` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Comments` = ?, Revenue = ?, Profit = ? WHERE Id = ?',
-				[new Date(request.departureDate), new Date(request.returnDate), request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfTravelers, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.comments || '', request.revenue, request.profit, request.id],
+			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Comments` = ?, Revenue = ?, Profit = ? WHERE Id = ?',
+				[new Date(request.departureDate), new Date(request.returnDate), request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.comments || '', request.revenue, request.profit, request.id],
 				function (err, rows) {
 					// if an error is thrown, end the connection and throw an error
 					//				connection.end();

@@ -289,8 +289,12 @@
                                     <select class="form-control" id="travelPurpose" ng-model="currentOrder.travelPurpose">
                                       <option ng-repeat="purpose in purposes" ng-value="purpose.id" ng-selected="purpose.id === currentOrder.travelPurpose">{{purpose.en_name}}</option>
                                     </select>
-                                    <label for="numberOfTravelers">Number Of Travelers</label>
-                                    <input type="number" min="1" step="1" class="form-control" id="numberOfTravelers" ng-model="currentOrder.numberOfTravelers">
+                                    <label for="numberOfAdults">Number Of Adults</label>
+                                    <input type="number" min="1" step="1" class="form-control" id="numberOfAdults" ng-model="currentOrder.numberOfAdults">
+                                    <label for="numberOfKids">Number Of Kids</label>
+                                    <input type="number" min="1" step="1" class="form-control" id="numberOfKids" ng-model="currentOrder.numberOfKids">
+                                    <label for="numberOfInfants">Number Of Infants</label>
+                                    <input type="number" min="1" step="1" class="form-control" id="numberOfInfants" ng-model="currentOrder.numberOfInfants">
                                   </div>
                                 </div>
                                 <!-- /.tab-pane -->

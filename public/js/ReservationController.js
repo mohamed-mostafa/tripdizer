@@ -34,7 +34,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	
 	$scope.plusOrMinusThreeDays = false,
 	
-	$scope.numberOfTravelers = 1,
+	$scope.numberOfAdults = 1,
+	$scope.numberOfKids = 1,
+	$scope.numberOfInfants = 1,
 	$scope.otherType = "",
 	
 	$scope.secondDestinationShown = false,
@@ -126,27 +128,39 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	
     // functions
 	$scope.honeymoonSelected = function() {
-		$scope.numberOfTravelers = 2;
+		$scope.numberOfAdults = 2;
+		$scope.numberOfKids = 0;
+		$scope.numberOfInfants = 0;
 		$scope.otherSelected = false;
 	},
 	$scope.soloSelected = function() {
-		$scope.numberOfTravelers = 1;
+		$scope.numberOfAdults = 1;
+		$scope.numberOfKids = 0;
+		$scope.numberOfInfants = 0;
 		$scope.otherSelected = false;
 	},
 	$scope.familySelected = function() {
-		$scope.numberOfTravelers = 3;
+		$scope.numberOfAdults = 2;
+		$scope.numberOfKids = 1;
+		$scope.numberOfInfants = 1;
 		$scope.otherSelected = false;
 	},
 	$scope.groupSelected = function() {
-		$scope.numberOfTravelers = 4;
+		$scope.numberOfAdults = 2;
+		$scope.numberOfKids = 2;
+		$scope.numberOfInfants = 0;
 		$scope.otherSelected = false;
 	},
 	$scope.businessSelected = function() {
-		$scope.numberOfTravelers = 1;
+		$scope.numberOfAdults = 1;
+		$scope.numberOfKids = 0;
+		$scope.numberOfInfants = 0;
 		$scope.otherSelected = false;
 	},
 	$scope.joinGroupSelected = function() {
-		$scope.numberOfTravelers = 4;
+		$scope.numberOfAdults = 2;
+		$scope.numberOfKids = 2;
+		$scope.numberOfInfants = 0;
 		$scope.otherSelected = false;
 	},
 	
