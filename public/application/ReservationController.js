@@ -137,7 +137,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		for (var i = 0, interests = $scope.interests; i < interests.length; ++i)
 			$scope.request.interests.push({ id: interests[i].id, percentage: interests[i].percent || 0 });
 
-		$http.post($rootScope.serverURL + "/request/place", { request: $scope.request }).success(function (response) {
+		$http.put($rootScope.serverURL + "/request/place", { request: $scope.request }).success(function (response) {
 			console.log("Request submitted");
 			$scope.submitting = false;
 			$scope.requestNumber = response.id;
