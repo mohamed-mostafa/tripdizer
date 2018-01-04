@@ -2,9 +2,10 @@
  * 
  */
 
-g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$rootScope', '$scope', '$http', 'ItinerariesService', 'CountriesService', function ($rootScope, $scope, $http, ItinerariesService, CountriesService) {
+g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$rootScope', '$scope', '$http', 'ItinerariesService', 'CountriesService', 'BudgetCategoriesService', function ($rootScope, $scope, $http, ItinerariesService, CountriesService, BudgetCategoriesService) {
 	// fields
 	$scope.countries = [];
+	$scope.budgetCategories = [];
 	$scope.itineraries = [];
 
 	// validation flags
@@ -74,8 +75,6 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 		}
 	};
 	$scope.editItinerary = function (id) {
-		console.log($scope.newItinerary);
-		console.log($scope.newItineraryIsValid());
 		$scope.resetValidationFlags();
 		if ($scope.newItineraryIsValid()) {
 			$scope.saving = true;
@@ -90,27 +89,34 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 					}
 					$scope.saving = false;
 					$scope.editMode = false;
-					$('#addItineraryModal').modal('hide');
+					$('#detailsModal').modal('hide');
 					$scope.newItinerary = {};
+					$scope.serverError = false;
 				}
 				).error(function (err) {
-					$scope.newItinerary = {};
-					$scope.editMode = false;
-					$scope.saving = false;
 					$scope.serverError = true;
 					$scope.serverErrorMessage = "An error occured at the server side: " + err;
 				});
 		}
 	};
-	$scope.openEditDialog = function (id) {
-		$scope.editMode = true;
-		for (var i = 0; i < $scope.itineraries.length; i++) {
-			if ($scope.itineraries[i].id == id) {
-				$scope.newItinerary = { ...$scope.itineraries[i] };
-			}
-		}
+	$scope.openAddDialog = function (id) {
+		$scope.newItinerary = {};
+		$scope.editMode = false;
 		$('#addItineraryModal').modal('show');
 	};
+	$scope.openDetailsDialog = function (id) {
+		$scope.editMode = true;
+		$http.get($rootScope.serverURL + "/itinerary/" + id).success(function (response) {
+			$scope.newItinerary = { ...response };
+			$('#detailsModal').modal('show');
+		}
+		).error(function (err) {
+			$scope.editMode = false;
+			$scope.saving = false;
+			$scope.serverError = true;
+			$scope.serverErrorMessage = "An error occured at the server side: " + err;
+		});
+	}
 	$scope.openAddDialog = function (id) {
 		$scope.newItinerary = {};
 		$scope.editMode = false;
@@ -134,10 +140,33 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 			$scope.itineraries = itineraries;
 		});
 
+		BudgetCategoriesService.getAll().then(function (budgetCategories) {
+			$scope.budgetCategories = budgetCategories;
+		});
+
 		CountriesService.getAll().then(function (countries) {
 			$scope.countries = countries;
 		});
 	};
 
 	$scope.initialize();
+
+	$scope.removeFerry = function (index) {
+		$scope.newItinerary.ferries.splice(index, 1);
+	}
+	$scope.addFerry = function (index) {
+		$scope.newItinerary.ferries.push({});
+	}
+	$scope.removeFlight = function (index) {
+		$scope.newItinerary.flights.splice(index, 1);
+	}
+	$scope.addFlight = function (index) {
+		$scope.newItinerary.flights.push({});
+	}
+	$scope.removeHotel = function (index) {
+		$scope.newItinerary.hotels.splice(index, 1);
+	}
+	$scope.addHotel = function (index) {
+		$scope.newItinerary.hotels.push({});
+	}
 }]);

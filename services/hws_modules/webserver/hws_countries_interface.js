@@ -3,7 +3,7 @@ var business = require('../business/hws_countries_business.js');
 var getById = function (req, res) {
 	try {
 		// call the business function and give it a callback function 
-		var id = req.body.id;
+		var id = req.params.id;
 		var lang = req.query.lang;
 		business.getById(id, lang, function (country) {
 			res.json(country);
