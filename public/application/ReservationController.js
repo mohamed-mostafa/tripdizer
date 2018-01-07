@@ -60,9 +60,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.selectedPurpose = purpose;
 		$scope.numberOfTravelers = purpose.numberOfTravelers;
 	},
-		$scope.selectBudgetCategory = function (budgetCategory) {
-			$scope.selectedBudgetCategory = budgetCategory;
-		},
+	$scope.selectBudgetCategory = function (budgetCategory) {
+		$scope.selectedBudgetCategory = budgetCategory;
+	},
 
 		$scope.getDestinations = function () {
 			if ($scope.selectedDestinations.length == 1) {
@@ -197,10 +197,12 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	PurposesService.getAll('EN').then(function (purposes) {
 		$scope.purposes = purposes;
+		$scope.selectPurpose($scope.purposes[0]);
 	});
 
 	BudgetCategoriesService.getAll('EN').then(function (budgetCategories) {
 		$scope.budgetCategories = budgetCategories;
+		$scope.selectBudgetCategory($scope.budgetCategories[0]);
 	});
 
 	InterestsService.getAll('EN').then(function (interests) {
