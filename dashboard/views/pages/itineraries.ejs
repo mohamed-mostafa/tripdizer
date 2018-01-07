@@ -85,26 +85,12 @@
                             <table id="itinerariesTable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>En Name</th>
-                                        <th>Ar Name</th>
-                                        <th>En Description</th>
-                                        <th>Ar Description</th>
-                                        <th>Daily Spendings</th>
-                                        <th>Stars</th>
-                                        <th></th>
+                                        <th>Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="itinerary in itineraries">
-                                        <td>{{itinerary.en_name}}</td>
-                                        <td>{{itinerary.ar_name}}</td>
-                                        <td>{{itinerary.en_description}}</td>
-                                        <td>{{itinerary.ar_description}}</td>
-                                        <td>{{itinerary.dailySpendings}}</td>
-                                        <td>{{itinerary.stars}}</td>
-                                        <td>
-                                            <i class="fa fa-edit cursor" ng-click="openDetailsDialog(itinerary.id)"> Details</i>
-                                        </td>
+                                        <td><a ng-click="openDetailsDialog(itinerary.id)" href="#">{{itinerary.en_name}}</a></td>
                                     </tr>
                                 </tbody>
                                 <tfooter>
@@ -177,13 +163,6 @@
                                                     <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
                                                 <label for="dailySpendings" ng-show="dailySpendingsMissing==false">Daily Spendings</label>
                                                 <input type="text" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
-                                                    required>
-                                            </div>
-                                            <div class="form-group" ng-show="saving==false">
-                                                <label class="control-label text-red" for="stars" ng-show="starsMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Stars is missing</label>
-                                                <label for="stars" ng-show="starsMissing==false">Stars</label>
-                                                <input type="number" min="0" max="7" step="1" class="form-control" id="stars" ng-model="newItinerary.stars" placeholder="Enter stars"
                                                     required>
                                             </div>
                                             <!-- /.form group -->
@@ -277,13 +256,6 @@
                                                                 <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
                                                             <label for="dailySpendings" ng-show="!dailySpendingsMissing">Daily Spendings</label>
                                                             <input type="text" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-group" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="stars" ng-show="starsMissing">
-                                                                <i class="fa fa-times-circle-o"></i>Stars is missing</label>
-                                                            <label for="stars" ng-show="!starsMissing">Stars</label>
-                                                            <input type="number" min="0" max="7" step="1" class="form-control" id="stars" ng-model="newItinerary.stars" placeholder="Enter stars"
                                                                 required>
                                                         </div>
                                                         <!-- /.form group -->

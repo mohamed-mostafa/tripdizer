@@ -26,7 +26,6 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 		$scope.en_descriptionMissing = false;
 		$scope.ar_descriptionMissing = false;
 		$scope.dailySpendingsMissing = false;
-		$scope.starsMissing = false;
 		$scope.serverError = false;
 		$scope.serverErrorMessage = "";
 	};
@@ -47,12 +46,9 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 		if ($scope.newItinerary.dailySpendings == null || $scope.newItinerary.dailySpendings == "") {
 			$scope.dailySpendingsMissing = true;
 		}
-		if ($scope.newItinerary.stars == null || $scope.newItinerary.stars == "") {
-			$scope.starsMissing = true;
-		}
 		return $scope.en_nameMissing !== true && $scope.ar_nameMissing !== true &&
 			$scope.en_descriptionMissing !== true && $scope.ar_descriptionMissing !== true &&
-			$scope.dailySpendingsMissing !== true && $scope.starsMissing !== true
+			$scope.dailySpendingsMissing !== true
 	};
 	$scope.addItinerary = function (close) {
 		if ($scope.newItineraryIsValid()) {

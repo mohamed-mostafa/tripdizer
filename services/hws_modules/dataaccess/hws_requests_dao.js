@@ -151,7 +151,6 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 						}
 					}
 					connection.end();
-					console.log(JSON.stringify(requests));
 					onSuccess(requests);
 				}
 			});

@@ -73,7 +73,7 @@ var start = function () {
 	// routing - Start
 
 	// requests
-	app.post('/request/place', requestsInterface.placeRequest);
+	app.put('/request/place', requestsInterface.placeRequest);
 	app.get('/request/:requestId', requestsInterface.getRequestById);
 	app.put('/request', requestsInterface.updateRequest);
 	app.post('/request/assign', requestsInterface.assignRequestToUser);

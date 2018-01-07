@@ -35,8 +35,8 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	$scope.plusOrMinusThreeDays = false,
 
 		$scope.numberOfAdults = 1,
-		$scope.numberOfKids = 1,
-		$scope.numberOfInfants = 1,
+		$scope.numberOfKids = 0,
+		$scope.numberOfInfants = 0,
 		$scope.otherType = "",
 
 		$scope.secondDestinationShown = false,
@@ -143,7 +143,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		for (var i = 0, interests = $scope.interests; i < interests.length; ++i)
 			$scope.request.interests.push({ id: interests[i].id, percentage: interests[i].percent || 0 });
 
-		$http.post($rootScope.serverURL + "/request/place", { request: $scope.request }).success(function (response) {
+		$http.put($rootScope.serverURL + "/request/place", { request: $scope.request }).success(function (response) {
 			console.log("Request submitted");
 			$scope.submitting = false;
 			$scope.requestNumber = response.id;
@@ -203,10 +203,12 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	PurposesService.getAll('AR').then(function (purposes) {
 		$scope.purposes = purposes;
+		$scope.selectPurpose($scope.purposes[0]);
 	});
 
 	BudgetCategoriesService.getAll('AR').then(function (budgetCategories) {
 		$scope.budgetCategories = budgetCategories;
+		$scope.selectBudgetCategory($scope.budgetCategories[0]);
 	});
 
 	InterestsService.getAll('AR').then(function (interests) {

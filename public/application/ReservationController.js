@@ -35,8 +35,8 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	$scope.plusOrMinusThreeDays = false,
 
 		$scope.numberOfAdults = 1,
-		$scope.numberOfKids = 1,
-		$scope.numberOfInfants = 1,
+		$scope.numberOfKids = 0,
+		$scope.numberOfInfants = 0,
 		$scope.otherType = "",
 
 		$scope.secondDestinationShown = false,

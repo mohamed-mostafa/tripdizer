@@ -248,6 +248,35 @@
                                                                     <label for="test5">Flexible dates (+/- 3 days)</label>
                                                                 </p>
                                                             </div>
+                                                            <div class="row left">
+                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active">
+                                                                            <label for="adults_number" class="left-aligned-text">Adults</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class="active">
+                                                                            <label for="kids_number" class="left-aligned-text">Kids</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active">
+                                                                            <label for="infants_number" class="left-aligned-text">Infants</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <div class="row ">
                                                                 <label class="tittle full-width left-aligned-text">Purpose of travel:</label>
                                                                 <div class="radio-btn-container left">
@@ -256,37 +285,14 @@
                                                                         />
                                                                         <label for="purpose-{{purpose.id}}" class="left-aligned-text">{{purpose.name}}</label>
                                                                     </p>
+                                                                    <div class="input-field inline" ng-show="selectedPurpose.name.includes('Other')">
+                                                                        <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" />
+                                                                        <label for="other_people_number">Your purpose</label>
+                                                                  </div>
                                                                 </div>
                                                             </div>
                                                             <div class="row left">
-                                                                <div class="row">
-                                                                    <div class="col-lg-2 col-sm-4 noPadding">
-                                                                        <div class="input-field col s12">
-                                                                            <div>
-                                                                                <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                                <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults">
-                                                                                <label for="adults_number" class="left-aligned-text">Adults #</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-2 col-sm-4 noPadding">
-                                                                        <div class="input-field col s12">
-                                                                            <div>
-                                                                                <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                                <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids">
-                                                                                <label for="kids_number" class="left-aligned-text">Kids #</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-2 col-sm-4 noPadding">
-                                                                        <div class="input-field col s12">
-                                                                            <div>
-                                                                                <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                                <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants">
-                                                                                <label for="infants_number" class="left-aligned-text">Infants #</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                <!-- <div class="row">
                                                                     <div class="col-lg-6 col-sm-12 noPadding">
                                                                         <div class="input-field col s12">
                                                                             <div ng-show="selectedPurpose.name.includes('Other')">
@@ -295,7 +301,8 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row">
+                                                                </div> -->
+                                                                <div class="row">
                                                                         <label class="tittle full-width left-aligned-text">Budget</label>
                                                                         <div class="radio-btn-container">
                                                                             <p ng-repeat="budgetCategory in budgetCategories">
@@ -303,15 +310,19 @@
                                                                                     ng-checked="$index === 0" />
                                                                                 <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
                                                                             </p>
+                                                                             <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('Own')">   
+                                                                                    <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
+                                                                                <label for="own_budget">Your budget</label>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-lg-6 col-sm-12">
+                                                                    
+                                                                    <!-- <div class="col-lg-6 col-sm-12">
                                                                         <div class="input-field col s12" ng-show="selectedBudgetCategory.name.includes('Own')">
                                                                             <i class="material-icons prefix fa fa-money"></i>
                                                                             <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
                                                                             <label for="own_budget">Enter your budget</label>
                                                                         </div>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -257,25 +257,58 @@
 
                                                                     </div>
                                                                 </div>
-
                                                             </div>
-                                                            <div class="row">
+                                                            <div class="row right">
                                                                 <p style="float:right">
                                                                     <input type="checkbox" id="test5" ng-model="plusOrMinusThreeDays" />
                                                                     <label for="test5" style="float:right"> (تواريخ قابلة للتعديل (+/- ٣ أيام </label>
                                                                 </p>
                                                             </div>
-                                                            <div class="row ">
+                                                            <div class="right row">
+                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active">
+                                                                            <label for="infants_number" class="left-aligned-text">عدد الرضع</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class="active">
+                                                                            <label for="kids_number" class="left-aligned-text">عدد الاطفال</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active">
+                                                                            <label for="adults_number" class="left-aligned-text">عدد البالغين</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row right">
                                                                 <label class="tittle full-width left-aligned-text" style="direction:rtl">الغرض من السفر:</label>
                                                                 <div class="radio-btn-container contain">
-                                                                    <p ng-repeat="purpose in purposes">
-                                                                        <input name="purpose" type="radio" id="purpose-{{purpose.id}}" ng-click="selectPurpose(purpose)" ng-checked="$index === 0"
+                                                                     <div class="input-field inline" ng-show="selectedPurpose.name.includes('آخر')">
+                                                                        <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" />
+                                                                        <label for="other_people_number">اخري</label>
+                                                                      </div>
+                                                                    <p ng-repeat="purpose in purposes.slice().reverse()">
+                                                                        <input name="purpose" type="radio" id="purpose-{{purpose.id}}" ng-click="selectPurpose(purpose)" ng-checked="$index === purposes.length - 1"
                                                                         />
                                                                         <label for="purpose-{{purpose.id}}" class="left-aligned-text">{{purpose.name}}</label>
+                                                                       
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
+                                                           <!--  <div class="row right">
                                                                 <div class="col-lg-6 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <div ng-show="selectedPurpose.name.includes('آخر')">
@@ -284,51 +317,28 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-2 col-sm-4 noPadding">
-                                                                    <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants">
-                                                                            <label for="infants_number" class="left-aligned-text">عدد الرضع</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-2 col-sm-4 noPadding">
-                                                                    <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids">
-                                                                            <label for="kids_number" class="left-aligned-text">عدد الاطفال</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-2 col-sm-4 noPadding">
-                                                                    <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults">
-                                                                            <label for="adults_number" class="left-aligned-text">عدد البالغين</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
+                                                            </div> -->
+                                                            <div class="row right">
                                                                 <label class="tittle full-width left-aligned-text">الميزانية</label>
                                                                 <div class="radio-btn-container contain">
-                                                                    <p ng-repeat="budgetCategory in budgetCategories">
+                                                                     <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('خاصة')">   
+                                                                            <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
+                                                                        <label for="own_budget">أدخل ميزانيتك</label>
+                                                                    </div> 
+                                                                    <p ng-repeat="budgetCategory in budgetCategories.slice().reverse()">
                                                                         <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
-                                                                            ng-checked="$index === 0" />
+                                                                            ng-checked="$index === budgetCategories.length - 1" />
                                                                         <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-sm-12">
+                                                            <!-- <div class="col-lg-6 col-sm-12">
                                                                 <div class="input-field col s12" ng-show="selectedBudgetCategory.name.includes('خاصة')">
                                                                     <i class="material-icons prefix fa fa-money"></i>
                                                                     <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
                                                                     <label for="own_budget">أدخل ميزانيتك</label>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 </div>
