@@ -276,42 +276,57 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="row">
-
-                                                                    <div class="col-lg-6 col-sm-12 noPadding">
-                                                                        <div class="input-field col s12">
-                                                                            <div ng-show="selectedPurpose.name.includes('آخر')">
-                                                                                <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" style="direction:rtl">
-                                                                                <label for="other_people_number" style="margin-left:70%">اخري</label>
-                                                                            </div>
+                                                                <div class="col-lg-6 col-sm-12 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div ng-show="selectedPurpose.name.includes('آخر')">
+                                                                            <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" style="direction:rtl">
+                                                                            <label for="other_people_number" style="margin-left:70%">اخري</label>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-lg-6 col-sm-12 noPadding">
-                                                                        <div class="input-field col s12">
-                                                                            <div>
-                                                                                <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                                <input id="people_number" name="people_number" type="number" ng-model="numberOfTravelers" style="direction:rtl">
-                                                                                <label for="people_number" class="left-aligned-text">عدد الأشخاص</label>
-                                                                            </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants">
+                                                                            <label for="infants_number" class="left-aligned-text">عدد الرضع</label>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row">
-                                                                        <label class="tittle full-width left-aligned-text">الميزانية</label>
-                                                                        <div class="radio-btn-container contain">
-                                                                            <p ng-repeat="budgetCategory in budgetCategories">
-                                                                                <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
-                                                                                    ng-checked="$index === 0" />
-                                                                                <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
-                                                                            </p>
+                                                                </div>
+                                                                <div class="col-lg-2 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids">
+                                                                            <label for="kids_number" class="left-aligned-text">عدد الاطفال</label>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-lg-6 col-sm-12">
-                                                                        <div class="input-field col s12" ng-show="selectedBudgetCategory.name.includes('خاصة')">
-                                                                            <i class="material-icons prefix fa fa-money"></i>
-                                                                            <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
-                                                                            <label for="own_budget">أدخل ميزانيتك</label>
+                                                                </div>
+                                                                <div class="col-lg-2 col-sm-4 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <div>
+                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults">
+                                                                            <label for="adults_number" class="left-aligned-text">عدد البالغين</label>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <label class="tittle full-width left-aligned-text">الميزانية</label>
+                                                                <div class="radio-btn-container contain">
+                                                                    <p ng-repeat="budgetCategory in budgetCategories">
+                                                                        <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
+                                                                            ng-checked="$index === 0" />
+                                                                        <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-sm-12">
+                                                                <div class="input-field col s12" ng-show="selectedBudgetCategory.name.includes('خاصة')">
+                                                                    <i class="material-icons prefix fa fa-money"></i>
+                                                                    <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
+                                                                    <label for="own_budget">أدخل ميزانيتك</label>
                                                                 </div>
                                                             </div>
                                                         </div>

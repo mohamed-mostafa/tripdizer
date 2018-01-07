@@ -36,6 +36,9 @@ var start = function () {
 	app.get('/admin/countries', function(req, res) {
 		res.render('pages/countries');
 	});
+	app.get('/admin/itineraries', function(req, res) {
+		res.render('pages/itineraries');
+	});
 	
 	// routes end
     var port      = process.env.PORT || 8081;

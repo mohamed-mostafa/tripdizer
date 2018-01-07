@@ -34,6 +34,7 @@ var start = function () {
 	var partnersInterface = require('./hws_partners_interface.js');
 	var grouptripInterface = require('./hws_grouptrip_interface.js');
 	var countriesInterface = require('./hws_countries_interface.js');
+	var itinerariesInterface = require('./hws_itineraries_interface.js');
 	var purposesInterface = require('./hws_purposes_interface.js');
 	var interestsInterface = require('./hws_interests_interface.js');
 	var budgetcategoriesInterface = require('./hws_budgetcategories_interface.js');
@@ -107,6 +108,12 @@ var start = function () {
 	app.get('/country/:id', countriesInterface.getById);
 	app.put('/country', countriesInterface.create);
 	app.post('/country', countriesInterface.update);
+
+	//		itineraries
+	app.get('/itineraries', itinerariesInterface.getAll);
+	app.get('/itinerary/:id', itinerariesInterface.getById);
+	app.put('/itinerary', itinerariesInterface.create);
+	app.post('/itinerary', itinerariesInterface.update);
 
 	//		Purposes
 	app.get('/purposes', purposesInterface.getAll);
@@ -203,7 +210,7 @@ var start = function () {
 							} else {
 								if (request.requestId === 1710 || request.requestId === '1710') {
 									console.log("1710: didn't match");
-								}	
+								}
 							}
 						}
 						else if (rows[i].question_id === 3) {

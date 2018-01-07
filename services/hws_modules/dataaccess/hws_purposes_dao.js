@@ -30,7 +30,9 @@ var getById = function (id, lang, onSuccess, onFailure) {
 							id: rows[0].Id,
 							en_name: rows[0].EN_Name,
 							ar_name: rows[0].AR_Name,
-							numberOfTravelers: rows[0].Number_Of_Travelers
+							numberOfAdults: rows[0].Number_Of_Adults,
+							numberOfKids: rows[0].Number_Of_Kids,
+							numberOfInfants: rows[0].Number_Of_Infants
 						};
 
 						if (lang) {
@@ -74,7 +76,7 @@ var create = function (purpose, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO Travel_Purpose (EN_Name, AR_Name, Number_Of_Travelers) values (?, ?, ?)', [purpose.en_name, purpose.ar_name, purpose.numberOfTravelers], function (err, result) {
+					connection.query('INSERT INTO Travel_Purpose (EN_Name, AR_Name, Number_Of_Adults, Number_Of_Kids, Number_Of_Infants) values (?, ?, ?, ?, ?)', [purpose.en_name, purpose.ar_name, purpose.numberOfAdults, purpose.numberOfKids, purpose.numberOfInfants], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
@@ -121,7 +123,7 @@ var update = function (purpose, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('UPDATE Travel_Purpose SET EN_Name = ?, AR_Name = ?, Number_Of_Travelers = ?', [purpose.en_name, purpose.ar_name, purpose.numberOfTravelers, purpose.id], function (err, result) {
+					connection.query('UPDATE Travel_Purpose SET EN_Name = ?, AR_Name = ?, Number_Of_Adults = ?, Number_Of_Kids = ?, Number_Of_Infants = ?', [purpose.en_name, purpose.ar_name, purpose.numberOfAdults, purpose.numberOfKids, purpose.numberOfInfants, purpose.id], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing purpose: " + purpose.en_name);
@@ -172,7 +174,9 @@ var getAll = function (lang, onSuccess, onFailure) {
 							id: rows[i].Id,
 							en_name: rows[i].EN_Name,
 							ar_name: rows[i].AR_Name,
-							numberOfTravelers: rows[i].Number_Of_Travelers
+							numberOfAdults: rows[i].Number_Of_Adults,
+							numberOfKids: rows[i].Number_Of_Kids,
+							numberOfInfants: rows[i].Number_Of_Infants
 						};
 						if (lang) {
 							purpose.name = purpose[lang.toLowerCase() + '_name'];
