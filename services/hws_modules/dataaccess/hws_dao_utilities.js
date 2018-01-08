@@ -18,12 +18,12 @@ if (config.INSTANCE_CONNECTION_NAME && config.NODE_ENV === 'production') {
 
 // creates a new connection
 
-// var createConnection = function() {
-//  	var connection = mysql.createConnection(options);
-// 	return connection;
-// };
+var createConnection = function() {
+ 	var connection = mysql.createConnection(options);
+	return connection;
+};
 
-var createConnection = function () {
+/*var createConnection = function () {
 	var connection = mysql.createConnection({
 		host: process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
 		port: process.env.OPENSHIFT_MYSQL_DB_PORT || 3306,
@@ -33,6 +33,6 @@ var createConnection = function () {
 		multipleStatements: true
 	});
 	return connection;
-};
+};*/
 
 exports.createConnection = createConnection;
