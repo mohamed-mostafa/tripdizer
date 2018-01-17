@@ -9,7 +9,8 @@ const config = require('../../config.json');
 const options = {
   user: config.MYSQL_USER,
   password: config.MYSQL_PASSWORD,
-  database: 'hws'
+  database: 'hws',
+  multipleStatements: true
 };
 
 if (config.INSTANCE_CONNECTION_NAME && config.NODE_ENV === 'production') {
