@@ -9,6 +9,8 @@ var travelersDao = require('../dataaccess/hws_travelers_dao.js');
 var partnersBusiness = require('./hws_partners_business.js');
 var emailBusiness = require('./hws_email_business.js');
 var Promise = require('promise');
+var DateDiff = require('date-diff');
+
 
 //calls the onSuccess with a user object if the user was successfully created
 var placeRequest = function (request, onSuccess, onFailure, onUserError) {
@@ -25,20 +27,7 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 				// create the traveler
 				requestsDao.createNewRequest(request, function (request) { // then create the request
-					// if (request.questionAnswers[0].answer.answer.indexOf("Cambodia") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Hongkong") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Indonesia") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Laos") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Macau") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Malaysia") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Philippines") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Thailand") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Vietnam") > -1 ||
-					// 	request.questionAnswers[0].answer.answer.indexOf("Singapore") > -1) {
-					// 	request.id = "A100" + request.id; // asia
-					// } else {
-					// 	request.id = "E200" + request.id;
-					// }
+
 					onSuccess(request);
 
 					// notify creation
@@ -62,19 +51,7 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 			});
 		} else { // traveler exists before, create the request immediately
 			requestsDao.createNewRequest(request, function (request) { // create the request
-				// if (request.questionAnswers[0].answer.answer.indexOf("Cambodia") > -1 || request.questionAnswers[0].answer.answer.indexOf("Hongkong") > -1 ||
-				// 	request.questionAnswers[0].answer.answer.indexOf("Indonesia") > -1 ||
-				// 	request.questionAnswers[0].answer.answer.indexOf("Laos") > -1 ||
-				// 	request.questionAnswers[0].answer.answer.indexOf("Macau") > -1 ||
-				// 	request.questionAnswers[0].answer.answer.indexOf("Malaysia") > -1 ||
-				// 	request.questionAnswers[0].answer.answer.indexOf("Philippines") > -1 ||
-				// 	request.questionAnswers[0].answer.answer.indexOf("Thailand") > -1 ||
-				// 	request.questionAnswers[0].answer.answer.indexOf("Vietnam") > -1 ||
-				// 	request.questionAnswers[0].answer.answer.indexOf("Singapore") > -1) {
-				// 	request.id = "A100" + request.id; // asia
-				// } else {
-				// 	request.id = "E200" + request.id;
-				// }
+				
 				onSuccess(request);
 
 				// notify creation
@@ -149,7 +126,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 	var monthMap = { 1: "JAN", 2: "FEB", 3: "MAR", 4: "APR", 5: "MAY", 6: "JUN", 7: "JUL", 8: "AUG", 9: "SEP", 10: "OCT", 11: "NOV", 12: "DEC" };
 	if (request.itinerary_id) {
 		itinerariesDao.getById(request.itinerary_id, null, function (itinerary) {
-
+			var diff = new DateDiff(new Date(request.return_date), new Date(request.departure_date));
 			const rData = {
 				itineraryId: request.itinerary_id,
 				numberOfAdults: request.number_of_adults,
@@ -158,20 +135,29 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				numberOfTravelers: request.number_of_adults + request.number_of_kids + request.number_of_infants,
 				departureMonth: monthMap[new Date(request.departure_date).getMonth() + 1],
 				returnMonth: monthMap[new Date(request.return_date).getMonth() + 1],
-				totalBudget: 0
+				totalBudget: 0,
+				flightsBudget: 0,
+				numberOfNights: diff.days(),
+				accomodationBudget: 0,
+				ferriesBudget: 0
 			};
 
 			for (let i = 0, ferries = itinerary.ferries; i < itinerary.ferries.length; ++i) {
-				rData.totalBudget += rData.numberOfTravelers * (ferries[i][rData.departureMonth] + ferries[i][rData.returnMonth]) / 2;
+				rData.ferriesBudget += rData.numberOfTravelers * (ferries[i][rData.departureMonth] + ferries[i][rData.returnMonth]) / 2;
 			}
 			for (let i = 0, flights = itinerary.flights; i < itinerary.flights.length; ++i) {
-				rData.totalBudget += rData.numberOfAdults * (flights[i]['a' + rData.departureMonth] + flights[i]['a' + rData.returnMonth]) / 2;
-				rData.totalBudget += rData.numberOfKids * (flights[i]['k' + rData.departureMonth] + flights[i]['k' + rData.returnMonth]) / 2;
-				rData.totalBudget += rData.numberOfInfants * (flights[i]['i' + rData.departureMonth] + flights[i]['i' + rData.returnMonth]) / 2;
+				rData.flightsBudget += rData.numberOfAdults * (flights[i]['a' + rData.departureMonth] + flights[i]['a' + rData.returnMonth]) / 2;
+				rData.flightsBudget += rData.numberOfKids * (flights[i]['k' + rData.departureMonth] + flights[i]['k' + rData.returnMonth]) / 2;
+				rData.flightsBudget += rData.numberOfInfants * (flights[i]['i' + rData.departureMonth] + flights[i]['i' + rData.returnMonth]) / 2;
 			}
 			for (let i = 0, hotels = itinerary.hotels; i < itinerary.hotels.length; ++i) {
-				rData.totalBudget += rData.numberOfTravelers * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth]) / 2;
+				rData.accomodationBudget += rData.numberOfNights * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth]) / 2;
 			}
+
+			rData.totalBudget += rData.ferriesBudget;
+			rData.totalBudget += rData.flightsBudget;
+			rData.totalBudget += rData.accomodationBudget;
+
 			onSuccess(rData);
 		}, function (err) {
 			console.log("An error occured while getting itinerary");
