@@ -17,8 +17,8 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			var iternaryQuery = 'SELECT * FROM iternary WHERE id = ' + id + ';';
 			var countriesQuery = 'SELECT ic.Countries_Id as id FROM iternary i join iternary_countries ic on i.Id = ic.Iternary_Id WHERE i.Id = ' + id + ';';
 			var ferryQuery = 'SELECT ife.*, mp.* FROM iternary i join iternary_ferry ife on i.Id = ife.iternary_id join month_price mp on mp.id = ife.price WHERE i.Id = ' + id + ';';
-			var flightQuery = `SELECT ifl.*, mpa.JAN aJAN, mpa.FEB aFEB, mpa.MAR aMAR, mpa.APR aAPR, mpa.MAY aMAY, mpa.JUN aJUN, mpa.JUL aJUL, mpa.AUG aAUG, mpa.SEP aSEP, mpa.OCT aOCT, mpa.NOV aNOV,
-			mpk.DEC kDEC, mpk.JAN kJAN, mpk.FEB kFEB, mpk.MAR kMAR, mpk.APR kAPR, mpk.MAY kMAY, mpk.JUN kJUN, mpk.JUL kJUL, mpk.AUG kAUG, mpk.SEP kSEP, mpk.OCT kOCT, mpk.NOV kNOV, mpk.DEC kDEC,
+			var flightQuery = `SELECT ifl.*, mpa.JAN aJAN, mpa.FEB aFEB, mpa.MAR aMAR, mpa.APR aAPR, mpa.MAY aMAY, mpa.JUN aJUN, mpa.JUL aJUL, mpa.AUG aAUG, mpa.SEP aSEP, mpa.OCT aOCT, mpa.NOV aNOV, mpa.DEC aDEC, 
+			mpk.JAN kJAN, mpk.FEB kFEB, mpk.MAR kMAR, mpk.APR kAPR, mpk.MAY kMAY, mpk.JUN kJUN, mpk.JUL kJUL, mpk.AUG kAUG, mpk.SEP kSEP, mpk.OCT kOCT, mpk.NOV kNOV, mpk.DEC kDEC,
 			mpi.JAN iJAN, mpi.FEB iFEB, mpi.MAR iMAR, mpi.APR iAPR, mpi.MAY iMAY, mpi.JUN iJUN, mpi.JUL iJUL, mpi.AUG iAUG, mpi.SEP iSEP, mpi.OCT iOCT, mpi.NOV iNOV, mpi.DEC iDEC
 			FROM iternary i join iternary_flight ifl on i.Id = ifl.Iternary_id join month_price mpa on mpa.id = ifl.adult_price join month_price mpk on mpk.id = ifl.kid_price join month_price mpi on mpi.id = ifl.infant_price WHERE i.Id = ${id};`;
 			var hotelQuery = 'SELECT ih.*, mp.* FROM iternary i join iternary_hotel ih on i.Id = ih.Iternary_id join month_price mp on mp.id = ih.night_price WHERE i.Id = ' + id + ';';
