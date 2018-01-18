@@ -2,7 +2,7 @@
  * 
  */
 
-g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService) {
+g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
 	// fields
 	$scope.statuses = [
 		{
@@ -570,6 +570,10 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	InterestsService.getAll().then(function (interests) {
 		$scope.interests = interests;
+	});
+
+	ItinerariesService.getAll().then(function (itineraries) {
+		$scope.itineraries = itineraries;
 	});
 
 	$scope.refreshOrders($scope.currentRequest);

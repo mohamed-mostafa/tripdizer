@@ -259,24 +259,32 @@
                                     </select>
                                     <label for="leavingCountry">Leaving Country</label>
                                     <input type="text" class="form-control" id="leavingCountry" ng-model="currentOrder.leavingCountry">
-                                    <label for="firstCountry">First Country</label>
-                                    <select class="form-control" id="firstCountry" ng-model="currentOrder.firstCountry">
-                                      <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.firstCountry">{{country.en_name}}</option>
-                                    </select>
-                                    <div ng-if="currentOrder.firstCountry == '1'">
-                                      <label for="otherCountry">Other Country</label>
-                                      <input type="text" class="form-control" id="otherCountry" ng-model="currentOrder.otherCountry">
-                                    </div>
-                                    <div ng-if="currentOrder.secondCountry != 0">
-                                      <label for="secondCountry">Second Country</label>
-                                      <select class="form-control" id="secondCountry" ng-model="currentOrder.secondCountry">
-                                        <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.secondCountry">{{country.en_name}}</option>
+                                    <div ng-if="!currentOrder.itineraryId">
+                                      <label for="firstCountry">First Country</label>
+                                      <select class="form-control" id="firstCountry" ng-model="currentOrder.firstCountry">
+                                        <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.firstCountry">{{country.en_name}}</option>
                                       </select>
+                                      <div ng-if="currentOrder.firstCountry == '1'">
+                                        <label for="otherCountry">Other Country</label>
+                                        <input type="text" class="form-control" id="otherCountry" ng-model="currentOrder.otherCountry">
+                                      </div>
+                                      <div ng-if="currentOrder.secondCountry != 0">
+                                        <label for="secondCountry">Second Country</label>
+                                        <select class="form-control" id="secondCountry" ng-model="currentOrder.secondCountry">
+                                          <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.secondCountry">{{country.en_name}}</option>
+                                        </select>
+                                      </div>
+                                      <div ng-if="currentOrder.thirdCountry != 0">
+                                        <label for="thirdCountry">Third Country</label>
+                                        <select class="form-control" id="thirdCountry" ng-model="currentOrder.thirdCountry">
+                                          <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.thirdCountry">{{country.en_name}}</option>
+                                        </select>
+                                      </div>
                                     </div>
-                                    <div ng-if="currentOrder.thirdCountry != 0">
-                                      <label for="thirdCountry">Third Country</label>
-                                      <select class="form-control" id="thirdCountry" ng-model="currentOrder.thirdCountry">
-                                        <option ng-repeat="country in countries" ng-value="country.id" ng-selected="country.id === currentOrder.thirdCountry">{{country.en_name}}</option>
+                                    <div ng-if="currentOrder.itineraryId">
+                                      <label for="firstCountry">Itinerary</label>
+                                      <select class="form-control" id="itineraryId" ng-model="currentOrder.itineraryId">
+                                        <option ng-repeat="itinerary in itineraries" ng-value="itinerary.id" ng-selected="itinerary.id === currentOrder.itineraryId">{{itinerary.en_name}}</option>
                                       </select>
                                     </div>
                                   </div>
