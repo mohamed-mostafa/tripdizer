@@ -170,11 +170,13 @@
                                                                 </div>
                                                                 <div class="row col s12 noPadding toDestinationField">
                                                                     <div class="input-field col s11">
-                                                                        <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[0]">
+                                                                        <select id="to" name="to" class="to-destination select-override" ng-change="countryChanged()" ng-model="selectedFirstDestination">
                                                                             <option value="" disabled selected>وارغب في السفر الي...</option>
+                                                                            <option disabled class="majorOption">رحلات</option>
+                                                                            <option value="i::{{itinerary.id}}" data-description="{{itinerary.description}}" ng-repeat="itinerary in itineraries">{{itinerary.name}}</option>
                                                                             <option disabled class="majorOption">البلدان</option>
                                                                             <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
-                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
+                                                                                value="c::{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
                                                                                 data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
                                                                         </select>
                                                                     </div>
@@ -206,7 +208,7 @@
                                                                         <button class="add-btn" ng-click="removeThirdDestination();" style="margin-top: 20px;" type="button">-</button>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other' || selectedDestinations[2] == 'other'"
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="requestType === 'countries' && (selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other' || selectedDestinations[2] == 'other')"
                                                                         />
                                                                         <label for="otherCountries" style="direction:rtl">حدد بلدان اخري</label>
                                                                     </div>
@@ -296,19 +298,19 @@
                                                             <div class="row right">
                                                                 <label class="tittle full-width left-aligned-text" style="direction:rtl">الغرض من السفر:</label>
                                                                 <div class="radio-btn-container contain">
-                                                                     <div class="input-field inline" ng-show="selectedPurpose.name.includes('آخر')">
+                                                                    <div class="input-field inline" ng-show="selectedPurpose.name.includes('آخر')">
                                                                         <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" />
                                                                         <label for="other_people_number">اخري</label>
-                                                                      </div>
+                                                                    </div>
                                                                     <p ng-repeat="purpose in purposes.slice().reverse()">
                                                                         <input name="purpose" type="radio" id="purpose-{{purpose.id}}" ng-click="selectPurpose(purpose)" ng-checked="$index === purposes.length - 1"
                                                                         />
                                                                         <label for="purpose-{{purpose.id}}" class="left-aligned-text">{{purpose.name}}</label>
-                                                                       
+
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                           <!--  <div class="row right">
+                                                            <!--  <div class="row right">
                                                                 <div class="col-lg-6 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <div ng-show="selectedPurpose.name.includes('آخر')">
@@ -321,10 +323,10 @@
                                                             <div class="row right">
                                                                 <label class="tittle full-width left-aligned-text">الميزانية</label>
                                                                 <div class="radio-btn-container contain">
-                                                                     <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('خاصة')">   
-                                                                            <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
+                                                                    <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('خاصة')">
+                                                                        <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
                                                                         <label for="own_budget">أدخل ميزانيتك</label>
-                                                                    </div> 
+                                                                    </div>
                                                                     <p ng-repeat="budgetCategory in budgetCategories.slice().reverse()">
                                                                         <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
                                                                             ng-checked="$index === budgetCategories.length - 1" />
@@ -506,8 +508,11 @@
                                                                         <span class="txt ">من</span>
                                                                     </h3>
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" normal value">
+                                                                        <span ng-if="requestType === 'countries'" class=" normal value">
                                                                                 {{selectedDestinations[0] ? (selectedDestinations[0] == 1 ? selectedOtherDestinations : countries[selectedDestinations[0] - 1].ar_name) : ''}}{{selectedDestinations[1] ? ', ' + (selectedDestinations[1] == 1 ? selectedOtherDestinations : countries[selectedDestinations[1] - 1].ar_name) : ''}}{{selectedDestinations[2] ? ', ' + (selectedDestinations[2] == 1 ? selectedOtherDestinations : countries[selectedDestinations[2] - 1].ar_name) : ''}}
+                                                                        </span>
+                                                                        <span ng-if="requestType === 'itineraries'" class=" normal value">
+                                                                                {{itineraries[selectedDestinations[0] - 1].ar_name}}
                                                                         </span>
                                                                         <span class="txt ">الي</span>
                                                                     </h3>

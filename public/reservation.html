@@ -155,11 +155,13 @@
                                                                 </div>
                                                                 <div class="row col s12 noPadding toDestinationField">
                                                                     <div class="input-field col s11">
-                                                                        <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[0]">
+                                                                        <select id="to" name="to" class="to-destination select-override" ng-change="countryChanged()" ng-model="selectedFirstDestination">
                                                                             <option value="" disabled selected>And I wish to travel to ...</option>
+                                                                            <option disabled class="majorOption">Itineraries</option>
+                                                                            <option value="i::{{itinerary.id}}" data-description="{{itinerary.description}}" ng-repeat="itinerary in itineraries">{{itinerary.name}}</option>
                                                                             <option disabled class="majorOption">Countries</option>
                                                                             <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
-                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
+                                                                                value="c::{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
                                                                                 data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
                                                                         </select>
                                                                     </div>
@@ -191,7 +193,7 @@
                                                                         <button class="add-btn" ng-click="removeThirdDestination();" style="margin-top: 20px;" type="button">-</button>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="selectedDestinations[0] === '1' || selectedDestinations[1] === '1' || selectedDestinations[2] === '1'"
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="requestType === 'countries' && (selectedDestinations[0] === '1' || selectedDestinations[1] === '1' || selectedDestinations[2] === '1')"
                                                                         />
                                                                         <label for="otherCountries">Specify other countries</label>
                                                                     </div>
@@ -288,7 +290,7 @@
                                                                     <div class="input-field inline" ng-show="selectedPurpose.name.includes('Other')">
                                                                         <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" />
                                                                         <label for="other_people_number">Your purpose</label>
-                                                                  </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="row left">
@@ -303,19 +305,19 @@
                                                                     </div>
                                                                 </div> -->
                                                                 <div class="row">
-                                                                        <label class="tittle full-width left-aligned-text">Budget</label>
-                                                                        <div class="radio-btn-container">
-                                                                            <p ng-repeat="budgetCategory in budgetCategories">
-                                                                                <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
-                                                                                    ng-checked="$index === 0" />
-                                                                                <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
-                                                                            </p>
-                                                                             <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('Own')">   
-                                                                                    <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
-                                                                                <label for="own_budget">Your budget</label>
-                                                                            </div>
+                                                                    <label class="tittle full-width left-aligned-text">Budget</label>
+                                                                    <div class="radio-btn-container">
+                                                                        <p ng-repeat="budgetCategory in budgetCategories">
+                                                                            <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
+                                                                                ng-checked="$index === 0" />
+                                                                            <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
+                                                                        </p>
+                                                                        <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('Own')">
+                                                                            <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
+                                                                            <label for="own_budget">Your budget</label>
                                                                         </div>
-                                                                    
+                                                                    </div>
+
                                                                     <!-- <div class="col-lg-6 col-sm-12">
                                                                         <div class="input-field col s12" ng-show="selectedBudgetCategory.name.includes('Own')">
                                                                             <i class="material-icons prefix fa fa-money"></i>
@@ -487,8 +489,11 @@
                                                                     </h3>
                                                                     <h3 class="bold tittle">
                                                                         <span class="txt left">To</span>
-                                                                        <span class=" normal value">
+                                                                        <span ng-if="requestType === 'countries'" class=" normal value">
                                                                                 {{selectedDestinations[0] ? (selectedDestinations[0] == 1 ? selectedOtherDestinations : countries[selectedDestinations[0] - 1].en_name) : ''}}{{selectedDestinations[1] ? ', ' + (selectedDestinations[1] == 1 ? selectedOtherDestinations : countries[selectedDestinations[1] - 1].en_name) : ''}}{{selectedDestinations[2] ? ', ' + (selectedDestinations[2] == 1 ? selectedOtherDestinations : countries[selectedDestinations[2] - 1].en_name) : ''}}
+                                                                        </span>
+                                                                        <span ng-if="requestType === 'itineraries'" class=" normal value">
+                                                                                {{itineraries[selectedDestinations[0] - 1].en_name}}
                                                                         </span>
                                                                     </h3>
                                                                 </div>

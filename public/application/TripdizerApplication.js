@@ -62,4 +62,17 @@ var tripdizerApplication = angular.module("TripdizerApplication", [])
 				return response.data
 			})
 		}
+	}])
+	.factory('ItinerariesService', ['$rootScope', '$http', function ItinerariesService($rootScope, $http) {
+		var prefix = $rootScope.serverURL + '/';
+
+		return {
+			getAll: getAll
+		}
+
+		function getAll(lang) {
+			return $http.get(prefix + 'itineraries?lang=' + lang, {}).then(function (response) {
+				return response.data
+			})
+		}
 	}]);

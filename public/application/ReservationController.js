@@ -2,7 +2,7 @@
  * 
  */
 
-tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService) {
+tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
 	// fields
 	$scope.sources = [
 		{ id: 1, name: "Cairo" },
@@ -64,9 +64,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.numberOfKids = purpose.numberOfKids;
 		$scope.numberOfInfants = purpose.numberOfInfants;
 	},
-	$scope.selectBudgetCategory = function (budgetCategory) {
-		$scope.selectedBudgetCategory = budgetCategory;
-	},
+		$scope.selectBudgetCategory = function (budgetCategory) {
+			$scope.selectedBudgetCategory = budgetCategory;
+		},
 
 		$scope.getDestinations = function () {
 			if ($scope.selectedDestinations.length == 1) {
@@ -97,16 +97,30 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		},
 
 		$scope.addDestination = function () {
-			if ($scope.secondDestinationShown == false && $scope.thirdDestinationShown == false) {
-				$scope.secondDestinationShown = true;
-			} else if ($scope.secondDestinationShown == true && $scope.thirdDestinationShown == false) {
-				$scope.thirdDestinationShown = true;
-			} else if ($scope.secondDestinationShown == false && $scope.thirdDestinationShown == true) {
-				$scope.secondDestinationShown = true;
-			} else {
-				// do nothing, all shown
+			if ($scope.selectedFirstDestination.split('::')[0] === 'c') {
+				if ($scope.secondDestinationShown == false && $scope.thirdDestinationShown == false) {
+					$scope.secondDestinationShown = true;
+				} else if ($scope.secondDestinationShown == true && $scope.thirdDestinationShown == false) {
+					$scope.thirdDestinationShown = true;
+				} else if ($scope.secondDestinationShown == false && $scope.thirdDestinationShown == true) {
+					$scope.secondDestinationShown = true;
+				} else {
+					// do nothing, all shown
+				}
 			}
 		}
+	$scope.countryChanged = function () {
+		if ($scope.selectedFirstDestination.split('::')[0] === 'i') {
+			$scope.secondDestinationShown = false;
+			$scope.thirdDestinationShown = false;
+			$scope.selectedDestinations[1] = 0;
+			$scope.selectedDestinations[2] = 0;
+			$scope.requestType = "itineraries";
+		} else {
+			$scope.requestType = "countries";
+		}
+		$scope.selectedDestinations[0] = $scope.selectedFirstDestination.split('::')[1];
+	}
 	$scope.removeSecondDestination = function () {
 		$scope.secondDestinationShown = false;
 	};
@@ -125,9 +139,17 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.request.return_date = $scope.selectedTo;
 		$scope.request.flexible_dates = $scope.plusOrMinusThreeDays;
 		$scope.request.leaving_country = $scope.selectedSource;
-		$scope.request.first_country = $scope.selectedDestinations[0];
-		$scope.request.second_country = $scope.selectedDestinations[1] || 0;
-		$scope.request.third_country = $scope.selectedDestinations[2] || 0;
+		if ($scope.selectedFirstDestination.split('::')[0] === 'c') {
+			delete $scope.request.itinerary_id;
+			$scope.request.first_country = $scope.selectedDestinations[0];
+			$scope.request.second_country = $scope.selectedDestinations[1] || 0;
+			$scope.request.third_country = $scope.selectedDestinations[2] || 0;
+		} else {
+			$scope.request.itinerary_id = $scope.selectedDestinations[0];
+			$scope.request.first_country = 1;
+			$scope.request.second_country = 0;
+			$scope.request.third_country = 0;
+		}
 		$scope.request.other_country = $scope.selectedOtherDestinations;
 		$scope.request.travel_purpose = $scope.selectedPurpose.id;
 		$scope.request.number_of_adults = $scope.numberOfAdults;
@@ -216,6 +238,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		for (var i = 0; i < $scope.interests.length; i++) {
 			$scope.interests[i].percent = 0;
 		}
+	});
+
+	ItinerariesService.getAll('EN').then(function (itineraries) {
+		$scope.itineraries = itineraries
 	});
 
 }]);

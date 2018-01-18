@@ -19,6 +19,12 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 	request.departure_date = new Date(request.departure_date);
 	request.return_date = new Date(request.return_date);
 	if (!request.budget) request.budget = 0;
+	if (request.itinerary_id) {
+		request.first_country = 1;
+		delete request.other_country
+		delete request.second_country;
+		delete request.third_country;
+	}
 
 	travelersDao.getTravelerByEmailAddress(request.traveler.emailAddress, function (traveler) {
 		if (traveler == null) { // traveler doesn't exist before, create a traveler first
@@ -51,7 +57,7 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 			});
 		} else { // traveler exists before, create the request immediately
 			requestsDao.createNewRequest(request, function (request) { // create the request
-				
+
 				onSuccess(request);
 
 				// notify creation
