@@ -148,15 +148,15 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				ferriesBudget: 0
 			};
 
-			for (let i = 0, ferries = itinerary.ferries; i < itinerary.ferries.length; ++i) {
+			for (let i = 0, ferries = itinerary.ferries; i < ferries.length; ++i) {
 				rData.ferriesBudget += rData.numberOfTravelers * (ferries[i][rData.departureMonth] + ferries[i][rData.returnMonth]) / 2;
 			}
-			for (let i = 0, flights = itinerary.flights; i < itinerary.flights.length; ++i) {
+			for (let i = 0, flights = itinerary.flights; i < flights.length; ++i) {
 				rData.flightsBudget += rData.numberOfAdults * (flights[i]['a' + rData.departureMonth] + flights[i]['a' + rData.returnMonth]) / 2;
 				rData.flightsBudget += rData.numberOfKids * (flights[i]['k' + rData.departureMonth] + flights[i]['k' + rData.returnMonth]) / 2;
 				rData.flightsBudget += rData.numberOfInfants * (flights[i]['i' + rData.departureMonth] + flights[i]['i' + rData.returnMonth]) / 2;
 			}
-			for (let i = 0, hotels = itinerary.hotels; i < itinerary.hotels.length; ++i) {
+			for (let i = 0, hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budget_category); i < hotels.length; ++i) {
 				rData.accomodationBudget += rData.numberOfNights * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth]) / 2;
 			}
 
