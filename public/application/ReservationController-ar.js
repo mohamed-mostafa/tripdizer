@@ -251,13 +251,8 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		var regForm = $("#registrationForm");
 		regForm.validate({
             errorPlacement: function errorPlacement(error, element) {
-
-                if(element.attr("type") == "checkbox" || element.attr("type") == "radio") {
-                    element.parent().before(error);
-                } else {
-                    element.after(error);
-                    error.addClass("regError");
-                }
+	            element.after(error);
+	            error.addClass("regError");
             },
             rules: {
                 date_from: "required",
@@ -270,10 +265,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
             },
             messages: {
                 date_from: {
-                    required: "This field is required"
+                    required: "هذه الخانة مطلوبة"
                 },
                 date_to: {
-                    required: "This field is required"
+                    required: "هذه الخانة مطلوبة"
                 },
                 people_number: {
                     required: "This field is required",
@@ -284,7 +279,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
                 },
             }
         });
-		if (regForm.valid() == false) return false; else $('#costEstimationModal').modal('open');
+		if (regForm.valid() == false) {
+			Materialize.toast('املأ الخانات المطلوبة اولا', 4000) // 4000 is the duration of the toast
+			return false;
+		}  else $('#costEstimationModal').modal('open');
 
 		$scope.calculatingBudget = true;
 
@@ -300,17 +298,19 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		var adultsString = "مسافر بالغ";
 		var kidsString = null;
 		var infantsString = null;
-		if ($scope.numberOfAdults > 0) adultsString = $scope.numberOfAdults + " بالغ"; if ($scope.numberOfAdults > 1) adultsString = $scope.numberOfAdults + " بالغين";
-		if ($scope.numberOfKids > 0) kidsString = $scope.numberOfKids + " طفل"; if ($scope.numberOfKids > 1) kidsString = $scope.numberOfKids + "اطفال"; 
-		if ($scope.numberOfInfants > 0) infantsString = $scope.numberOfInfants + " رضيع"; if ($scope.numberOfInfants > 1) infantsString = $scope.numberOfInfants + "رضع"; 
+		if ($scope.numberOfAdults > 0) adultsString = "مسافر واحد"; if ($scope.numberOfAdults > 1) adultsString = $scope.numberOfAdults + " مسافرين بالغين";
+		if ($scope.numberOfKids > 0) kidsString = " طفل واحد"; if ($scope.numberOfKids > 1) kidsString = "طفلان"; if ($scope.numberOfKids > 2) kidsString = $scope.numberOfKids + "اطفال"; 
+		if ($scope.numberOfInfants > 0) infantsString = " رضيع واحد"; if ($scope.numberOfInfants > 1) infantsString = "رضيعان"; if ($scope.numberOfInfants > 2) infantsString = $scope.numberOfInfants + "رضع"; 
 		$scope.travelersStatement = adultsString;
-		if (kidsString) $scope.travelersStatement += " | " + kidsString;
-		if (infantsString) $scope.travelersStatement += " | " + infantsString;
+		if (kidsString && infantsString) $scope.travelersStatement += " , " + kidsString; else if (kidsString) $scope.travelersStatement += " و " + kidsString;
+		if (infantsString) $scope.travelersStatement += " و " + infantsString;
 
 		$http.post($rootScope.serverURL + "/request/budgetcalc", { request: $scope.request }).success(function (response) {
 			console.log("Request submitted");
 			$scope.calculatingBudget = false;
 			$scope.costEstimation = response;
+
+			if ($scope.costEstimation.numberOfNights == 1) $scope.nightsStatement = "ليلة واحدة"; else if ($scope.costEstimation.numberOfNights == 2) $scope.nightsStatement = "ليلتان"; else $scope.nightsStatement = $scope.costEstimation.numberOfNights + " ليال";
 		}).error(function (err) {
 			$scope.calculatingBudget = false;
 			console.log("Failed to submit request for calculation: " + JSON.stringify(err));

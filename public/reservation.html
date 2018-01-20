@@ -509,7 +509,8 @@
                                                                 <div class="budget">
                                                                     <h3 class="bold tittle">
                                                                         <span class="txt left">Budget</span>
-                                                                        <span class=" normal value" ng-bind="myOwnBudget"></span>
+                                                                        <span class=" normal value" ng-bind="selectedBudgetCategory.name" ng-hide ="selectedBudgetCategory.name.includes('Own')"></span>
+                                                                        <span class=" normal value" ng-show ="selectedBudgetCategory.name.includes('Own')">{{myOwnBudget | currency:"egp ":0}}</span>
 
                                                                     </h3>
                                                                 </div>
@@ -565,18 +566,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!--<div class="wizard-footer-container col-lg-6">
-                                            <div class="btn-inner">
-                                                <button type="button" class="secondary-btn wizard-back pull-left">Edit</button>
-                                                <button type="button" class="primary-btn wizard-submit pull-right btn" data-target="success-modal">Submit </button>
-                                            </div>
-                                        </div>-->
                                                 </div>
                                             </div>
                                             <div class="col-lg-5 right-side live-it-all-bg noPadding">
-                                                <img src="images/live-it-all.png" /> </div>
+                                                <img src="images/live-it-all.png" />
+                                            </div>
                                         </div>
-                                    </div>
+                                    
                                 </fieldset>
                             </div>
                         </form>
@@ -616,7 +612,7 @@
                                 <h4 class="budget-estimation-title">{{travelersStatement}}</h4>
                             </div>
                             <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
-                                <h4 class="budget-estimation-title">{{costEstimation.numberOfNights}} nights</h4>
+                                <h4 class="budget-estimation-title">{{nightsStatement}}</h4>
                             </div>
                             <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
                                 <h4 class="budget-estimation-title">{{costEstimation.totalBudget| currency:"egp ":0}}</h4>
@@ -639,7 +635,7 @@
                                <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image"/>Accomodation: {{costEstimation.accomodationBudget| currency:"egp ":0}}
                             </div>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false && costEstimation.ferriesBudget > 0">
-                               <img src="images/cost-estimation/ferries.png" class="budget-estimation-image"/>Ferries: {{costEstimation.ferriesBudge| currency:"egp ":0}}
+                               <img src="images/cost-estimation/ferries.png" class="budget-estimation-image"/>Ferries: {{costEstimation.ferriesBudget| currency:"egp ":0}}
                             </div>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
                                 <span class="badge green" style="color: white;">Hint</span>

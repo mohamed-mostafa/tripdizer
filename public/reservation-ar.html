@@ -516,7 +516,8 @@
                                                                 </div>
                                                                 <div class="budget">
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" normal value" ng-bind="myOwnBudget"></span>
+                                                                        <span class=" normal value" ng-bind="selectedBudgetCategory.name" ng-hide ="selectedBudgetCategory.name.includes('خاص')"></span>
+                                                                        <span class=" normal value" ng-show ="selectedBudgetCategory.name.includes('خاص')">{{myOwnBudget | currency:"ج.م. ":0}}</span>
                                                                         <span class="txt ">الميزانية</span>
                                                                     </h3>
                                                                 </div>
@@ -618,7 +619,7 @@
                                 </h4>
                             </div>
                             <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
-                                <h4 class="budget-estimation-title"> {{costEstimation.numberOfNights}} ليال</h4>
+                                <h4 class="budget-estimation-title"> {{nightsStatement}} </h4>
                             </div>
                             <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
                                 <h4 class="budget-estimation-title"> {{costEstimation.totalBudget| currency:"ج.م ":0}} </h4>
