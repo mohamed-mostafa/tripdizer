@@ -355,7 +355,7 @@ h3#home-msg {
     margin-top: 50px;
 }*/
 #registerationflow {
-    padding-top: 75px;
+    padding-top: 20px;
 }
 
 .numeric-wizard-container ul.steps {
@@ -382,10 +382,11 @@ h3#home-msg {
     display: block;
 }
 .wizard > .actions.firstStep{
+    position: absolute;
     right: inherit;
-left: 155px;
-top: inherit;
-bottom: 74px;
+    left: 155px;
+    top: inherit;
+    bottom: 74px;
 }
 .numeric-wizard-container ul.steps li a {
     cursor: default;
@@ -844,7 +845,6 @@ span.form-description {
     display: block;
     text-align: left;
     font-size: .9em;
-    padding-top: 10px;
 }
 
 .map-popup .popup-img-container {

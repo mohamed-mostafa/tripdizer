@@ -244,4 +244,77 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.itineraries = itineraries
 	});
 
+	$scope.calculatingBudget = false;
+	$scope.costEstimation = null;
+	$scope.estimateCost = function() {
+
+		var regForm = $("#registrationForm");
+		regForm.validate({
+            errorPlacement: function errorPlacement(error, element) {
+
+                if(element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+                    element.parent().before(error);
+                } else {
+                    element.after(error);
+                    error.addClass("regError");
+                }
+            },
+            rules: {
+                date_from: "required",
+                date_to: "required",
+                people_number: {
+                    required: true,
+                    number: true
+                },
+                budget: "required",
+            },
+            messages: {
+                date_from: {
+                    required: "This field is required"
+                },
+                date_to: {
+                    required: "This field is required"
+                },
+                people_number: {
+                    required: "This field is required",
+                    number: "Please enter numbers only"
+                },
+                budget: {
+                    required: "This field is required"
+                },
+            }
+        });
+		if (regForm.valid() == false) return false; else $('#costEstimationModal').modal('open');
+
+		$scope.calculatingBudget = true;
+
+		$scope.request.departure_date = $scope.selectedFrom;
+		$scope.request.return_date = $scope.selectedTo;
+		$scope.request.itinerary_id = $scope.selectedDestinations[0];	
+		$scope.request.number_of_adults = $scope.numberOfAdults;
+		$scope.request.number_of_kids = $scope.numberOfKids;
+		$scope.request.number_of_infants = $scope.numberOfInfants;
+		$scope.request.budget_category = $scope.selectedBudgetCategory.id;
+		$scope.request.budget = $scope.myOwnBudget;
+
+		var adultsString = "مسافر بالغ";
+		var kidsString = null;
+		var infantsString = null;
+		if ($scope.numberOfAdults > 0) adultsString = $scope.numberOfAdults + " بالغ"; if ($scope.numberOfAdults > 1) adultsString = $scope.numberOfAdults + " بالغين";
+		if ($scope.numberOfKids > 0) kidsString = $scope.numberOfKids + " طفل"; if ($scope.numberOfKids > 1) kidsString = $scope.numberOfKids + "اطفال"; 
+		if ($scope.numberOfInfants > 0) infantsString = $scope.numberOfInfants + " رضيع"; if ($scope.numberOfInfants > 1) infantsString = $scope.numberOfInfants + "رضع"; 
+		$scope.travelersStatement = adultsString;
+		if (kidsString) $scope.travelersStatement += " | " + kidsString;
+		if (infantsString) $scope.travelersStatement += " | " + infantsString;
+
+		$http.post($rootScope.serverURL + "/request/budgetcalc", { request: $scope.request }).success(function (response) {
+			console.log("Request submitted");
+			$scope.calculatingBudget = false;
+			$scope.costEstimation = response;
+		}).error(function (err) {
+			$scope.calculatingBudget = false;
+			console.log("Failed to submit request for calculation: " + JSON.stringify(err));
+		});
+	};
+
 }]);

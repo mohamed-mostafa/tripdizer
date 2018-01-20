@@ -361,7 +361,7 @@ h3#home-msg {
     margin-top: 50px;
 }*/
 #registerationflow {
-    padding-top: 75px;
+    padding-top: 20px;
 }
 
 .numeric-wizard-container ul.steps {
@@ -389,6 +389,7 @@ h3#home-msg {
     display: block;
 }
 .wizard > .actions.firstStep{
+    position: absolute;
     right: inherit;
 left: 155px;
 top: inherit;

@@ -243,7 +243,7 @@
                                                         <div class="col s12">
                                                             <div class="row">
 
-                                                                <div class="col-lg-6 col-sm-12 noPadding leave">
+                                                                <div class="col-lg-4 col-sm-12 noPadding leave">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
                                                                         <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom" style="direction:rtl">
@@ -251,7 +251,7 @@
 
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-6 col-sm-12 noPadding">
+                                                                <div class="col-lg-4 col-sm-12 noPadding leave">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
                                                                         <input id="date_to" name="date_to" type="text" class="datepicker" ng-model="selectedTo" style="direction:rtl">
@@ -259,20 +259,20 @@
 
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row right">
-                                                                <p style="float:right">
-                                                                    <input type="checkbox" id="test5" ng-model="plusOrMinusThreeDays" />
-                                                                    <label for="test5" style="float:right"> (تواريخ قابلة للتعديل (+/- ٣ أيام </label>
-                                                                </p>
+                                                                <div class="col-lg-4 col-sm-12 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                         <input type="checkbox" id="test5" ng-model="plusOrMinusThreeDays" />
+                                                                        <label for="test5"> (تواريخ قابلة للتعديل (+/- ٣ أيام </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="right row">
                                                                 <div class="col-lg-4 col-sm-4 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <div>
                                                                             <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active">
-                                                                            <label for="infants_number" class="left-aligned-text">عدد الرضع</label>
+                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active right-aligned-text">
+                                                                            <label for="infants_number" class="right-aligned-text">عدد الرضع</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -280,8 +280,8 @@
                                                                     <div class="input-field col s12">
                                                                         <div>
                                                                             <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class="active">
-                                                                            <label for="kids_number" class="left-aligned-text">عدد الاطفال</label>
+                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class=" right-aligned-text active">
+                                                                            <label for="kids_number" class="right-aligned-text">عدد الاطفال</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -289,8 +289,8 @@
                                                                     <div class="input-field col s12">
                                                                         <div>
                                                                             <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active">
-                                                                            <label for="adults_number" class="left-aligned-text">عدد البالغين</label>
+                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active right-aligned-text">
+                                                                            <label for="adults_number" class="right-aligned-text">عدد البالغين</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -310,18 +310,8 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            <!--  <div class="row right">
-                                                                <div class="col-lg-6 col-sm-12 noPadding">
-                                                                    <div class="input-field col s12">
-                                                                        <div ng-show="selectedPurpose.name.includes('آخر')">
-                                                                            <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" style="direction:rtl">
-                                                                            <label for="other_people_number" style="margin-left:70%">اخري</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
                                                             <div class="row right">
-                                                                <label class="tittle full-width left-aligned-text">الميزانية</label>
+                                                                <label class="tittle full-width right-aligned-text">الميزانية</label>
                                                                 <div class="radio-btn-container contain">
                                                                     <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('خاصة')">
                                                                         <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
@@ -334,13 +324,19 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            <!-- <div class="col-lg-6 col-sm-12">
-                                                                <div class="input-field col s12" ng-show="selectedBudgetCategory.name.includes('خاصة')">
-                                                                    <i class="material-icons prefix fa fa-money"></i>
-                                                                    <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
-                                                                    <label for="own_budget">أدخل ميزانيتك</label>
+                                                            <div class="row right" ng-hide="selectedBudgetCategory.name.includes('خاصة') || requestType != 'itineraries'">
+                                                                    <div class="col-lg-4 col-sm-12 noPadding">
+                                                                        <a class="waves-effect waves-light btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse cost-estimation-button" ng-click="estimateCost();">قدر مصاريف رحلتي</a>
+                                                                    </div>
+                                                                    <div class="col-lg-8 col-sm-12 noPadding">
+                                                                        <p class="right bold small">
+                                                                            <span class="red-color">جديد ! </span>اضغط لتري تقدير مصاريف رحلتك
+                                                                        </p>
+                                                                        <p class="right bold small">
+                                                                            لقد اطلقنا للتو خدمة تقدير مصاريف الرحلات, لنساعدك علي تخطيط رحلتك
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
-                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -348,9 +344,6 @@
                                         </div>
                                     </div>
                                 </fieldset>
-
-                                <!---------------------------------------------------------- ---------------------- -->
-                                <!-- -------------------------------------------------------->
                                 <h3 class="">اهتماماتك</h3>
                                 <fieldset class="">
                                     <div class="wizard-tab-content row animate slideInLeft">
@@ -425,12 +418,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!--<div class="wizard-footer-container">
-                                                <button type="button" class="secondary-btn wizard-back"><span class="glyphicon glyphicon-chevron-left
-                                    "></span>Back</button>
-                                                <button type="button" class="primary-btn wizard-next">التالي <span class="glyphicon glyphicon-chevron-right
-                                                "></span></button>
-                                            </div>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -585,12 +572,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!--<div class="wizard-footer-container col-lg-6">
-                                            <div class="btn-inner">
-                                                <button type="button" class="secondary-btn wizard-back pull-left">Edit</button>
-                                                <button type="button" class="primary-btn wizard-submit pull-right btn" data-target="success-modal">Submit </button>
-                                            </div>
-                                        </div>-->
                                                 </div>
                                             </div>
                                             <div class="col-lg-5 right-side live-it-all-bg noPadding">
@@ -625,6 +606,53 @@
                         <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">تم</a>
                     </div>
                 </div>
+                <div id="costEstimationModal" class="modal bottom-sheet">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat right" style="    height: inherit; line-height: inherit;; padding: 0 0.5rem">X</a>
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-12 noPadding">
+                                <h4 class="budget-estimation-title">{{costEstimation.iternaryArabicName}}</h4>
+                            </div>
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                                <h4 class="budget-estimation-title">{{travelersStatement}}
+                                </h4>
+                            </div>
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                                <h4 class="budget-estimation-title"> {{costEstimation.numberOfNights}} ليال</h4>
+                            </div>
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                                <h4 class="budget-estimation-title"> {{costEstimation.totalBudget| currency:"ج.م ":0}} </h4>
+                            </div>
+                        </div>
+                       <div class="row">
+                            <div class="col-lg-12 noPadding" ng-show = "calculatingBudget == true">
+                                <div class="progress">
+                                    <div class="indeterminate"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == true">
+                                <p> انتظر حتي نقوم بالتقدير</p>
+                            </div>
+                            <h2  ng-show = "calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#fff; padding:0 10px; color: grey;">التفاصيل</span></h2>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
+                              <span>الطيران: {{costEstimation.flightsBudget| currency:"ج.م ":0}} </span>
+                               <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>
+                            </div>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
+                              <span> الاقامة:  {{costEstimation.accomodationBudget| currency:"ج.م ":0}} </span>
+                               <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image"/>
+                            </div>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false && costEstimation.ferriesBudget > 0">
+                              <span>التنقلات البحرية: {{costEstimation.ferriesBudget| currency:"ج.م ":0}} </span>
+                               <img src="images/cost-estimation/ferries.png" class="budget-estimation-image"/>
+                            </div>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
+                                
+                               <span>المصاريف اليومية: {{costEstimation.dailySpendings| currency:"ج.م ":0}} </span>
+                                <img src="images/cost-estimation/daily-spendings.png" class="budget-estimation-image"><span class="badge green" style="color: white;">معلومة</span></img>
+                            </div>
+                        </div>
+                    </div>
             </section>
         </main>
     </div>

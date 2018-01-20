@@ -227,7 +227,7 @@
                                                         <span class="form-description">Tell us the date, purpose and budget of your trip ...</span>
                                                         <div class="col s12">
                                                             <div class="row">
-                                                                <div class="col-lg-6 col-sm-12 noPadding">
+                                                                <div class="col-lg-4 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
                                                                         <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom">
@@ -235,7 +235,7 @@
 
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-6 col-sm-12 noPadding">
+                                                                <div class="col-lg-4 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
                                                                         <input id="date_to" name="date_to" type="text" class="datepicker" ng-model="selectedTo">
@@ -243,12 +243,13 @@
 
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row left">
-                                                                <p>
-                                                                    <input type="checkbox" id="test5" ng-model="plusOrMinusThreeDays" />
+                                                                <div class="col-lg-4 col-sm-12 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <input type="checkbox" id="test5" ng-model="plusOrMinusThreeDays" />
                                                                     <label for="test5">Flexible dates (+/- 3 days)</label>
-                                                                </p>
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="row left">
                                                                 <div class="col-lg-4 col-sm-4 noPadding">
@@ -294,17 +295,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row left">
-                                                                <!-- <div class="row">
-                                                                    <div class="col-lg-6 col-sm-12 noPadding">
-                                                                        <div class="input-field col s12">
-                                                                            <div ng-show="selectedPurpose.name.includes('Other')">
-                                                                                <input type="text" id="other_people_number" name="other_people_number" ng-model="otherType" />
-                                                                                <label for="other_people_number">Other</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> -->
-                                                                <div class="row">
+                                                                <div class="row left">
                                                                     <label class="tittle full-width left-aligned-text">Budget</label>
                                                                     <div class="radio-btn-container">
                                                                         <p ng-repeat="budgetCategory in budgetCategories">
@@ -317,14 +308,20 @@
                                                                             <label for="own_budget">Your budget</label>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <div class="col-lg-6 col-sm-12">
-                                                                        <div class="input-field col s12" ng-show="selectedBudgetCategory.name.includes('Own')">
-                                                                            <i class="material-icons prefix fa fa-money"></i>
-                                                                            <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
-                                                                            <label for="own_budget">Enter your budget</label>
-                                                                        </div>
-                                                                    </div> -->
+                                                                </div>
+                                                                <div class="row" ng-hide="selectedBudgetCategory.name.includes('Own') || requestType != 'itineraries'">
+                                                                    <div class="col-lg-8 col-sm-12 noPadding">
+                                                                        <p class="left bold small">
+                                                                            <span class="red-color">NEW !</span> Click the button to view an estimation of your trip's cost.
+                                                                        </p>
+                                                                        <p class="left bold small">
+                                                                            We just launched our new cost estimation service, to help you plan your trip.
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-sm-12 noPadding">
+                                                                        <a class="waves-effect waves-light btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse cost-estimation-button" ng-click="estimateCost();">Estimate</a>
+                                                                    </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -608,12 +605,60 @@
                         <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
                     </div>
                 </div>
+                <div id="costEstimationModal" class="modal bottom-sheet">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat right" style="    height: inherit; line-height: inherit; padding: 0 0.5rem">X</a>
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-12 noPadding">
+                                <h4 class="budget-estimation-title">{{costEstimation.iternaryName}}</h4>
+                            </div>
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                                <h4 class="budget-estimation-title">{{travelersStatement}}</h4>
+                            </div>
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                                <h4 class="budget-estimation-title">{{costEstimation.numberOfNights}} nights</h4>
+                            </div>
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                                <h4 class="budget-estimation-title">{{costEstimation.totalBudget| currency:"egp ":0}}</h4>
+                            </div>
+                        </div>
+                       <div class="row">
+                            <div class="col-lg-12 noPadding" ng-show = "calculatingBudget == true">
+                                <div class="progress">
+                                    <div class="indeterminate"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == true">
+                                <p> Please wait while tripdizer does its magic !</p>
+                            </div>
+                            <h2  ng-show = "calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#fff; padding:0 10px; color: grey;">Cost Breakdown</span></h2>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
+                               <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>Flights: {{costEstimation.flightsBudget| currency:"egp ":0}}
+                            </div>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
+                               <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image"/>Accomodation: {{costEstimation.accomodationBudget| currency:"egp ":0}}
+                            </div>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false && costEstimation.ferriesBudget > 0">
+                               <img src="images/cost-estimation/ferries.png" class="budget-estimation-image"/>Ferries: {{costEstimation.ferriesBudge| currency:"egp ":0}}
+                            </div>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
+                                <span class="badge green" style="color: white;">Hint</span>
+                               <img src="images/cost-estimation/daily-spendings.png" class="budget-estimation-image"/>
+                               <span>Daily Spendings: {{costEstimation.dailySpendings| currency:"egp ":0}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      
+                    </div>
+                  </div>
             </section>
         </main>
     </div>
     <!-- Global Mailform Output-->
     <div id="form-output-global" class="snackbars"></div>
-
+    <!-- Budget Modal Structure -->
+  
     <!-- Java script-->
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>

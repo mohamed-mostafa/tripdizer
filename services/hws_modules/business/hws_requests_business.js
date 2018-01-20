@@ -135,6 +135,9 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 			var diff = new DateDiff(new Date(request.return_date), new Date(request.departure_date));
 			const rData = {
 				itineraryId: request.itinerary_id,
+				iternaryName: itinerary.en_name,
+				iternaryArabicName: itinerary.ar_name,
+				dailySpendings : itinerary.dailySpendings,
 				numberOfAdults: request.number_of_adults,
 				numberOfKids: request.number_of_kids,
 				numberOfInfants: request.number_of_infants,
@@ -143,7 +146,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				returnMonth: monthMap[new Date(request.return_date).getMonth() + 1],
 				totalBudget: 0,
 				flightsBudget: 0,
-				numberOfNights: diff.days(),
+				numberOfNights: Math.abs(diff.days()),
 				accomodationBudget: 0,
 				ferriesBudget: 0
 			};

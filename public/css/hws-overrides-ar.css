@@ -190,7 +190,7 @@ a.modal-action.modal-close.waves-effect.waves-green.btn-flat {
 }
 
 span.form-description {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .specialRequestsTextArea {
@@ -210,4 +210,37 @@ span.form-description {
 .reqs {
 	width: 150px;
 	margin-top: 20px !important;
+}
+.budget-estimation-image {
+
+	width: 40px;
+	height: 40px;
+	padding-left: 10px;
+	margin-bottom: 10px;
+}
+.budget-estimation-text {
+	font-weight: 700;
+	line-height: 25px;
+	font-size: 1rem;
+}
+.budget-estimation-title {
+	color: #ff6b6b;
+	font-family: fantasy;
+	    direction: rtl;
+}
+.red-color {
+	color: red;
+}
+.cost-estimation-button {
+	font-size: 16px;
+	color: #fff;
+	background-color: #ff6b6b;
+	border-color: #ff6b6b;
+	font-weight:700;
+}
+.right-aligned-text {
+	text-align: right;
+}
+span.badge {
+	float: none;
 }

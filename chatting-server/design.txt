@@ -1,0 +1,28 @@
+design:
+	map of agents sockets
+	map of users sockets
+	map of ongoing conversations
+	service to retrieve list of agents
+
+	once an agents clicks on -i'm ready- button
+		its opens a socket to the server and is saved on the server side in the agents sockets
+
+	once a user opens the chat window (a modal)
+		the window requests his name
+		it shows him if there're agents online or not
+
+	once a user sends a message 
+		it opens a socket to the server and is saved on the server side in the users sockets
+		we locate an empty agent and we put both sessions in the ongoing conversations map
+		we send the message to the agent
+		the agent's browser opens a new window - this is the only way an agent can talk to a user
+
+	once an agent closes the chat window (or clicks the close chat window button)
+		we remove him from agents sockets
+		we find if there're ongoing conversations, and notify the other party
+		we remove the record from the ongoing conversations	
+
+	when a user is disconnected
+		we remove him from agents sockets
+		we remove him from users sockets
+		we remove him from ongoing conversations socket, and send a message to the other party
