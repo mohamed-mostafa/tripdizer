@@ -154,10 +154,6 @@ input[type=range]::-webkit-slider-thumb {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
 }
 
-.h3.trip-type {
-	color: #ff6b6b !important;
-}
-
 .h3.thanks-msg, .req-num-msg, .contact-msg {
 	color: #ff6b6b !important;
 }
@@ -230,4 +226,7 @@ span.form-description {
 }
 span.badge {
 	float: none;
+}
+.left-aligned {
+	text-align: left;
 }

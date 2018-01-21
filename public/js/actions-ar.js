@@ -130,6 +130,13 @@
                 var splittedPosition = selectedElementPosition.split(',');
                 if (splittedPosition != undefined) {
                     var myLatlng = new google.maps.LatLng(splittedPosition[0], splittedPosition[1]);
+                    // if lng lat is 0,0 ... do nothing
+                    if (myLatlng.lat() == 0 && myLatlng.lng() == 0) {
+                        for (var i = 0; i < markers.length; i++) {
+                            markers[i].setMap(null);
+                        }
+                        return;
+                    }
                     map.setCenter(myLatlng);
                     // Sets the map on all markers in the array.
                     for (var i = 0; i < markers.length; i++) {

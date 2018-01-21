@@ -120,6 +120,7 @@ h3.range-tittle img {
 h3.range-tittle {
     line-height: 50px;
 	color: black;
+	direction: rtl;
 }
 
 .last-child {
@@ -153,10 +154,6 @@ input[type=range]::-webkit-slider-thumb {
   cursor: pointer;
   margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
-}
-
-.h3.trip-type {
-	color: #ff6b6b !important;
 }
 
 .h3.thanks-msg, .req-num-msg, .contact-msg {
@@ -243,4 +240,15 @@ span.form-description {
 }
 span.badge {
 	float: none;
+}
+.horizontally-flipped-image {
+-moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+}
+.tripdizer-red {
+	color: #ff6b6b;
 }

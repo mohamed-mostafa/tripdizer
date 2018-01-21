@@ -6,8 +6,13 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+var users = [];
+var agents = [];
+var conversations = [];
+
+
 io.on('connection', function(socket){
-  console.log('a user connected');
+  console.log('a user connected - adding the user to the list of users');
 });
 
 http.listen(3000, function(){

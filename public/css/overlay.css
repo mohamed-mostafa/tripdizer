@@ -673,9 +673,12 @@ h3.trip-details {
 }
 
 h3.trip-type {
-    color: #3ec7d6;
-    font-size: 26px;
-    text-align: right;
+    color: #ff6b6b !important;
+    text-align: center !important;
+    font-weight: bolder !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    font-size: xx-large;
 }
 
 h3.trip-type .number {

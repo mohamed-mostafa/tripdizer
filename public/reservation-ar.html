@@ -208,7 +208,7 @@
                                                                         <button class="add-btn" ng-click="removeThirdDestination();" style="margin-top: 20px;" type="button">-</button>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="requestType === 'countries' && (selectedDestinations[0] == 'other' || selectedDestinations[1] == 'other' || selectedDestinations[2] == 'other')"
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="requestType === 'countries' && (selectedDestinations[0] === '1' || selectedDestinations[1] === '1' || selectedDestinations[2] === '1')"
                                                                         />
                                                                         <label for="otherCountries" style="direction:rtl">حدد بلدان اخري</label>
                                                                     </div>
@@ -360,13 +360,13 @@
                                                         <span class="form-description">أخبرنا عن أكثر الأنشطة التي تحبها</span>
                                                         <div class="row" ng-repeat="interest in interests">
                                                             <main class="row col-lg-12 sliders-row">
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                <div class="col-lg-3 col-sm-4 noPadding right">
                                                                     <h3 class="range-tittle">
-                                                                        <img src="images/{{interest.en_name}}.png" />
+                                                                        <img src="images/{{interest.en_name}}.png" class="horizontally-flipped-image"/>
                                                                         <span>{{interest.name}}: {{interest.percent || 0}}%</span>
                                                                     </h3>
                                                                 </div>
-                                                                <div class="col-lg-8 col-sm-8 noPadding">
+                                                                <div class="col-lg-9 col-sm-8 noPadding right">
                                                                     <fieldset>
                                                                         <div class="range">
                                                                             <input name="range-{{interest.id}}" type="range" min="0" max="100" value="0" ng-model="interest.percent">
@@ -491,14 +491,14 @@
                                                             <div class="transparent-bg">
                                                                 <div class="place border-bottom">
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" normal value" ng-bind="selectedSource"></span>
+                                                                        <span class=" bold tripdizer-red value" ng-bind="selectedSource"></span>
                                                                         <span class="txt ">من</span>
                                                                     </h3>
                                                                     <h3 class="bold tittle">
-                                                                        <span ng-if="requestType === 'countries'" class=" normal value">
+                                                                        <span ng-if="requestType === 'countries'" class="  bold tripdizer-red value">
                                                                                 {{selectedDestinations[0] ? (selectedDestinations[0] == 1 ? selectedOtherDestinations : countries[selectedDestinations[0] - 1].ar_name) : ''}}{{selectedDestinations[1] ? ', ' + (selectedDestinations[1] == 1 ? selectedOtherDestinations : countries[selectedDestinations[1] - 1].ar_name) : ''}}{{selectedDestinations[2] ? ', ' + (selectedDestinations[2] == 1 ? selectedOtherDestinations : countries[selectedDestinations[2] - 1].ar_name) : ''}}
                                                                         </span>
-                                                                        <span ng-if="requestType === 'itineraries'" class=" normal value">
+                                                                        <span ng-if="requestType === 'itineraries'" class="  bold tripdizer-red value">
                                                                                 {{itineraries[selectedDestinations[0] - 1].ar_name}}
                                                                         </span>
                                                                         <span class="txt ">الي</span>
@@ -506,34 +506,34 @@
                                                                 </div>
                                                                 <div class="time">
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" normal value" ng-bind="selectedFrom"></span>
+                                                                        <span class="  bold tripdizer-red value" ng-bind="selectedFrom"></span>
                                                                         <span class="txt ">من</span>
                                                                     </h3>
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" normal value" ng-bind="selectedTo"></span>
+                                                                        <span class="  bold tripdizer-red value" ng-bind="selectedTo"></span>
                                                                         <span class="txt ">الي</span>
                                                                     </h3>
                                                                 </div>
                                                                 <div class="budget">
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" normal value" ng-bind="selectedBudgetCategory.name" ng-hide ="selectedBudgetCategory.name.includes('خاص')"></span>
-                                                                        <span class=" normal value" ng-show ="selectedBudgetCategory.name.includes('خاص')">{{myOwnBudget | currency:"ج.م. ":0}}</span>
+                                                                        <span class="  bold tripdizer-red value" ng-bind="selectedBudgetCategory.name" ng-hide ="selectedBudgetCategory.name.includes('خاص')"></span>
+                                                                        <span class="  bold tripdizer-red value" ng-show ="selectedBudgetCategory.name.includes('خاص')">{{myOwnBudget | currency:"ج.م. ":0}}</span>
                                                                         <span class="txt ">الميزانية</span>
                                                                     </h3>
                                                                 </div>
                                                                 <div class="cont">
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" reqs" ng-show="needVisaAssistance == true">طلب مساعدة التأشيرة</span>
-                                                                        <span class=" reqs" ng-show="needVisaAssistance == false">مساعة التأشيرة غير مطلوبة</span>
+                                                                        <span class=" reqs bold tripdizer-red" ng-show="needVisaAssistance == true">طلب مساعدة التأشيرة</span>
+                                                                        <span class=" reqs bold tripdizer-red" ng-show="needVisaAssistance == false">مساعة التأشيرة غير مطلوبة</span>
                                                                     </h3>
                                                                     <h3 class="bold tittle">
-                                                                        <span class=" reqs" ng-show="needTourGuide == true">طلب مرشد سياحي</span>
-                                                                        <span class=" reqs" ng-show="needTourGuide == false">المرشد السياحي غير مطلوب</span>
+                                                                        <span class=" reqs bold tripdizer-red" ng-show="needTourGuide == true">طلب مرشد سياحي</span>
+                                                                        <span class=" reqs  bold tripdizer-red" ng-show="needTourGuide == false">المرشد السياحي غير مطلوب</span>
                                                                     </h3>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="trip-type-data col-lg-4 col-md-6 col-sm-12 right-aligned">
+                                                        <div class="trip-type-data col-lg-2 col-md-6 col-sm-12 right-aligned">
                                                             <h3 class="trip-type">
                                                                 <span>{{selectedPurpose.name}}</span>
                                                                 <br>
@@ -543,31 +543,31 @@
                                                         </div>
 
 
-                                                        <div class="trip-data col-lg-4 col-md-6 col-sm-12 left-aligned">
+                                                        <div class="trip-data col-lg-6 col-md-6 col-sm-12 left-aligned">
                                                             <h3 class="trip-details"></h3>
 
                                                             <div class="transparent-bg" style="">
                                                                 <div class="place border-bottom">
-                                                                    <h3 class="bold tittle">
-                                                                        <span class=" normal value" ng-bind="request.traveler.dateOfBirth"></span>
+                                                                    <h3 class="bold tittle" style="text-align: right; margin-right: 30px;">
+                                                                        <span class="  bold tripdizer-red value" ng-bind="request.traveler.dateOfBirth"></span>
                                                                         <span class="txt">تاريخ الميلاد</span>
                                                                     </h3>
 
-                                                                    <h3 class="bold tittle">
-                                                                        <span class=" normal value" ng-bind="request.traveler.mobile"></span>
+                                                                    <h3 class="bold tittle" style="text-align: right; margin-right: 30px;">
+                                                                        <span class="  bold tripdizer-red value" ng-bind="request.traveler.mobile"></span>
                                                                         <span class="txt">رقم التليفون</span>
                                                                     </h3>
 
-                                                                    <h3 class="bold tittle">
-                                                                        <span class=" normal value" ng-bind="request.traveler.emailAddress"></span>
+                                                                    <h3 class="bold tittle" style="text-align: right; margin-right: 30px;">
+                                                                        <span class="  bold tripdizer-red value" ng-bind="request.traveler.emailAddress"></span>
                                                                         <span class="txt ">الايميل</span>
-
                                                                     </h3>
                                                                 </div>
                                                                 <div class="time">
-                                                                    <h3 class="bold tittle" ng-repeat="interest in interests">
-                                                                        <span class="txt left">{{interest.name}}</span>
-                                                                        <span class=" normal value">{{interest.percent || 0}} %</span>
+                                                                    <h3 class="bold tittle" style="text-align: right; margin-right: 30px;" ng-repeat="interest in interests">
+                                                                        <span class=" bold tripdizer-red value" style="direction: rtl;">{{interest.percent || 0}} %</span>
+                                                                        <span class="txt" style="margin-right: 10px;">{{interest.name}}</span>
+                                                                        
                                                                     </h3>
                                                                 </div>
                                                             </div>

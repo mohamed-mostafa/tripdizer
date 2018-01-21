@@ -4,29 +4,17 @@
 
 tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
 	// fields
-	$scope.sources = [
-		{ id: 1, name: "القاهرة" },
-		{ id: 2, name: "الاسكندرية" }
-	],
-		$scope.destinations = [
-			{ id: 1, name: "بالي" },
-			{ id: 2, name: "كوالالامبور" },
-			{ id: 3, name: "بانكوك" },
-			{ id: 4, name: "سنغافورة" },
-			{ id: 5, name: "فوكيت" }
-		],
+	$scope.selectedSource = "",
+	$scope.selectedDestinations = [],
 
-		$scope.selectedSource = "",
-		$scope.selectedDestinations = [],
+	$scope.selectedFrom = "",
+	$scope.selectedTo = "",
 
-		$scope.selectedFrom = "",
-		$scope.selectedTo = "",
-
-		$scope.lowBudgetSelected = false,
-		$scope.mediumBudgetSelected = true,
-		$scope.highBudgetSelected = false,
-		$scope.myOwnBudgetBudgetSelected = false,
-		$scope.myOwnBudget = null;
+	$scope.lowBudgetSelected = false,
+	$scope.mediumBudgetSelected = true,
+	$scope.highBudgetSelected = false,
+	$scope.myOwnBudgetBudgetSelected = false,
+	$scope.myOwnBudget = null;
 	$scope.needVisaAssistance = false;
 	$scope.needTourGuide = false;
 	$scope.specialRequests = "";
@@ -34,28 +22,28 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	$scope.plusOrMinusThreeDays = false,
 
-		$scope.numberOfAdults = 1,
-		$scope.numberOfKids = 0,
-		$scope.numberOfInfants = 0,
-		$scope.otherType = "",
+	$scope.numberOfAdults = 1,
+	$scope.numberOfKids = 0,
+	$scope.numberOfInfants = 0,
+	$scope.otherType = "",
 
-		$scope.secondDestinationShown = false,
-		$scope.thirdDestinationShown = false,
+	$scope.secondDestinationShown = false,
+	$scope.thirdDestinationShown = false,
 
-		$scope.tripTypeString = "رحلة فردية",
-		$scope.budgetString = "متوسط",
+	$scope.tripTypeString = "رحلة فردية",
+	$scope.budgetString = "متوسط",
 
-		$scope.submitting = false,
-		$scope.submittingError = false,
+	$scope.submitting = false,
+	$scope.submittingError = false,
 
-		$scope.request = {
-			traveler: {
-				name: "",
-				mobile: "",
-				emailAddress: "",
-				dateOfBirth: "",
-			}
-		};
+	$scope.request = {
+		traveler: {
+			name: "",
+			mobile: "",
+			emailAddress: "",
+			dateOfBirth: "",
+		}
+	};
 
 	// functions
 	$scope.selectPurpose = function (purpose) {
@@ -64,51 +52,51 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.numberOfKids = purpose.numberOfKids;
 		$scope.numberOfInfants = purpose.numberOfInfants;
 	},
-		$scope.selectBudgetCategory = function (budgetCategory) {
-			$scope.selectedBudgetCategory = budgetCategory;
-		},
+	$scope.selectBudgetCategory = function (budgetCategory) {
+		$scope.selectedBudgetCategory = budgetCategory;
+	},
 
-		$scope.getDestinations = function () {
-			if ($scope.selectedDestinations.length == 1) {
-				if ($scope.selectedDestinations[0] == 'other') {
-					return $scope.otherCountries;
-				} else {
-					return $scope.selectedDestinations[0];
-				}
-			} else if ($scope.selectedDestinations.length == 2) {
-				if ($scope.selectedDestinations[0] == 'other') {
-					return $scope.otherCountries + " and " + $scope.selectedDestinations[1];
-				} else if ($scope.selectedDestinations[1] == 'other') {
-					return $scope.selectedDestinations[0] + " and " + $scope.otherCountries;
-				} else {
-					return $scope.selectedDestinations[0] + " and " + $scope.selectedDestinations[1];
-				}
-			} else if ($scope.selectedDestinations.length == 3) {
-				if ($scope.selectedDestinations[0] == 'other') {
-					return $scope.otherCountries + ", " + $scope.selectedDestinations[1] + " and " + $scope.selectedDestinations[2];
-				} else if ($scope.selectedDestinations[1] == 'other') {
-					return $scope.selectedDestinations[0] + ", " + $scope.otherCountries + " and " + $scope.selectedDestinations[2];
-				} else if ($scope.selectedDestinations[2] == 'other') {
-					return $scope.selectedDestinations[0] + ", " + $scope.selectedDestinations[1] + " and " + $scope.otherCountries;
-				} else {
-					return $scope.selectedDestinations[0] + ", " + $scope.selectedDestinations[1] + " and " + $scope.selectedDestinations[2];
-				}
+	$scope.getDestinations = function () {
+		if ($scope.selectedDestinations.length == 1) {
+			if ($scope.selectedDestinations[0] == 'other') {
+				return $scope.otherCountries;
+			} else {
+				return $scope.selectedDestinations[0];
 			}
-		},
-
-		$scope.addDestination = function () {
-			if ($scope.selectedFirstDestination.split('::')[0] === 'c') {
-				if ($scope.secondDestinationShown == false && $scope.thirdDestinationShown == false) {
-					$scope.secondDestinationShown = true;
-				} else if ($scope.secondDestinationShown == true && $scope.thirdDestinationShown == false) {
-					$scope.thirdDestinationShown = true;
-				} else if ($scope.secondDestinationShown == false && $scope.thirdDestinationShown == true) {
-					$scope.secondDestinationShown = true;
-				} else {
-					// do nothing, all shown
-				}
+		} else if ($scope.selectedDestinations.length == 2) {
+			if ($scope.selectedDestinations[0] == 'other') {
+				return $scope.otherCountries + " and " + $scope.selectedDestinations[1];
+			} else if ($scope.selectedDestinations[1] == 'other') {
+				return $scope.selectedDestinations[0] + " and " + $scope.otherCountries;
+			} else {
+				return $scope.selectedDestinations[0] + " and " + $scope.selectedDestinations[1];
+			}
+		} else if ($scope.selectedDestinations.length == 3) {
+			if ($scope.selectedDestinations[0] == 'other') {
+				return $scope.otherCountries + ", " + $scope.selectedDestinations[1] + " and " + $scope.selectedDestinations[2];
+			} else if ($scope.selectedDestinations[1] == 'other') {
+				return $scope.selectedDestinations[0] + ", " + $scope.otherCountries + " and " + $scope.selectedDestinations[2];
+			} else if ($scope.selectedDestinations[2] == 'other') {
+				return $scope.selectedDestinations[0] + ", " + $scope.selectedDestinations[1] + " and " + $scope.otherCountries;
+			} else {
+				return $scope.selectedDestinations[0] + ", " + $scope.selectedDestinations[1] + " and " + $scope.selectedDestinations[2];
 			}
 		}
+	},
+
+	$scope.addDestination = function () {
+		if ($scope.selectedFirstDestination.split('::')[0] === 'c') {
+			if ($scope.secondDestinationShown == false && $scope.thirdDestinationShown == false) {
+				$scope.secondDestinationShown = true;
+			} else if ($scope.secondDestinationShown == true && $scope.thirdDestinationShown == false) {
+				$scope.thirdDestinationShown = true;
+			} else if ($scope.secondDestinationShown == false && $scope.thirdDestinationShown == true) {
+				$scope.secondDestinationShown = true;
+			} else {
+				// do nothing, all shown
+			}
+		}
+	}
 	$scope.countryChanged = function () {
 		if ($scope.selectedFirstDestination.split('::')[0] === 'i') {
 			$scope.secondDestinationShown = false;
@@ -176,8 +164,8 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		});
 	},
 
-		/************Initialize Map S*********************************/
-		$scope.map = null;
+	/************Initialize Map S*********************************/
+	$scope.map = null;
 	$scope.refreshMap = function () {
 		var pos = {
 			lat: 30.0444
@@ -221,6 +209,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	CountriesService.getAll('AR').then(function (countries) {
 		$scope.countries = countries;
+		// move the 'others' to the end of the list
+		var otherCountry = $scope.countries[0];
+		$scope.countries.splice(0, 1);
+		$scope.countries.push(otherCountry);
 	});
 
 	PurposesService.getAll('AR').then(function (purposes) {
@@ -248,7 +240,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	$scope.costEstimation = null;
 	$scope.estimateCost = function() {
 
-		var regForm = $("#registrationForm");
+	var regForm = $("#registrationForm");
 		regForm.validate({
             errorPlacement: function errorPlacement(error, element) {
 	            element.after(error);
