@@ -1,23 +1,16 @@
 {
-  "name": "Tripdizer-chatting-server",
-  "description": "Tripdizer Shatting Server",
-  "version": "1.0.0",
-  "dependencies": {
-    "express": "4.15.2",
-    "socket.io": "1.4.5",
-    "socketio-auth": "0.0.5"
-  },
-  "author": {
-    "name": "Mohamed Mostafa",
-    "email": "eng.mmustafa84@gmail.com",
-    "url": "http://about.me/eng.mmustafa84"
-  },
-  "homepage": "http://about.me/eng.mmustafa84",
-  "engines": {
-    "node": ">=4.3.2"
-  },
+  "name": "socket.io-chat",
+  "version": "0.0.0",
+  "description": "A simple chat client using socket.io",
+  "main": "index.js",
+  "author": "Grant Timmerman",
   "private": true,
+  "license": "BSD",
+  "dependencies": {
+    "express": "4.13.4",
+    "socket.io": "latest"
+  },
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   }
 }

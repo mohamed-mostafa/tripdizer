@@ -16,3 +16,10 @@ env: flex
 service: tripdizer-backend
 beta_settings:
   cloud_sql_instances: feisty-parity-188109:europe-west1:tripdizer
+
+manual_scaling:
+  instances:1
+resources:
+  cpu: 0.8
+  memory_gb: 1
+  disk_size_gb: 4

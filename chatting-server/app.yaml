@@ -13,6 +13,6 @@
 #
 runtime: nodejs
 env: flex
-service: tripdizer-backend
+service: tripdizer-online-chatting-backend
 beta_settings:
   cloud_sql_instances: feisty-parity-188109:europe-west1:tripdizer
