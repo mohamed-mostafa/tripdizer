@@ -228,6 +228,9 @@
                                                     <li>
                                                         <a href="#budgetTab" data-toggle="tab">Budget</a>
                                                     </li>
+                                                    <li>
+                                                        <a href="#purposeTab" data-toggle="tab">Purpose</a>
+                                                    </li>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div class="tab-pane active" id="itineraryTab">
@@ -716,6 +719,14 @@
                                                         <div class="form-group" ng-repeat="budget in budgetCategories" ng-if="budget.id !== 1">
                                                             <label>{{budget.en_name}}</label>
                                                             <input type="range" min="1" max="100" ng-model="newItinerary.budgetCategories[budget.id]">
+                                                        </div>
+                                                        <!-- /.form group -->
+                                                    </div>
+                                                    <!-- /.tab-pane -->
+                                                    <div class="tab-pane" id="purposeTab">
+                                                        <div class="form-group" ng-repeat="purpose in purposes" ng-if="purpose.id !== 1">
+                                                            <label>{{purpose.en_name}}</label>
+                                                            <input type="range" min="1" max="100" ng-model="newItinerary.purposes[purpose.id]">
                                                         </div>
                                                         <!-- /.form group -->
                                                     </div>

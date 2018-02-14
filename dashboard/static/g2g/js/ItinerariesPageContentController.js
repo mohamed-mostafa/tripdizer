@@ -2,9 +2,10 @@
  * 
  */
 
-g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$rootScope', '$scope', '$http', 'ItinerariesService', 'CountriesService', 'BudgetCategoriesService', function ($rootScope, $scope, $http, ItinerariesService, CountriesService, BudgetCategoriesService) {
+g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$rootScope', '$scope', '$http', 'ItinerariesService', 'CountriesService', 'BudgetCategoriesService', 'PurposesService', function ($rootScope, $scope, $http, ItinerariesService, CountriesService, BudgetCategoriesService, PurposesService) {
 	// fields
 	$scope.countries = [];
+	$scope.purposes = [];
 	$scope.budgetCategories = [];
 	$scope.itineraries = [];
 
@@ -115,7 +116,19 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 				else
 					constBudgetCategories[$scope.budgetCategories[i].id] = 0;
 			}
-			$scope.newItinerary = { ...response, budgetCategories: constBudgetCategories };
+			const constPurposes = {};
+			for (let i = 0; i < $scope.purposes.length; i++) {
+				const purpose = response.purposes.find(p => p.travel_purpose_Id === $scope.purposes[i].id);
+				if (purpose)
+					constPurposes[$scope.purposes[i].id] = purpose.Percentage;
+				else
+					constPurposes[$scope.purposes[i].id] = 0;
+			}
+			$scope.newItinerary = {
+				...response,
+				budgetCategories: constBudgetCategories,
+				purposes: constPurposes
+			};
 			$('#detailsModal').modal('show');
 		}
 		).error(function (err) {
@@ -154,6 +167,10 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 
 		CountriesService.getAll().then(function (countries) {
 			$scope.countries = countries;
+		});
+
+		PurposesService.getAll().then(function (purposes) {
+			$scope.purposes = purposes;
 		});
 	};
 
