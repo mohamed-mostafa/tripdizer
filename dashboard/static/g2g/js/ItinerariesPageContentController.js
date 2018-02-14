@@ -107,7 +107,15 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 				response.seasons[i].season_start = response.seasons[i].season_start.split('T')[0];
 				response.seasons[i].season_end = response.seasons[i].season_end.split('T')[0];
 			}
-			$scope.newItinerary = { ...response };
+			const constBudgetCategories = {};
+			for (let i = 0; i < $scope.budgetCategories.length; i++) {
+				const budget = response.budgetCategories.find(b => b.budget_category_Id === $scope.budgetCategories[i].id);
+				if (budget)
+					constBudgetCategories[$scope.budgetCategories[i].id] = budget.Percentage;
+				else
+					constBudgetCategories[$scope.budgetCategories[i].id] = 0;
+			}
+			$scope.newItinerary = { ...response, budgetCategories: constBudgetCategories };
 			$('#detailsModal').modal('show');
 		}
 		).error(function (err) {

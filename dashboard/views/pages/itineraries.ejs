@@ -225,6 +225,9 @@
                                                     <li>
                                                         <a href="#seasonsTab" data-toggle="tab">Seasons</a>
                                                     </li>
+                                                    <li>
+                                                        <a href="#budgetTab" data-toggle="tab">Budget</a>
+                                                    </li>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div class="tab-pane active" id="itineraryTab">
@@ -707,6 +710,14 @@
                                                                 <!-- /.form group -->
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <!-- /.tab-pane -->
+                                                    <div class="tab-pane" id="budgetTab">
+                                                        <div class="form-group" ng-repeat="budget in budgetCategories" ng-if="budget.id !== 1">
+                                                            <label>{{budget.en_name}}</label>
+                                                            <input type="range" min="1" max="100" ng-model="newItinerary.budgetCategories[budget.id]">
+                                                        </div>
+                                                        <!-- /.form group -->
                                                     </div>
                                                     <!-- /.tab-pane -->
                                                 </div>

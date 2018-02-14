@@ -23,7 +23,8 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			FROM iternary i join iternary_flight ifl on i.Id = ifl.Iternary_id join month_price mpa on mpa.id = ifl.adult_price join month_price mpk on mpk.id = ifl.kid_price join month_price mpi on mpi.id = ifl.infant_price WHERE i.Id = ${id};`;
 			var hotelQuery = 'SELECT ih.*, mp.* FROM iternary i join iternary_hotel ih on i.Id = ih.Iternary_id join month_price mp on mp.id = ih.night_price WHERE i.Id = ' + id + ';';
 			var seasonQuery = 'SELECT s.* FROM iternary i join season s on i.Id = s.iternary_Id WHERE i.Id = ' + id + ';';
-			connection.query(iternaryQuery + countriesQuery + ferryQuery + flightQuery + hotelQuery + seasonQuery, [], function (err, rows) {
+			var budgetQuery = 'SELECT bg.* FROM iternary i join iternary_budget_category bg on i.Id = bg.iternary_Id WHERE i.Id = ' + id + ';';
+			connection.query(iternaryQuery + countriesQuery + ferryQuery + flightQuery + hotelQuery + seasonQuery + budgetQuery, [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -46,7 +47,8 @@ var getById = function (id, lang, onSuccess, onFailure) {
 							ferries: rows[2],
 							flights: rows[3],
 							hotels: rows[4],
-							seasons: rows[5]
+							seasons: rows[5],
+							budgetCategories: rows[6]
 						};
 						if (lang) {
 							itinerary.name = itinerary[lang.toLowerCase() + '_name'];
@@ -169,7 +171,14 @@ var update = function (itinerary, onSuccess, onFailure) {
 						seasonsQuery += 'INSERT INTO season (`season_start`, `season_end`, `type`, `iternary_Id`) VALUES ';
 						seasonsQuery += `('${itinerary.seasons[i].season_start}', '${itinerary.seasons[i].season_end}', '${itinerary.seasons[i].type}', '${itinerary.id}');`;
 					}
-					connection.query(updateQuery + countriesQuery + ferriesQuery + flightsQuery + hotelsQuery + seasonsQuery, [], function (err, result) {
+					var budgetsQuery = `DELETE FROM iternary_budget_category WHERE iternary_Id = ${itinerary.id};`;
+					for (var key in itinerary.budgetCategories) {
+						if (itinerary.budgetCategories.hasOwnProperty(key)) {
+							budgetsQuery += 'INSERT INTO iternary_budget_category (`iternary_Id`, `budget_category_Id`, `Percentage`) VALUES ';
+							budgetsQuery += `(${itinerary.id}, ${key}, ${itinerary.budgetCategories[key]});`;
+						}
+					}
+					connection.query(updateQuery + countriesQuery + ferriesQuery + flightsQuery + hotelsQuery + seasonsQuery + budgetsQuery + budgetsQuery, [], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing itinerary: " + itinerary.en_name);
