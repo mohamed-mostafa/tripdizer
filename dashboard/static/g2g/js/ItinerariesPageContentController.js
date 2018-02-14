@@ -2,10 +2,11 @@
  * 
  */
 
-g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$rootScope', '$scope', '$http', 'ItinerariesService', 'CountriesService', 'BudgetCategoriesService', 'PurposesService', function ($rootScope, $scope, $http, ItinerariesService, CountriesService, BudgetCategoriesService, PurposesService) {
+g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$rootScope', '$scope', '$http', 'ItinerariesService', 'CountriesService', 'BudgetCategoriesService', 'PurposesService', 'InterestsService', function ($rootScope, $scope, $http, ItinerariesService, CountriesService, BudgetCategoriesService, PurposesService, InterestsService) {
 	// fields
 	$scope.countries = [];
 	$scope.purposes = [];
+	$scope.interests = [];
 	$scope.budgetCategories = [];
 	$scope.itineraries = [];
 
@@ -124,10 +125,19 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 				else
 					constPurposes[$scope.purposes[i].id] = 0;
 			}
+			const constInterests = {};
+			for (let i = 0; i < $scope.interests.length; i++) {
+				const interest = response.interests.find(p => p.interests_Id === $scope.interests[i].id);
+				if (interest)
+					constInterests[$scope.interests[i].id] = interest.Percentage;
+				else
+					constInterests[$scope.interests[i].id] = 0;
+			}
 			$scope.newItinerary = {
 				...response,
 				budgetCategories: constBudgetCategories,
-				purposes: constPurposes
+				purposes: constPurposes,
+				interests: constInterests
 			};
 			$('#detailsModal').modal('show');
 		}
@@ -171,6 +181,10 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 
 		PurposesService.getAll().then(function (purposes) {
 			$scope.purposes = purposes;
+		});
+
+		InterestsService.getAll().then(function (interests) {
+			$scope.interests = interests;
 		});
 	};
 

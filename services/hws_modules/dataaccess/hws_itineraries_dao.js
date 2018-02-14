@@ -25,6 +25,7 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			var seasonQuery = 'SELECT s.* FROM iternary i join season s on i.Id = s.iternary_Id WHERE i.Id = ' + id + ';';
 			var budgetQuery = 'SELECT bg.* FROM iternary i join iternary_budget_category bg on i.Id = bg.iternary_Id WHERE i.Id = ' + id + ';';
 			var purposeQuery = 'SELECT tb.* FROM iternary i join iternary_travel_purpose tb on i.Id = tb.iternary_Id WHERE i.Id = ' + id + ';';
+			var interestQuery = 'SELECT ii.* FROM iternary i join iternary_interest ii on i.Id = ii.iternary_Id WHERE i.Id = ' + id + ';';
 			connection.query(iternaryQuery + countriesQuery + ferryQuery + flightQuery + hotelQuery + seasonQuery + budgetQuery + purposeQuery + interestQuery, [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
@@ -50,7 +51,8 @@ var getById = function (id, lang, onSuccess, onFailure) {
 							hotels: rows[4],
 							seasons: rows[5],
 							budgetCategories: rows[6],
-							purposes: rows[7]
+							purposes: rows[7],
+							interests: rows[8]
 						};
 						if (lang) {
 							itinerary.name = itinerary[lang.toLowerCase() + '_name'];
@@ -187,7 +189,14 @@ var update = function (itinerary, onSuccess, onFailure) {
 							purposesQuery += `(${itinerary.id}, ${key}, ${itinerary.purposes[key]});`;
 						}
 					}
-					connection.query(updateQuery + countriesQuery + ferriesQuery + flightsQuery + hotelsQuery + seasonsQuery + budgetsQuery + purposesQuery, [], function (err, result) {
+					var interestsQuery = `DELETE FROM iternary_interest WHERE iternary_Id = ${itinerary.id};`;
+					for (var key in itinerary.interests) {
+						if (itinerary.interests.hasOwnProperty(key)) {
+							interestsQuery += 'INSERT INTO iternary_interest (`iternary_Id`, `interests_Id`, `Percentage`) VALUES ';
+							interestsQuery += `(${itinerary.id}, ${key}, ${itinerary.interests[key]});`;
+						}
+					}
+					connection.query(updateQuery + countriesQuery + ferriesQuery + flightsQuery + hotelsQuery + seasonsQuery + budgetsQuery + purposesQuery + interestsQuery, [], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing itinerary: " + itinerary.en_name);
