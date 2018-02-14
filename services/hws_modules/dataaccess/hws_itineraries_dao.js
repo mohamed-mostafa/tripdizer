@@ -22,7 +22,8 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			mpi.JAN iJAN, mpi.FEB iFEB, mpi.MAR iMAR, mpi.APR iAPR, mpi.MAY iMAY, mpi.JUN iJUN, mpi.JUL iJUL, mpi.AUG iAUG, mpi.SEP iSEP, mpi.OCT iOCT, mpi.NOV iNOV, mpi.DEC iDEC
 			FROM iternary i join iternary_flight ifl on i.Id = ifl.Iternary_id join month_price mpa on mpa.id = ifl.adult_price join month_price mpk on mpk.id = ifl.kid_price join month_price mpi on mpi.id = ifl.infant_price WHERE i.Id = ${id};`;
 			var hotelQuery = 'SELECT ih.*, mp.* FROM iternary i join iternary_hotel ih on i.Id = ih.Iternary_id join month_price mp on mp.id = ih.night_price WHERE i.Id = ' + id + ';';
-			connection.query(iternaryQuery + countriesQuery + ferryQuery + flightQuery + hotelQuery, [], function (err, rows) {
+			var seasonQuery = 'SELECT s.* FROM iternary i join season s on i.Id = s.iternary_Id WHERE i.Id = ' + id + ';';
+			connection.query(iternaryQuery + countriesQuery + ferryQuery + flightQuery + hotelQuery + seasonQuery, [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -44,7 +45,8 @@ var getById = function (id, lang, onSuccess, onFailure) {
 							countries: rows[1].map(x => x.id.toString()),
 							ferries: rows[2],
 							flights: rows[3],
-							hotels: rows[4]
+							hotels: rows[4],
+							seasons: rows[5]
 						};
 						if (lang) {
 							itinerary.name = itinerary[lang.toLowerCase() + '_name'];
@@ -162,7 +164,12 @@ var update = function (itinerary, onSuccess, onFailure) {
 						hotelsQuery += 'INSERT INTO iternary_hotel (`Iternary_id`, `EN_Name`, `AR_Name`, `private`, `budget_category_id`, `night_price`) VALUES ';
 						hotelsQuery += `(${itinerary.id}, '${itinerary.hotels[i].EN_Name}', '${itinerary.hotels[i].AR_Name}', '${itinerary.hotels[i].private}', '${itinerary.hotels[i].budget_category_id}', LAST_INSERT_ID());`;
 					}
-					connection.query(updateQuery + countriesQuery + ferriesQuery + flightsQuery + hotelsQuery, [], function (err, result) {
+					var seasonsQuery = `DELETE FROM season WHERE iternary_Id = ${itinerary.id};`;
+					for (let i = 0; i < itinerary.seasons.length; i++) {
+						seasonsQuery += 'INSERT INTO season (`season_start`, `season_end`, `type`, `iternary_Id`) VALUES ';
+						seasonsQuery += `('${itinerary.seasons[i].season_start}', '${itinerary.seasons[i].season_end}', '${itinerary.seasons[i].type}', '${itinerary.id}');`;
+					}
+					connection.query(updateQuery + countriesQuery + ferriesQuery + flightsQuery + hotelsQuery + seasonsQuery, [], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing itinerary: " + itinerary.en_name);

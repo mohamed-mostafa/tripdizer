@@ -220,7 +220,10 @@
                                                         <a href="#flightsTab" data-toggle="tab">Flights</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#hotelsTab" data-toggle="tab">hotels</a>
+                                                        <a href="#hotelsTab" data-toggle="tab">Hotels</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#seasonsTab" data-toggle="tab">Seasons</a>
                                                     </li>
                                                 </ul>
                                                 <div class="tab-content">
@@ -273,6 +276,11 @@
                                                     <style>
                                                         .form-control-2 {
                                                             width: 16%;
+                                                            display: inline-block;
+                                                        }
+
+                                                        .form-control-4 {
+                                                            width: 33%;
                                                             display: inline-block;
                                                         }
 
@@ -652,6 +660,48 @@
                                                                     <div class="form-control-2">
                                                                         <label>Dec:</label>
                                                                         <input class="form-control" type="number" ng-model="hotel.DEC" required>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.form group -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.tab-pane -->
+                                                    <div class="tab-pane" id="seasonsTab">
+                                                        <div class="text-center">
+                                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addSeason()"></i>
+                                                        </div>
+                                                        <div class="box box-primary" ng-repeat="season in newItinerary.seasons">
+                                                            <div class="box-header with-border">
+                                                                <h3 class="box-title">Title</h3>
+                                                                <div class="box-tools pull-right">
+                                                                    <button class="btn btn-box-tool" ng-click="removeSeason($index)">
+                                                                        <i class="fa fa-times-circle text-danger"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-box-tool" data-widget="collapse">
+                                                                        <i class="fa fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <!-- /.box-tools -->
+                                                            </div>
+                                                            <!-- /.box-header -->
+                                                            <div class="box-body">
+                                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
+                                                                    <div class="form-control-4">
+                                                                        <label>Start Date:</label>
+                                                                        <input class="form-control" type="date" ng-model="season.season_start">
+                                                                    </div>
+                                                                    <div class="form-control-4">
+                                                                        <label>End Date:</label>
+                                                                        <input class="form-control" type="date" ng-model="season.season_end">
+                                                                    </div>
+                                                                    <div class="form-control-4">
+                                                                        <label>Type:</label>
+                                                                        <select class="form-control" ng-model="season.type">
+                                                                            <option value="0">High Season</option>
+                                                                            <option value="1">Low Season</option>
+                                                                            <option value="2">Shoulder Season</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                                 <!-- /.form group -->

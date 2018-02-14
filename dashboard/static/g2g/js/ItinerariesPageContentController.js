@@ -103,6 +103,10 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 	$scope.openDetailsDialog = function (id) {
 		$scope.editMode = true;
 		$http.get($rootScope.serverURL + "/itinerary/" + id).success(function (response) {
+			for (let i = 0; i < response.seasons.length; i++) {
+				response.seasons[i].season_start = response.seasons[i].season_start.split('T')[0];
+				response.seasons[i].season_end = response.seasons[i].season_end.split('T')[0];
+			}
 			$scope.newItinerary = { ...response };
 			$('#detailsModal').modal('show');
 		}
@@ -164,5 +168,11 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 	}
 	$scope.addHotel = function (index) {
 		$scope.newItinerary.hotels.push({});
+	}
+	$scope.removeSeason = function (index) {
+		$scope.newItinerary.seasons.splice(index, 1);
+	}
+	$scope.addSeason = function (index) {
+		$scope.newItinerary.seasons.push({});
 	}
 }]);
