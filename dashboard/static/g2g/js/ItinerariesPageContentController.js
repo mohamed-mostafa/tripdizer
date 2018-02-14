@@ -28,6 +28,7 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 		$scope.en_descriptionMissing = false;
 		$scope.ar_descriptionMissing = false;
 		$scope.dailySpendingsMissing = false;
+		$scope.needsVisaMissing = false;
 		$scope.serverError = false;
 		$scope.serverErrorMessage = "";
 	};
@@ -48,9 +49,12 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 		if ($scope.newItinerary.dailySpendings == null || $scope.newItinerary.dailySpendings == "") {
 			$scope.dailySpendingsMissing = true;
 		}
+		if ($scope.newItinerary.needsVisa == null || $scope.newItinerary.needsVisa == "") {
+			$scope.needsVisaMissing = true;
+		}
 		return $scope.en_nameMissing !== true && $scope.ar_nameMissing !== true &&
 			$scope.en_descriptionMissing !== true && $scope.ar_descriptionMissing !== true &&
-			$scope.dailySpendingsMissing !== true
+			$scope.dailySpendingsMissing !== true && $scope.needsVisaMissing !== true
 	};
 	$scope.addItinerary = function (close) {
 		if ($scope.newItineraryIsValid()) {

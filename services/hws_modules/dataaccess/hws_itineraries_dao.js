@@ -45,6 +45,7 @@ var getById = function (id, lang, onSuccess, onFailure) {
 							ar_name: rows[0][0].AR_Name,
 							ar_description: rows[0][0].AR_Description,
 							dailySpendings: rows[0][0].Daily_Spendings,
+							needsVisa: rows[0][0].Needs_Visa,
 							countries: rows[1].map(x => x.id.toString()),
 							ferries: rows[2],
 							flights: rows[3],
@@ -95,7 +96,7 @@ var create = function (itinerary, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO iternary (EN_Name, EN_Description, AR_Name, AR_Description, Daily_Spendings) values (?, ?, ?, ?, ?)', [itinerary.en_name, itinerary.en_description, itinerary.ar_name, itinerary.ar_description, itinerary.dailySpendings], function (err, result) {
+					connection.query('INSERT INTO iternary (EN_Name, EN_Description, AR_Name, AR_Description, Daily_Spendings, Needs_Visa) values (?, ?, ?, ?, ?, ?)', [itinerary.en_name, itinerary.en_description, itinerary.ar_name, itinerary.ar_description, itinerary.dailySpendings, itinerary.needsVisa], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
@@ -142,7 +143,7 @@ var update = function (itinerary, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					var updateQuery = `UPDATE iternary SET EN_Name = '${itinerary.en_name}', EN_Description = '${itinerary.en_description}', AR_Name = '${itinerary.ar_name}', AR_Description = '${itinerary.ar_description}', Daily_Spendings = '${itinerary.dailySpendings}' WHERE Id = '${itinerary.id}';`;
+					var updateQuery = `UPDATE iternary SET EN_Name = '${itinerary.en_name}', EN_Description = '${itinerary.en_description}', AR_Name = '${itinerary.ar_name}', AR_Description = '${itinerary.ar_description}', Daily_Spendings = '${itinerary.dailySpendings}', Needs_Visa = '${itinerary.needsVisa}' WHERE Id = '${itinerary.id}';`;
 					var countriesQuery = `DELETE FROM iternary_countries WHERE Iternary_Id = ${itinerary.id};`;
 					for (let i = 0; i < itinerary.countries.length; i++) {
 						if (i === 0) countriesQuery += `INSERT INTO iternary_countries VALUES `;
@@ -250,6 +251,7 @@ var getAll = function (lang, onSuccess, onFailure) {
 							ar_name: rows[i].AR_Name,
 							ar_description: rows[i].AR_Description,
 							dailySpendings: rows[i].Daily_Spendings,
+							needsVisa: rows[i].Needs_Visa,
 						};
 						if (lang) {
 							itinerary.name = itinerary[lang.toLowerCase() + '_name'];

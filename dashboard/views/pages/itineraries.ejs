@@ -164,8 +164,17 @@
                                                 <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing==true">
                                                     <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
                                                 <label for="dailySpendings" ng-show="dailySpendingsMissing==false">Daily Spendings</label>
-                                                <input type="text" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
+                                                <input type="number" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
                                                     required>
+                                            </div>
+                                            <div class="form-group" ng-show="saving==false">
+                                                <label class="control-label text-red" for="needsVisa" ng-show="dailySpendingsMissing==true">
+                                                    <i class="fa fa-times-circle-o"></i>Need a visa is missing</label>
+                                                <label for="needsVisa" ng-show="needsVisaMissing==false">Need a visa</label>
+                                                <select class="form-control" ng-model="newItinerary.needsVisa">
+                                                    <option value="1" selected>Yes</option>
+                                                    <option value="0">No</option>
+                                                </select>
                                             </div>
                                             <!-- /.form group -->
                                         </div>
@@ -269,8 +278,17 @@
                                                             <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing">
                                                                 <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
                                                             <label for="dailySpendings" ng-show="!dailySpendingsMissing">Daily Spendings</label>
-                                                            <input type="text" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
+                                                            <input type="number" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
                                                                 required>
+                                                        </div>
+                                                        <div class="form-group" ng-show="saving==false">
+                                                            <label class="control-label text-red" for="needsVisa" ng-show="needsVisaMissing">
+                                                                <i class="fa fa-times-circle-o"></i>Need a visa is missing</label>
+                                                            <label for="needsVisa" ng-show="!needsVisaMissing">Need a visa</label>
+                                                            <select class="form-control" ng-model="newItinerary.needsVisa">
+                                                                <option value="1" ng-selected="newItinerary.needsVisa == 1">Yes</option>
+                                                                <option value="0" ng-selected="newItinerary.needsVisa == 0">No</option>
+                                                            </select>
                                                         </div>
                                                         <!-- /.form group -->
                                                     </div>
