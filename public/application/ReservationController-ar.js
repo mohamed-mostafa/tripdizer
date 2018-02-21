@@ -35,6 +35,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	$scope.submitting = false,
 	$scope.submittingError = false,
+	$scope.showSuperEconomy = true,
 
 	$scope.request = {
 		traveler: {
@@ -45,12 +46,31 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		}
 	};
 
+	$scope.departureDateChanged = function() {
+		var date = new Date($scope.selectedFrom);
+		date = date.setDate(date.getDate() + 1);
+		var input = $('#date_to').pickadate();
+		// Use the picker object directly.
+		var picker = input.pickadate('picker');
+		picker.set('select', date);
+	}
+
 	// functions
 	$scope.selectPurpose = function (purpose) {
 		$scope.selectedPurpose = purpose;
-		$scope.numberOfAdults = purpose.numberOfAdults;
-		$scope.numberOfKids = purpose.numberOfKids;
-		$scope.numberOfInfants = purpose.numberOfInfants;
+
+		if (purpose.id == 5) { // honeymoon
+			// if super economy was selected, modify it to economy
+			if ($scope.selectedBudgetCategory.id == 2) {
+				$scope.selectBudgetCategory($scope.budgetCategories[2]);
+				var economyElement = document.getElementById("budgetCategory-3"); // economy
+				economyElement.click();
+			}
+			$scope.showSuperEconomy = false;
+		} else {
+			// show super economy
+			$scope.showSuperEconomy = true;
+		}
 	},
 	$scope.selectBudgetCategory = function (budgetCategory) {
 		$scope.selectedBudgetCategory = budgetCategory;
@@ -301,6 +321,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			console.log("Request submitted");
 			$scope.calculatingBudget = false;
 			$scope.costEstimation = response;
+
+			// save the total cost in the request
+			$scope.request.estimatedCost = $scope.costEstimation.totalBudget;
 
 			if ($scope.costEstimation.numberOfNights == 1) $scope.nightsStatement = "ليلة واحدة"; else if ($scope.costEstimation.numberOfNights == 2) $scope.nightsStatement = "ليلتان"; else $scope.nightsStatement = $scope.costEstimation.numberOfNights + " ليال";
 		}).error(function (err) {

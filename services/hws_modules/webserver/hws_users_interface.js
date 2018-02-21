@@ -7,10 +7,6 @@ var loginUser = function(req, res) {
 		var password = req.body.password;
 		hwsUsersBusiness.login(username, password,
 				function(user) {
-			req.session.user = user; // set the user to the session
-			console.log(req.session.id);
-			console.log("user on the session");
-			console.log(req.session.user);
 			res.json({user: user});
 		},
 		function(){

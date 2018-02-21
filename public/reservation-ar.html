@@ -246,7 +246,7 @@
                                                                 <div class="col-lg-4 col-sm-12 noPadding leave">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
-                                                                        <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom" style="direction:rtl">
+                                                                        <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom" style="direction:rtl" ng-change="departureDateChanged()">
                                                                         <label for="date_from" class="left-aligned-text" style="direction:rtl">مغادرة</label>
 
                                                                     </div>
@@ -318,9 +318,9 @@
                                                                         <label for="own_budget">أدخل ميزانيتك</label>
                                                                     </div>
                                                                     <p ng-repeat="budgetCategory in budgetCategories.slice().reverse()">
-                                                                        <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
+                                                                        <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-hide = "$index === 1 && showSuperEconomy == false" ng-click="selectBudgetCategory(budgetCategory)"
                                                                             ng-checked="$index === budgetCategories.length - 1" />
-                                                                        <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
+                                                                        <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" ng-hide = "$index === 1 && showSuperEconomy == false">{{budgetCategory.name}}</label>
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -599,6 +599,7 @@
                         <p class="bold req-num-msg" ng-show="submitting == false && submittingError == false" style="direction:rtl">رقم طلبك هو</p>
                         <p class="bold req-num" ng-show="submitting == false && submittingError == false" style="direction:rtl">{{requestNumber}}</p>
                         <p class="contact-msg" ng-show="submitting == false && submittingError == false" style="direction:rtl">العرض الأفضل سيصلك في أقل من ٤۸ ساعة</p>
+                        <p class="contact-msg" style="font-size: 10px;" ng-show="request.estimatedCost">*هذه التكاليف تقديرية و قد تتغير في تكاليف الرحلة النهائية</p>
 
                         <p class="bold req-num-msg" ng-show="submitting == false && submittingError == true" style="direction:rtl">هذا محرج....</p>
                         <p class="req-num-msg" ng-show="submitting == false && submittingError == true" style="direction:rtl">تعانيTripdizer من بعض المشاكل. نحن الآن على علم بها وسوف نقوم بتصليحها على الفور</p>
@@ -635,6 +636,7 @@
                                 <p> انتظر حتي نقوم بالتقدير</p>
                             </div>
                             <h2  ng-show = "calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#fff; padding:0 10px; color: grey;">التفاصيل</span></h2>
+                            <p class="contact-msg" style="font-size: 10px;">هذه التكاليف تقديرية و قد تتغير في تكاليف الرحلة النهائية</p>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
                               <span>الطيران: {{costEstimation.flightsBudget| currency:"ج.م ":0}} </span>
                                <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>
