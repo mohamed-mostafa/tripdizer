@@ -738,24 +738,24 @@
                                                     <!-- /.tab-pane -->
                                                     <div class="tab-pane" id="budgetTab">
                                                         <div class="form-group" ng-repeat="budget in budgetCategories" ng-if="budget.id !== 1">
-                                                            <label>{{budget.en_name}}</label>
-                                                            <input type="range" min="1" max="100" ng-model="newItinerary.budgetCategories[budget.id]">
+                                                            <label>{{budget.en_name}}: {{newItinerary.budgetCategories[budget.id]}}%</label>
+                                                            <input type="range" min="0" max="100" ng-model="newItinerary.budgetCategories[budget.id]">
                                                         </div>
                                                         <!-- /.form group -->
                                                     </div>
                                                     <!-- /.tab-pane -->
                                                     <div class="tab-pane" id="purposeTab">
                                                         <div class="form-group" ng-repeat="purpose in purposes" ng-if="purpose.id !== 1">
-                                                            <label>{{purpose.en_name}}</label>
-                                                            <input type="range" min="1" max="100" ng-model="newItinerary.purposes[purpose.id]">
+                                                            <label>{{purpose.en_name}}: {{newItinerary.purposes[purpose.id]}}%</label>
+                                                            <input type="range" min="0" max="100" ng-model="newItinerary.purposes[purpose.id]">
                                                         </div>
                                                         <!-- /.form group -->
                                                     </div>
                                                     <!-- /.tab-pane -->
                                                     <div class="tab-pane" id="interestTab">
                                                         <div class="form-group" ng-repeat="interest in interests" ng-if="interest.id !== 1">
-                                                            <label>{{interest.en_name}}</label>
-                                                            <input type="range" min="1" max="100" ng-model="newItinerary.interests[interest.id]">
+                                                            <label>{{interest.en_name}}: {{newItinerary.interests[interest.id]}}%</label>
+                                                            <input type="range" min="0" max="100" ng-model="newItinerary.interests[interest.id]">
                                                         </div>
                                                         <!-- /.form group -->
                                                     </div>
