@@ -753,7 +753,7 @@
                                                     </div>
                                                     <!-- /.tab-pane -->
                                                     <div class="tab-pane" id="interestTab">
-                                                        <div class="form-group" ng-repeat="interest in interests" ng-if="interest.id !== 1">
+                                                        <div class="form-group" ng-repeat="interest in interests">
                                                             <label>{{interest.en_name}}: {{newItinerary.interests[interest.id]}}%</label>
                                                             <input type="range" min="0" max="100" ng-model="newItinerary.interests[interest.id]">
                                                         </div>
