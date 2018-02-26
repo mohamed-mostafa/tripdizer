@@ -171,6 +171,7 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 		});
 	};
 	$scope.initialize = function () {
+		$scope.resetValidationFlags();
 		ItinerariesService.getAll().then(function (itineraries) {
 			$scope.itineraries = itineraries;
 		});

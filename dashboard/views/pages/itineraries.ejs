@@ -172,7 +172,7 @@
                                                     <i class="fa fa-times-circle-o"></i>Need a visa is missing</label>
                                                 <label for="needsVisa" ng-show="needsVisaMissing==false">Need a visa</label>
                                                 <select class="form-control" ng-model="newItinerary.needsVisa">
-                                                    <option value="1" selected>Yes</option>
+                                                    <option value="1" ng-selected="true">Yes</option>
                                                     <option value="0">No</option>
                                                 </select>
                                             </div>
@@ -287,7 +287,7 @@
                                                             <label for="needsVisa" ng-show="!needsVisaMissing">Need a visa</label>
                                                             <select class="form-control" ng-model="newItinerary.needsVisa">
                                                                 <option value="1" ng-selected="newItinerary.needsVisa == 1">Yes</option>
-                                                                <option value="0" ng-selected="newItinerary.needsVisa == 0">No</option>
+                                                                <option value="0" ng-selected="newItinerary.needsVisa != 1">No</option>
                                                             </select>
                                                         </div>
                                                         <!-- /.form group -->
