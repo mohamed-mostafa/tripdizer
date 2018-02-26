@@ -26,6 +26,12 @@ var register = function (req, res) {
 			}, function (response) {
 				res.json(response)
 			});
+		} else if (trip == "Indonesia") {
+			grouptripBusiness.sendBaliYogaRetreatMail(email, function (response) {
+				res.json(response)
+			}, function (response) {
+				res.json(response)
+			});
 		}
 		countryBusiness.getAll("", function (countries) {
 			var targetedTrip = 1;

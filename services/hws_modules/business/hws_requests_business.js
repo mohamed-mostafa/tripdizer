@@ -142,6 +142,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				numberOfKids: request.number_of_kids,
 				numberOfInfants: request.number_of_infants,
 				numberOfTravelers: request.number_of_adults + request.number_of_kids + request.number_of_infants,
+				numberOfAdultsAndKids: request.number_of_adults + request.number_of_kids,
 				departureMonth: monthMap[new Date(request.departure_date).getMonth() + 1],
 				returnMonth: monthMap[new Date(request.return_date).getMonth() + 1],
 				totalBudget: 0,
@@ -151,17 +152,29 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				ferriesBudget: 0
 			};
 
+
 			for (let i = 0, ferries = itinerary.ferries; i < ferries.length; ++i) {
-				rData.ferriesBudget += rData.numberOfTravelers * (ferries[i][rData.departureMonth] + ferries[i][rData.returnMonth]) / 2;
+				rData.ferriesBudget += rData.numberOfAdultsAndKids * (ferries[i][rData.departureMonth] + ferries[i][rData.returnMonth]) / 2;
 			}
+
 			for (let i = 0, flights = itinerary.flights; i < flights.length; ++i) {
 				rData.flightsBudget += rData.numberOfAdults * (flights[i]['a' + rData.departureMonth] + flights[i]['a' + rData.returnMonth]) / 2;
 				rData.flightsBudget += rData.numberOfKids * (flights[i]['k' + rData.departureMonth] + flights[i]['k' + rData.returnMonth]) / 2;
 				rData.flightsBudget += rData.numberOfInfants * (flights[i]['i' + rData.departureMonth] + flights[i]['i' + rData.returnMonth]) / 2;
 			}
-			for (let i = 0, hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budget_category); i < hotels.length; ++i) {
+
+			var hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budget_category);
+			for (let i = 0; i < hotels.length; ++i) {
 				rData.accomodationBudget += rData.numberOfNights * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth]) / 2;
 			}
+
+			// take the average of the hotels of the same category
+			rData.accomodationBudget = rData.accomodationBudget / hotels.length;
+
+			// add 10% profit margin
+			rData.flightsBudget += (rData.flightsBudget * 0.1);
+			rData.ferriesBudget += (rData.ferriesBudget * 0.1);
+			rData.accomodationBudget += (rData.accomodationBudget *0.1);
 
 			rData.totalBudget += rData.ferriesBudget;
 			rData.totalBudget += rData.flightsBudget;

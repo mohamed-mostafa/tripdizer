@@ -32,5 +32,17 @@ var sendCapetownMail = function (email, onSuccess, onFailure) {
 	});
 }
 
+var sendBaliYogaRetreatMail = function (email, onSuccess, onFailure) {
+	fs.readFile("./attachments/BaliYogaRetreatPackageResponse.html", function (err0, data0) {
+		fs.readFile("./attachments/Bali Yoga and Cultural Retreat 04-11 May 2018.pdf", function (err2, data2) {
+			if (err2) throw err2;
+			emailBusiness.sendEmail(email, "Tripdizer Bookings <bookings@tripdizer.com>", "Tripdizer - Bali Yoga and Cultural Retreat Trip Package", data0, [{ 'filename': "Bali Yoga & Cultural Retreat 04-11 May 2018.pdf", 'content': data2 }])
+			.then(function(response) { onSuccess(response)})
+			.catch(function(response) {onFailure(response)})
+		});
+	});
+}
+
 exports.sendMoroccoMail = sendMoroccoMail;
 exports.sendCapetownMail = sendCapetownMail;
+exports.sendBaliYogaRetreatMail = sendBaliYogaRetreatMail;

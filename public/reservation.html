@@ -230,7 +230,7 @@
                                                                 <div class="col-lg-4 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
-                                                                        <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom">
+                                                                        <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom" ng-change="departureDateChanged()">
                                                                         <label for="date_from" class="left-aligned-text">Depart</label>
 
                                                                     </div>
@@ -300,8 +300,8 @@
                                                                     <div class="radio-btn-container">
                                                                         <p ng-repeat="budgetCategory in budgetCategories">
                                                                             <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
-                                                                                ng-checked="$index === 0" />
-                                                                            <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}">{{budgetCategory.name}}</label>
+                                                                                ng-checked="$index === 0" ng-hide = "$index === 3 && showSuperEconomy == false" />
+                                                                            <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" id="budgetCategoryLabel-{{budgetCategory.id}}" ng-hide = "$index === 3 && showSuperEconomy == false">{{budgetCategory.name}}</label>
                                                                         </p>
                                                                         <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('Own')">
                                                                             <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
@@ -309,7 +309,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row" ng-hide="selectedBudgetCategory.name.includes('Own') || requestType != 'itineraries'">
+                                                                <div class="row left" ng-hide="selectedBudgetCategory.name.includes('Own') || requestType != 'itineraries'">
                                                                     <div class="col-lg-8 col-sm-12 noPadding">
                                                                         <p class="left bold small">
                                                                             <span class="red-color">NEW !</span> Click the button to view an estimation of your trip's cost.
@@ -321,7 +321,6 @@
                                                                     <div class="col-lg-4 col-sm-12 noPadding">
                                                                         <a class="waves-effect waves-light btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse cost-estimation-button" ng-click="estimateCost();">Estimate</a>
                                                                     </div>
-                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -592,7 +591,8 @@
 
                         <p class="bold req-num-msg" ng-show="submitting == false && submittingError == false">Your Request Number is</p>
                         <p class="bold req-num" ng-show="submitting == false && submittingError == false">{{requestNumber}}</p>
-                        <p class="contact-msg" ng-show="submitting == false && submittingError == false">The best offer will come to you in less than 48 hours</p>
+                        <p class="contact-msg" ng-show="submitting == false && submittingError == false">The best offer will come to you in less than 48 hours*</p>
+                        <p class="contact-msg" style="font-size: 10px;" ng-show="request.estimatedCost">* The costs are estimates and subject to change in the actual package</p>
 
                         <p class="bold req-num-msg" ng-show="submitting == false && submittingError == true">Oops. This is embarrasing ...</p>
                         <p class="req-num-msg" ng-show="submitting == false && submittingError == true">Tripdizer is experiencing some problems. We're now aware of them and will get them fixed right away</p>
@@ -627,7 +627,11 @@
                             <div class="col-lg-12 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == true">
                                 <p> Please wait while tripdizer does its magic !</p>
                             </div>
-                            <h2  ng-show = "calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#fff; padding:0 10px; color: grey;">Cost Breakdown</span></h2>
+                            <h2  ng-show = "calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;">
+                                <span style="background:#fff; padding:0 10px; color: grey;">Cost Breakdown</span>
+                                
+                            </h2>
+                            <p class="contact-msg" style="font-size: 10px;">The costs are estimates and subject to change in the actual package</p>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
                                <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>Flights: {{costEstimation.flightsBudget| currency:"egp ":0}}
                             </div>

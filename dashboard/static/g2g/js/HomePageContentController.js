@@ -90,7 +90,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 6
 		},
 		{
-			title: 'Pending Dizer Response',
+			title: 'Urgent',
 			count: 0,
 			revenue: 0,
 			profit: 0,
@@ -102,7 +102,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 7
 		},
 		{
-			title: 'Pending Agencies Response',
+			title: 'Edit',
 			count: 0,
 			revenue: 0,
 			profit: 0,

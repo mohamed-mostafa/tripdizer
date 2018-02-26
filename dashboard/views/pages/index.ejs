@@ -313,6 +313,9 @@
                                       <option ng-repeat="budget in budgetCategories" ng-value="budget.id" ng-selected="budget.id === currentOrder.budgetCategory">{{budget.en_name}}</option>
                                     </select>
 
+                                    <label for="estimatedBudget">Estimated Budget</label>
+                                    <input type="number" disabled class="form-control" id="estimatedBudget" ng-model="currentOrder.estimatedCost">
+
                                     <label for="leavingCountry">Budget</label>
                                     <input type="text" class="form-control" id="leavingCountry" ng-model="currentOrder.budget">
                                   </div>
