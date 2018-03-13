@@ -21,7 +21,7 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 	if (!request.budget) request.budget = 0;
 	if (request.itinerary_id) {
 		request.first_country = 1;
-		delete request.other_country
+		// delete request.other_country
 		delete request.second_country;
 		delete request.third_country;
 	}
@@ -145,6 +145,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				numberOfAdultsAndKids: request.number_of_adults + request.number_of_kids,
 				departureMonth: monthMap[new Date(request.departure_date).getMonth() + 1],
 				returnMonth: monthMap[new Date(request.return_date).getMonth() + 1],
+				numberOfRooms: 0,
 				totalBudget: 0,
 				flightsBudget: 0,
 				numberOfNights: Math.abs(diff.days()),
@@ -164,12 +165,19 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 			}
 
 			var hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budget_category);
-			for (let i = 0; i < hotels.length; ++i) {
-				rData.accomodationBudget += rData.numberOfNights * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth]) / 2;
+			for (let i = 0; i < hotels.length; i++) {
+				rData.accomodationBudget += rData.numberOfNights * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth] ) / 2;
 			}
 
 			// take the average of the hotels of the same category
 			rData.accomodationBudget = rData.accomodationBudget / hotels.length;
+
+			// the accomodation budgt is the price per peron for hostels (super economy) or the rate f the room otherwis
+			if (request.budget_category == 2) { // super economy
+				rData.accomodationBudget = rData.accomodationBudget * rData.numberOfAdultsAndKids;
+			} else {
+				rData.accomodationBudget = calculateAccomodationBudgetByRoom(rData.accomodationBudget, rData.numberOfAdultsAndKids);
+			}
 
 			// add 10% profit margin
 			rData.flightsBudget += (rData.flightsBudget * 0.1);
@@ -193,6 +201,24 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 	}
 };
 
+var calculateAccomodationBudgetByRoom = function(costOfAllNights, numbrtOfTravelers) { 
+	var regularRooms = Math.floor(numbrtOfTravelers / 2);
+	var extraRooms = numbrtOfTravelers % 2;
+	
+	var cost = costOfAllNights;
+	if (extraRooms == 0) { // regular rooms is 2, 4, 6, ... etc
+		cost = costOfAllNights * regularRooms;
+	} else  {
+		if (regularRooms == 0) { // number of adults = 1
+			cost = costOfAllNights;
+		} else { // number of adults = 3, 5, ... etc
+			cost = (costOfAllNights * (regularRooms - 1)) + (costOfAllNights * 1.35 * extraRooms);
+		}
+	}
+
+	return cost;
+}
+
 var getRequestById = requestsDao.getRequestById;
 var getRequestSummaries = requestsDao.getRequestSummariesByStatus
 var getRequestSummariesCount = requestsDao.getRequestSummariesCountByStatus
@@ -207,4 +233,4 @@ exports.getRequestSummaries = getRequestSummaries;
 exports.getRequestSummariesCount = getRequestSummariesCount;
 exports.sendMailsToRequestTraveler = sendMailsToRequestTraveler
 exports.changeRequestStatus = changeRequestStatus;
-exports.budgetCalculation = budgetCalculation
+exports.budgetCalculation = budgetCalculation;

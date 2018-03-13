@@ -126,47 +126,54 @@
             e.preventDefault();
 			var map = angular.element(document.getElementById('home')).scope().getMap();
             var selectedElementPosition = $(this).find(":selected").data("latlng");
+            var selectedElementDescription = $(this).find(":selected").data('description');
+            var selectedElementName = $(this).find(":selected").data('display-name');
+
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            for (var j = 0; j < infowindows.length; j++) {
+                infowindows[j].close();
+            }
             if (selectedElementPosition != undefined) {
                 var splittedPosition = selectedElementPosition.split(',');
+                debugger;
                 if (splittedPosition != undefined) {
-                    var myLatlng = new google.maps.LatLng(splittedPosition[0], splittedPosition[1]);
-                    // if lng lat is 0,0 ... do nothing
-                    if (myLatlng.lat() == 0 && myLatlng.lng() == 0) {
-                        for (var i = 0; i < markers.length; i++) {
-                            markers[i].setMap(null);
+                    var latitudes = splittedPosition[0].split("#");
+                    var longitudes = splittedPosition[1].split("#");
+                    var description = selectedElementDescription.split("#");
+                    var name = selectedElementName.split("#");
+                    for (var index=0; index < latitudes.length; index++) {
+                        var myLatlng = new google.maps.LatLng(latitudes[index], longitudes[index]);
+                        if (myLatlng.lat() == 0 && myLatlng.lng() == 0) {
+                            continue;
+                        } else {
+                            map.setCenter(myLatlng);
+                            
+                            var marker = new google.maps.Marker({
+                                position: myLatlng
+                                , map: map
+                                , icon: "icon.png"
+                                , animation: google.maps.Animation.DROP
+                            });
                         }
-                        return;
-                    }
-                    map.setCenter(myLatlng);
-                    // Sets the map on all markers in the array.
-                    for (var i = 0; i < markers.length; i++) {
-                        markers[i].setMap(null);
-                    }
-                    for (var j = 0; j < infowindows.length; j++) {
-                        infowindows[j].close();
-                    }
-                    var marker = new google.maps.Marker({
-                        position: myLatlng
-                        , map: map
-                        , icon: "icon.png"
-                        , animation: google.maps.Animation.DROP
-                    });
-                }
-                var contentString = '<div id="content" class="map-popup">'
-                	+'<div class="popup-img-container">'
-                	+'<img src="images/country-thumbnails/' + $(this).find(":selected").text() + '.jpg" />'
-                	+'</div>'
-                	+ '<h1 id="firstHeading" class="firstHeading">'
-                	+ $(this).find(":selected").text() 
-                	+ '</h1>'
-                	+'<span class="popup-description">' + $(this).find(":selected").data('description') + '</span>'
-                	+ '</div>';
-                var infowindow = new google.maps.InfoWindow({
-                	content: contentString
-                });
-                infowindow.open(map, marker);
-                infowindows.push(infowindow);
-                markers.push(marker);
+                        var contentString = '<div id="content" class="map-popup">'
+                            +'<div class="popup-img-container">'
+                            +'<img src="images/country-thumbnails/' + name[index] + '.jpg" />'
+                            +'</div>'
+                            + '<h1 id="firstHeading" class="firstHeading">'
+                            + name[index]
+                            + '</h1>'
+                            +'<span class="popup-description">' + description[index] + '</span>'
+                            + '</div>';
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        infowindow.open(map, marker);
+                        infowindows.push(infowindow);
+                        markers.push(marker);
+                        }
+                    }                    
             } else {
             	for (var i = 0; i < markers.length; i++) {
                     markers[i].setMap(null);

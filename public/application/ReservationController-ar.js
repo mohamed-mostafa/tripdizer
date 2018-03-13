@@ -2,7 +2,7 @@
  * 
  */
 
-tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
+tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
 	// fields
 	$scope.selectedSource = "",
 	$scope.selectedDestinations = [],
@@ -65,6 +65,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 				$scope.selectBudgetCategory($scope.budgetCategories[2]);
 				var economyElement = document.getElementById("budgetCategory-3"); // economy
 				economyElement.click();
+				$scope.invalidateEstimation();
 			}
 			$scope.showSuperEconomy = false;
 		} else {
@@ -74,6 +75,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	},
 	$scope.selectBudgetCategory = function (budgetCategory) {
 		$scope.selectedBudgetCategory = budgetCategory;
+		$scope.invalidateEstimation();
 	},
 
 	$scope.getDestinations = function () {
@@ -124,8 +126,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			$scope.selectedDestinations[1] = 0;
 			$scope.selectedDestinations[2] = 0;
 			$scope.requestType = "itineraries";
+			$scope.invalidateEstimation();
 		} else {
 			$scope.requestType = "countries";
+			$scope.validateEstimation();
 		}
 		$scope.selectedDestinations[0] = $scope.selectedFirstDestination.split('::')[1];
 	}
@@ -227,14 +231,6 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	$scope.setBtnStyle();
 
-	CountriesService.getAll('AR').then(function (countries) {
-		$scope.countries = countries;
-		// move the 'others' to the end of the list
-		var otherCountry = $scope.countries[0];
-		$scope.countries.splice(0, 1);
-		$scope.countries.push(otherCountry);
-	});
-
 	PurposesService.getAll('AR').then(function (purposes) {
 		$scope.purposes = purposes;
 		$scope.selectPurpose($scope.purposes[0]);
@@ -253,7 +249,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	});
 
 	ItinerariesService.getAll('AR').then(function (itineraries) {
-		$scope.itineraries = itineraries
+		$scope.itineraries = itineraries;
+		var otherCountry = $scope.itineraries[0];
+		$scope.itineraries.splice(0, 1);
+		$scope.itineraries.push(otherCountry);
 	});
 
 	$scope.calculatingBudget = false;
@@ -326,10 +325,35 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			$scope.request.estimatedCost = $scope.costEstimation.totalBudget;
 
 			if ($scope.costEstimation.numberOfNights == 1) $scope.nightsStatement = "ليلة واحدة"; else if ($scope.costEstimation.numberOfNights == 2) $scope.nightsStatement = "ليلتان"; else $scope.nightsStatement = $scope.costEstimation.numberOfNights + " ليال";
+
+			$scope.validateEstimation();
 		}).error(function (err) {
 			$scope.calculatingBudget = false;
 			console.log("Failed to submit request for calculation: " + JSON.stringify(err));
 		});
 	};
 
+	$scope.invalidateEstimation = function() {
+		$scope.lastEstimationValid = false;
+	};
+	$scope.validateEstimation = function() {
+		$scope.lastEstimationValid = true;
+	};
+
+	$scope.lastEstimationValid = false;
+
+	$scope.validateUserEstimated = function() {
+		// if estimation is valid and selected destination is an iternary (not a country)
+		if ($scope.lastEstimationValid && $scope.selectedFirstDestination.split('::')[0] != 'c') {
+			return 'VALID';
+		} if ($scope.selectedDestinations[0] === '-1') { // if selected destination is a country (not an iternary)
+			return 'VALID';
+		} else {
+			return "يجب ان تقدر مصاريف رحلتك اولا";
+		}
+	};
+
+	$scope.okButtonClickedOnSubmitModal = function() {
+		window.location.replace("/index-ar.html");
+	};
 }]);

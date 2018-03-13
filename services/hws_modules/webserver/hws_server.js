@@ -42,7 +42,6 @@ var start = function () {
 	app.post('/request/statuses/sendmails', requestsInterface.sendMailsToRequestTraveler);
 	app.post('/request/status', requestsInterface.changeRequestStatus);
 	app.post('/request/budgetcalc', requestsInterface.budgetCalculation);
-
 	// 		set status
 	app.post('/request/status/placed', requestsInterface.markRequestPlaced);
 	app.post('/request/status/beingprepared', requestsInterface.markRequestBeingPrepared);
@@ -66,6 +65,7 @@ var start = function () {
 
 	//		countries
 	app.get('/countries', countriesInterface.getAll);
+	app.get('/countriesInIternaries', countriesInterface.getAllCountriesInIternaries)
 	app.get('/country/:id', countriesInterface.getById);
 	app.put('/country', countriesInterface.create);
 	app.post('/country', countriesInterface.update);

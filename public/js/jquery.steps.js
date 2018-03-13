@@ -459,7 +459,16 @@ function getValidEnumValue(enumType, keyOrValue)
  **/
 function goToNextStep(wizard, options, state)
 {
-    return paginationClick(wizard, options, state, increaseCurrentIndexBy(state, 1));
+    if (state.currentIndex == 1) {
+        var validationMessage = angular.element(document.getElementById('home')).scope().validateUserEstimated();
+        if (validationMessage != 'VALID') {
+            Materialize.toast(validationMessage, 4000)
+            return false;
+        }
+        else
+            return paginationClick(wizard, options, state, increaseCurrentIndexBy(state, 1));
+    } else
+        return paginationClick(wizard, options, state, increaseCurrentIndexBy(state, 1));
 }
 
 /**

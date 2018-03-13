@@ -157,43 +157,12 @@
                                                                     <div class="input-field col s11">
                                                                         <select id="to" name="to" class="to-destination select-override" ng-change="countryChanged()" ng-model="selectedFirstDestination">
                                                                             <option value="" disabled selected>And I wish to travel to ...</option>
-                                                                            <option disabled class="majorOption">Itineraries</option>
-                                                                            <option value="i::{{itinerary.id}}" data-description="{{itinerary.description}}" ng-repeat="itinerary in itineraries">{{itinerary.name}}</option>
-                                                                            <option disabled class="majorOption">Countries</option>
-                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
-                                                                                value="c::{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
-                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
+                                                                            <option disabled class="majorOption">Destinations</option>
+                                                                            <option value="i::{{itinerary.id}}" data-latlng="{{itinerary.latitudes}}, {{itinerary.longitudes}}" data-description="{{itinerary.countries_en_descriptions}}" data-display-name="{{itinerary.countries_en_names}}" ng-repeat="itinerary in itineraries">{{itinerary.name}}</option>
                                                                         </select>
-                                                                    </div>
-                                                                    <div class="col s1">
-                                                                        <button class="add-btn" ng-click="addDestination();" style="margin-top: 15px;" type="button">+</button>
-                                                                    </div>
-                                                                    <div class="input-field col s11" ng-show="secondDestinationShown == true">
-                                                                        <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[1]">
-                                                                            <option value="" disabled selected>And I wish to travel to ...</option>
-                                                                            <option disabled class="majorOption">Countries</option>
-                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
-                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
-                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col s1" ng-show="secondDestinationShown == true">
-                                                                        <button class="add-btn" ng-click="removeSecondDestination();" style="margin-top: 20px;" type="button">-</button>
-                                                                    </div>
-                                                                    <div class="input-field col s11" ng-show="thirdDestinationShown == true">
-                                                                        <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[2]">
-                                                                            <option value="" disabled selected>And I wish to travel to ...</option>
-                                                                            <option disabled class="majorOption">Countries</option>
-                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
-                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
-                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col s1" ng-show="thirdDestinationShown == true">
-                                                                        <button class="add-btn" ng-click="removeThirdDestination();" style="margin-top: 20px;" type="button">-</button>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="requestType === 'countries' && (selectedDestinations[0] === '1' || selectedDestinations[1] === '1' || selectedDestinations[2] === '1')"
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="(selectedDestinations[0] === '-1')"
                                                                         />
                                                                         <label for="otherCountries">Specify other countries</label>
                                                                     </div>
@@ -230,7 +199,7 @@
                                                                 <div class="col-lg-4 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
-                                                                        <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom" ng-change="departureDateChanged()">
+                                                                        <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom" ng-change="departureDateChanged(); invalidateEstimation();">
                                                                         <label for="date_from" class="left-aligned-text">Depart</label>
 
                                                                     </div>
@@ -238,7 +207,7 @@
                                                                 <div class="col-lg-4 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
-                                                                        <input id="date_to" name="date_to" type="text" class="datepicker" ng-model="selectedTo">
+                                                                        <input id="date_to" name="date_to" type="text" class="datepicker" ng-model="selectedTo" ng-change="invalidateEstimation()">
                                                                         <label for="date_to" class="left-aligned-text">Return</label>
 
                                                                     </div>
@@ -256,7 +225,7 @@
                                                                     <div class="input-field col s12">
                                                                         <div>
                                                                             <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active">
+                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active" ng-change="invalidateEstimation()">
                                                                             <label for="adults_number" class="left-aligned-text">Adults</label>
                                                                         </div>
                                                                     </div>
@@ -265,7 +234,7 @@
                                                                     <div class="input-field col s12">
                                                                         <div>
                                                                             <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class="active">
+                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class="active" ng-change="invalidateEstimation()">
                                                                             <label for="kids_number" class="left-aligned-text">Kids</label>
                                                                         </div>
                                                                     </div>
@@ -274,7 +243,7 @@
                                                                     <div class="input-field col s12">
                                                                         <div>
                                                                             <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active">
+                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active" ng-change="invalidateEstimation()">
                                                                             <label for="infants_number" class="left-aligned-text">Infants</label>
                                                                         </div>
                                                                     </div>
@@ -300,16 +269,16 @@
                                                                     <div class="radio-btn-container">
                                                                         <p ng-repeat="budgetCategory in budgetCategories">
                                                                             <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
-                                                                                ng-checked="$index === 0" ng-hide = "$index === 3 && showSuperEconomy == false" />
-                                                                            <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" id="budgetCategoryLabel-{{budgetCategory.id}}" ng-hide = "$index === 3 && showSuperEconomy == false">{{budgetCategory.name}}</label>
+                                                                                ng-checked="$index === 0" ng-hide = "($index === 3 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 4)" />
+                                                                            <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" id="budgetCategoryLabel-{{budgetCategory.id}}" ng-hide = "($index === 3 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 4)">{{budgetCategory.name}}</label>
                                                                         </p>
-                                                                        <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('Own')">
+                                                                        <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('Own') && requestType == 'countries'">
                                                                             <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
                                                                             <label for="own_budget">Your budget</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row left" ng-hide="selectedBudgetCategory.name.includes('Own') || requestType != 'itineraries'">
+                                                                <div class="row left" ng-hide="selectedDestinations[0] === '-1'">
                                                                     <div class="col-lg-8 col-sm-12 noPadding">
                                                                         <p class="left bold small">
                                                                             <span class="red-color">NEW !</span> Click the button to view an estimation of your trip's cost.
@@ -598,7 +567,7 @@
                         <p class="req-num-msg" ng-show="submitting == false && submittingError == true">Tripdizer is experiencing some problems. We're now aware of them and will get them fixed right away</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="okButtonClickedOnSubmitModal();">Ok</a>
                     </div>
                 </div>
                 <div id="costEstimationModal" class="modal bottom-sheet">
@@ -633,7 +602,7 @@
                             </h2>
                             <p class="contact-msg" style="font-size: 10px;">The costs are estimates and subject to change in the actual package</p>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
-                               <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>Flights: {{costEstimation.flightsBudget| currency:"egp ":0}}
+                               <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>Flights: {{costEstimation.flightsBudget| currency:"egp ":0}} *
                             </div>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
                                <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image"/>Accomodation: {{costEstimation.accomodationBudget| currency:"egp ":0}}
@@ -644,12 +613,15 @@
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
                                 <span class="badge green" style="color: white;">Hint</span>
                                <img src="images/cost-estimation/daily-spendings.png" class="budget-estimation-image"/>
-                               <span>Daily Spendings: {{costEstimation.dailySpendings| currency:"egp ":0}} </span>
+                               <span>Daily Spendings: {{costEstimation.dailySpendings| currency:"egp ":0}} **</span>
                             </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
                       
+                            <p ng-show = "calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">* International + Domestic flights</p>
+                            <p ng-show = "calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">** Just a hint, not included in the final cost</p>
                     </div>
                   </div>
             </section>

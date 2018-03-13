@@ -11,19 +11,6 @@ var tripdizerApplication = angular.module("TripdizerApplication", [])
 	.config(['$locationProvider', function ($locationProvider) {
 		$locationProvider.html5Mode(false);
 	}])
-	.factory('CountriesService', ['$rootScope', '$http', function CountriesService($rootScope, $http) {
-		var prefix = $rootScope.serverURL + '/';
-
-		return {
-			getAll: getAll
-		}
-
-		function getAll(lang) {
-			return $http.get(prefix + 'countries?lang=' + lang, {}).then(function (response) {
-				return response.data
-			})
-		}
-	}])
 	.factory('PurposesService', ['$rootScope', '$http', function PurposesService($rootScope, $http) {
 		var prefix = $rootScope.serverURL + '/';
 
