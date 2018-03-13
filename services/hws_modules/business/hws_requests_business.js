@@ -102,8 +102,7 @@ var notifyCustomer = function (to, customerName, requestId) {
 var sendMailsToRequestTraveler = function (email, onSuccess, onFailure) {
 	if (email.type === "traveler") {
 		sendMails(email.recipients, email, onSuccess);
-	}
-	else if (email.type === "request") {
+	} else if (email.type === "request") {
 		requestsDao.getRequestSummariesByStatus(email.recipients, function (travelers) {
 			var emails = [];
 			for (var i = 0; i < travelers.length; i++)
@@ -120,16 +119,40 @@ var sendMailsToRequestTraveler = function (email, onSuccess, onFailure) {
 var sendMails = function (emails, email, onSuccess) {
 	responses = [];
 	for (var i = 0; i < emails.length; ++i)
-		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(function (response) { return response }).catch(function (response) { return response }));
+		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(function (response) {
+			return response
+		}).catch(function (response) {
+			return response
+		}));
 	Promise.all(responses).then(function (resp) {
 		email.response = resp;
-		email.count = { success: resp.filter(function (item) { return item.done }).length, fail: resp.filter(function (item) { return !item.done }).length };
+		email.count = {
+			success: resp.filter(function (item) {
+				return item.done
+			}).length,
+			fail: resp.filter(function (item) {
+				return !item.done
+			}).length
+		};
 		onSuccess(email);
 	});
 }
 
 var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
-	var monthMap = { 1: "JAN", 2: "FEB", 3: "MAR", 4: "APR", 5: "MAY", 6: "JUN", 7: "JUL", 8: "AUG", 9: "SEP", 10: "OCT", 11: "NOV", 12: "DEC" };
+	var monthMap = {
+		1: "JAN",
+		2: "FEB",
+		3: "MAR",
+		4: "APR",
+		5: "MAY",
+		6: "JUN",
+		7: "JUL",
+		8: "AUG",
+		9: "SEP",
+		10: "OCT",
+		11: "NOV",
+		12: "DEC"
+	};
 	if (request.itinerary_id) {
 		itinerariesDao.getById(request.itinerary_id, null, function (itinerary) {
 			var diff = new DateDiff(new Date(request.return_date), new Date(request.departure_date));
@@ -137,7 +160,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				itineraryId: request.itinerary_id,
 				iternaryName: itinerary.en_name,
 				iternaryArabicName: itinerary.ar_name,
-				dailySpendings : itinerary.dailySpendings,
+				dailySpendings: itinerary.dailySpendings,
 				numberOfAdults: request.number_of_adults,
 				numberOfKids: request.number_of_kids,
 				numberOfInfants: request.number_of_infants,
@@ -174,7 +197,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 			// add 10% profit margin
 			rData.flightsBudget += (rData.flightsBudget * 0.1);
 			rData.ferriesBudget += (rData.ferriesBudget * 0.1);
-			rData.accomodationBudget += (rData.accomodationBudget *0.1);
+			rData.accomodationBudget += (rData.accomodationBudget * 0.1);
 
 			rData.totalBudget += rData.ferriesBudget;
 			rData.totalBudget += rData.flightsBudget;
@@ -193,6 +216,19 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 	}
 };
 
+var recommendation = function (request, onSuccess, onFailure, onUserError) {
+	itinerariesDao.getAll('EN', async shortItineraries => {
+			const itineraryFuncs = [];
+			for (let i = 0; i < shortItineraries.length; i++) {
+				itineraryFuncs.push(itinerariesDao.getById(shortItineraries[i].id, 'EN', itinerary => itinerary));
+			}
+			Promise.all(itineraryFuncs).then(a => {
+				console.log(a)
+			});
+		},
+		onFailure);
+};
+
 var getRequestById = requestsDao.getRequestById;
 var getRequestSummaries = requestsDao.getRequestSummariesByStatus
 var getRequestSummariesCount = requestsDao.getRequestSummariesCountByStatus
@@ -207,4 +243,4 @@ exports.getRequestSummaries = getRequestSummaries;
 exports.getRequestSummariesCount = getRequestSummariesCount;
 exports.sendMailsToRequestTraveler = sendMailsToRequestTraveler
 exports.changeRequestStatus = changeRequestStatus;
-exports.budgetCalculation = budgetCalculation
+exports.recommendation = recommendation;

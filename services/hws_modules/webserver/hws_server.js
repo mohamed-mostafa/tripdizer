@@ -42,6 +42,7 @@ var start = function () {
 	app.post('/request/statuses/sendmails', requestsInterface.sendMailsToRequestTraveler);
 	app.post('/request/status', requestsInterface.changeRequestStatus);
 	app.post('/request/budgetcalc', requestsInterface.budgetCalculation);
+	app.post('/request/recommendation', requestsInterface.recommendation);
 
 	// 		set status
 	app.post('/request/status/placed', requestsInterface.markRequestPlaced);
