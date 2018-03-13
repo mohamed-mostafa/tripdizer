@@ -394,13 +394,13 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 		if ($scope.searchCriteria.departureDate) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).getTime() === new Date($scope.searchCriteria.departureDate).getTime()) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].departureDate).getTime() === new Date($scope.searchCriteria.departureDate).getTime()) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.departureDate;
 
 		if ($scope.searchCriteria.returnDate) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).getTime() === new Date($scope.searchCriteria.returnDate).getTime()) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].returnDate).getTime() === new Date($scope.searchCriteria.returnDate).getTime()) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.returnDate;
 
