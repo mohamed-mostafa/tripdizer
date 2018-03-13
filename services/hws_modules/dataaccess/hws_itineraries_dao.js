@@ -196,7 +196,7 @@ var getAll = function (lang, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM iternary', [], function (err, rows) {
+			connection.query('SELECT i.*,GROUP_CONCAT(c.Latitude separator "#") as latitude, GROUP_CONCAT(c.Longitude separator "#") as longitude, GROUP_CONCAT(c.EN_Name separator "#") as country_en_name, GROUP_CONCAT(c.AR_Name separator "#") as country_ar_name, GROUP_CONCAT(c.EN_Description separator "#") as country_en_description, GROUP_CONCAT(c.AR_Description separator "#") as country_ar_description FROM hws.iternary i left outer join hws.iternary_countries ic on i.Id = ic.Iternary_Id left outer join hws.Countries c on ic.Countries_Id = c.Id group by i.id ', [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -216,6 +216,12 @@ var getAll = function (lang, onSuccess, onFailure) {
 							ar_name: rows[i].AR_Name,
 							ar_description: rows[i].AR_Description,
 							dailySpendings: rows[i].Daily_Spendings,
+							longitudes: rows[i].longitude,
+							latitudes: rows[i].latitude,
+							countries_en_descriptions : rows[i].country_en_description,
+							countries_ar_descriptions : rows[i].country_ar_description,
+							countries_en_names : rows[i].country_en_name,
+							countries_ar_names : rows[i].country_ar_name
 						};
 						if (lang) {
 							itinerary.name = itinerary[lang.toLowerCase() + '_name'];
