@@ -11,6 +11,7 @@ var start = function () {
 	var connection = daoUtilities.createConnection();
 
 	// interfaces
+	var publicInterface = require('./hws_public_interface.js');
 	var requestsInterface = require('./hws_requests_interface.js');
 	var usersInterface = require('./hws_users_interface.js');
 	var partnersInterface = require('./hws_partners_interface.js');
@@ -29,8 +30,13 @@ var start = function () {
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());// for parsing application/json
 	app.use(json2xls.middleware); // middleware to return contenttype xls
-	
+
 	// routing - Start
+
+	// Public requests
+	app.get('/public/videos', publicInterface.getVideos);
+	app.post('/public/video', publicInterface.create);
+	app.put('/public/video', publicInterface.update);
 
 	// requests
 	app.put('/request/place', requestsInterface.placeRequest);

@@ -203,48 +203,15 @@
             </div>
           </div>
           <div class="range range-xs-center">
-            <div class="cell-xs-10 cell-sm-6 cell-md-3">
+            <div class="cell-xs-10 cell-sm-6 cell-md-3" ng-repeat="video in videos">
               <div class="product">
-                <iframe width="270" height="270" src="https://www.youtube.com/embed/Vsa2WZHRmcY"></iframe>
+                <iframe width="270" height="270" ng-src="{{video.uri}}"></iframe>
                 <div class="offset-md-top-38 offset-top-20">
                 </div>
                 <div class="offset-top-10">
-                  <h5><a href="reservation-ar.html">بالي</a></h5>
+                  <h5><a href="reservation-ar.html">{{video.ar_name}}</a></h5>
                 </div>
-                <p class="small">دليل بالي</p>
-              </div>
-            </div>
-            <div class="cell-xs-10 cell-sm-6 cell-md-3">
-              <div class="product">
-                <iframe width="270" height="270" src="https://www.youtube.com/embed/URCaU0kULi4"></iframe>
-                <div class="offset-md-top-38 offset-top-20">
-                </div>
-                <div class="offset-top-10">
-                  <h5><a href="reservation-ar.html">جزر المالديف</a></h5>
-                </div>
-                <p class="small">جزر المالديف ليست مستحيلة</p>
-              </div>
-            </div>
-            <div class="cell-xs-10 cell-sm-6 cell-md-3">
-              <div class="product">
-                <iframe width="270" height="270" src="https://www.youtube.com/embed/MOD4cpZmImk"></iframe>
-                <div class="offset-md-top-38 offset-top-20">
-                </div>
-                <div class="offset-top-10">
-                  <h5><a href="reservation-ar.html">كوالا لامبور</a></h5>
-                </div>
-                <p class="small">أشياء يمكن ممارستها في كوالا لامبور</p>
-              </div>
-            </div>
-            <div class="cell-xs-10 cell-sm-6 cell-md-3">
-              <div class="product">
-                <iframe width="270" height="270" src="https://www.youtube.com/embed/hkYDiTXo6dU"></iframe>
-                <div class="offset-md-top-38 offset-top-20">
-                </div>
-                <div class="offset-top-10">
-                  <h5><a href="reservation-ar.html">هونج كونج</a></h5>
-                </div>
-                <p class="small">عشرة أنشطة يمكن ممارستها في هونج كونج</p>
+                <p class="small">{{video.ar_description}}</p>
               </div>
             </div>
           </div>
