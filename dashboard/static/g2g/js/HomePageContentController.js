@@ -374,11 +374,19 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	};
 	$scope.searchOrders = function () {
 		$scope.currentOrders = $scope.originalOrders;
+
 		if ($scope.searchCriteria.name) {
 			var ordersArr = [];
 			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].traveler.name.toLowerCase().includes($scope.searchCriteria.name.toLowerCase())) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.name;
+
+		if ($scope.searchCriteria.status) {
+			$scope.currentRequest = $scope.searchCriteria.status;
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].status === $scope.searchCriteria.status) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
+		} else delete $scope.searchCriteria.status;
 
 		if ($scope.searchCriteria.from) {
 			var ordersArr = [];
@@ -412,12 +420,11 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.destination;
 
-		if ($scope.searchCriteria.status) {
-			$scope.currentRequest = $scope.searchCriteria.status;
+		if ($scope.searchCriteria.itinerary) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].status === $scope.searchCriteria.status) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].itineraryId == $scope.searchCriteria.itinerary) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
-		} else delete $scope.searchCriteria.status;
+		} else delete $scope.searchCriteria.itinerary;
 
 		if ($scope.searchCriteria.travelPurpose) {
 			var ordersArr = [];
