@@ -86,7 +86,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			var query = 'SELECT tr.*, t.*, ti.Interest_Id, ti.Percentage AS Interset_Percentage, u.full_name FROM traveler_request tr JOIN traveler t on t.email_address = tr.Traveler_Email_Address LEFT OUTER JOIN user u on tr.Assigned_User = u.id JOIN `Traveler_Interests` ti ON tr.Id = ti.Request_Id WHERE tr.Status in (?) ORDER BY tr.Date DESC, ti.Interest_Id';
+			var query = 'SELECT tr.*, t.*, ti.Interest_Id, ti.Percentage AS Interset_Percentage, u.full_name FROM traveler_request tr JOIN traveler t on t.email_address = tr.Traveler_Email_Address LEFT OUTER JOIN user u on tr.Assigned_User = u.id LEFT OUTER JOIN `Traveler_Interests` ti ON tr.Id = ti.Request_Id WHERE tr.Status in (?) ORDER BY tr.Date DESC, ti.Interest_Id';
 			connection.query(query, [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
