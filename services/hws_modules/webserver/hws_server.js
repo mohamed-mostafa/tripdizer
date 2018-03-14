@@ -11,6 +11,7 @@ var start = function () {
 	var connection = daoUtilities.createConnection();
 
 	// interfaces
+	require('../app/cron/index');
 	var publicInterface = require('./hws_public_interface.js');
 	var requestsInterface = require('./hws_requests_interface.js');
 	var usersInterface = require('./hws_users_interface.js');

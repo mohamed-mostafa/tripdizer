@@ -450,6 +450,48 @@ var addNewMailHistory = function (object, onSuccess, onFailure) {
 	});
 };
 
+var getRequestCounts = function (onSuccess, onFailure) {
+	// get a connection and open it
+	var connection = daoUtilities.createConnection();
+	connection.connect(function (err) {
+		if (err) {
+			console.log("An error occurred while trying to open a database connection");
+			console.log(err);
+			onFailure(err);
+		} else {
+			// begin a transaction to insert the mail history
+			connection.beginTransaction(function (err) {
+				// execute the query
+				if (err) {
+					// end the connection
+					connection.end();
+					console.log("An error occurred while trying to begin a database transaction");
+					console.log(err);
+					onFailure(err);
+				} else {
+					connection.query('SELECT `Status`, COUNT(*) AS `Count`, SUM(Number_Of_Adults + Number_Of_Kids + Number_Of_Infants) AS `Total_Travellers`, SUM(Number_Of_Adults) AS `Adults`, SUM(Number_Of_Kids) AS `Kids`, SUM(Number_Of_Infants) AS `Infants` FROM traveler_request GROUP BY `Status`', function (err, result) {
+						// if an error is thrown, end the connection and throw an error
+						if (err) { // if the first insert statement fails
+							// end the connection
+							connection.end();
+							console.log("An error occurred while trying to get request counts");
+							console.log(err);
+							connection.rollback(); // rollback the transaction
+							onFailure(err);
+						} else {
+							// end the connection
+							connection.commit();
+							connection.end();
+							// call the callback function provided by the caller, and give it the response
+							onSuccess(result);
+						}
+					});
+				}
+			});
+		}
+	});
+};
+
 exports.assignRequestToUser = assignRequestToUser;
 exports.updateRequest = updateRequest;
 exports.createNewRequest = createNewRequest;
@@ -458,3 +500,4 @@ exports.getRequestSummariesCountByStatus = getRequestSummariesCountByStatus;
 exports.modifyRequestStatusById = modifyRequestStatusById;
 exports.getRequestById = getRequestById;
 exports.addNewMailHistory = addNewMailHistory;
+exports.getRequestCounts = getRequestCounts

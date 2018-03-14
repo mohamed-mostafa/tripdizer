@@ -219,18 +219,45 @@ var calculateAccomodationBudgetByRoom = function(costOfAllNights, numbrtOfTravel
 	return cost;
 }
 
-var getRequestById = requestsDao.getRequestById;
-var getRequestSummaries = requestsDao.getRequestSummariesByStatus
-var getRequestSummariesCount = requestsDao.getRequestSummariesCountByStatus
-var changeRequestStatus = requestsDao.modifyRequestStatusById
+var sendDailyReportOfRequestsCount = function () {
+	requestsDao.getRequestCounts(function (counts) {
+		// prepare email body
+		var emailBody = "";
+		emailBody += "<html><head><style>table{border-collapse:collapse;width:100%}th,td{padding:8px 30px 8px 10px;text-align:left;border-bottom:1px solid #ddd}tr:hover{background-color:#f5f5f5}tr:nth-child(even){background-color:#f2f2f2}thead td{background-color:#3c8dbc;color:#fff}</style></head>";
+		emailBody += "<p style='font-weight: bold;'>Dear Team,</p>";
+		emailBody += "<p>Current State:</p>";
+		emailBody += "<table><thead><tr><td>Status<td><td>Count<td><td>Total Travellers<td><td>Adults<td><td>Kids<td><td>Infants<td></tr></thead>";
+		for (let i = 0; i < counts.length; ++i) {
+			emailBody += '<tr>';
+			emailBody += `<td>${counts[i].Status}<td>`;
+			emailBody += `<td>${counts[i].Count}<td>`;
+			emailBody += `<td>${counts[i].Total_Travellers}<td>`;
+			emailBody += `<td>${counts[i].Adults}<td>`;
+			emailBody += `<td>${counts[i].Kids}<td>`;
+			emailBody += `<td>${counts[i].Infants}<td>`;
+			emailBody += '</tr>';
+		}
+		emailBody += "</table>";
+		emailBody += "</table><p style='font-weight: bolder;'>Regards,</p>";
+		emailBody += "<p style='font-weight: bold;'>Tripdizer Notifications</p>";
+		emailBody += "<p style='font-weight: italic; font-size: 8px; color: red;'>Important! Please don't reply to this email</p>";
+		emailBody += "</html>";
+
+		// notify creation
+		emailBusiness.sendEmail("bookings@tripdizer.com", "Tripdizer Notifications <notifications@tripdizer.com>", "Tripdizer daily requests report", emailBody);
+	}, function () {
+		console.log("An error occured while getting request counts");
+	})
+}
 
 exports.placeRequest = placeRequest;
-exports.getRequestById = getRequestById;
+exports.getRequestById = requestsDao.getRequestById;
 exports.assignRequestToUser = requestsDao.assignRequestToUser;
 exports.updateRequest = requestsDao.updateRequest;
 
-exports.getRequestSummaries = getRequestSummaries;
-exports.getRequestSummariesCount = getRequestSummariesCount;
+exports.getRequestSummaries = requestsDao.getRequestSummariesByStatus;
+exports.getRequestSummariesCount = requestsDao.getRequestSummariesCountByStatus;
 exports.sendMailsToRequestTraveler = sendMailsToRequestTraveler
-exports.changeRequestStatus = changeRequestStatus;
+exports.changeRequestStatus =  requestsDao.modifyRequestStatusById;
 exports.budgetCalculation = budgetCalculation;
+exports.sendDailyReportOfRequestsCount = sendDailyReportOfRequestsCount;
