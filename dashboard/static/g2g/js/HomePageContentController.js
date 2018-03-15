@@ -437,6 +437,19 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].budgetCategory == $scope.searchCriteria.budgetCategory) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.budgetCategory;
+
+		if ($scope.searchCriteria.edit) {
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].edit == $scope.searchCriteria.edit) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
+		} else delete $scope.searchCriteria.edit;
+
+		if ($scope.searchCriteria.reachable) {
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].reachable == $scope.searchCriteria.reachable) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
+		} else delete $scope.searchCriteria.reachable;
+
 		$scope.refreshContent();
 	};
 	$scope.markOrderDelivered = function (order) {
@@ -534,6 +547,27 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$scope.loading = false;
 		});
 	};
+
+	$scope.toggleOptions = function (id, option) {
+		$scope.loading = true;
+		$scope.serverError = false;
+		$http.put($rootScope.serverURL + "/request/toggleoptions", {
+			requestId: id,
+			option: option
+		}).success(function (response) {
+			$scope.loading = false;
+			$scope.serverError = false;
+			for (let i = 0; i < $scope.currentOrders.length; i++) {
+				if ($scope.currentOrders[i].id === id && response.affectedRows >= 1) {
+					$scope.currentOrders[i][option] = !$scope.currentOrders[i][option];
+				}
+			}
+		}).error(function (err) {
+			$scope.serverError = true;
+			$scope.serverErrorMessage = err;
+			$scope.loading = false;
+		});
+	}
 
 	$scope.openAssignRequestToUser = function (request) {
 		$scope.currentOrder = request;

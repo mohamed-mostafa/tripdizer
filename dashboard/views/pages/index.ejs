@@ -99,6 +99,7 @@
                           <th>Traveler Mobile</th>
                           <th>Request Date</th>
                           <th>Request Status</th>
+                          <th></th>
                           <th>Request Details</th>
                           <th>User</th>
                         </tr>
@@ -117,6 +118,14 @@
                             <select ng-model="order.status" ng-change="changeOrderStatus(order)">
                               <option ng-repeat="status in statuses" ng-value="status.title">{{status.title}}</option>
                             </select>
+                          </td>
+                          <td>
+                            <label>
+                              <input type="checkbox" name="orderEdit" ng-checked="order.edit" ng-click="toggleOptions(order.id, 'edit')"> Edit
+                            </label>
+                            <label>
+                              <input type="checkbox" name="orderReachable" ng-checked="order.reachable" ng-click="toggleOptions(order.id, 'reachable')"> Reachable
+                            </label>
                           </td>
                           <td>
                             <i class="ion-clipboard cursor" ng-click="openFullDetailsDialog(order.id)"> Full Details</i>

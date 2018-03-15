@@ -23,8 +23,7 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-						[request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost],
+					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost],
 						function (err, result) {
 							// if an error is thrown, end the connection and throw an error
 							if (err) { // if the first insert statement fails
@@ -130,6 +129,8 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								visaAssistanceNeeded: rows[i].Visa_Assistance_Needed,
 								tourGuideNeeded: rows[i].Tour_Guide_Needed,
 								itineraryId: rows[i].itinerary_id,
+								edit: rows[i].Edit,
+								reachable: rows[i].Reachable,
 								interests: []
 							};
 							var interest = {
@@ -147,8 +148,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 							if (requestIndex === -1) {
 								request.interests.push(interest);
 								requests.push(request);
-							}
-							else requests[requestIndex].interests.push(interest);
+							} else requests[requestIndex].interests.push(interest);
 						}
 					}
 					connection.end();
@@ -179,6 +179,8 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 			// if (filter.status) statuses = [filter.status];
 			if (filter.travelPurpose) query += " AND `Travel_Purpose` = '" + filter.travelPurpose + "'";
 			if (filter.budgetCategory) query += " AND `Budget_Category` = '" + filter.budgetCategory + "'";
+			if (filter.edit) query += " AND `Edit` = '" + filter.edit + "'";
+			if (filter.reachable) query += " AND `Reachable` = '" + filter.reachable + "'";
 			// execute the query
 			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit, sum(Number_Of_Adults + Number_Of_Kids + Number_Of_Infants) as numberOfTravelers FROM traveler_request WHERE status IN (?)' + query, [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
@@ -248,6 +250,8 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							tourGuideNeeded: rows[0].Tour_Guide_Needed,
 							itineraryId: rows[0].itinerary_id,
 							estimatedCost: rows[0].Estimated_Cost,
+							edit: rows[0].Edit,
+							reachable: rows[0].Reachable,
 							interests: [],
 							mailsHistory: [],
 						};
@@ -313,8 +317,7 @@ var updateRequest = function (request, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Itinerary_id` = ?, `Comments` = ?, Revenue = ?, Profit = ? WHERE Id = ?',
-				[new Date(request.departureDate), new Date(request.returnDate), request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.itineraryId, request.comments || '', request.revenue, request.profit, request.id],
+			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Itinerary_id` = ?, `Comments` = ?, Revenue = ?, Profit = ?, Edit = ?, Reachable = ? WHERE Id = ?', [new Date(request.departureDate), new Date(request.returnDate), request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.itineraryId, request.comments || '', request.revenue, request.profit, request.edit, request.reachable, request.id],
 				function (err, rows) {
 					// if an error is thrown, end the connection and throw an error
 					//				connection.end();
@@ -492,6 +495,48 @@ var getRequestCounts = function (onSuccess, onFailure) {
 	});
 };
 
+var toggleOptions = function (requestId, option, onSuccess, onFailure) {
+	// get a connection and open it
+	var connection = daoUtilities.createConnection();
+	connection.connect(function (err) {
+		if (err) {
+			console.log("An error occurred while trying to open a database connection");
+			console.log(err);
+			onFailure(err);
+		} else {
+			// begin a transaction to insert the mail history
+			connection.beginTransaction(function (err) {
+				// execute the query
+				if (err) {
+					// end the connection
+					connection.end();
+					console.log("An error occurred while trying to begin a database transaction");
+					console.log(err);
+					onFailure(err);
+				} else {
+					connection.query('UPDATE `traveler_request` SET `' + option + '` = `' + option + '` ^ 1 WHERE `Id` = ?', [requestId], function (err, result) {
+						// if an error is thrown, end the connection and throw an error
+						if (err) { // if the first insert statement fails
+							// end the connection
+							connection.end();
+							console.log("An error occurred while trying to toggle " + option);
+							console.log(err);
+							connection.rollback(); // rollback the transaction
+							onFailure(err);
+						} else {
+							// end the connection
+							connection.commit();
+							connection.end();
+							// call the callback function provided by the caller, and give it the response
+							onSuccess(result);
+						}
+					});
+				}
+			});
+		}
+	});
+};
+
 exports.assignRequestToUser = assignRequestToUser;
 exports.updateRequest = updateRequest;
 exports.createNewRequest = createNewRequest;
@@ -500,4 +545,5 @@ exports.getRequestSummariesCountByStatus = getRequestSummariesCountByStatus;
 exports.modifyRequestStatusById = modifyRequestStatusById;
 exports.getRequestById = getRequestById;
 exports.addNewMailHistory = addNewMailHistory;
-exports.getRequestCounts = getRequestCounts
+exports.getRequestCounts = getRequestCounts;
+exports.toggleOptions = toggleOptions;

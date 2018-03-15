@@ -261,3 +261,4 @@ exports.sendMailsToRequestTraveler = sendMailsToRequestTraveler
 exports.changeRequestStatus =  requestsDao.modifyRequestStatusById;
 exports.budgetCalculation = budgetCalculation;
 exports.sendDailyReportOfRequestsCount = sendDailyReportOfRequestsCount;
+exports.toggleOptions = requestsDao.toggleOptions;

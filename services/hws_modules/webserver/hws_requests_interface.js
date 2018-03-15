@@ -224,6 +224,26 @@ var budgetCalculation = function (req, res) {
 	}
 };
 
+var toggleOptions = function (req, res) {
+	try {
+		var requestId = req.body.requestId;
+		var option = req.body.option;
+		// call the business function and give it a callback function 
+		requestsBusiness.toggleOptions(requestId, option, function (request) {
+			res.json(request);
+		},
+			function (error) {
+				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
+			}, function (userErrorMessage) {
+				res.status(500).send(userErrorMessage);
+			});
+	} catch (error) {
+		console.log("An error occured in /request/place");
+		console.log(error);
+		res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+	}
+};
+
 exports.placeRequest = placeRequest;
 exports.getRequestById = getRequestById;
 exports.assignRequestToUser = assignRequestToUser;
@@ -238,3 +258,4 @@ exports.markRequestBeingPrepared = markRequestBeingPrepared;
 exports.markRequestDelivered = markRequestDelivered;
 exports.markRequestPlaced = markRequestPlaced;
 exports.budgetCalculation = budgetCalculation;
+exports.toggleOptions = toggleOptions;

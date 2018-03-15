@@ -53,6 +53,7 @@ var start = function () {
 	app.post('/request/status/placed', requestsInterface.markRequestPlaced);
 	app.post('/request/status/beingprepared', requestsInterface.markRequestBeingPrepared);
 	app.post('/request/status/delivered', requestsInterface.markRequestDelivered);
+	app.put('/request/toggleoptions', requestsInterface.toggleOptions);
 
 	//		users
 	app.get('/users', usersInterface.getAllUsers);
