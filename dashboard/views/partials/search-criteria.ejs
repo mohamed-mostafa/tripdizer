@@ -103,6 +103,17 @@
         </div>
 
         <div class="row">
+            <div class="col-xs-4">
+                <label>Estimated Cost From</label>
+                <input type="number" ng-model="searchCriteria.estimatedFrom" class="form-control" aria-describedby="basic-from">
+            </div>
+            <div class="col-xs-4">
+                <label>Estimated Cost To</label>
+                <input type="number" ng-model="searchCriteria.estimatedTo" class="form-control" aria-describedby="basic-to">
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-xs-12 btn-group">
                 <button class="btn btn-default pull-right" ng-click="searchOrders()">Search</button>
                 <button class="btn btn-default pull-right" ng-click="searchOrders()" export-excel data="currentOrders" report-fields="excelFields"

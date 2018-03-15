@@ -129,6 +129,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								visaAssistanceNeeded: rows[i].Visa_Assistance_Needed,
 								tourGuideNeeded: rows[i].Tour_Guide_Needed,
 								itineraryId: rows[i].itinerary_id,
+								estimatedCost: rows[i].Estimated_Cost,
 								edit: rows[i].Edit,
 								reachable: rows[i].Reachable,
 								interests: []
@@ -179,6 +180,8 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 			// if (filter.status) statuses = [filter.status];
 			if (filter.travelPurpose) query += " AND `Travel_Purpose` = '" + filter.travelPurpose + "'";
 			if (filter.budgetCategory) query += " AND `Budget_Category` = '" + filter.budgetCategory + "'";
+			if (filter.estimatedFrom) query += " AND `Estimated_Cost` >= '" + filter.estimatedFrom + "'";
+			if (filter.estimatedTo) query += " AND `Estimated_Cost` <= '" + filter.estimatedTo + "'";
 			if (filter.edit) query += " AND `Edit` = '" + filter.edit + "'";
 			if (filter.reachable) query += " AND `Reachable` = '" + filter.reachable + "'";
 			// execute the query

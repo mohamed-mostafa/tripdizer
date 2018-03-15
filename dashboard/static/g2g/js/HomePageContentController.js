@@ -450,6 +450,18 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.reachable;
 
+		if ($scope.searchCriteria.estimatedFrom) {
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].estimatedCost >= $scope.searchCriteria.estimatedFrom) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
+		} else delete $scope.searchCriteria.estimatedFrom;
+
+		if ($scope.searchCriteria.estimatedTo) {
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if ($scope.currentOrders[i].estimatedCost <= $scope.searchCriteria.estimatedTo) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
+		} else delete $scope.searchCriteria.estimatedTo;
+
 		$scope.refreshContent();
 	};
 	$scope.markOrderDelivered = function (order) {
