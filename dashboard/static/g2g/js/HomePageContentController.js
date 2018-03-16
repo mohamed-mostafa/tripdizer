@@ -400,17 +400,17 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.to;
 
-		if ($scope.searchCriteria.departureDate) {
+		if ($scope.searchCriteria.departureDateFrom) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].departureDate).getTime() === new Date($scope.searchCriteria.departureDate).getTime()) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].departureDate).getTime() >= new Date($scope.searchCriteria.departureDateFrom).getTime()) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
-		} else delete $scope.searchCriteria.departureDate;
+		} else delete $scope.searchCriteria.departureDateFrom;
 
-		if ($scope.searchCriteria.returnDate) {
+		if ($scope.searchCriteria.departureDateTo) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].returnDate).getTime() === new Date($scope.searchCriteria.returnDate).getTime()) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].departureDate).getTime() <= new Date($scope.searchCriteria.departureDateTo).getTime()) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
-		} else delete $scope.searchCriteria.returnDate;
+		} else delete $scope.searchCriteria.departureDateTo;
 
 		if ($scope.searchCriteria.destination) {
 			var ordersArr = [];

@@ -174,8 +174,8 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 			// if (filter.name) query += " AND Date > '" + filter.name + "'";
 			if (filter.from) query += " AND `Date` > '" + filter.from + "'";
 			if (filter.to) query += " AND `Date` <= '" + filter.to + "'";
-			if (filter.departureDate) query += " AND `Departure_Date` = '" + filter.departureDate + "'";
-			if (filter.returnDate) query += " AND `Return_Date` = '" + filter.returnDate + "'";
+			if (filter.departureDateFrom) query += " AND `Departure_Date` >= '" + filter.departureDateFrom + "'";
+			if (filter.departureDateTo) query += " AND `Departure_Date` <= '" + filter.departureDateTo + "'";
 			if (filter.destination) query += " AND (`First_Country` = '" + filter.destination + "' OR `Second_Country` = '" + filter.destination + "' OR `Third_Country` = '" + filter.destination + "')";
 			// if (filter.status) statuses = [filter.status];
 			if (filter.travelPurpose) query += " AND `Travel_Purpose` = '" + filter.travelPurpose + "'";
