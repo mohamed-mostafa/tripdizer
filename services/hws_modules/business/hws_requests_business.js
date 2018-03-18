@@ -15,7 +15,7 @@ var DateDiff = require('date-diff');
 //calls the onSuccess with a user object if the user was successfully created
 var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 	// insert the request in our database
-	request.date = new Date();
+	request.date = new Date().setHours(0, 0, 0, 0);
 	request.departure_date = new Date(request.departure_date);
 	request.return_date = new Date(request.return_date);
 	if (!request.budget) request.budget = 0;

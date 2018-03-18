@@ -23,6 +23,8 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
+					request.departure_date =  new Date(request.departure_date).setHours(0, 0, 0, 0);
+					request.return_date =  new Date(request.return_date).setHours(0, 0, 0, 0);
 					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost],
 						function (err, result) {
 							// if an error is thrown, end the connection and throw an error
@@ -101,7 +103,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 						for (var i = 0; i < rows.length; i++) {
 							var request = {
 								id: rows[i].Id,
-								date: rows[i].Date,
+								date: new Date(rows[i].Date).toString(),
 								status: rows[i].Status,
 								revenue: rows[i].Revenue,
 								profit: rows[i].Profit,
@@ -110,10 +112,10 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 									name: rows[i].name,
 									mobile: rows[i].mobile,
 									emailAddress: rows[i].email_address,
-									dateOfBirth: rows[i].date_of_birth,
+									dateOfBirth: new Date(rows[i].date_of_birth).toString(),
 								},
-								departureDate: rows[i].Departure_Date,
-								returnDate: rows[i].Return_Date,
+								departureDate: new Date(rows[i].Departure_Date).toString(),
+								returnDate: new Date(rows[i].Return_Date).toString(),
 								flexibleDates: rows[i].Flexible_Dates,
 								leavingCountry: rows[i].Leaving_Country,
 								firstCountry: rows[i].First_Country,
@@ -172,7 +174,7 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 		} else {
 			var query = "";
 			// if (filter.name) query += " AND Date > '" + filter.name + "'";
-			if (filter.from) query += " AND `Date` > '" + filter.from + "'";
+			if (filter.from) query += " AND `Date` >= '" + filter.from + "'";
 			if (filter.to) query += " AND `Date` <= '" + filter.to + "'";
 			if (filter.departureDateFrom) query += " AND `Departure_Date` >= '" + filter.departureDateFrom + "'";
 			if (filter.departureDateTo) query += " AND `Departure_Date` <= '" + filter.departureDateTo + "'";
@@ -224,7 +226,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 					if (rows.length != 0) {
 						var request = {
 							id: rows[0].Id,
-							date: rows[0].Date,
+							date: new Date(rows[0].Date).toString(),
 							status: rows[0].Status,
 							revenue: rows[0].Revenue,
 							profit: rows[0].Profit,
@@ -233,10 +235,10 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 								name: rows[0].name,
 								mobile: rows[0].mobile,
 								emailAddress: rows[0].email_address,
-								dateOfBirth: rows[0].date_of_birth,
+								dateOfBirth: new Date(rows[0].date_of_birth).toString(),
 							},
-							departureDate: rows[0].Departure_Date,
-							returnDate: rows[0].Return_Date,
+							departureDate: new Date(rows[0].Departure_Date).toString(),
+							returnDate: new Date(rows[0].Return_Date).toString(),
 							flexibleDates: rows[0].Flexible_Dates,
 							leavingCountry: rows[0].Leaving_Country,
 							firstCountry: rows[0].First_Country,
@@ -288,7 +290,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 											var mailHistory = {
 												subject: mailsRows[i].Subject,
 												attachments: JSON.parse(mailsRows[i].Attachments),
-												date: mailsRows[i].Date
+												date: new Date(mailsRows[i].Date).toString()
 											};
 											request.mailsHistory.push(mailHistory);
 										}
@@ -319,6 +321,8 @@ var updateRequest = function (request, onSuccess, onFailure) {
 			console.log(err);
 			onFailure(err);
 		} else {
+			request.departureDate =  new Date(request.departureDate).setHours(0, 0, 0, 0);
+			request.returnDate =  new Date(request.returnDate).setHours(0, 0, 0, 0);
 			// execute the query
 			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Itinerary_id` = ?, `Comments` = ?, Revenue = ?, Profit = ?, Edit = ?, Reachable = ? WHERE Id = ?', [new Date(request.departureDate), new Date(request.returnDate), request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.itineraryId, request.comments || '', request.revenue, request.profit, request.edit, request.reachable, request.id],
 				function (err, rows) {

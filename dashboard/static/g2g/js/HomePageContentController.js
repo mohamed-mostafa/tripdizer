@@ -274,9 +274,10 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses=" + request).success(
 			function (response) {
 				response = response.map(function (request) {
-					request.date = request.date.split('T')[0];
-					request.departureDate = request.departureDate.split('T')[0];
-					request.returnDate = request.returnDate.split('T')[0];
+					if (request.date) request.date = new Date(request.date);
+					if (request.traveler) request.traveler.dateOfBirth = new Date(request.traveler.dateOfBirth);
+					if (request.departureDate) request.departureDate = new Date(request.departureDate);
+					if (request.returnDate) request.returnDate = new Date(request.returnDate);
 					return request;
 				});
 				$scope.currentOrders = response;
@@ -390,25 +391,25 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 		if ($scope.searchCriteria.from) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).getTime() > new Date($scope.searchCriteria.from).getTime()) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).setHours(0, 0, 0, 0) >= new Date($scope.searchCriteria.from).setHours(0, 0, 0, 0)) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.from;
 
 		if ($scope.searchCriteria.to) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).getTime() <= new Date($scope.searchCriteria.to).getTime()) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].date).setHours(0, 0, 0, 0) <= new Date($scope.searchCriteria.to).setHours(0, 0, 0, 0)) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.to;
 
 		if ($scope.searchCriteria.departureDateFrom) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].departureDate).getTime() >= new Date($scope.searchCriteria.departureDateFrom).getTime()) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].departureDate).setHours(0, 0, 0, 0) >= new Date($scope.searchCriteria.departureDateFrom).setHours(0, 0, 0, 0)) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.departureDateFrom;
 
 		if ($scope.searchCriteria.departureDateTo) {
 			var ordersArr = [];
-			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].departureDate).getTime() <= new Date($scope.searchCriteria.departureDateTo).getTime()) ordersArr.push($scope.currentOrders[i]);
+			for (let i = 0; i < $scope.currentOrders.length; ++i) if (new Date($scope.currentOrders[i].departureDate).setHours(0, 0, 0, 0) <= new Date($scope.searchCriteria.departureDateTo).setHours(0, 0, 0, 0)) ordersArr.push($scope.currentOrders[i]);
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.departureDateTo;
 
@@ -511,12 +512,13 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$scope.serverError = false;
 		$('#orderDetailsModal').modal('show');
 		$http.get($rootScope.serverURL + "/request/" + requestId).success(
-			function (response) {
+			function (request) {
 				$scope.loading = false;
-				response.date = response.date.split('T')[0];
-				response.departureDate = response.departureDate.split('T')[0];
-				response.returnDate = response.returnDate.split('T')[0];
-				$scope.currentOrder = response;
+				if (request.date) request.date = new Date(request.date);
+				if (request.traveler) request.traveler.dateOfBirth = new Date(request.traveler.dateOfBirth);
+				if (request.departureDate) request.departureDate = new Date(request.departureDate);
+				if (request.returnDate) request.returnDate = new Date(request.returnDate);
+				$scope.currentOrder = request;
 			}
 		).error(function (err) {
 			$scope.serverError = true;
@@ -766,6 +768,17 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 
 				return '"' + output + '"';
 			}
+		}
+	};
+})
+.directive('format', function (dateFilter) {
+	return {
+		require: 'ngModel',
+		link: function (scope, elm, attrs, ctrl) {
+			var dateFormat = attrs['format'] || 'yyyy-MM-dd';
+			ctrl.$formatters.unshift(function (modelValue) {
+				return dateFilter(modelValue, dateFormat);
+			});
 		}
 	};
 });
