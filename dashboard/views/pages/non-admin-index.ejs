@@ -286,6 +286,10 @@
                                       <select class="form-control" id="itineraryId" ng-model="currentOrder.itineraryId">
                                         <option ng-repeat="itinerary in itineraries" ng-value="itinerary.id" ng-selected="itinerary.id === currentOrder.itineraryId">{{itinerary.en_name}}</option>
                                       </select>
+                                      <div ng-if="currentOrder.itineraryId == '-1'">
+                                        <label for="otherCountry">Other Country</label>
+                                        <input type="text" class="form-control" id="otherCountry" ng-model="currentOrder.otherCountry">
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
