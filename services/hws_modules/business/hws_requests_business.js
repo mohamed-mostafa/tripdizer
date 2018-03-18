@@ -36,14 +36,16 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 					onSuccess(request);
 
-					// notify creation
-					emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
-					notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
-					partnersBusiness.notifyPartners(request, function () {
-						console.log("Notified Partners");
-					}, function () {
-						console.log("Failed to notify partners");
-					});
+					if (request.traveler.name !== 'Essawy') {
+						// notify creation
+						emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
+						notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
+						partnersBusiness.notifyPartners(request, function () {
+							console.log("Notified Partners");
+						}, function () {
+							console.log("Failed to notify partners");
+						});
+					}
 				}, function (err) {
 					// respond to caller
 					console.log("An error occured while saving a new request");
@@ -60,14 +62,16 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 				onSuccess(request);
 
-				// notify creation
-				emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
-				notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
-				partnersBusiness.notifyPartners(request, function () {
-					console.log("Notified Partners");
-				}, function () {
-					console.log("Failed to notify partners");
-				});
+				if (request.traveler.name !== 'Essawy') {
+					// notify creation
+					emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
+					notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
+					partnersBusiness.notifyPartners(request, function () {
+						console.log("Notified Partners");
+					}, function () {
+						console.log("Failed to notify partners");
+					});
+				}
 			}, function (err) {
 				// respond to caller
 				console.log("An error occured while saving a new request");
@@ -102,8 +106,7 @@ var notifyCustomer = function (to, customerName, requestId) {
 var sendMailsToRequestTraveler = function (email, onSuccess, onFailure) {
 	if (email.type === "traveler") {
 		sendMails(email.recipients, email, onSuccess);
-	}
-	else if (email.type === "request") {
+	} else if (email.type === "request") {
 		requestsDao.getRequestSummariesByStatus(email.recipients, function (travelers) {
 			var emails = [];
 			for (var i = 0; i < travelers.length; i++)
@@ -120,16 +123,40 @@ var sendMailsToRequestTraveler = function (email, onSuccess, onFailure) {
 var sendMails = function (emails, email, onSuccess) {
 	responses = [];
 	for (var i = 0; i < emails.length; ++i)
-		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(function (response) { return response }).catch(function (response) { return response }));
+		responses.push(emailBusiness.sendEmail(emails[i], "notifications@tripdizer.com", email.subject, email.body, email.attachments).then(function (response) {
+			return response
+		}).catch(function (response) {
+			return response
+		}));
 	Promise.all(responses).then(function (resp) {
 		email.response = resp;
-		email.count = { success: resp.filter(function (item) { return item.done }).length, fail: resp.filter(function (item) { return !item.done }).length };
+		email.count = {
+			success: resp.filter(function (item) {
+				return item.done
+			}).length,
+			fail: resp.filter(function (item) {
+				return !item.done
+			}).length
+		};
 		onSuccess(email);
 	});
 }
 
 var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
-	var monthMap = { 1: "JAN", 2: "FEB", 3: "MAR", 4: "APR", 5: "MAY", 6: "JUN", 7: "JUL", 8: "AUG", 9: "SEP", 10: "OCT", 11: "NOV", 12: "DEC" };
+	var monthMap = {
+		1: "JAN",
+		2: "FEB",
+		3: "MAR",
+		4: "APR",
+		5: "MAY",
+		6: "JUN",
+		7: "JUL",
+		8: "AUG",
+		9: "SEP",
+		10: "OCT",
+		11: "NOV",
+		12: "DEC"
+	};
 	if (request.itinerary_id) {
 		itinerariesDao.getById(request.itinerary_id, null, function (itinerary) {
 			var diff = new DateDiff(new Date(request.return_date), new Date(request.departure_date));
@@ -137,7 +164,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				itineraryId: request.itinerary_id,
 				iternaryName: itinerary.en_name,
 				iternaryArabicName: itinerary.ar_name,
-				dailySpendings : itinerary.dailySpendings,
+				dailySpendings: itinerary.dailySpendings,
 				numberOfAdults: request.number_of_adults,
 				numberOfKids: request.number_of_kids,
 				numberOfInfants: request.number_of_infants,
@@ -166,7 +193,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 
 			var hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budget_category);
 			for (let i = 0; i < hotels.length; i++) {
-				rData.accomodationBudget += rData.numberOfNights * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth] ) / 2;
+				rData.accomodationBudget += rData.numberOfNights * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth]) / 2;
 			}
 
 			// take the average of the hotels of the same category
@@ -182,7 +209,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 			// add 10% profit margin
 			rData.flightsBudget += (rData.flightsBudget * 0.1);
 			rData.ferriesBudget += (rData.ferriesBudget * 0.1);
-			rData.accomodationBudget += (rData.accomodationBudget *0.1);
+			rData.accomodationBudget += (rData.accomodationBudget * 0.1);
 
 			rData.totalBudget += rData.ferriesBudget;
 			rData.totalBudget += rData.flightsBudget;
@@ -201,14 +228,14 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 	}
 };
 
-var calculateAccomodationBudgetByRoom = function(costOfAllNights, numbrtOfTravelers) { 
+var calculateAccomodationBudgetByRoom = function (costOfAllNights, numbrtOfTravelers) {
 	var regularRooms = Math.floor(numbrtOfTravelers / 2);
 	var extraRooms = numbrtOfTravelers % 2;
-	
+
 	var cost = costOfAllNights;
 	if (extraRooms == 0) { // regular rooms is 2, 4, 6, ... etc
 		cost = costOfAllNights * regularRooms;
-	} else  {
+	} else {
 		if (regularRooms == 0) { // number of adults = 1
 			cost = costOfAllNights;
 		} else { // number of adults = 3, 5, ... etc
@@ -258,7 +285,7 @@ exports.updateRequest = requestsDao.updateRequest;
 exports.getRequestSummaries = requestsDao.getRequestSummariesByStatus;
 exports.getRequestSummariesCount = requestsDao.getRequestSummariesCountByStatus;
 exports.sendMailsToRequestTraveler = sendMailsToRequestTraveler
-exports.changeRequestStatus =  requestsDao.modifyRequestStatusById;
+exports.changeRequestStatus = requestsDao.modifyRequestStatusById;
 exports.budgetCalculation = budgetCalculation;
 exports.sendDailyReportOfRequestsCount = sendDailyReportOfRequestsCount;
 exports.toggleOptions = requestsDao.toggleOptions;
