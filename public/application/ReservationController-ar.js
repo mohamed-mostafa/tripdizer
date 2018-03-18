@@ -166,6 +166,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.request.travel_purpose = $scope.selectedPurpose.id;
 		$scope.request.number_of_adults = $scope.numberOfAdults;
 		$scope.request.number_of_kids = $scope.numberOfKids;
+		$scope.request.kids_age = $scope.kidsAge;
 		$scope.request.number_of_infants = $scope.numberOfInfants;
 		$scope.request.budget_category = $scope.selectedBudgetCategory.id;
 		$scope.request.budget = $scope.myOwnBudget;
@@ -333,7 +334,15 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		});
 	};
 
-	$scope.invalidateEstimation = function() {
+	$scope.invalidateEstimation = function(input) {
+		if (input === 'kids') {
+			if ($scope.numberOfKids > 0) {
+				$scope.kidsAge = "سن الاطفال";
+				for (let i = 0; i < $scope.numberOfKids; ++i) {
+					$scope.kidsAge += "\nالطفل #" + (i + 1) + ": ";
+				}
+			} else $scope.kidsAge = "";
+		}
 		$scope.lastEstimationValid = false;
 	};
 	$scope.validateEstimation = function() {

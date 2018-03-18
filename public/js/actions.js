@@ -137,7 +137,6 @@
             }
             if (selectedElementPosition != undefined) {
                 var splittedPosition = selectedElementPosition.split(',');
-                debugger;
                 if (splittedPosition != undefined) {
                     var latitudes = splittedPosition[0].split("#");
                     var longitudes = splittedPosition[1].split("#");

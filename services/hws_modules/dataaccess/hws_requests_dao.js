@@ -25,7 +25,7 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 				} else {
 					request.departure_date =  new Date(new Date(request.departure_date).setHours(0, 0, 0, 0));
 					request.return_date =  new Date(new Date(request.return_date).setHours(0, 0, 0, 0));
-					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost],
+					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Kids_Age`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.kids_age, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost],
 						function (err, result) {
 							// if an error is thrown, end the connection and throw an error
 							if (err) { // if the first insert statement fails
@@ -125,6 +125,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								travelPurpose: rows[i].Travel_Purpose,
 								numberOfAdults: rows[i].Number_Of_Adults,
 								numberOfKids: rows[i].Number_Of_Kids,
+								kidsAge: rows[i].Kids_Age,
 								numberOfInfants: rows[i].Number_Of_Infants,
 								budgetCategory: rows[i].Budget_Category,
 								budget: rows[i].Budget,
@@ -248,6 +249,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							travelPurpose: rows[0].Travel_Purpose,
 							numberOfAdults: rows[0].Number_Of_Adults,
 							numberOfKids: rows[0].Number_Of_Kids,
+							kidsAge: rows[0].Kids_Age,
 							numberOfInfants: rows[0].Number_Of_Infants,
 							budgetCategory: rows[0].Budget_Category,
 							budget: rows[0].Budget,
@@ -324,7 +326,7 @@ var updateRequest = function (request, onSuccess, onFailure) {
 			request.departureDate =  new Date(new Date(request.departureDate).setHours(0, 0, 0, 0));
 			request.returnDate =  new Date(new Date(request.returnDate).setHours(0, 0, 0, 0));
 			// execute the query
-			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Itinerary_id` = ?, `Comments` = ?, Revenue = ?, Profit = ?, Edit = ?, Reachable = ? WHERE Id = ?', [request.departureDate, request.returnDate, request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.itineraryId, request.comments || '', request.revenue, request.profit, request.edit, request.reachable, request.id],
+			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Kids_Age` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Itinerary_id` = ?, `Comments` = ?, Revenue = ?, Profit = ?, Edit = ?, Reachable = ? WHERE Id = ?', [request.departureDate, request.returnDate, request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.kidsAge, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.itineraryId, request.comments || '', request.revenue, request.profit, request.edit, request.reachable, request.id],
 				function (err, rows) {
 					// if an error is thrown, end the connection and throw an error
 					//				connection.end();

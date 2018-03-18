@@ -238,32 +238,37 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="right row">
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                            <div class="row">
+                                                                <div class="col-lg-3 col-sm-3 noPadding">
                                                                     <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active right-aligned-text" ng-change="invalidateEstimation()">
-                                                                            <label for="infants_number" class="right-aligned-text">عدد الرضع</label>
-                                                                        </div>
+                                                                        <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                        <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active right-aligned-text"
+                                                                            ng-change="invalidateEstimation()">
+                                                                        <label for="infants_number" class="right-aligned-text">عدد الرضع</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                <div class="col-lg-3 col-sm-3 noPadding">
                                                                     <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class=" right-aligned-text active" ng-change="invalidateEstimation()">
-                                                                            <label for="kids_number" class="right-aligned-text">عدد الاطفال</label>
-                                                                        </div>
+                                                                        <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                        <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class=" right-aligned-text active" ng-change="invalidateEstimation('kids')">
+                                                                        <label for="kids_number" class="right-aligned-text">عدد الاطفال</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-4 col-sm-4 noPadding">
+                                                                <div class="col-lg-3 col-sm-3 noPadding">
                                                                     <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active right-aligned-text" ng-change="invalidateEstimation()">
-                                                                            <label for="adults_number" class="right-aligned-text">عدد البالغين</label>
-                                                                        </div>
+                                                                        <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                        <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active right-aligned-text"
+                                                                            ng-change="invalidateEstimation()">
+                                                                        <label for="adults_number" class="right-aligned-text">عدد البالغين</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" ng-if="numberOfKids > 0">
+                                                                <div class="col-lg-push-3 col-sm-push-3 col-lg-3 col-sm-3 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                        <textarea placeholder="سن الاطفال&#13;الطفل #1: 8" id="kidsAge" name="kidsAge" class="active">{{kidsAge}}</textarea>
+                                                                        <label for="kidsAge" class="left-aligned-text">سن الاطفال</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
