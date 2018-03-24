@@ -341,15 +341,16 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		});
 	};
 
-	$scope.invalidateEstimation = function(input) {
-		if (input === 'kids') {
-			if ($scope.numberOfKids > 0) {
-				$scope.kidsAge = "Kids Age";
-				for (let i = 0; i < $scope.numberOfKids; ++i) {
-					$scope.kidsAge += "\nKid #" + (i + 1) + ": ";
-				}
-			} else $scope.kidsAge = "";
-		}
+	$scope.invalidateEstimation = function() {
+	// $scope.invalidateEstimation = function(input) {
+	// 	if (input === 'kids') {
+	// 		if ($scope.numberOfKids > 0) {
+	// 			$scope.kidsAge = "Kids Age";
+	// 			for (let i = 0; i < $scope.numberOfKids; ++i) {
+	// 				$scope.kidsAge += "\nKid #" + (i + 1) + ": ";
+	// 			}
+	// 		} else $scope.kidsAge = "";
+	// 	}
 		$scope.lastEstimationValid = false;
 	};
 	$scope.validateEstimation = function() {
