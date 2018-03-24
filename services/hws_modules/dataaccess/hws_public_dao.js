@@ -70,7 +70,7 @@ var create = function (video, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO Videos (EN_Name, EN_Description, AR_Name, AR_Description, URI) values (?, ?, ?, ?, ?)', [video.en_name, video.en_description, video.ar_name, video.ar_description, video.uri], function (err, result) {
+					connection.query('INSERT INTO videos (EN_Name, EN_Description, AR_Name, AR_Description, URI) values (?, ?, ?, ?, ?)', [video.en_name, video.en_description, video.ar_name, video.ar_description, video.uri], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
@@ -117,7 +117,7 @@ var update = function (video, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('UPDATE Videos SET EN_Name = ?, EN_Description = ?, AR_Name = ?, AR_Description = ?, URI = ? WHERE Id = ?', [video.en_name, video.en_description, video.ar_name, video.ar_description, video.uri, video.id], function (err, result) {
+					connection.query('UPDATE videos SET EN_Name = ?, EN_Description = ?, AR_Name = ?, AR_Description = ?, URI = ? WHERE Id = ?', [video.en_name, video.en_description, video.ar_name, video.ar_description, video.uri, video.id], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing video: " + video.en_name);
