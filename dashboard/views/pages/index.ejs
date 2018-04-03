@@ -223,6 +223,9 @@
                                   <a href="#revenueTab" data-toggle="tab">Financials</a>
                                 </li>
                                 <li>
+                                  <a href="#generatePackageTab" data-toggle="tab">Generate Package</a>
+                                </li>
+                                <li>
                                   <a href="#mailshistoryTab" data-toggle="tab">Mails History</a>
                                 </li>
                               </ul>
@@ -377,6 +380,14 @@
                                     <label for="profit">Profit</label>
                                     <input type="number" min="0.00" step="1" class="form-control" id="profit" ng-model="currentOrder.profit">
                                   </div>
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="generatePackageTab">
+                                  <input type="text" class="form-control" id="packageName" ng-model="currentOrder.packageName" ng-change="currentOrder.generatedFile = null">
+                                  <input type="text" class="form-control" id="destinationName" ng-model="currentOrder.destinationName" ng-change="currentOrder.generatedFile = null">
+                                  <input type="text" class="form-control" id="introduction" ng-model="currentOrder.introduction" ng-change="currentOrder.generatedFile = null">
+                                  <button ng-if="!currentOrder.generatedFile" ng-click="generatePackage()">Generate</button>
+                                  <a ng-if="currentOrder.generatedFile" ng-href="{{currentOrder.generatedFile}}" target="_blank">Generated File</a>
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="mailshistoryTab">
