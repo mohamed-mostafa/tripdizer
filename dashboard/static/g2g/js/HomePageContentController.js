@@ -588,6 +588,29 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$('#assignUserModal').modal('show');
 	};
 
+	$scope.generatePackage = () => {
+		$http.post('https://script.google.com/macros/s/AKfycbxXRwlrEKBQtQro1npFbBDA8F_w6ujQt9rgs0VVrGP5L4bQJZOA/exec', $scope.currentOrder, {
+				headers: {
+					'Content-Type': 'text/plain',
+				}
+			})
+			.success(function (response) {
+				if (response) {
+					$scope.serverError = false;
+					$scope.currentOrder.generatedFile = response;
+					// $window.open(response, "popup");
+				} else {
+					$scope.serverError = true;
+					$scope.serverErrorMessage = err;
+				}
+				$scope.loading = false;
+			}).error(function (err) {
+				$scope.serverError = true;
+				$scope.serverErrorMessage = err;
+				$scope.loading = false;
+			});
+	}
+
 	// initialize the date range picker
 	// var format = 'MM/DD/YYYY h:mm A';
 	// var from = moment().subtract('days', 30);
