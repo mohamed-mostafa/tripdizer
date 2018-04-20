@@ -759,6 +759,19 @@ function paginationClick(wizard, options, state, index)
 
     if (index >= 0 && index < state.stepCount && !(options.forceMoveForward && index < state.currentIndex))
     {
+        // report to google analytics
+        var pageName = "";
+        if (index == 0) pageName = "/Destinations";
+        else if (index == 1) pageName = "/TripInformation";
+        else if (index == 2) pageName = "/Interests";
+        else if (index == 3) pageName = "/PersonalInformation";
+        else if (index == 4) pageName = "/Checkout";
+        // debugger;
+        if (pageName != "") {
+            ga('set', 'page', pageName);
+            ga('send', 'pageview');
+        }
+
         var anchor = getStepAnchor(wizard, index),
             parent = anchor.parent(),
             isDisabled = parent.hasClass("disabled");

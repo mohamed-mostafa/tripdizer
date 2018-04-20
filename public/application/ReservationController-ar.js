@@ -182,6 +182,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			console.log("Request submitted");
 			$scope.submitting = false;
 			$scope.requestNumber = response.id;
+
+			$scope.reportSubmitButtonClicked();
+
 		}).error(function (err) {
 			$scope.submitting = false;
 			$scope.submittingError = true;
@@ -328,21 +331,23 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			if ($scope.costEstimation.numberOfNights == 1) $scope.nightsStatement = "ليلة واحدة"; else if ($scope.costEstimation.numberOfNights == 2) $scope.nightsStatement = "ليلتان"; else $scope.nightsStatement = $scope.costEstimation.numberOfNights + " ليال";
 
 			$scope.validateEstimation();
+			$scope.reportEstimateButtonClicked();
 		}).error(function (err) {
 			$scope.calculatingBudget = false;
 			console.log("Failed to submit request for calculation: " + JSON.stringify(err));
 		});
 	};
 
-	$scope.invalidateEstimation = function(input) {
-		if (input === 'kids') {
-			if ($scope.numberOfKids > 0) {
-				$scope.kidsAge = "سن الاطفال";
-				for (let i = 0; i < $scope.numberOfKids; ++i) {
-					$scope.kidsAge += "\nالطفل #" + (i + 1) + ": ";
-				}
-			} else $scope.kidsAge = "";
-		}
+	$scope.invalidateEstimation = function() {
+	// $scope.invalidateEstimation = function(input) {
+	// 	if (input === 'kids') {
+	// 		if ($scope.numberOfKids > 0) {
+	// 			$scope.kidsAge = "سن الاطفال";
+	// 			for (let i = 0; i < $scope.numberOfKids; ++i) {
+	// 				$scope.kidsAge += "\nالطفل #" + (i + 1) + ": ";
+	// 			}
+	// 		} else $scope.kidsAge = "";
+	// 	}
 		$scope.lastEstimationValid = false;
 	};
 	$scope.validateEstimation = function() {
@@ -365,4 +370,20 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	$scope.okButtonClickedOnSubmitModal = function() {
 		window.location.replace("/index-ar.html");
 	};
+
+	$scope.reportReservationPageOpened = function() {
+		var pageName = "/Destinations";
+        if (pageName != "") {
+            ga('set', 'page', pageName);
+            ga('send', 'pageview');
+        }
+	};
+	$scope.reportSubmitButtonClicked = function() {
+		ga('send', 'event', 'Submit Button', 'Submit Request');
+	};
+	$scope.reportEstimateButtonClicked = function() {
+		ga('send', 'event', 'Estimate Button', 'Estimate Cost');
+	};
+	$scope.reportReservationPageOpened();
+
 }]);

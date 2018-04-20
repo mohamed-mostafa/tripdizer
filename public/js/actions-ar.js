@@ -221,8 +221,7 @@
                     email: true
                 },
                 mobile: {
-                    required: true,
-                    number: true
+                    required: true
                 },
                 birth_date: "required"
 

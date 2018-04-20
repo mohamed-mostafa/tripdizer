@@ -25316,7 +25316,7 @@ fieldset[disabled] .box-planning-type-4.active .btn-default {
 }
 
 .rd-navbar-default.rd-navbar-fixed .rd-navbar-toggle span:before {
-  content: "";
+  content: "\2807";
   -webkit-transform: rotate(0deg) scale(1);
   transform: rotate(0deg) scale(1);
   opacity: 1;
@@ -25350,7 +25350,7 @@ fieldset[disabled] .box-planning-type-4.active .btn-default {
 .rd-navbar-default.rd-navbar-fixed .rd-navbar-brand {
   display: block;
   position: fixed;
-  top: 10px;
+  /*top: 10px;*/
   left: 50%;
   width: auto;
   margin-right: 15px;

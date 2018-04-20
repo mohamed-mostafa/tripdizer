@@ -182,6 +182,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			console.log("Request submitted");
 			$scope.submitting = false;
 			$scope.requestNumber = response.id;
+
+			$scope.reportSubmitButtonClicked();
+
 		}).error(function (err) {
 			$scope.submitting = false;
 			$scope.submittingError = true;
@@ -335,6 +338,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			if ($scope.costEstimation.numberOfNights == 1) $scope.nightsStatement = "1 night"; else $scope.nightsStatement = $scope.costEstimation.numberOfNights + " nights";
 
 			$scope.validateEstimation();
+
+			$scope.reportEstimateButtonClicked();
+
 		}).error(function (err) {
 			$scope.calculatingBudget = false;
 			console.log("Failed to submit request for calculation: " + JSON.stringify(err));
@@ -373,5 +379,20 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	$scope.okButtonClickedOnSubmitModal = function() {
 		window.location.replace("/index.html");
 	}
+
+	$scope.reportReservationPageOpened = function() {
+		var pageName = "/Destinations";
+        if (pageName != "") {
+            ga('set', 'page', pageName);
+            ga('send', 'pageview');
+        }
+	};
+	$scope.reportSubmitButtonClicked = function() {
+		ga('send', 'event', 'Submit Button', 'Submit Request');
+	};
+	$scope.reportEstimateButtonClicked = function() {
+		ga('send', 'event', 'Estimate Button', 'Estimate Cost');
+	};
+	$scope.reportReservationPageOpened();
 
 }]);
