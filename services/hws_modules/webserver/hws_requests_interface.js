@@ -244,6 +244,24 @@ var toggleOptions = function (req, res) {
 	}
 };
 
+var getPackage = function (req, res) {
+	try {
+		var requestId = req.params.requestId;
+		// call the business function and give it a callback function 
+		requestsBusiness.getPackage(requestId, function (request) {
+				res.json(request);
+			},
+			function (error) {
+				console.log(error);
+				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
+			});
+	} catch (error) {
+		console.log("An error occured in /request");
+		console.log(error);
+		res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+	}
+};
+
 exports.placeRequest = placeRequest;
 exports.getRequestById = getRequestById;
 exports.assignRequestToUser = assignRequestToUser;
@@ -259,3 +277,4 @@ exports.markRequestDelivered = markRequestDelivered;
 exports.markRequestPlaced = markRequestPlaced;
 exports.budgetCalculation = budgetCalculation;
 exports.toggleOptions = toggleOptions;
+exports.getPackage = getPackage;

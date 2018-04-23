@@ -589,9 +589,8 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	};
 
 	$scope.generatePackage = () => {
-		$http.get($rootScope.serverURL + "/itinerary/" + $scope.currentOrder.itineraryId).success(function (itinerary) {
-			$scope.currentOrder.itinerary = itinerary; // TODO: Reformat Object & Remove Unnecessary Properties
-			$http.post('https://script.google.com/macros/s/AKfycbwQdxYAZ8X3qi6p8wtWHwlO1v-SYAfYvk83kmCb-mEZ5jfLzRB8/exec', $scope.currentOrder, {
+		$http.get($rootScope.serverURL + "/request/package/" + $scope.currentOrder.id).success(function (request) {
+			$http.post('https://script.google.com/macros/s/AKfycbwQdxYAZ8X3qi6p8wtWHwlO1v-SYAfYvk83kmCb-mEZ5jfLzRB8/exec', request, {
 					headers: {
 						'Content-Type': 'text/plain',
 					}

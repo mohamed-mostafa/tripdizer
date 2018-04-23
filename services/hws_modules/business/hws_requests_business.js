@@ -277,6 +277,28 @@ var sendDailyReportOfRequestsCount = function () {
 	})
 }
 
+var getPackage = function (requestId, onSuccess, onFailure) {
+	requestsDao.getRequestById(requestId, function (request) {
+		if (request.itineraryId) {
+			itinerariesDao.getById(request.itineraryId, null, function (itinerary) {
+				itinerary.hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budgetCategory);
+				request.itinerary = itinerary;
+				onSuccess(request);
+			}, function (err) {
+				console.log("An error occured while getting request package");
+				console.log(err);
+				onFailure(err);
+			})
+		} else {
+			onFailure("Itinerary Id doesn't exists!.");
+		}
+	}, function (err) {
+		console.log("An error occured while getting request package");
+		console.log(err);
+		onFailure(err);
+	})
+}
+
 exports.placeRequest = placeRequest;
 exports.getRequestById = requestsDao.getRequestById;
 exports.assignRequestToUser = requestsDao.assignRequestToUser;
@@ -289,3 +311,4 @@ exports.changeRequestStatus = requestsDao.modifyRequestStatusById;
 exports.budgetCalculation = budgetCalculation;
 exports.sendDailyReportOfRequestsCount = sendDailyReportOfRequestsCount;
 exports.toggleOptions = requestsDao.toggleOptions;
+exports.getPackage = getPackage;

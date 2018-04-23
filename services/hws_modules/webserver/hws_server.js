@@ -54,6 +54,7 @@ var start = function () {
 	app.post('/request/status/beingprepared', requestsInterface.markRequestBeingPrepared);
 	app.post('/request/status/delivered', requestsInterface.markRequestDelivered);
 	app.put('/request/toggleoptions', requestsInterface.toggleOptions);
+	app.get('/request/package/:requestId', requestsInterface.getPackage);
 
 	//		users
 	app.get('/users', usersInterface.getAllUsers);

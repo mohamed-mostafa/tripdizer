@@ -15,7 +15,7 @@ var getById = function (id, lang, onSuccess, onFailure) {
 		} else {
 			// execute the query
 			var iternaryQuery = 'SELECT * FROM iternary WHERE id = ' + id + ';';
-			var countriesQuery = 'SELECT ic.Countries_Id as id FROM iternary i join iternary_countries ic on i.Id = ic.Iternary_Id WHERE i.Id = ' + id + ';';
+			var countriesQuery = 'SELECT ic.Countries_Id as id, ic.Order as \'order\', ic.Days as days FROM iternary i join iternary_countries ic on i.Id = ic.Iternary_Id WHERE i.Id = ' + id + ';';
 			var ferryQuery = 'SELECT ife.*, mp.* FROM iternary i join iternary_ferry ife on i.Id = ife.iternary_id join month_price mp on mp.id = ife.price WHERE i.Id = ' + id + ';';
 			var flightQuery = `SELECT ifl.*, mpa.JAN aJAN, mpa.FEB aFEB, mpa.MAR aMAR, mpa.APR aAPR, mpa.MAY aMAY, mpa.JUN aJUN, mpa.JUL aJUL, mpa.AUG aAUG, mpa.SEP aSEP, mpa.OCT aOCT, mpa.NOV aNOV, mpa.DEC aDEC, 
 			mpk.JAN kJAN, mpk.FEB kFEB, mpk.MAR kMAR, mpk.APR kAPR, mpk.MAY kMAY, mpk.JUN kJUN, mpk.JUL kJUL, mpk.AUG kAUG, mpk.SEP kSEP, mpk.OCT kOCT, mpk.NOV kNOV, mpk.DEC kDEC,
@@ -41,7 +41,12 @@ var getById = function (id, lang, onSuccess, onFailure) {
 							ar_name: rows[0][0].AR_Name,
 							ar_description: rows[0][0].AR_Description,
 							dailySpendings: rows[0][0].Daily_Spendings,
-							countries: rows[1].map(x => x.id.toString()),
+							introduction: rows[0][0].Introduction,
+							includes: rows[0][0].Includes,
+							excludes: rows[0][0].Excludes,
+							image1: rows[0][0].Image1,
+							image2: rows[0][0].Image2,
+							countries: rows[1],
 							ferries: rows[2],
 							flights: rows[3],
 							hotels: rows[4]
@@ -87,7 +92,7 @@ var create = function (itinerary, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO iternary (EN_Name, EN_Description, AR_Name, AR_Description, Daily_Spendings) values (?, ?, ?, ?, ?)', [itinerary.en_name, itinerary.en_description, itinerary.ar_name, itinerary.ar_description, itinerary.dailySpendings], function (err, result) {
+					connection.query('INSERT INTO iternary (EN_Name, EN_Description, AR_Name, AR_Description, Daily_Spendings, Introduction, Includes, Excludes, Image1, Image2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [itinerary.en_name, itinerary.en_description, itinerary.ar_name, itinerary.ar_description, itinerary.dailySpendings, itinerary.introduction, itinerary.includes, itinerary.excludes, itinerary.image1, itinerary.image2], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
@@ -134,12 +139,12 @@ var update = function (itinerary, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					var updateQuery = `UPDATE iternary SET EN_Name = '${itinerary.en_name}', EN_Description = '${itinerary.en_description}', AR_Name = '${itinerary.ar_name}', AR_Description = '${itinerary.ar_description}', Daily_Spendings = '${itinerary.dailySpendings}' WHERE Id = '${itinerary.id}';`;
+					var updateQuery = `UPDATE iternary SET EN_Name = '${itinerary.en_name}', EN_Description = '${itinerary.en_description}', AR_Name = '${itinerary.ar_name}', AR_Description = '${itinerary.ar_description}', Daily_Spendings = '${itinerary.dailySpendings}', Introduction = '${itinerary.introduction}', Includes = '${itinerary.includes}', Excludes = '${itinerary.excludes}', Image1 = '${itinerary.image1}', Image2 = '${itinerary.image2}' WHERE Id = '${itinerary.id}';`;
 					var countriesQuery = `DELETE FROM iternary_countries WHERE Iternary_Id = ${itinerary.id};`;
 					for (let i = 0; i < itinerary.countries.length; i++) {
 						if (i === 0) countriesQuery += `INSERT INTO iternary_countries VALUES `;
 						else countriesQuery += ', ';
-						countriesQuery += `(${itinerary.id}, ${itinerary.countries[i]})`;
+						countriesQuery += `(${itinerary.id}, ${itinerary.countries[i].id}, ${itinerary.countries[i].order}, ${itinerary.countries[i].days})`;
 						if (i === itinerary.countries.length - 1) countriesQuery += ';';
 					}
 					var ferriesQuery = `DELETE FROM month_price WHERE id in (SELECT price FROM iternary_ferry WHERE Iternary_Id = ${itinerary.id});DELETE FROM iternary_ferry WHERE Iternary_Id = ${itinerary.id};`;
@@ -159,8 +164,8 @@ var update = function (itinerary, onSuccess, onFailure) {
 					var hotelsQuery = `DELETE FROM month_price WHERE id in (SELECT night_price FROM iternary_hotel WHERE Iternary_Id = ${itinerary.id});DELETE FROM iternary_hotel WHERE Iternary_Id = ${itinerary.id};`;
 					for (let i = 0; i < itinerary.hotels.length; i++) {
 						hotelsQuery += `INSERT INTO month_price VALUES (0, '${itinerary.hotels[i].JAN | 0}', '${itinerary.hotels[i].FEB | 0}', '${itinerary.hotels[i].MAR | 0}', '${itinerary.hotels[i].APR | 0}', '${itinerary.hotels[i].MAY | 0}', '${itinerary.hotels[i].JUN | 0}', '${itinerary.hotels[i].JUL | 0}', '${itinerary.hotels[i].AUG | 0}', '${itinerary.hotels[i].SEP | 0}', '${itinerary.hotels[i].OCT | 0}', '${itinerary.hotels[i].NOV | 0}', '${itinerary.hotels[i].DEC | 0}');`;
-						hotelsQuery += 'INSERT INTO iternary_hotel (`Iternary_id`, `EN_Name`, `AR_Name`, `private`, `budget_category_id`, `night_price`) VALUES ';
-						hotelsQuery += `(${itinerary.id}, '${itinerary.hotels[i].EN_Name}', '${itinerary.hotels[i].AR_Name}', '${itinerary.hotels[i].private}', '${itinerary.hotels[i].budget_category_id}', LAST_INSERT_ID());`;
+						hotelsQuery += 'INSERT INTO iternary_hotel (`Iternary_id`, `EN_Name`, `AR_Name`, `private`, `budget_category_id`, `Country_Id`, `night_price`) VALUES ';
+						hotelsQuery += `(${itinerary.id}, '${itinerary.hotels[i].EN_Name}', '${itinerary.hotels[i].AR_Name}', '${itinerary.hotels[i].private}', '${itinerary.hotels[i].budget_category_id}', '${itinerary.hotels[i].Country_Id}', LAST_INSERT_ID());`;
 					}
 					connection.query(updateQuery + countriesQuery + ferriesQuery + flightsQuery + hotelsQuery, [], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
@@ -216,12 +221,17 @@ var getAll = function (lang, onSuccess, onFailure) {
 							ar_name: rows[i].AR_Name,
 							ar_description: rows[i].AR_Description,
 							dailySpendings: rows[i].Daily_Spendings,
+							introduction: rows[i].Introduction,
+							includes: rows[i].Includes,
+							excludes: rows[i].Excludes,
+							image1: rows[i].Image1,
+							image2: rows[i].Image2,
 							longitudes: rows[i].longitude,
 							latitudes: rows[i].latitude,
-							countries_en_descriptions : rows[i].country_en_description,
-							countries_ar_descriptions : rows[i].country_ar_description,
-							countries_en_names : rows[i].country_en_name,
-							countries_ar_names : rows[i].country_ar_name
+							countries_en_descriptions: rows[i].country_en_description,
+							countries_ar_descriptions: rows[i].country_ar_description,
+							countries_en_names: rows[i].country_en_name,
+							countries_ar_names: rows[i].country_ar_name
 						};
 						if (lang) {
 							itinerary.name = itinerary[lang.toLowerCase() + '_name'];
