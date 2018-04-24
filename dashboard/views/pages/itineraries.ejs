@@ -354,17 +354,17 @@
                                                             <div class="box-body">
                                                                 <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
                                                                     <div class="form-control-4">
-                                                                        <label>Country:</label>
+                                                                        <label>Country name</label>
                                                                         <select class="form-control" ng-model="country.id">
                                                                             <option ng-repeat="orgCountry in countries" ng-value="orgCountry.id" ng-selected="orgCountry.id == country.id">{{orgCountry.en_name}}</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="form-control-4">
-                                                                        <label>Order:</label>
+                                                                        <label>Order #</label>
                                                                         <input class="form-control" type="number" ng-model="country.order" required>
                                                                     </div>
                                                                     <div class="form-control-4">
-                                                                        <label>Days:</label>
+                                                                        <label>Days %</label>
                                                                         <input class="form-control" type="number" ng-model="country.days" required>
                                                                     </div>
                                                                 </div>

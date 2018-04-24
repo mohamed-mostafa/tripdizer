@@ -279,24 +279,70 @@ var sendDailyReportOfRequestsCount = function () {
 
 var getPackage = function (requestId, onSuccess, onFailure) {
 	requestsDao.getRequestById(requestId, function (request) {
-		if (request.itineraryId) {
-			itinerariesDao.getById(request.itineraryId, null, function (itinerary) {
-				itinerary.hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budgetCategory);
-				request.itinerary = itinerary;
-				onSuccess(request);
-			}, function (err) {
-				console.log("An error occured while getting request package");
-				console.log(err);
-				onFailure(err);
-			})
-		} else {
-			onFailure("Itinerary Id doesn't exists!.");
-		}
-	}, function (err) {
-		console.log("An error occured while getting request package");
-		console.log(err);
-		onFailure(err);
-	})
+			const departureDate = new Date(request.departureDate);
+			const returnDate = new Date(request.returnDate);
+			const tripDays = Math.ceil(Math.abs(returnDate.getTime() - departureDate.getTime()) / (1000 * 3600 * 24));
+			if (request.itineraryId) {
+				itinerariesDao.getById(request.itineraryId, null, function (itinerary) {
+						if (itinerary.flights.length > 0) {
+							itinerary.flights = itinerary.flights.sort((a, b) => a.type - b.type).map(f => ({
+								...f, // TODO: Add times to database then remove this map
+								departure_time: new Date().toLocaleTimeString(),
+								arrival_time: new Date().toLocaleTimeString(),
+								lay_over: 0,
+							}));
+							itinerary.flights[0].date = departureDate.toLocaleDateString();
+							itinerary.flights.push({
+								type: 0,
+								arriving_to: itinerary.flights[0].departing_from,
+								departing_from: itinerary.flights[0].arriving_to,
+								departure_time: itinerary.flights[0].departure_time,
+								arrival_time: itinerary.flights[0].arrival_time,
+								lay_over: itinerary.flights[0].lay_over,
+								Iternary_id: itinerary.flights[0].Iternary_id
+							});
+						}
+						itinerary.countries = itinerary.countries.sort((a, b) => a.order - b.order);
+						for (let i = 0; i < itinerary.countries.length; ++i) {
+							itinerary.countries[i].numberOfDays = tripDays * itinerary.countries[i].days / 100;
+							itinerary.countries[i].startDate = i === 0 ? departureDate : new Date(new Date(itinerary.countries[i - 1].endDate).setDate(itinerary.countries[i - 1].endDate.getDate()));
+							itinerary.countries[i].endDate = new Date(new Date(itinerary.countries[i].startDate).setDate(itinerary.countries[i].startDate.getDate() + itinerary.countries[i].numberOfDays));
+							itinerary.flights[i + 1].date = itinerary.countries[i].endDate.toLocaleDateString();
+						}
+						itinerary.hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budgetCategory);
+						for (let i = 0; i < itinerary.hotels.length; ++i) {
+							const country = itinerary.countries.find(c => c.id == itinerary.hotels[i].Country_Id);
+							if (country) {
+								itinerary.hotels[i].order = country.order;
+								itinerary.hotels[i].checkIn = country.startDate.toLocaleDateString();
+								itinerary.hotels[i].checkOut = country.endDate.toLocaleDateString();
+								itinerary.hotels[i].nights = country.numberOfDays;
+							} else {
+								itinerary.hotels[i].order = 99999;
+								itinerary.hotels[i].Country_Name = "Country Name";
+								itinerary.hotels[i].checkIn = "Check In";
+								itinerary.hotels[i].checkOut = "Check Out";
+								itinerary.hotels[i].nights = 0;
+							}
+						}
+						itinerary.hotels = itinerary.hotels.sort((a, b) => a.order - b.order);
+						request.itinerary = itinerary;
+						onSuccess(request);
+					},
+					function (err) {
+						console.log("An error occured while getting request package");
+						console.log(err);
+						onFailure(err);
+					})
+			} else {
+				onFailure("Itinerary Id doesn't exists!.");
+			}
+		},
+		function (err) {
+			console.log("An error occured while getting request package");
+			console.log(err);
+			onFailure(err);
+		})
 }
 
 exports.placeRequest = placeRequest;

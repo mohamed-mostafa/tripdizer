@@ -21,7 +21,7 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			mpk.JAN kJAN, mpk.FEB kFEB, mpk.MAR kMAR, mpk.APR kAPR, mpk.MAY kMAY, mpk.JUN kJUN, mpk.JUL kJUL, mpk.AUG kAUG, mpk.SEP kSEP, mpk.OCT kOCT, mpk.NOV kNOV, mpk.DEC kDEC,
 			mpi.JAN iJAN, mpi.FEB iFEB, mpi.MAR iMAR, mpi.APR iAPR, mpi.MAY iMAY, mpi.JUN iJUN, mpi.JUL iJUL, mpi.AUG iAUG, mpi.SEP iSEP, mpi.OCT iOCT, mpi.NOV iNOV, mpi.DEC iDEC
 			FROM iternary i join iternary_flight ifl on i.Id = ifl.Iternary_id join month_price mpa on mpa.id = ifl.adult_price join month_price mpk on mpk.id = ifl.kid_price join month_price mpi on mpi.id = ifl.infant_price WHERE i.Id = ${id};`;
-			var hotelQuery = 'SELECT ih.*, mp.* FROM iternary i join iternary_hotel ih on i.Id = ih.Iternary_id join month_price mp on mp.id = ih.night_price WHERE i.Id = ' + id + ';';
+			var hotelQuery = 'SELECT ih.*, c.EN_Name AS Country_Name, mp.* FROM iternary i join iternary_hotel ih on i.Id = ih.Iternary_id join month_price mp on mp.id = ih.night_price LEFT JOIN countries c on c.Id = ih.Country_Id WHERE i.Id =  ' + id + ';';
 			connection.query(iternaryQuery + countriesQuery + ferryQuery + flightQuery + hotelQuery, [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {

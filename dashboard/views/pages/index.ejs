@@ -222,7 +222,7 @@
                                 <li>
                                   <a href="#revenueTab" data-toggle="tab">Financials</a>
                                 </li>
-                                <li>
+                                <li ng-if="currentOrder.itineraryId">
                                   <a href="#generatePackageTab" data-toggle="tab">Generate Package</a>
                                 </li>
                                 <li>
@@ -383,11 +383,13 @@
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="generatePackageTab">
-                                  <input type="text" class="form-control" id="packageName" ng-model="currentOrder.packageName" ng-change="currentOrder.generatedFile = null">
+                                  <!-- <input type="text" class="form-control" id="packageName" ng-model="currentOrder.packageName" ng-change="currentOrder.generatedFile = null">
                                   <input type="text" class="form-control" id="destinationName" ng-model="currentOrder.destinationName" ng-change="currentOrder.generatedFile = null">
-                                  <input type="text" class="form-control" id="introduction" ng-model="currentOrder.introduction" ng-change="currentOrder.generatedFile = null">
-                                  <button ng-if="!currentOrder.generatedFile" ng-click="generatePackage()">Generate</button>
-                                  <a ng-if="currentOrder.generatedFile" ng-href="{{currentOrder.generatedFile}}" target="_blank">Generated File</a>
+                                  <input type="text" class="form-control" id="introduction" ng-model="currentOrder.introduction" ng-change="currentOrder.generatedFile = null"> -->
+                                  <center>
+                                    <button ng-if="!currentOrder.generatedFile" ng-click="generatePackage()">Generate</button>
+                                    <a ng-if="currentOrder.generatedFile" ng-href="{{currentOrder.generatedFile}}" target="_blank">Generated File</a>
+                                  </center>
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="mailshistoryTab">
