@@ -295,7 +295,7 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 							itinerary.flights.push({
 								type: 0,
 								arriving_to: itinerary.flights[0].departing_from,
-								departing_from: itinerary.flights[0].arriving_to,
+								departing_from: itinerary.flights[itinerary.flights.length - 1].arriving_to,
 								departure_time: itinerary.flights[0].departure_time,
 								arrival_time: itinerary.flights[0].arrival_time,
 								lay_over: itinerary.flights[0].lay_over,
