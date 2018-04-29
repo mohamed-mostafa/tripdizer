@@ -171,37 +171,39 @@
                                                 <label class="control-label text-red" for="includes" ng-show="includesMissing==true">
                                                     <i class="fa fa-times-circle-o"></i>Includes is missing</label>
                                                 <label for="includes" ng-show="includesMissing==false">Includes</label>
-                                                <input type="text" required class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes"
-                                                    required>
+                                                <textarea class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
+                                                <!-- <input type="text" required class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes"
+                                                    required> -->
                                             </div>
                                             <div class="form-group" ng-show="saving==false">
                                                 <label class="control-label text-red" for="excludes" ng-show="excludesMissing==true">
                                                     <i class="fa fa-times-circle-o"></i>Excludes is missing</label>
                                                 <label for="excludes" ng-show="excludesMissing==false">Excludes</label>
-                                                <input type="text" required class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes"
-                                                    required>
+                                                <textarea class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
+                                                <!-- <input type="text" required class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes"
+                                                    required> -->
                                             </div>
-                                            <div class="form-group" ng-show="saving==false">
+                                            <div class="form-group form-group-4" ng-show="saving==false">
                                                 <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing==true">
                                                     <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
                                                 <label for="dailySpendings" ng-show="dailySpendingsMissing==false">Daily Spendings</label>
                                                 <input type="text" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
                                                     required>
                                             </div>
-                                            <div class="form-group form-group-6" ng-show="saving==false">
+                                            <div class="form-group form-group-8" ng-show="saving==false">
                                                 <label class="control-label text-red" for="image1" ng-show="image1Missing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Image 1 is missing</label>
-                                                <label for="image1" ng-show="image1Missing==false">Image 1 URI</label>
-                                                <input type="text" required class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image 1 URI"
+                                                    <i class="fa fa-times-circle-o"></i>Image is missing</label>
+                                                <label for="image1" ng-show="image1Missing==false">Image URI (recommended width 600px)</label>
+                                                <input type="text" required class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI"
                                                     required>
                                             </div>
-                                            <div class="form-group form-group-6" ng-show="saving==false">
+                                            <!-- <div class="form-group form-group-6" ng-show="saving==false">
                                                 <label class="control-label text-red" for="image2" ng-show="image2Missing==true">
                                                     <i class="fa fa-times-circle-o"></i>Image 2 is missing</label>
                                                 <label for="image2" ng-show="image2Missing==false">Image 2 URI</label>
                                                 <input type="text" required class="form-control" id="image2" ng-model="newItinerary.image2" placeholder="Enter image 2 URI"
                                                     required>
-                                            </div>
+                                            </div> -->
                                             <!-- /.form group -->
                                         </div>
                                         <!-- /.box-body -->
@@ -299,15 +301,17 @@
                                                             <label class="control-label text-red" for="includes" ng-show="includesMissing">
                                                                 <i class="fa fa-times-circle-o"></i>Includes is missing</label>
                                                             <label for="includes" ng-show="!includesMissing">Includes</label>
-                                                            <input type="text" required class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes"
-                                                                required>
+                                                            <textarea class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
+                                                            <!-- <input type="text" required class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes"
+                                                                required> -->
                                                         </div>
                                                         <div class="form-group" ng-show="saving==false">
                                                             <label class="control-label text-red" for="excludes" ng-show="excludesMissing">
                                                                 <i class="fa fa-times-circle-o"></i>Excludes is missing</label>
                                                             <label for="excludes" ng-show="!excludesMissing">Excludes</label>
-                                                            <input type="text" required class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes"
-                                                                required>
+                                                            <textarea class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
+                                                            <!-- <input type="text" required class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes"
+                                                                required> -->
                                                         </div>
                                                         <div class="form-group form-group-4" ng-show="saving==false">
                                                             <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing">
@@ -316,20 +320,20 @@
                                                             <input type="text" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
                                                                 required>
                                                         </div>
-                                                        <div class="form-group form-group-4" ng-show="saving==false">
+                                                        <div class="form-group form-group-8" ng-show="saving==false">
                                                             <label class="control-label text-red" for="image1" ng-show="image1Missing">
-                                                                <i class="fa fa-times-circle-o"></i>Image 1 is missing</label>
-                                                            <label for="image1" ng-show="!image1Missing">Image 1 URI</label>
-                                                            <input type="text" required class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image 1 URI"
+                                                                <i class="fa fa-times-circle-o"></i>Image is missing</label>
+                                                            <label for="image1" ng-show="!image1Missing">Image URI (recommended width 600px)</label>
+                                                            <input type="text" required class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI"
                                                                 required>
                                                         </div>
-                                                        <div class="form-group form-group-4" ng-show="saving==false">
+                                                        <!-- <div class="form-group form-group-4" ng-show="saving==false">
                                                             <label class="control-label text-red" for="image2" ng-show="image2Missing">
                                                                 <i class="fa fa-times-circle-o"></i>Image 2 is missing</label>
                                                             <label for="image2" ng-show="!image2Missing">Image 2 URI</label>
                                                             <input type="text" required class="form-control" id="image2" ng-model="newItinerary.image2" placeholder="Enter image 2 URI"
                                                                 required>
-                                                        </div>
+                                                        </div> -->
                                                         <!-- /.form group -->
                                                     </div>
                                                     <!-- /.tab-pane -->
@@ -382,6 +386,12 @@
                                                         .form-control-6,
                                                         .form-group-6 {
                                                             width: 49.5%;
+                                                            display: inline-block;
+                                                        }
+
+                                                        .form-control-8,
+                                                        .form-group-8 {
+                                                            width: 66.4%;
                                                             display: inline-block;
                                                         }
 
@@ -515,6 +525,18 @@
                                                                             <option value="0" ng-selected="flight.type == 0">External</option>
                                                                             <option value="1" ng-selected="flight.type == 1">Internal</option>
                                                                         </select>
+                                                                    </div>
+                                                                    <div class="form-control-4">
+                                                                        <label>Departing Time:</label>
+                                                                        <input class="form-control" type="text" ng-model="flight.departure_time" required>
+                                                                    </div>
+                                                                    <div class="form-control-4">
+                                                                        <label>Arrival Time:</label>
+                                                                        <input class="form-control" type="text" ng-model="flight.arrival_time" required>
+                                                                    </div>
+                                                                    <div class="form-control-4">
+                                                                        <label>Lay Over:</label>
+                                                                        <input class="form-control" type="text" ng-model="flight.lay_over" required>
                                                                     </div>
                                                                     <label>Adult Price:</label>
                                                                     <br>

@@ -284,21 +284,20 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 			const tripDays = Math.ceil(Math.abs(returnDate.getTime() - departureDate.getTime()) / (1000 * 3600 * 24));
 			if (request.itineraryId) {
 				itinerariesDao.getById(request.itineraryId, null, function (itinerary) {
+						if (!itinerary.introduction) itinerary.introduction = "Introduction";
+						if (!itinerary.includes) itinerary.includes = "Includes";
+						if (!itinerary.excludes) itinerary.excludes = "Excludes";
+						if (!itinerary.image1) itinerary.image1 = "https://i.imgur.com/LsHCFiD.jpg";
 						if (itinerary.flights.length > 0) {
-							itinerary.flights = itinerary.flights.sort((a, b) => a.type - b.type).map(f => ({
-								...f, // TODO: Add times to database then remove this map
-								departure_time: new Date().toLocaleTimeString(),
-								arrival_time: new Date().toLocaleTimeString(),
-								lay_over: 0,
-							}));
+							itinerary.flights = itinerary.flights.sort((a, b) => a.type - b.type);
 							itinerary.flights[0].date = departureDate.toLocaleDateString();
 							itinerary.flights.push({
 								type: 0,
 								arriving_to: itinerary.flights[0].departing_from,
 								departing_from: itinerary.flights[itinerary.flights.length - 1].arriving_to,
-								departure_time: itinerary.flights[0].departure_time,
-								arrival_time: itinerary.flights[0].arrival_time,
-								lay_over: itinerary.flights[0].lay_over,
+								departure_time: "Departure Time",
+								arrival_time: "Arrival Time",
+								lay_over: "Lay Over",
 								Iternary_id: itinerary.flights[0].Iternary_id
 							});
 						}

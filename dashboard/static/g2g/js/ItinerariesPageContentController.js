@@ -64,7 +64,7 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 			$scope.image1Missing = true;
 		}
 		if ($scope.newItinerary.image2 == null || $scope.newItinerary.image2 == "") {
-			$scope.image2Missing = true;
+			$scope.image2Missing = false;
 		}
 		return $scope.en_nameMissing !== true && $scope.ar_nameMissing !== true &&
 			$scope.en_descriptionMissing !== true && $scope.ar_descriptionMissing !== true &&
