@@ -29,9 +29,9 @@ var getById = function (id, lang, onSuccess, onFailure) {
 						var budgetCategory = {
 							id: rows[0].Id,
 							en_name: rows[0].EN_Name,
-							en_description: rows[0].EN_description,
+							en_description: rows[0].EN_Description,
 							ar_name: rows[0].AR_Name,
-							ar_description: rows[0].AR_description
+							ar_description: rows[0].AR_Description
 						};
 
 						if (lang) {
@@ -172,9 +172,9 @@ var getAll = function (lang, onSuccess, onFailure) {
 						var budgetCategory = {
 							id: rows[i].Id,
 							en_name: rows[i].EN_Name,
-							en_description: rows[i].EN_description,
+							en_description: rows[i].EN_Description,
 							ar_name: rows[i].AR_Name,
-							ar_description: rows[i].AR_description
+							ar_description: rows[i].AR_Description
 						};
 						if (lang) {
 							budgetCategory.name = budgetCategory[lang.toLowerCase() + '_name'];

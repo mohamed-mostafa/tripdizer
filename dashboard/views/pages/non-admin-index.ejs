@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>HSW | Dashboard</title>
+  <title>Tripdizer Dashboard</title>
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   <!-- Bootstrap 3.3.2 -->
   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -112,7 +112,7 @@
                               <i class="fa fa-envelope"></i> {{order.traveler.emailAddress}}</a>
                           </td>
                           <td ng-bind="order.traveler.mobile"></td>
-                          <td ng-bind="order.date"></td>
+                          <td>{{order.date | date: 'mediumDate'}}</td>
                           <td>
                             <select ng-model="order.status" ng-change="changeOrderStatus(order)">
                               <option ng-repeat="status in statuses" ng-value="status.title">{{status.title}}</option>
@@ -225,7 +225,7 @@
                                     <label for="status">Status</label>
                                     <input type="text" disabled class="form-control" id="status" ng-model="currentOrder.status">
                                     <label for="placed">Placed</label>
-                                    <input type="text" disabled class="form-control" id="placed" ng-model="currentOrder.date">
+                                    <input type="text" disabled class="form-control" id="placed" format="MMM d, y" ng-model="currentOrder.date">
                                     <label for="comments">Comments</label>
                                     <textarea class="form-control" id="comments" ng-model="currentOrder.comments"></textarea>
                                     <label for="userFullName">Assigned User</label>
@@ -242,16 +242,16 @@
                                     <label for="email">Email</label>
                                     <input type="text" disabled class="form-control" id="email" ng-model="currentOrder.traveler.emailAddress">
                                     <label for="dob">Date of birth</label>
-                                    <input type="text" disabled class="form-control" id="dob" ng-model="currentOrder.traveler.dateOfBirth">
+                                    <input type="text" disabled class="form-control" id="dob" format="MMM d, y" ng-model="currentOrder.traveler.dateOfBirth">
                                   </div>
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="datesTab">
                                   <div>
                                     <label for="departureDate">Departure Date</label>
-                                    <input type="date" class="form-control" id="departureDate" ng-model="currentOrder.departureDate">
+                                    <input type="date" class="form-control" id="departureDate" format="MMM d, y" ng-model="currentOrder.departureDate">
                                     <label for="returnDate">Return Date</label>
-                                    <input type="date" class="form-control" id="returnDate" ng-model="currentOrder.returnDate">
+                                    <input type="date" class="form-control" id="returnDate" format="MMM d, y" ng-model="currentOrder.returnDate">
                                     <label for="flexibleDates">Flexible Dates</label>
                                     <select class="form-control" id="flexibleDates" ng-model="currentOrder.flexibleDates">
                                       <option value="1" ng-selected="currentOrder.flexibleDates === 1">True</option>
@@ -286,6 +286,10 @@
                                       <select class="form-control" id="itineraryId" ng-model="currentOrder.itineraryId">
                                         <option ng-repeat="itinerary in itineraries" ng-value="itinerary.id" ng-selected="itinerary.id === currentOrder.itineraryId">{{itinerary.en_name}}</option>
                                       </select>
+                                      <div ng-if="currentOrder.itineraryId == '-1'">
+                                        <label for="otherCountry">Other Country</label>
+                                        <input type="text" class="form-control" id="otherCountry" ng-model="currentOrder.otherCountry">
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -301,6 +305,8 @@
                                     <input type="number" min="1" step="1" class="form-control" id="numberOfAdults" ng-model="currentOrder.numberOfAdults">
                                     <label for="numberOfKids">Number Of Kids</label>
                                     <input type="number" min="1" step="1" class="form-control" id="numberOfKids" ng-model="currentOrder.numberOfKids">
+                                    <!-- <label for="kidsAge">Kids Age</label> -->
+                                    <!-- <textarea class="form-control" id="kidsAge" ng-model="currentOrder.kidsAge"></textarea> -->
                                     <label for="numberOfInfants">Number Of Infants</label>
                                     <input type="number" min="1" step="1" class="form-control" id="numberOfInfants" ng-model="currentOrder.numberOfInfants">
                                   </div>

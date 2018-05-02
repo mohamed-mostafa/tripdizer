@@ -222,7 +222,7 @@ h3.range-tittle {
 
 @media (max-width: 370px) {
     .rd-navbar-brand img{
-        width:150px;
+        /*width:150px;*/
         height:32px;
     }
     .menu{

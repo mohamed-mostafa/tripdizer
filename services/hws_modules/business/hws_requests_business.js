@@ -15,13 +15,13 @@ var DateDiff = require('date-diff');
 //calls the onSuccess with a user object if the user was successfully created
 var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 	// insert the request in our database
-	request.date = new Date();
+	request.date = new Date(new Date().setHours(0, 0, 0, 0));
 	request.departure_date = new Date(request.departure_date);
 	request.return_date = new Date(request.return_date);
 	if (!request.budget) request.budget = 0;
 	if (request.itinerary_id) {
 		request.first_country = 1;
-		delete request.other_country
+		// delete request.other_country
 		delete request.second_country;
 		delete request.third_country;
 	}
@@ -36,14 +36,16 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 					onSuccess(request);
 
-					// notify creation
-					emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
-					notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
-					partnersBusiness.notifyPartners(request, function () {
-						console.log("Notified Partners");
-					}, function () {
-						console.log("Failed to notify partners");
-					});
+					if (request.traveler.name !== 'Essawy') {
+						// notify creation
+						emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
+						notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
+						partnersBusiness.notifyPartners(request, function () {
+							console.log("Notified Partners");
+						}, function () {
+							console.log("Failed to notify partners");
+						});
+					}
 				}, function (err) {
 					// respond to caller
 					console.log("An error occured while saving a new request");
@@ -60,14 +62,16 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 
 				onSuccess(request);
 
-				// notify creation
-				emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
-				notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
-				partnersBusiness.notifyPartners(request, function () {
-					console.log("Notified Partners");
-				}, function () {
-					console.log("Failed to notify partners");
-				});
+				if (request.traveler.name !== 'Essawy') {
+					// notify creation
+					emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
+					notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
+					partnersBusiness.notifyPartners(request, function () {
+						console.log("Notified Partners");
+					}, function () {
+						console.log("Failed to notify partners");
+					});
+				}
 			}, function (err) {
 				// respond to caller
 				console.log("An error occured while saving a new request");
@@ -168,6 +172,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				numberOfAdultsAndKids: request.number_of_adults + request.number_of_kids,
 				departureMonth: monthMap[new Date(request.departure_date).getMonth() + 1],
 				returnMonth: monthMap[new Date(request.return_date).getMonth() + 1],
+				numberOfRooms: 0,
 				totalBudget: 0,
 				flightsBudget: 0,
 				numberOfNights: Math.abs(diff.days()),
@@ -187,12 +192,19 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 			}
 
 			var hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budget_category);
-			for (let i = 0; i < hotels.length; ++i) {
+			for (let i = 0; i < hotels.length; i++) {
 				rData.accomodationBudget += rData.numberOfNights * (hotels[i][rData.departureMonth] + hotels[i][rData.returnMonth]) / 2;
 			}
 
 			// take the average of the hotels of the same category
 			rData.accomodationBudget = rData.accomodationBudget / hotels.length;
+
+			// the accomodation budgt is the price per peron for hostels (super economy) or the rate f the room otherwis
+			if (request.budget_category == 2) { // super economy
+				rData.accomodationBudget = rData.accomodationBudget * rData.numberOfAdultsAndKids;
+			} else {
+				rData.accomodationBudget = calculateAccomodationBudgetByRoom(rData.accomodationBudget, rData.numberOfAdultsAndKids);
+			}
 
 			// add 10% profit margin
 			rData.flightsBudget += (rData.flightsBudget * 0.1);
@@ -228,19 +240,133 @@ var recommendation = function (request, onSuccess, onFailure, onUserError) {
 		},
 		onFailure);
 };
+var calculateAccomodationBudgetByRoom = function (costOfAllNights, numbrtOfTravelers) {
+	var regularRooms = Math.floor(numbrtOfTravelers / 2);
+	var extraRooms = numbrtOfTravelers % 2;
 
-var getRequestById = requestsDao.getRequestById;
-var getRequestSummaries = requestsDao.getRequestSummariesByStatus
-var getRequestSummariesCount = requestsDao.getRequestSummariesCountByStatus
-var changeRequestStatus = requestsDao.modifyRequestStatusById
+	var cost = costOfAllNights;
+	if (extraRooms == 0) { // regular rooms is 2, 4, 6, ... etc
+		cost = costOfAllNights * regularRooms;
+	} else {
+		if (regularRooms == 0) { // number of adults = 1
+			cost = costOfAllNights;
+		} else { // number of adults = 3, 5, ... etc
+			cost = (costOfAllNights * (regularRooms - 1)) + (costOfAllNights * 1.35 * extraRooms);
+		}
+	}
+
+	return cost;
+}
+
+var sendDailyReportOfRequestsCount = function () {
+	requestsDao.getRequestCounts(function (counts) {
+		// prepare email body
+		var emailBody = "";
+		emailBody += "<html><head><style>table{border-collapse:collapse;width:100%}th,td{padding:8px 30px 8px 10px;text-align:left;border-bottom:1px solid #ddd}tr:hover{background-color:#f5f5f5}tr:nth-child(even){background-color:#f2f2f2}thead td{background-color:#3c8dbc;color:#fff}</style></head>";
+		emailBody += "<p style='font-weight: bold;'>Dear Team,</p>";
+		emailBody += "<p>Current State:</p>";
+		emailBody += "<table><thead><tr><td>Status<td><td>Count<td><td>Total Travellers<td><td>Adults<td><td>Kids<td><td>Infants<td></tr></thead>";
+		for (let i = 0; i < counts.length; ++i) {
+			emailBody += '<tr>';
+			emailBody += `<td>${counts[i].Status}<td>`;
+			emailBody += `<td>${counts[i].Count}<td>`;
+			emailBody += `<td>${counts[i].Total_Travellers}<td>`;
+			emailBody += `<td>${counts[i].Adults}<td>`;
+			emailBody += `<td>${counts[i].Kids}<td>`;
+			emailBody += `<td>${counts[i].Infants}<td>`;
+			emailBody += '</tr>';
+		}
+		emailBody += "</table>";
+		emailBody += "</table><p style='font-weight: bolder;'>Regards,</p>";
+		emailBody += "<p style='font-weight: bold;'>Tripdizer Notifications</p>";
+		emailBody += "<p style='font-weight: italic; font-size: 8px; color: red;'>Important! Please don't reply to this email</p>";
+		emailBody += "</html>";
+
+		// notify creation
+		emailBusiness.sendEmail("bookings@tripdizer.com", "Tripdizer Notifications <notifications@tripdizer.com>", "Tripdizer daily requests report", emailBody);
+	}, function () {
+		console.log("An error occured while getting request counts");
+	})
+}
+
+var getPackage = function (requestId, onSuccess, onFailure) {
+	requestsDao.getRequestById(requestId, function (request) {
+			const departureDate = new Date(request.departureDate);
+			const returnDate = new Date(request.returnDate);
+			const tripDays = Math.ceil(Math.abs(returnDate.getTime() - departureDate.getTime()) / (1000 * 3600 * 24));
+			if (request.itineraryId) {
+				itinerariesDao.getById(request.itineraryId, null, function (itinerary) {
+						if (!itinerary.introduction) itinerary.introduction = "Introduction";
+						if (!itinerary.includes) itinerary.includes = "Includes";
+						if (!itinerary.excludes) itinerary.excludes = "Excludes";
+						if (!itinerary.image1) itinerary.image1 = "https://i.imgur.com/LsHCFiD.jpg";
+						if (itinerary.flights.length > 0) {
+							itinerary.flights = itinerary.flights.sort((a, b) => a.type - b.type);
+							itinerary.flights[0].date = departureDate.toLocaleDateString();
+							itinerary.flights.push({
+								type: 0,
+								arriving_to: itinerary.flights[0].departing_from,
+								departing_from: itinerary.flights[itinerary.flights.length - 1].arriving_to,
+								departure_time: "Departure Time",
+								arrival_time: "Arrival Time",
+								lay_over: "Lay Over",
+								Iternary_id: itinerary.flights[0].Iternary_id
+							});
+						}
+						itinerary.countries = itinerary.countries.sort((a, b) => a.order - b.order);
+						for (let i = 0; i < itinerary.countries.length; ++i) {
+							itinerary.countries[i].numberOfDays = tripDays * itinerary.countries[i].days / 100;
+							itinerary.countries[i].startDate = i === 0 ? departureDate : new Date(new Date(itinerary.countries[i - 1].endDate).setDate(itinerary.countries[i - 1].endDate.getDate()));
+							itinerary.countries[i].endDate = new Date(new Date(itinerary.countries[i].startDate).setDate(itinerary.countries[i].startDate.getDate() + itinerary.countries[i].numberOfDays));
+							itinerary.flights[i + 1].date = itinerary.countries[i].endDate.toLocaleDateString();
+						}
+						itinerary.hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budgetCategory);
+						for (let i = 0; i < itinerary.hotels.length; ++i) {
+							const country = itinerary.countries.find(c => c.id == itinerary.hotels[i].Country_Id);
+							if (country) {
+								itinerary.hotels[i].order = country.order;
+								itinerary.hotels[i].checkIn = country.startDate.toLocaleDateString();
+								itinerary.hotels[i].checkOut = country.endDate.toLocaleDateString();
+								itinerary.hotels[i].nights = country.numberOfDays;
+							} else {
+								itinerary.hotels[i].order = 99999;
+								itinerary.hotels[i].Country_Name = "Country Name";
+								itinerary.hotels[i].checkIn = "Check In";
+								itinerary.hotels[i].checkOut = "Check Out";
+								itinerary.hotels[i].nights = 0;
+							}
+						}
+						itinerary.hotels = itinerary.hotels.sort((a, b) => a.order - b.order);
+						request.itinerary = itinerary;
+						onSuccess(request);
+					},
+					function (err) {
+						console.log("An error occured while getting request package");
+						console.log(err);
+						onFailure(err);
+					})
+			} else {
+				onFailure("Itinerary Id doesn't exists!.");
+			}
+		},
+		function (err) {
+			console.log("An error occured while getting request package");
+			console.log(err);
+			onFailure(err);
+		})
+}
 
 exports.placeRequest = placeRequest;
-exports.getRequestById = getRequestById;
+exports.getRequestById = requestsDao.getRequestById;
 exports.assignRequestToUser = requestsDao.assignRequestToUser;
 exports.updateRequest = requestsDao.updateRequest;
 
-exports.getRequestSummaries = getRequestSummaries;
-exports.getRequestSummariesCount = getRequestSummariesCount;
+exports.getRequestSummaries = requestsDao.getRequestSummariesByStatus;
+exports.getRequestSummariesCount = requestsDao.getRequestSummariesCountByStatus;
 exports.sendMailsToRequestTraveler = sendMailsToRequestTraveler
-exports.changeRequestStatus = changeRequestStatus;
 exports.recommendation = recommendation;
+exports.changeRequestStatus = requestsDao.modifyRequestStatusById;
+exports.budgetCalculation = budgetCalculation;
+exports.sendDailyReportOfRequestsCount = sendDailyReportOfRequestsCount;
+exports.toggleOptions = requestsDao.toggleOptions;
+exports.getPackage = getPackage;

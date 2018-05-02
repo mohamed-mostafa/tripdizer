@@ -10,6 +10,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="keywords" content="intense web design multipurpose template">
     <meta name="date" content="Dec 26">
+    <meta property="og:title" content="Tripdizer" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="/images/logo-1000x1000.png" />
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <!-- Stylesheets-->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:400,600,700">
@@ -93,7 +96,7 @@
                             <!-- Navbar Brand-->
                             <div class="rd-navbar-brand navbar-right">
                                 <a href="index-ar.html">
-                                    <img width="220" height="32" src="images/logo-light-220x32.png" alt="">
+                                    <img height="36" src="images/logo-250x131.png" alt="">
                                 </a>
                             </div>
                         </div>
@@ -149,13 +152,13 @@
                                             <div class="col-lg-4 col-md-4 col-sm-4 left-side country">
                                                 <div class="inner">
                                                     <div class="tittle-container">
-                                                        <h3 class="flow-tittle flow-tittle-override f-flow">
+                                                        <h3 class="flow-tittle flow-tittle-override f-flow" style="margin-top: 15px;">
 
                                                             <span class="glyphicon glyphicon-map-marker"></span> حدد وجهتك
                                                         </h3>
                                                     </div>
                                                     <div class="row">
-                                                        <span class="form-description">اختر الي ثلاث وجهات</span>
+                                                        <!-- <span class="form-description">اختر الي ثلاث وجهات</span> -->
                                                         <div class="col s12">
                                                             <div class="row" id="lcationPickupContainer">
                                                                 <div class="input-field col s11">
@@ -173,42 +176,11 @@
                                                                         <select id="to" name="to" class="to-destination select-override" ng-change="countryChanged()" ng-model="selectedFirstDestination">
                                                                             <option value="" disabled selected>وارغب في السفر الي...</option>
                                                                             <option disabled class="majorOption">رحلات</option>
-                                                                            <option value="i::{{itinerary.id}}" data-description="{{itinerary.description}}" ng-repeat="itinerary in itineraries">{{itinerary.name}}</option>
-                                                                            <option disabled class="majorOption">البلدان</option>
-                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
-                                                                                value="c::{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
-                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
+                                                                            <option value="i::{{itinerary.id}}" data-description="{{itinerary.countries_ar_descriptions}}" data-display-name="{{itinerary.countries_ar_names}}" data-latlng="{{itinerary.latitudes}}, {{itinerary.longitudes}}" data-file-name="{{itinerary.countries_en_names}}" ng-repeat="itinerary in itineraries">{{itinerary.name}}</option>
                                                                         </select>
-                                                                    </div>
-                                                                    <div class="col s1">
-                                                                        <button class="add-btn" ng-click="addDestination();" style="margin-top: 15px;" type="button">+</button>
-                                                                    </div>
-                                                                    <div class="input-field col s11" ng-show="secondDestinationShown == true">
-                                                                        <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[1]">
-                                                                            <option value="" disabled selected>وارغب في السفر الي...</option>
-                                                                            <option disabled class="majorOption">البلدان</option>
-                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
-                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
-                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col s1" ng-show="secondDestinationShown == true">
-                                                                        <button class="add-btn" ng-click="removeSecondDestination();" style="margin-top: 20px;" type="button">-</button>
-                                                                    </div>
-                                                                    <div class="input-field col s11" ng-show="thirdDestinationShown == true">
-                                                                        <select id="to" name="to" class="to-destination select-override" ng-model="selectedDestinations[2]">
-                                                                            <option value="" disabled selected>وارغب في السفر الي...</option>
-                                                                            <option disabled class="majorOption">البلدان</option>
-                                                                            <option ng-class="{'majorOption' : country.id === 1}" ng-hide="selectedDestinations[0] == country.id || selectedDestinations[1] == country.id || selectedDestinations[2] == country.id"
-                                                                                value="{{country.id}}" data-latlng="{{country.lat}}, {{country.lng}}"
-                                                                                data-description="{{country.description}}" ng-repeat="country in countries">{{country.name}}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col s1" ng-show="thirdDestinationShown == true">
-                                                                        <button class="add-btn" ng-click="removeThirdDestination();" style="margin-top: 20px;" type="button">-</button>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="requestType === 'countries' && (selectedDestinations[0] === '1' || selectedDestinations[1] === '1' || selectedDestinations[2] === '1')"
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="(selectedDestinations[0] === '-1')"
                                                                         />
                                                                         <label for="otherCountries" style="direction:rtl">حدد بلدان اخري</label>
                                                                     </div>
@@ -246,7 +218,7 @@
                                                                 <div class="col-lg-4 col-sm-12 noPadding leave">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
-                                                                        <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom" style="direction:rtl" ng-change="departureDateChanged()">
+                                                                        <input id="date_from" name="date_from" type="text" class="datepicker" ng-model="selectedFrom" style="direction:rtl" ng-change="departureDateChanged(); invalidateEstimation();">
                                                                         <label for="date_from" class="left-aligned-text" style="direction:rtl">مغادرة</label>
 
                                                                     </div>
@@ -254,7 +226,7 @@
                                                                 <div class="col-lg-4 col-sm-12 noPadding leave">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-calendar"></i>
-                                                                        <input id="date_to" name="date_to" type="text" class="datepicker" ng-model="selectedTo" style="direction:rtl">
+                                                                        <input id="date_to" name="date_to" type="text" class="datepicker" ng-model="selectedTo" style="direction:rtl" ng-change="invalidateEstimation()">
                                                                         <label for="date_to" class="left-aligned-text" style="direction:rtl">عودة</label>
 
                                                                     </div>
@@ -266,35 +238,40 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="right row">
+                                                            <div class="row">
                                                                 <div class="col-lg-4 col-sm-4 noPadding">
                                                                     <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active right-aligned-text">
-                                                                            <label for="infants_number" class="right-aligned-text">عدد الرضع</label>
-                                                                        </div>
+                                                                        <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                        <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active right-aligned-text"
+                                                                            ng-change="invalidateEstimation()">
+                                                                        <label for="infants_number" class="right-aligned-text">عدد الرضع</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-4 col-sm-4 noPadding">
                                                                     <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class=" right-aligned-text active">
-                                                                            <label for="kids_number" class="right-aligned-text">عدد الاطفال</label>
-                                                                        </div>
+                                                                        <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                        <input id="kids_number" name="kids_number" type="number" ng-model="numberOfKids" class=" right-aligned-text active" ng-change="invalidateEstimation('kids')">
+                                                                        <label for="kids_number" class="right-aligned-text">عدد الاطفال</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-4 col-sm-4 noPadding">
                                                                     <div class="input-field col s12">
-                                                                        <div>
-                                                                            <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                            <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active right-aligned-text">
-                                                                            <label for="adults_number" class="right-aligned-text">عدد البالغين</label>
-                                                                        </div>
+                                                                        <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                        <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active right-aligned-text"
+                                                                            ng-change="invalidateEstimation()">
+                                                                        <label for="adults_number" class="right-aligned-text">عدد البالغين</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <!-- <div class="row" ng-if="numberOfKids > 0">
+                                                                <div class="col-lg-push-3 col-sm-push-3 col-lg-3 col-sm-3 noPadding">
+                                                                    <div class="input-field col s12">
+                                                                        <i class="material-icons prefix glyphicon glyphicon-user"></i>
+                                                                        <textarea placeholder="سن الاطفال&#13;الطفل #1: 8" id="kidsAge" name="kidsAge" class="active">{{kidsAge}}</textarea>
+                                                                        <label for="kidsAge" class="left-aligned-text">سن الاطفال</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div> -->
                                                             <div class="row right">
                                                                 <label class="tittle full-width left-aligned-text" style="direction:rtl">الغرض من السفر:</label>
                                                                 <div class="radio-btn-container contain">
@@ -318,13 +295,13 @@
                                                                         <label for="own_budget">أدخل ميزانيتك</label>
                                                                     </div>
                                                                     <p ng-repeat="budgetCategory in budgetCategories.slice().reverse()">
-                                                                        <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-hide = "$index === 1 && showSuperEconomy == false" ng-click="selectBudgetCategory(budgetCategory)"
+                                                                        <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-hide = "($index === 1 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 0)" ng-click="selectBudgetCategory(budgetCategory)"
                                                                             ng-checked="$index === budgetCategories.length - 1" />
-                                                                        <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" ng-hide = "$index === 1 && showSuperEconomy == false">{{budgetCategory.name}}</label>
+                                                                        <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" ng-hide = "($index === 1 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 0)">{{budgetCategory.name}}</label>
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            <div class="row right" ng-hide="selectedBudgetCategory.name.includes('خاصة') || requestType != 'itineraries'">
+                                                            <div class="row right" ng-hide="selectedDestinations[0] === '-1'">
                                                                     <div class="col-lg-4 col-sm-12 noPadding">
                                                                         <a class="waves-effect waves-light btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse cost-estimation-button" ng-click="estimateCost();">قدر مصاريف رحلتي</a>
                                                                     </div>
@@ -576,7 +553,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-5 right-side live-it-all-bg noPadding">
-                                                <img src="images/live-it-all.png" /> </div>
+                                                <img src="images/logo-checkout.png" /> </div>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -605,7 +582,7 @@
                         <p class="req-num-msg" ng-show="submitting == false && submittingError == true" style="direction:rtl">تعانيTripdizer من بعض المشاكل. نحن الآن على علم بها وسوف نقوم بتصليحها على الفور</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">تم</a>
+                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="okButtonClickedOnSubmitModal();">تم</a>
                     </div>
                 </div>
                 <div id="costEstimationModal" class="modal bottom-sheet">
@@ -638,7 +615,7 @@
                             <h2  ng-show = "calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#fff; padding:0 10px; color: grey;">التفاصيل</span></h2>
                             <p class="contact-msg" style="font-size: 10px;">هذه التكاليف تقديرية و قد تتغير في تكاليف الرحلة النهائية</p>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
-                              <span>الطيران: {{costEstimation.flightsBudget| currency:"ج.م ":0}} </span>
+                              <span>الطيران: {{costEstimation.flightsBudget| currency:"ج.م ":0}} *</span>
                                <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>
                             </div>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
@@ -651,10 +628,15 @@
                             </div>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
                                 
-                               <span>المصاريف اليومية: {{costEstimation.dailySpendings| currency:"ج.م ":0}} </span>
+                               <span>المصاريف اليومية: {{costEstimation.dailySpendings| currency:"ج.م ":0}} ** </span>
                                 <img src="images/cost-estimation/daily-spendings.png" class="budget-estimation-image"><span class="badge green" style="color: white;">معلومة</span></img>
                             </div>
                         </div>
+                        <div class="modal-footer">
+                      
+                            <p ng-show = "calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">طيران دولي و داخلي *</p>
+                            <p ng-show = "calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">مجرد معلومةز ليست محتسبة مع القيمة النهائية ** </p>
+                    </div>
                     </div>
             </section>
         </main>
@@ -692,6 +674,19 @@
         ga('create', 'UA-106443087-1', 'auto');
         ga('send', 'pageview');
     </script>
+    <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ada4045227d3d7edc242893/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 
 </html>

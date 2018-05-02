@@ -39,6 +39,9 @@ var start = function () {
 	app.get('/admin/itineraries', function(req, res) {
 		res.render('pages/itineraries');
 	});
+	app.get('/admin/videos', function(req, res) {
+		res.render('pages/videos');
+	});
 	
 	// routes end
     var port      = process.env.PORT || 8081;

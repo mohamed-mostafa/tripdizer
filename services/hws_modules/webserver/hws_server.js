@@ -11,6 +11,8 @@ var start = function () {
 	var connection = daoUtilities.createConnection();
 
 	// interfaces
+	require('../app/cron/index');
+	var publicInterface = require('./hws_public_interface.js');
 	var requestsInterface = require('./hws_requests_interface.js');
 	var usersInterface = require('./hws_users_interface.js');
 	var partnersInterface = require('./hws_partners_interface.js');
@@ -29,8 +31,13 @@ var start = function () {
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());// for parsing application/json
 	app.use(json2xls.middleware); // middleware to return contenttype xls
-	
+
 	// routing - Start
+
+	// Public requests
+	app.get('/public/videos', publicInterface.getVideos);
+	app.post('/public/video', publicInterface.create);
+	app.put('/public/video', publicInterface.update);
 
 	// requests
 	app.put('/request/place', requestsInterface.placeRequest);
@@ -48,6 +55,8 @@ var start = function () {
 	app.post('/request/status/placed', requestsInterface.markRequestPlaced);
 	app.post('/request/status/beingprepared', requestsInterface.markRequestBeingPrepared);
 	app.post('/request/status/delivered', requestsInterface.markRequestDelivered);
+	app.put('/request/toggleoptions', requestsInterface.toggleOptions);
+	app.get('/request/package/:requestId', requestsInterface.getPackage);
 
 	//		users
 	app.get('/users', usersInterface.getAllUsers);
@@ -67,6 +76,7 @@ var start = function () {
 
 	//		countries
 	app.get('/countries', countriesInterface.getAll);
+	app.get('/countriesInIternaries', countriesInterface.getAllCountriesInIternaries)
 	app.get('/country/:id', countriesInterface.getById);
 	app.put('/country', countriesInterface.create);
 	app.post('/country', countriesInterface.update);

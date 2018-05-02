@@ -2,7 +2,7 @@
  * 
  */
 
-tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
+tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
 	// fields
 	$scope.selectedSource = "",
 	$scope.selectedDestinations = [],
@@ -56,6 +56,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 				$scope.selectBudgetCategory($scope.budgetCategories[2]);
 				var economyElement = document.getElementById("budgetCategory-3"); // economy
 				economyElement.click();
+				$scope.invalidateEstimation();
 			}
 			$scope.showSuperEconomy = false;
 		} else {
@@ -65,6 +66,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	},
 	$scope.selectBudgetCategory = function (budgetCategory) {
 		$scope.selectedBudgetCategory = budgetCategory;
+		$scope.invalidateEstimation();
 	},
 
 	$scope.getDestinations = function () {
@@ -124,8 +126,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			$scope.selectedDestinations[1] = 0;
 			$scope.selectedDestinations[2] = 0;
 			$scope.requestType = "itineraries";
+			$scope.invalidateEstimation();
 		} else {
 			$scope.requestType = "countries";
+			$scope.validateEstimation();
 		}
 		$scope.selectedDestinations[0] = $scope.selectedFirstDestination.split('::')[1];
 	}
@@ -162,6 +166,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.request.travel_purpose = $scope.selectedPurpose.id;
 		$scope.request.number_of_adults = $scope.numberOfAdults;
 		$scope.request.number_of_kids = $scope.numberOfKids;
+		$scope.request.kids_age = $scope.kidsAge;
 		$scope.request.number_of_infants = $scope.numberOfInfants;
 		$scope.request.budget_category = $scope.selectedBudgetCategory.id;
 		$scope.request.budget = $scope.myOwnBudget;
@@ -177,6 +182,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			console.log("Request submitted");
 			$scope.submitting = false;
 			$scope.requestNumber = response.id;
+
+			$scope.reportSubmitButtonClicked();
+
 		}).error(function (err) {
 			$scope.submitting = false;
 			$scope.submittingError = true;
@@ -227,14 +235,6 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	$scope.setBtnStyle();
 
-	CountriesService.getAll('EN').then(function (countries) {
-		$scope.countries = countries;
-		// move the 'others' to the end of the list
-		var otherCountry = $scope.countries[0];
-		$scope.countries.splice(0, 1);
-		$scope.countries.push(otherCountry);
-	});
-
 	PurposesService.getAll('EN').then(function (purposes) {
 		$scope.purposes = purposes;
 		$scope.selectPurpose($scope.purposes[0]);
@@ -254,6 +254,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	ItinerariesService.getAll('EN').then(function (itineraries) {
 		$scope.itineraries = itineraries
+		// move the 'others' to the end of the list
+		var otherCountry = $scope.itineraries[0];
+		$scope.itineraries.splice(0, 1);
+		$scope.itineraries.push(otherCountry);
 	});
 
 	$scope.calculatingBudget = false;
@@ -332,10 +336,63 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			$scope.request.estimatedCost = $scope.costEstimation.totalBudget;
 
 			if ($scope.costEstimation.numberOfNights == 1) $scope.nightsStatement = "1 night"; else $scope.nightsStatement = $scope.costEstimation.numberOfNights + " nights";
+
+			$scope.validateEstimation();
+
+			$scope.reportEstimateButtonClicked();
+
 		}).error(function (err) {
 			$scope.calculatingBudget = false;
 			console.log("Failed to submit request for calculation: " + JSON.stringify(err));
 		});
 	};
+
+	$scope.invalidateEstimation = function() {
+	// $scope.invalidateEstimation = function(input) {
+	// 	if (input === 'kids') {
+	// 		if ($scope.numberOfKids > 0) {
+	// 			$scope.kidsAge = "Kids Age";
+	// 			for (let i = 0; i < $scope.numberOfKids; ++i) {
+	// 				$scope.kidsAge += "\nKid #" + (i + 1) + ": ";
+	// 			}
+	// 		} else $scope.kidsAge = "";
+	// 	}
+		$scope.lastEstimationValid = false;
+	};
+	$scope.validateEstimation = function() {
+		$scope.lastEstimationValid = true;
+	};
+
+	$scope.lastEstimationValid = false;
+
+	$scope.validateUserEstimated = function() {
+		// if estimation is valid and selected destination is an iternary (not a country)
+		if ($scope.lastEstimationValid && $scope.selectedFirstDestination.split('::')[0] != 'c') {
+			return 'VALID';
+		} if ($scope.selectedDestinations[0] === '-1') { // if selected destination is a country (not an iternary)
+			return 'VALID';
+		} else {
+			return "Please estimate the cost of your trip first";
+		}
+	};
+
+	$scope.okButtonClickedOnSubmitModal = function() {
+		window.location.replace("/index.html");
+	}
+
+	$scope.reportReservationPageOpened = function() {
+		var pageName = "/Destinations";
+        if (pageName != "") {
+            ga('set', 'page', pageName);
+            ga('send', 'pageview');
+        }
+	};
+	$scope.reportSubmitButtonClicked = function() {
+		ga('send', 'event', 'Submit Button', 'Submit Request');
+	};
+	$scope.reportEstimateButtonClicked = function() {
+		ga('send', 'event', 'Estimate Button', 'Estimate Cost');
+	};
+	$scope.reportReservationPageOpened();
 
 }]);

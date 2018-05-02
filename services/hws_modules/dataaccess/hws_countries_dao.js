@@ -202,7 +202,59 @@ var getAll = function (lang, onSuccess, onFailure) {
 	});
 };
 
+var getAllCountriesInIternaries = function (lang, onSuccess, onFailure) {
+	// get a connection and open it
+	var connection = daoUtilities.createConnection();
+	connection.connect(function (err) {
+		if (err) {
+			console.log("An error occurred while trying to open a database connection");
+			console.log(err);
+			onFailure(err);
+		} else {
+			// execute the query
+			connection.query('SELECT c.* FROM hws.Countries c where Id in (select Countries_Id from hws.iternary_countries)', [], function (err, rows) {
+				// if an error is thrown, end the connection and throw an error
+				if (err) {
+					// end the connection
+					connection.end();
+					console.log("An error occurred while list all countries in iternaries");
+					console.log(err);
+					onFailure(err);
+				} else {
+					// no error is thrown
+					var countries = [];
+					// populate the attributes
+					for (var i = 0; i < rows.length; ++i) {
+						var country = {
+							id: rows[i].Id,
+							en_name: rows[i].EN_Name,
+							en_description: rows[i].EN_Description,
+							ar_name: rows[i].AR_Name,
+							ar_description: rows[i].AR_Description,
+							thumbnail: rows[i].Thumbnail,
+							lat: rows[i].Latitude,
+							lng: rows[i].Longitude,
+							budget: rows[i].Budget_Category,
+							purpose: rows[i].Travel_Purpose,
+						};
+						if (lang) {
+							country.name = country[lang.toLowerCase() + '_name'];
+							country.description = country[lang.toLowerCase() + '_description'];
+						}
+						countries.push(country);
+					}
+					// end the connection
+					connection.end();
+					// call the callback function provided by the caller, and give it the response
+					onSuccess(countries);
+				}
+			});
+		}
+	});
+};
+
 exports.getById = getById;
 exports.create = create;
 exports.update = update;
 exports.getAll = getAll;
+exports.getAllCountriesInIternaries = getAllCountriesInIternaries;
