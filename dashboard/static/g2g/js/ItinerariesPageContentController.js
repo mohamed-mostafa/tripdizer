@@ -135,8 +135,8 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 		$scope.editMode = true;
 		$http.get($rootScope.serverURL + "/itinerary/" + id).success(function (response) {
 			for (let i = 0; i < response.seasons.length; i++) {
-				response.seasons[i].season_start = response.seasons[i].season_start.split('T')[0];
-				response.seasons[i].season_end = response.seasons[i].season_end.split('T')[0];
+				response.seasons[i].start = new Date(response.seasons[i].start);
+				response.seasons[i].end = new Date(response.seasons[i].end);
 			}
 			const constBudgetCategories = {};
 			for (let i = 0; i < $scope.budgetCategories.length; i++) {
@@ -254,4 +254,15 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 	$scope.addSeason = function (index) {
 		$scope.newItinerary.seasons.push({});
 	}
-}]);
+}])
+.directive('format', function (dateFilter) {
+	return {
+		require: 'ngModel',
+		link: function (scope, elm, attrs, ctrl) {
+			var dateFormat = attrs['format'] || 'yyyy-MM-dd';
+			ctrl.$formatters.unshift(function (modelValue) {
+				return dateFilter(modelValue, dateFormat);
+			});
+		}
+	};
+});

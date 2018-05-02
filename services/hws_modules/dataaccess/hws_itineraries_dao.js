@@ -22,7 +22,7 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			mpi.JAN iJAN, mpi.FEB iFEB, mpi.MAR iMAR, mpi.APR iAPR, mpi.MAY iMAY, mpi.JUN iJUN, mpi.JUL iJUL, mpi.AUG iAUG, mpi.SEP iSEP, mpi.OCT iOCT, mpi.NOV iNOV, mpi.DEC iDEC
 			FROM iternary i join iternary_flight ifl on i.Id = ifl.Iternary_id join month_price mpa on mpa.id = ifl.adult_price join month_price mpk on mpk.id = ifl.kid_price join month_price mpi on mpi.id = ifl.infant_price WHERE i.Id = ${id};`;
 			var hotelQuery = 'SELECT ih.*, c.EN_Name AS Country_Name, mp.* FROM iternary i join iternary_hotel ih on i.Id = ih.Iternary_id join month_price mp on mp.id = ih.night_price LEFT JOIN Countries c on c.Id = ih.Country_Id WHERE i.Id =  ' + id + ';';
-			var seasonQuery = 'SELECT s.* FROM iternary i join season s on i.Id = s.iternary_Id WHERE i.Id = ' + id + ';';
+			var seasonQuery = 'SELECT Start AS start, End AS end, Type AS type FROM iternary i join iternary_season s on i.Id = s.Iternary_Id WHERE i.Id = ' + id + ';';
 			var budgetQuery = 'SELECT bg.* FROM iternary i join iternary_budget_category bg on i.Id = bg.iternary_Id WHERE i.Id = ' + id + ';';
 			var purposeQuery = 'SELECT tb.* FROM iternary i join iternary_travel_purpose tb on i.Id = tb.iternary_Id WHERE i.Id = ' + id + ';';
 			var interestQuery = 'SELECT ii.* FROM iternary i join iternary_interest ii on i.Id = ii.iternary_Id WHERE i.Id = ' + id + ';';
@@ -176,10 +176,10 @@ var update = function (itinerary, onSuccess, onFailure) {
 						hotelsQuery += 'INSERT INTO iternary_hotel (`Iternary_id`, `EN_Name`, `AR_Name`, `private`, `budget_category_id`, `Country_Id`, `night_price`) VALUES ';
 						hotelsQuery += `(${itinerary.id}, '${itinerary.hotels[i].EN_Name}', '${itinerary.hotels[i].AR_Name}', '${itinerary.hotels[i].private}', '${itinerary.hotels[i].budget_category_id}', '${itinerary.hotels[i].Country_Id}', LAST_INSERT_ID());`;
 					}
-					var seasonsQuery = `DELETE FROM season WHERE iternary_Id = ${itinerary.id};`;
+					var seasonsQuery = `DELETE FROM iternary_season WHERE Iternary_Id = ${itinerary.id};`;
 					for (let i = 0; i < itinerary.seasons.length; i++) {
-						seasonsQuery += 'INSERT INTO season (`season_start`, `season_end`, `type`, `iternary_Id`) VALUES ';
-						seasonsQuery += `('${itinerary.seasons[i].season_start}', '${itinerary.seasons[i].season_end}', '${itinerary.seasons[i].type}', '${itinerary.id}');`;
+						seasonsQuery += 'INSERT INTO iternary_season (`Start`, `End`, `Type`, `Iternary_Id`) VALUES ';
+						seasonsQuery += `('${new Date(itinerary.seasons[i].start).toLocaleDateString()}', '${new Date(itinerary.seasons[i].end).toLocaleDateString()}', '${itinerary.seasons[i].type}', '${itinerary.id}');`;
 					}
 					var budgetsQuery = `DELETE FROM iternary_budget_category WHERE iternary_Id = ${itinerary.id};`;
 					for (var key in itinerary.budgetCategories) {
