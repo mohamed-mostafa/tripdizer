@@ -203,8 +203,7 @@
                                                 <label class="control-label text-red" for="image1" ng-show="image1Missing==true">
                                                     <i class="fa fa-times-circle-o"></i>Image is missing</label>
                                                 <label for="image1" ng-show="image1Missing==false">Image URI (recommended width 600px)</label>
-                                                <input type="text" required class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI"
-                                                    required>
+                                                <input type="url" class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI" required>
                                             </div>
                                             <!-- <div class="form-group form-group-6" ng-show="saving==false">
                                                 <label class="control-label text-red" for="image2" ng-show="image2Missing==true">
@@ -354,8 +353,7 @@
                                                             <label class="control-label text-red" for="image1" ng-show="image1Missing">
                                                                 <i class="fa fa-times-circle-o"></i>Image is missing</label>
                                                             <label for="image1" ng-show="!image1Missing">Image URI (recommended width 600px)</label>
-                                                            <input type="text" required class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI"
-                                                                required>
+                                                            <input type="url" class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI" required>
                                                         </div>
                                                         <!-- <div class="form-group form-group-4" ng-show="saving==false">
                                                             <label class="control-label text-red" for="image2" ng-show="image2Missing">

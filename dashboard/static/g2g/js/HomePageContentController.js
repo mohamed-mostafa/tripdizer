@@ -605,6 +605,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 				if (request.traveler) request.traveler.dateOfBirth = new Date(request.traveler.dateOfBirth);
 				if (request.departureDate) request.departureDate = new Date(request.departureDate);
 				if (request.returnDate) request.returnDate = new Date(request.returnDate);
+				for (let i = 0; i < request.mailsHistory.length; i++)  request.mailsHistory[i].date = new Date(request.mailsHistory[i].date);
 				$scope.currentOrder = request;
 			}
 		).error(function (err) {
