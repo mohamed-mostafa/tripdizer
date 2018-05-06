@@ -284,8 +284,45 @@ var getAll = function (lang, onSuccess, onFailure) {
 		}
 	});
 };
+//calls the onSuccess with a list of delivery persons or an empty list
+//calls the onFailure with an err object in case of technical error
+var getAllLong = function (onSuccess, onFailure) {
+	// get a connection and open it
+	var connection = daoUtilities.createConnection();
+	connection.connect(function (err) {
+		if (err) {
+			console.log("An error occurred while trying to open a database connection");
+			console.log(err);
+			onFailure(err);
+		} else {
+			// execute the query
+			connection.query('SELECT Id AS id FROM hws.iternary', [], function (err, rows) {
+				// if an error is thrown, end the connection and throw an error
+				if (err) {
+					// end the connection
+					connection.end();
+					console.log("An error occurred while list all itineraries");
+					console.log(err);
+					onFailure(err);
+				} else {
+					// end the connection
+					connection.end();
+					const itineraryFuncs = [];
+					for (let i = 0; i < rows.length; i++) {
+						itineraryFuncs.push(new Promise((resolve, reject) => getById(rows[i].id, 'EN', itinerary => resolve(itinerary), err => reject(err))));
+					}
+					// call the callback function provided by the caller, and give it the response
+					Promise.all(itineraryFuncs).then(itineraries => {
+						onSuccess(itineraries);
+					});
+				}
+			});
+		}
+	});
+};
 
 exports.getById = getById;
 exports.create = create;
 exports.update = update;
 exports.getAll = getAll;
+exports.getAllLong = getAllLong;
