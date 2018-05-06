@@ -898,7 +898,7 @@
                                                         </div>
                                                         <div class="box box-primary" ng-repeat="season in newItinerary.seasons">
                                                             <div class="box-header with-border">
-                                                                <h3 class="box-title">Title</h3>
+                                                                <h3 class="box-title">{{getSeasonById(season.type)}}</h3>
                                                                 <div class="box-tools pull-right">
                                                                     <button class="btn btn-box-tool" ng-click="removeSeason($index)">
                                                                         <i class="fa fa-times-circle text-danger"></i>
@@ -923,9 +923,7 @@
                                                                     <div class="form-control-4">
                                                                         <label>Type:</label>
                                                                         <select class="form-control" ng-model="season.type">
-                                                                            <option value="0">High Season</option>
-                                                                            <option value="1">Low Season</option>
-                                                                            <option value="2">Shoulder Season</option>
+                                                                            <option ng-repeat="curSeason in seasons" ng-value="curSeason.id" ng-selected="curSeason.id == season.type">{{curSeason.name}}</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
