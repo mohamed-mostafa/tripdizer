@@ -405,7 +405,8 @@
                                                         </div>
                                                         <div class="box box-primary" ng-repeat="ferry in newItinerary.ferries">
                                                             <div class="box-header with-border">
-                                                                <h3 class="box-title">Title</h3>
+                                                                <h3 class="box-title">{{ferry.departing_from ? ferry.departing_from : 'From'}}
+                                                                    > {{ferry.arriving_to ? ferry.arriving_to : 'To'}}</h3>
                                                                 <div class="box-tools pull-right">
                                                                     <button class="btn btn-box-tool" ng-click="removeFerry($index)">
                                                                         <i class="fa fa-times-circle text-danger"></i>
@@ -491,7 +492,12 @@
                                                         </div>
                                                         <div class="box box-primary" ng-repeat="flight in newItinerary.flights">
                                                             <div class="box-header with-border">
-                                                                <h3 class="box-title">Title</h3>
+                                                                <h3 class="box-title">{{flight.departing_from ? flight.departing_from : 'From'}}
+                                                                    {{flight.return ? '
+                                                                    <>' : '>'}} {{flight.arriving_to ? flight.arriving_to :
+                                                                        'To '}} with return:
+                                                                        <input type="checkbox" ng-model="flight.return" ng-checked="flight.return">
+                                                                </h3>
                                                                 <div class="box-tools pull-right">
                                                                     <button class="btn btn-box-tool" ng-click="removeFlight($index)">
                                                                         <i class="fa fa-times-circle text-danger"></i>
@@ -535,6 +541,18 @@
                                                                     <div class="form-control-4">
                                                                         <label>Lay Over:</label>
                                                                         <input class="form-control" type="text" ng-model="flight.lay_over" required>
+                                                                    </div>
+                                                                    <div class="form-control-4" ng-if="flight.return">
+                                                                        <label>Return Departing Time:</label>
+                                                                        <input class="form-control" type="text" ng-model="flight.return_departure_time" required>
+                                                                    </div>
+                                                                    <div class="form-control-4" ng-if="flight.return">
+                                                                        <label>Return Arrival Time:</label>
+                                                                        <input class="form-control" type="text" ng-model="flight.return_arrival_time" required>
+                                                                    </div>
+                                                                    <div class="form-control-4" ng-if="flight.return">
+                                                                        <label>Return Lay Over:</label>
+                                                                        <input class="form-control" type="text" ng-model="flight.return_lay_over" required>
                                                                     </div>
                                                                     <label>Adult Price:</label>
                                                                     <br>
@@ -698,7 +716,7 @@
                                                         </div>
                                                         <div class="box box-primary" ng-repeat="hotel in newItinerary.hotels">
                                                             <div class="box-header with-border">
-                                                                <h3 class="box-title">Title</h3>
+                                                                <h3 class="box-title">{{hotel.EN_Name}}</h3>
                                                                 <div class="box-tools pull-right">
                                                                     <button class="btn btn-box-tool" ng-click="removeHotel($index)">
                                                                         <i class="fa fa-times-circle text-danger"></i>
