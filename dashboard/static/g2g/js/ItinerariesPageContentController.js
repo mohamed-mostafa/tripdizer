@@ -64,7 +64,7 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 			if ($scope.newItinerary.dailySpendings == null || $scope.newItinerary.dailySpendings == "") {
 				$scope.dailySpendingsMissing = true;
 			}
-			if ($scope.newItinerary.needsVisa == null || $scope.newItinerary.needsVisa == "") {
+			if ($scope.newItinerary.needsVisa == null) {
 				$scope.needsVisaMissing = true;
 			}
 			if ($scope.newItinerary.introduction == null || $scope.newItinerary.introduction == "") {
