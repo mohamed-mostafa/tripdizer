@@ -294,6 +294,7 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 			const departureDate = new Date(request.departureDate);
 			const returnDate = new Date(request.returnDate);
 			const tripDays = Math.ceil(Math.abs(returnDate.getTime() - departureDate.getTime()) / (1000 * 3600 * 24));
+			if (request.estimatedCost) request.estimatedCost = currencyFormat(request.estimatedCost);
 			if (request.itineraryId) {
 				itinerariesDao.getById(request.itineraryId, null, function (itinerary) {
 						if (!itinerary.introduction) itinerary.introduction = "Introduction";
@@ -303,15 +304,17 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 						if (itinerary.flights.length > 0) {
 							itinerary.flights = itinerary.flights.sort((a, b) => a.type - b.type);
 							itinerary.flights[0].date = departureDate.toLocaleDateString();
-							itinerary.flights.push({
-								type: 0,
-								arriving_to: itinerary.flights[0].departing_from,
-								departing_from: itinerary.flights[itinerary.flights.length - 1].arriving_to,
-								departure_time: "Departure Time",
-								arrival_time: "Arrival Time",
-								lay_over: "Lay Over",
-								Iternary_id: itinerary.flights[0].Iternary_id
-							});
+							for (let i = itinerary.flights.length - 1; i >= 0; i--)
+								if (itinerary.flights[i].return)
+									itinerary.flights.push({
+										type: itinerary.flights[i].type,
+										arriving_to: itinerary.flights[i].departing_from,
+										departing_from: itinerary.flights[i].arriving_to,
+										departure_time: itinerary.flights[i].return_departure_time,
+										arrival_time: itinerary.flights[i].return_arrival_time,
+										lay_over: itinerary.flights[i].return_lay_over,
+										Iternary_id: itinerary.flights[i].Iternary_id
+									});
 						}
 						itinerary.countries = itinerary.countries.sort((a, b) => a.order - b.order);
 						for (let i = 0; i < itinerary.countries.length; ++i) {
@@ -354,6 +357,11 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 			console.log(err);
 			onFailure(err);
 		})
+}
+
+function currencyFormat(value) {
+	var r = new RegExp(1..toLocaleString().replace(/^1/, "").replace(/\./, "\\.") + "$");
+	return (~~value).toLocaleString().replace(r, "") + (value % 1).toFixed(2).toLocaleString().replace(/^[+-]?0+/, "")
 }
 
 exports.placeRequest = placeRequest;
