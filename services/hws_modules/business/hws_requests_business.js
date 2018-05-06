@@ -197,7 +197,7 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 			}
 
 			// take the average of the hotels of the same category
-			rData.accomodationBudget = rData.accomodationBudget / hotels.length;
+			rData.accomodationBudget = hotels.length > 0 ? rData.accomodationBudget / hotels.length : 0;
 
 			// the accomodation budgt is the price per peron for hostels (super economy) or the rate f the room otherwis
 			if (request.budget_category == 2) { // super economy
