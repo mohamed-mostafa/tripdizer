@@ -323,7 +323,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses=" + request).success(
 			function (response) {
-				response = response.sort((a, b) => a.id - b.id).map(function (request) {
+				response = response.sort((a, b) => b.id - a.id).map(function (request) {
 					if (request.date) request.date = new Date(request.date);
 					if (request.traveler) request.traveler.dateOfBirth = new Date(request.traveler.dateOfBirth);
 					if (request.departureDate) request.departureDate = new Date(request.departureDate);
@@ -605,7 +605,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 				if (request.traveler) request.traveler.dateOfBirth = new Date(request.traveler.dateOfBirth);
 				if (request.departureDate) request.departureDate = new Date(request.departureDate);
 				if (request.returnDate) request.returnDate = new Date(request.returnDate);
-				for (let i = 0; i < request.mailsHistory.length; i++)  request.mailsHistory[i].date = new Date(request.mailsHistory[i].date);
+				for (let i = 0; i < request.mailsHistory.length; i++) request.mailsHistory[i].date = new Date(request.mailsHistory[i].date);
 				$scope.currentOrder = request;
 			}
 		).error(function (err) {
