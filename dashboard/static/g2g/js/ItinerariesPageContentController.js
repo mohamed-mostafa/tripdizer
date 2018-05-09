@@ -206,4 +206,23 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 	$scope.addHotel = function (index) {
 		$scope.newItinerary.hotels.push({});
 	}
-}]);
+}])
+.directive('bullet', function () {
+	return {
+		restrict: 'A',
+		link: function (scope, elem, attrs, ctrl) {
+			elem.bind("focus", function () {
+				scope.$apply(() => {
+					if (!elem.val()) elem.val('• ' + elem.val());
+				});
+			});
+			elem.bind("keyup", function (e) {
+				if ((e.keyCode ? e.keyCode : e.which) == '13') {
+					scope.$apply(() => {
+						elem.val(elem.val() + '• ');
+					});
+				}
+			});
+		}
+	}
+})
