@@ -164,24 +164,19 @@
                                                 <label class="control-label text-red" for="introduction" ng-show="introductionMissing==true">
                                                     <i class="fa fa-times-circle-o"></i>Introduction is missing</label>
                                                 <label for="introduction" ng-show="introductionMissing==false">Introduction</label>
-                                                <input type="text" required class="form-control" id="introduction" ng-model="newItinerary.introduction" placeholder="Enter introduction"
-                                                    required>
+                                                <textarea class="form-control" id="introduction" ng-model="newItinerary.introduction" placeholder="Enter introduction" rows="2"></textarea>
                                             </div>
                                             <div class="form-group" ng-show="saving==false">
                                                 <label class="control-label text-red" for="includes" ng-show="includesMissing==true">
                                                     <i class="fa fa-times-circle-o"></i>Includes is missing</label>
                                                 <label for="includes" ng-show="includesMissing==false">Includes</label>
-                                                <textarea class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
-                                                <!-- <input type="text" required class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes"
-                                                    required> -->
+                                                <textarea bullet class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
                                             </div>
                                             <div class="form-group" ng-show="saving==false">
                                                 <label class="control-label text-red" for="excludes" ng-show="excludesMissing==true">
                                                     <i class="fa fa-times-circle-o"></i>Excludes is missing</label>
                                                 <label for="excludes" ng-show="excludesMissing==false">Excludes</label>
-                                                <textarea class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
-                                                <!-- <input type="text" required class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes"
-                                                    required> -->
+                                                <textarea bullet class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
                                             </div>
                                             <div class="form-group form-group-3" ng-show="saving==false">
                                                 <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing==true">
@@ -314,24 +309,19 @@
                                                             <label class="control-label text-red" for="introduction" ng-show="introductionMissing">
                                                                 <i class="fa fa-times-circle-o"></i>Introduction is missing</label>
                                                             <label for="introduction" ng-show="!introductionMissing">Introduction</label>
-                                                            <input type="text" required class="form-control" id="introduction" ng-model="newItinerary.introduction" placeholder="Enter introduction"
-                                                                required>
+                                                            <textarea class="form-control" id="introduction" ng-model="newItinerary.introduction" placeholder="Enter introduction" rows="2"></textarea>
                                                         </div>
                                                         <div class="form-group" ng-show="saving==false">
                                                             <label class="control-label text-red" for="includes" ng-show="includesMissing">
                                                                 <i class="fa fa-times-circle-o"></i>Includes is missing</label>
                                                             <label for="includes" ng-show="!includesMissing">Includes</label>
-                                                            <textarea class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
-                                                            <!-- <input type="text" required class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes"
-                                                                required> -->
+                                                            <textarea bullet class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
                                                         </div>
                                                         <div class="form-group" ng-show="saving==false">
                                                             <label class="control-label text-red" for="excludes" ng-show="excludesMissing">
                                                                 <i class="fa fa-times-circle-o"></i>Excludes is missing</label>
                                                             <label for="excludes" ng-show="!excludesMissing">Excludes</label>
-                                                            <textarea class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
-                                                            <!-- <input type="text" required class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes"
-                                                                required> -->
+                                                            <textarea bullet class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
                                                         </div>
                                                         <div class="form-group form-group-3" ng-show="saving==false">
                                                             <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing">
