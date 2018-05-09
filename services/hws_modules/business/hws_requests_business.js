@@ -229,11 +229,11 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 };
 
 var recommendation = function (request, onSuccess, onFailure, onUserError) {
-	itinerariesDao.getAllLong(itineraries => {
+	itinerariesDao.getAllLong(async itineraries => {
 		for (let i = 0; i < itineraries.length; i++) {
 			itineraries[i].rank = 0;
 			itineraries[i].recommendationRanks = {
-				// budget: recommendationFuncs.budget(request, itineraries[i].id, itineraries[i].budgetCategories),
+				budget: await recommendationFuncs.budget(request, itineraries[i].id, itineraries[i].budgetCategories),
 				purpose: recommendationFuncs.purpose(request.travel_purpose, itineraries[i].purposes),
 				season: recommendationFuncs.season(request.departure_date, request.return_date, itineraries[i].seasons),
 				interest: recommendationFuncs.interest(request.interests, itineraries[i].interests),
