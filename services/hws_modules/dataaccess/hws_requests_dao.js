@@ -23,9 +23,9 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					request.departure_date =  new Date(new Date(request.departure_date).setHours(0, 0, 0, 0));
-					request.return_date =  new Date(new Date(request.return_date).setHours(0, 0, 0, 0));
-					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [request.date, request.traveler.emailAddress, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost],
+					request.departure_date = new Date(new Date(request.departure_date).setHours(0, 0, 0, 0));
+					request.return_date = new Date(new Date(request.return_date).setHours(0, 0, 0, 0));
+					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Traveler_Name`, `Traveler_Mobile`, `Traveler_Birth_Date`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [request.date, request.traveler.emailAddress, request.traveler.name, request.traveler.mobile, request.traveler.dateOfBirth, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost],
 						function (err, result) {
 							// if an error is thrown, end the connection and throw an error
 							if (err) { // if the first insert statement fails
@@ -87,7 +87,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			var query = 'SELECT tr.*, t.*, ti.Interest_Id, ti.Percentage AS Interset_Percentage, u.full_name FROM traveler_request tr JOIN traveler t on t.email_address = tr.Traveler_Email_Address LEFT OUTER JOIN user u on tr.Assigned_User = u.id LEFT OUTER JOIN `Traveler_Interests` ti ON tr.Id = ti.Request_Id WHERE tr.Status in (?) ORDER BY tr.Date DESC, ti.Interest_Id';
+			var query = 'SELECT tr.*, ti.Interest_Id, ti.Percentage AS Interset_Percentage, u.full_name FROM traveler_request tr LEFT OUTER JOIN user u on tr.Assigned_User = u.id LEFT OUTER JOIN `Traveler_Interests` ti ON tr.Id = ti.Request_Id WHERE tr.Status in (?) ORDER BY tr.Date DESC, ti.Interest_Id';
 			connection.query(query, [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
@@ -109,10 +109,10 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								profit: rows[i].Profit,
 								comments: rows[i].Comments,
 								traveler: {
-									name: rows[i].name,
-									mobile: rows[i].mobile,
-									emailAddress: rows[i].email_address,
-									dateOfBirth: new Date(rows[i].date_of_birth).toString(),
+									name: rows[i].Traveler_Name,
+									mobile: rows[i].Traveler_Mobile,
+									emailAddress: rows[i].Traveler_Email_Address,
+									dateOfBirth: new Date(rows[i].Traveler_Birth_Date).toString(),
 								},
 								userFullName: rows[i].full_name,
 								departureDate: new Date(rows[i].Departure_Date).toString(),
@@ -215,7 +215,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT tr.*, t.*, u.* FROM traveler_request tr JOIN traveler t on t.email_address = tr.traveler_email_address LEFT OUTER JOIN user u on tr.Assigned_User = u.id WHERE tr.id = ?', [requestId], function (err, rows) {
+			connection.query('SELECT tr.*, u.* FROM traveler_request tr LEFT OUTER JOIN user u on tr.Assigned_User = u.id WHERE tr.id = ?', [requestId], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					console.log("An error occurred while trying to find a request with id " + requestId);
@@ -233,10 +233,10 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							profit: rows[0].Profit,
 							comments: rows[0].Comments,
 							traveler: {
-								name: rows[0].name,
-								mobile: rows[0].mobile,
-								emailAddress: rows[0].email_address,
-								dateOfBirth: new Date(rows[0].date_of_birth).toString(),
+								name: rows[0].Traveler_Name,
+								mobile: rows[0].Traveler_Mobile,
+								emailAddress: rows[0].Traveler_Email_Address,
+								dateOfBirth: new Date(rows[0].Traveler_Birth_Date).toString(),
 							},
 							userFullName: rows[0].full_name,
 							departureDate: new Date(rows[0].Departure_Date).toString(),
@@ -323,8 +323,8 @@ var updateRequest = function (request, onSuccess, onFailure) {
 			console.log(err);
 			onFailure(err);
 		} else {
-			request.departureDate =  new Date(new Date(request.departureDate).setHours(0, 0, 0, 0));
-			request.returnDate =  new Date(new Date(request.returnDate).setHours(0, 0, 0, 0));
+			request.departureDate = new Date(new Date(request.departureDate).setHours(0, 0, 0, 0));
+			request.returnDate = new Date(new Date(request.returnDate).setHours(0, 0, 0, 0));
 			// execute the query
 			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Itinerary_id` = ?, `Comments` = ?, Revenue = ?, Profit = ?, Edit = ?, Reachable = ? WHERE Id = ?', [request.departureDate, request.returnDate, request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.itineraryId, request.comments || '', request.revenue, request.profit, request.edit, request.reachable, request.id],
 				function (err, rows) {

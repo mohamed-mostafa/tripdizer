@@ -5,7 +5,7 @@
 
 var requestsDao = require('../dataaccess/hws_requests_dao.js');
 var itinerariesDao = require('../dataaccess/hws_itineraries_dao.js');
-var travelersDao = require('../dataaccess/hws_travelers_dao.js');
+// var travelersDao = require('../dataaccess/hws_travelers_dao.js');
 var partnersBusiness = require('./hws_partners_business.js');
 var emailBusiness = require('./hws_email_business.js');
 var Promise = require('promise');
@@ -26,59 +26,59 @@ var placeRequest = function (request, onSuccess, onFailure, onUserError) {
 		delete request.third_country;
 	}
 
-	travelersDao.getTravelerByEmailAddress(request.traveler.emailAddress, function (traveler) {
-		if (traveler == null) { // traveler doesn't exist before, create a traveler first
+	// travelersDao.getTravelerByEmailAddress(request.traveler.emailAddress, function (traveler) {
+	// 	if (traveler == null) { // traveler doesn't exist before, create a traveler first
 
-			travelersDao.createNewTraveler(request.traveler, function (traveler) {
+	// 		travelersDao.createNewTraveler(request.traveler, function (traveler) {
 
-				// create the traveler
-				requestsDao.createNewRequest(request, function (request) { // then create the request
+	// 			// create the traveler
+	// 			requestsDao.createNewRequest(request, function (request) { // then create the request
 
-					onSuccess(request);
+	// 				onSuccess(request);
 
-					if (request.traveler.name !== 'Essawy') {
-						// notify creation
-						emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
-						notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
-						partnersBusiness.notifyPartners(request, function () {
-							console.log("Notified Partners");
-						}, function () {
-							console.log("Failed to notify partners");
-						});
-					}
-				}, function (err) {
-					// respond to caller
-					console.log("An error occured while saving a new request");
-					console.log(err);
-					onFailure(err);
-				});
-			}, function (err) {
-				console.log("An error occured while creating a new traveler");
-				console.log(err);
-				onFailure(err);
-			});
-		} else { // traveler exists before, create the request immediately
-			requestsDao.createNewRequest(request, function (request) { // create the request
+	// 				if (request.traveler.name !== 'Essawy') {
+	// 					// notify creation
+	// 					emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
+	// 					notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
+	// 					partnersBusiness.notifyPartners(request, function () {
+	// 						console.log("Notified Partners");
+	// 					}, function () {
+	// 						console.log("Failed to notify partners");
+	// 					});
+	// 				}
+	// 			}, function (err) {
+	// 				// respond to caller
+	// 				console.log("An error occured while saving a new request");
+	// 				console.log(err);
+	// 				onFailure(err);
+	// 			});
+	// 		}, function (err) {
+	// 			console.log("An error occured while creating a new traveler");
+	// 			console.log(err);
+	// 			onFailure(err);
+	// 		});
+	// 	} else { // traveler exists before, create the request immediately
+	requestsDao.createNewRequest(request, function (request) { // create the request
 
-				onSuccess(request);
+		onSuccess(request);
 
-				if (request.traveler.name !== 'Essawy') {
-					// notify creation
-					emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
-					notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
-					partnersBusiness.notifyPartners(request, function () {
-						console.log("Notified Partners");
-					}, function () {
-						console.log("Failed to notify partners");
-					});
-				}
-			}, function (err) {
-				// respond to caller
-				console.log("An error occured while saving a new request");
-				console.log(err);
-				onFailure(err);
+		if (request.traveler.name !== 'Essawy') {
+			// notify creation
+			emailBusiness.sendEmail("bookings@tripdizer.com", "notifications@tripdizer.com", "Request #" + request.id + " is placed at Tripdizer", request.traveler.name + " has just placed a new request at Tripdizer. Visit the Dashboard to view its details.");
+			notifyCustomer(request.traveler.emailAddress, request.traveler.name, request.id);
+			partnersBusiness.notifyPartners(request, function () {
+				console.log("Notified Partners");
+			}, function () {
+				console.log("Failed to notify partners");
 			});
 		}
+	}, function (err) {
+		// respond to caller
+		console.log("An error occured while saving a new request");
+		console.log(err);
+		onFailure(err);
+		// });
+		// }
 	}, function (err) {
 		console.log("An error occured while checking if traveler exists before");
 		console.log(err);
