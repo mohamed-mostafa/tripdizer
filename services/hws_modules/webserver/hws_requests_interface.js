@@ -5,11 +5,12 @@ var placeRequest = function (req, res) {
 		var request = req.body.request;
 		// call the business function and give it a callback function 
 		requestsBusiness.placeRequest(request, function (request) {
-			res.json(request);
-		},
+				res.json(request);
+			},
 			function (error) {
 				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
-			}, function (userErrorMessage) {
+			},
+			function (userErrorMessage) {
 				res.status(500).send(userErrorMessage);
 			});
 	} catch (error) {
@@ -24,8 +25,8 @@ var getRequestById = function (req, res) {
 		var requestId = req.params.requestId;
 		// call the business function and give it a callback function 
 		requestsBusiness.getRequestById(requestId, function (request) {
-			res.json(request);
-		},
+				res.json(request);
+			},
 			function (error) {
 				console.log(error);
 				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
@@ -61,8 +62,8 @@ var getRequestSummariesCount = function (req, res) {
 		var statuses = req.query.statuses;
 		var filter = req.query.filter ? JSON.parse(req.query.filter) : {};
 		requestsBusiness.getRequestSummariesCount(statuses.split(','), filter, function (response) {
-			res.json(response);
-		},
+				res.json(response);
+			},
 			function (error) {
 				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
 			});
@@ -210,11 +211,12 @@ var budgetCalculation = function (req, res) {
 		var request = req.body.request;
 		// call the business function and give it a callback function 
 		requestsBusiness.budgetCalculation(request, function (request) {
-			res.json(request);
-		},
+				res.json(request);
+			},
 			function (error) {
 				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
-			}, function (userErrorMessage) {
+			},
+			function (userErrorMessage) {
 				res.status(500).send(userErrorMessage);
 			});
 	} catch (error) {
@@ -229,11 +231,12 @@ var recommendation = function (req, res) {
 		var request = req.body.request;
 		// call the business function and give it a callback function 
 		requestsBusiness.recommendation(request, function (request) {
-			res.json(request);
-		},
+				res.json(request);
+			},
 			function (error) {
 				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
-			}, function (userErrorMessage) {
+			},
+			function (userErrorMessage) {
 				res.status(500).send(userErrorMessage);
 			});
 	} catch (error) {
@@ -249,11 +252,12 @@ var toggleOptions = function (req, res) {
 		var option = req.body.option;
 		// call the business function and give it a callback function 
 		requestsBusiness.toggleOptions(requestId, option, function (request) {
-			res.json(request);
-		},
+				res.json(request);
+			},
 			function (error) {
 				res.status(500).send("HWS servers are unable to serve your request at this time. We're sorry for the inconvinence.");
-			}, function (userErrorMessage) {
+			},
+			function (userErrorMessage) {
 				res.status(500).send(userErrorMessage);
 			});
 	} catch (error) {
@@ -267,8 +271,8 @@ var getPackage = function (req, res) {
 	try {
 		var requestId = req.params.requestId;
 		// call the business function and give it a callback function 
-		requestsBusiness.getPackage(requestId, function (request) {
-				res.json(request);
+		requestsBusiness.getPackage(requestId, function (packageUrl) {
+				res.send(packageUrl);
 			},
 			function (error) {
 				console.log(error);

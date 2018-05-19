@@ -682,27 +682,17 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	};
 
 	$scope.generatePackage = () => {
-		$http.get($rootScope.serverURL + "/request/package/" + $scope.currentOrder.id).success(function (request) {
-			$http.post('https://script.google.com/macros/s/AKfycbwQdxYAZ8X3qi6p8wtWHwlO1v-SYAfYvk83kmCb-mEZ5jfLzRB8/exec', request, {
-					headers: {
-						'Content-Type': 'text/plain',
-					}
-				})
-				.success(function (response) {
-					if (response) {
-						$scope.serverError = false;
-						$scope.currentOrder.generatedFile = response;
-						// $window.open(response, "popup");
-					} else {
-						$scope.serverError = true;
-						$scope.serverErrorMessage = err;
-					}
-					$scope.loading = false;
-				}).error(function (err) {
-					$scope.serverError = true;
-					$scope.serverErrorMessage = err;
-					$scope.loading = false;
-				});
+		$scope.loading = true;
+		$http.get($rootScope.serverURL + "/request/package/" + $scope.currentOrder.id).success(function (response) {
+			if (response) {
+				$scope.serverError = false;
+				$scope.currentOrder.generatedFile = response;
+				// $window.open(response, "popup");
+			} else {
+				$scope.serverError = true;
+				$scope.serverErrorMessage = err;
+			}
+			$scope.loading = false;
 		}).error(function (err) {
 			$scope.serverError = true;
 			$scope.serverErrorMessage = err;

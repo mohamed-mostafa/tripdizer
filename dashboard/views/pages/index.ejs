@@ -387,8 +387,11 @@
                                   <input type="text" class="form-control" id="destinationName" ng-model="currentOrder.destinationName" ng-change="currentOrder.generatedFile = null">
                                   <input type="text" class="form-control" id="introduction" ng-model="currentOrder.introduction" ng-change="currentOrder.generatedFile = null"> -->
                                   <center>
-                                    <button ng-if="!currentOrder.generatedFile" ng-click="generatePackage()">Generate</button>
-                                    <a ng-if="currentOrder.generatedFile" ng-href="{{currentOrder.generatedFile}}" target="_blank">Generated File</a>
+                                    <div ng-show="loading">
+                                      <i class="fa fa-refresh fa-spin"></i>
+                                    </div>
+                                    <button ng-if="!currentOrder.generatedFile && !loading" ng-click="generatePackage()">Generate</button>
+                                    <a ng-if="currentOrder.generatedFile && !loading" ng-href="{{currentOrder.generatedFile}}" target="_blank">Generated File</a>
                                   </center>
                                 </div>
                                 <!-- /.tab-pane -->
