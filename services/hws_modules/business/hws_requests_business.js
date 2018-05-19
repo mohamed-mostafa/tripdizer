@@ -401,30 +401,28 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 						}
 						request = {
 							id: request.id,
-							traveler: {
-								name: request.traveler.name ? request.traveler.name : ""
-							},
+							travelerName: request.traveler.name ? request.traveler.name : "",
 							estimatedCost: request.estimatedCost ? currencyFormat(request.estimatedCost) : currencyFormat(0),
 							itinerary: {
-								en_name: itinerary.en_name ? itinerary.en_name : "",
+								name: itinerary.en_name ? itinerary.en_name : "",
 								introduction: itinerary.introduction ? itinerary.introduction : "Introduction",
 								includes: itinerary.includes ? itinerary.includes : "",
 								excludes: itinerary.excludes ? itinerary.excludes : "",
 								image1: itinerary.image1 && await isValidImage(itinerary.image1) ? itinerary.image1 : "https://i.imgur.com/LsHCFiD.jpg",
 								flights: itinerary.flights.map(rf => ({
 									date: rf.date ? rf.date : "",
-									departing_from: rf.departing_from ? rf.departing_from : "",
-									arriving_to: rf.arriving_to ? rf.arriving_to : "",
-									departure_time: rf.departure_time ? rf.departure_time : "",
-									arrival_time: rf.arrival_time ? rf.arrival_time : "",
-									lay_over: rf.lay_over ? rf.lay_over : ""
+									departingFrom: rf.departing_from ? rf.departing_from : "",
+									arrivingTo: rf.arriving_to ? rf.arriving_to : "",
+									departureTime: rf.departure_time ? rf.departure_time : "",
+									arrivalTime: rf.arrival_time ? rf.arrival_time : "",
+									layOver: rf.lay_over ? rf.lay_over : ""
 								})),
 								hotels: itinerary.hotels.sort((a, b) => a.order - b.order).map(rh => ({
-									Country_Name: rh.Country_Name ? rh.Country_Name : "",
+									countryName: rh.Country_Name ? rh.Country_Name : "",
 									checkIn: rh.checkIn ? rh.checkIn : "",
 									checkOut: rh.checkOut ? rh.checkOut : "",
 									nights: rh.nights ? rh.nights : "",
-									EN_Name: rh.EN_Name ? rh.EN_Name : ""
+									name: rh.EN_Name ? rh.EN_Name : ""
 								}))
 							}
 						};
