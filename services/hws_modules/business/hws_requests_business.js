@@ -10,6 +10,7 @@ var partnersBusiness = require('./hws_partners_business.js');
 var emailBusiness = require('./hws_email_business.js');
 var Promise = require('promise');
 var DateDiff = require('date-diff');
+var httpRequest = require('request');
 
 
 //calls the onSuccess with a user object if the user was successfully created
@@ -364,13 +365,8 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 			const departureDate = new Date(request.departureDate);
 			const returnDate = new Date(request.returnDate);
 			const tripDays = Math.ceil(Math.abs(returnDate.getTime() - departureDate.getTime()) / (1000 * 3600 * 24));
-			if (request.estimatedCost) request.estimatedCost = currencyFormat(request.estimatedCost);
 			if (request.itineraryId) {
-				itinerariesDao.getById(request.itineraryId, null, function (itinerary) {
-						if (!itinerary.introduction) itinerary.introduction = "Introduction";
-						if (!itinerary.includes) itinerary.includes = "Includes";
-						if (!itinerary.excludes) itinerary.excludes = "Excludes";
-						if (!itinerary.image1) itinerary.image1 = "https://i.imgur.com/LsHCFiD.jpg";
+				itinerariesDao.getById(request.itineraryId, null, async function (itinerary) {
 						if (itinerary.flights.length > 0) {
 							itinerary.flights = itinerary.flights.sort((a, b) => a.type - b.type);
 							itinerary.flights[0].date = departureDate.toLocaleDateString();
@@ -391,7 +387,7 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 							itinerary.countries[i].numberOfDays = tripDays * itinerary.countries[i].days / 100;
 							itinerary.countries[i].startDate = i === 0 ? departureDate : new Date(new Date(itinerary.countries[i - 1].endDate).setDate(itinerary.countries[i - 1].endDate.getDate()));
 							itinerary.countries[i].endDate = new Date(new Date(itinerary.countries[i].startDate).setDate(itinerary.countries[i].startDate.getDate() + itinerary.countries[i].numberOfDays));
-							itinerary.flights[i + 1].date = itinerary.countries[i].endDate.toLocaleDateString();
+							if (itinerary.flights[i + 1]) itinerary.flights[i + 1].date = itinerary.countries[i].endDate.toLocaleDateString();
 						}
 						itinerary.hotels = itinerary.hotels.filter(h => h.budget_category_id === request.budgetCategory);
 						for (let i = 0; i < itinerary.hotels.length; ++i) {
@@ -401,16 +397,37 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 								itinerary.hotels[i].checkIn = country.startDate.toLocaleDateString();
 								itinerary.hotels[i].checkOut = country.endDate.toLocaleDateString();
 								itinerary.hotels[i].nights = country.numberOfDays;
-							} else {
-								itinerary.hotels[i].order = 99999;
-								itinerary.hotels[i].Country_Name = "Country Name";
-								itinerary.hotels[i].checkIn = "Check In";
-								itinerary.hotels[i].checkOut = "Check Out";
-								itinerary.hotels[i].nights = 0;
 							}
 						}
-						itinerary.hotels = itinerary.hotels.sort((a, b) => a.order - b.order);
-						request.itinerary = itinerary;
+						request = {
+							id: request.id,
+							traveler: {
+								name: request.traveler.name ? request.traveler.name : ""
+							},
+							estimatedCost: request.estimatedCost ? currencyFormat(request.estimatedCost) : currencyFormat(0),
+							itinerary: {
+								en_name: itinerary.en_name ? itinerary.en_name : "",
+								introduction: itinerary.introduction ? itinerary.introduction : "Introduction",
+								includes: itinerary.includes ? itinerary.includes : "",
+								excludes: itinerary.excludes ? itinerary.excludes : "",
+								image1: itinerary.image1 && await isValidImage(itinerary.image1) ? itinerary.image1 : "https://i.imgur.com/LsHCFiD.jpg",
+								flights: itinerary.flights.map(rf => ({
+									date: rf.date ? rf.date : "",
+									departing_from: rf.departing_from ? rf.departing_from : "",
+									arriving_to: rf.arriving_to ? rf.arriving_to : "",
+									departure_time: rf.departure_time ? rf.departure_time : "",
+									arrival_time: rf.arrival_time ? rf.arrival_time : "",
+									lay_over: rf.lay_over ? rf.lay_over : ""
+								})),
+								hotels: itinerary.hotels.sort((a, b) => a.order - b.order).map(rh => ({
+									Country_Name: rh.Country_Name ? rh.Country_Name : "",
+									checkIn: rh.checkIn ? rh.checkIn : "",
+									checkOut: rh.checkOut ? rh.checkOut : "",
+									nights: rh.nights ? rh.nights : "",
+									EN_Name: rh.EN_Name ? rh.EN_Name : ""
+								}))
+							}
+						};
 						onSuccess(request);
 					},
 					function (err) {
@@ -432,6 +449,18 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 function currencyFormat(value) {
 	var r = new RegExp(1..toLocaleString().replace(/^1/, "").replace(/\./, "\\.") + "$");
 	return (~~value).toLocaleString().replace(r, "") + (value % 1).toFixed(2).toLocaleString().replace(/^[+-]?0+/, "")
+}
+
+async function isValidImage(url) {
+	return await new Promise(resolve => {
+		httpRequest(url, function (error, response, body) {
+			if (!error && response.statusCode == 200 && (response.headers['content-type']).match(/(image)+\//g)) {
+				resolve(true);
+			} else {
+				resolve(false);
+			}
+		});
+	})
 }
 
 exports.placeRequest = placeRequest;
