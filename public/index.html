@@ -147,30 +147,32 @@
                 and already well-known destinations, the scheduled ones are listed below.</p>
             </div>
           </div>
-          
-            <div class="cell-xs-10 cell-sm-6 cell-md-3 offset-top-50 offset-sm-top-0">
+          <h5 ng-if="groupTrips.length <= 0">Stay tuned for our next trip</h5>
+          <div ng-if="groupTrips.length > 0" class="range range-xs-center offset-top-50 offset-sm-top-0">
+            <div class="cell-xs-10 cell-sm-6 cell-md-3" ng-repeat="trip in groupTrips">
               <div class="product">
-                <!-- <span class="label bg-primary">New</span> -->
-                <img src="images/bali-yoga-retreat2.jpg" width="270" height="360" alt="" class="img-responsive">
+                <span ng-if="trip.isNew" class="label bg-primary">New</span>
+                <img src="{{trip.image}}" width="270" height="360" alt="" class="img-responsive">
                 <div class="offset-top-10">
-                  <h5>Bali Yoga & Cultural Retreat with Sarah Yassin</h5>
+                  <h5>{{trip.enDescription}}</h5>
                 </div>
-                <p class="small">Bali</p>
-                <p class="medium">May 04, 2018 to May 11, 2018</p>
-                <p class="small">No Visa Required</p>
-                <p class="small">Group of 20 persons</p>
+                <p class="small">{{trip.enName}}</p>
+                <p class="medium">{{trip.departureDate | date: 'MMM dd, yyyy'}} to {{trip.returnDate | date: 'MMM dd, yyyy'}}</p>
+                <p class="small">{{trip.needsVisa ? '' : 'No '}}Visa Required</p>
+                <p class="small">Group of {{trip.numOfPersons}} persons</p>
                 <ul class="list-inline">
                   <li>
-                    <h6 class="text-bold text-darker">EGP 19,750 per person</h6>
+                    <h6 class="text-bold text-darker">EGP {{trip.totalCost}} per person</h6>
                   </li>
                   <li>
-                    <a href="#" class="text-bold btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" onclick="openSubmitGroupTripRequestDialog('Indonesia', '04 May, 2018', '11 May, 2018')">Register NOW!</a>
+                    <a href="#" class="text-bold btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" data-trip-id="{{trip.id}}" onclick="openSubmitGroupTripRequestDialog(this)">Register NOW!</a>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-      </section>
+        </div>
+    </section>
       <!-- Videos -->
       <section class="section-relative section-90">
         <div class="shell">
@@ -475,11 +477,8 @@
   	        scrollTop: $("#upcomingGroupTripsSection").offset().top
   	    }, 2000);
   	});
-    function openSubmitGroupTripRequestDialog(destination, from, to) {
-      jQuery('input[name="trip"]').val(destination);
-      jQuery('input[name="from"]').val(new Date(from).toISOString().substring(0, 10));
-      jQuery('input[name="to"]').val(new Date(to).toISOString().substring(0, 10));
-      jQuery('input[name="date"]').val(new Date().toISOString().substring(0, 10));
+    function openSubmitGroupTripRequestDialog(btn) {
+      jQuery('input[name="trip"]').val($(btn).data('trip-id'));
       $('#groupTripsRegistrationModal').modal('show');
     }
   </script>

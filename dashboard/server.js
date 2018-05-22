@@ -39,6 +39,9 @@ var start = function () {
 	app.get('/admin/itineraries', function(req, res) {
 		res.render('pages/itineraries');
 	});
+	app.get('/admin/group-trips', function(req, res) {
+		res.render('pages/group-trips');
+	});
 	app.get('/admin/videos', function(req, res) {
 		res.render('pages/videos');
 	});

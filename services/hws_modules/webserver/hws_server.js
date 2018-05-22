@@ -16,7 +16,7 @@ var start = function () {
 	var requestsInterface = require('./hws_requests_interface.js');
 	var usersInterface = require('./hws_users_interface.js');
 	var partnersInterface = require('./hws_partners_interface.js');
-	var grouptripInterface = require('./hws_grouptrip_interface.js');
+	var grouptripsInterface = require('./hws_grouptrips_interface.js');
 	var countriesInterface = require('./hws_countries_interface.js');
 	var itinerariesInterface = require('./hws_itineraries_interface.js');
 	var purposesInterface = require('./hws_purposes_interface.js');
@@ -27,17 +27,14 @@ var start = function () {
 	var app = express();
 	// your express configuration here
 
-	app.use(cors());// add CORS middleware (to enable cross-domain requests from clients.)
-	app.use(bodyParser.urlencoded({ extended: true }));
-	app.use(bodyParser.json());// for parsing application/json
+	app.use(cors()); // add CORS middleware (to enable cross-domain requests from clients.)
+	app.use(bodyParser.urlencoded({
+		extended: true
+	}));
+	app.use(bodyParser.json()); // for parsing application/json
 	app.use(json2xls.middleware); // middleware to return contenttype xls
 
 	// routing - Start
-
-	// Public requests
-	app.get('/public/videos', publicInterface.getVideos);
-	app.post('/public/video', publicInterface.create);
-	app.put('/public/video', publicInterface.update);
 
 	// requests
 	app.put('/request/place', requestsInterface.placeRequest);
@@ -71,8 +68,14 @@ var start = function () {
 	app.put('/partner', partnersInterface.createPartner);
 	app.post('/partner', partnersInterface.updatePartner);
 
-	// group trip mail
-	app.post('/grouptrip/register', grouptripInterface.register);
+	// Group Trips
+	app.get('/groupTrips', grouptripsInterface.getAll);
+	app.get('/groupTrips/current', grouptripsInterface.getAllCurrentTrips);
+	app.get('/groupTrips/:id', grouptripsInterface.getById);
+	app.post('/groupTrips', grouptripsInterface.create);
+	app.post('/groupTrips/register', grouptripsInterface.register);
+	app.put('/groupTrips/toggle', grouptripsInterface.toggle);
+	// app.put('/groupTrips', grouptripsInterface.update);
 
 	//		countries
 	app.get('/countries', countriesInterface.getAll);
@@ -104,6 +107,11 @@ var start = function () {
 	app.get('/budgetcategory/:id', budgetcategoriesInterface.getById);
 	app.put('/budgetcategory', budgetcategoriesInterface.create);
 	app.post('/budgetcategory', budgetcategoriesInterface.update);
+
+	// Videos
+	app.get('/public/videos', publicInterface.getVideos);
+	app.post('/public/video', publicInterface.create);
+	app.put('/public/video', publicInterface.update);
 
 	// routing - end
 
