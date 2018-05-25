@@ -207,6 +207,24 @@ var budgetCalculation = function (request, onSuccess, onFailure, onUserError) {
 				rData.accomodationBudget = calculateAccomodationBudgetByRoom(rData.accomodationBudget, rData.numberOfAdultsAndKids);
 			}
 
+			switch (request.budget_category) {
+				// case 2: // Super Economy
+				// 	rData.dailySpendings *= 1;
+				// 	break;
+				// case 3: // Economy
+				// 	rData.dailySpendings *= 1;
+				// 	break;
+				case 4: // Mid Range
+					rData.dailySpendings *= 1.5;
+					break;
+				case 5: // Splurge
+					rData.dailySpendings *= 2;
+					break;
+				default:
+					rData.dailySpendings *= 1;
+					break;
+			}
+
 			// add 10% profit margin
 			rData.flightsBudget += (rData.flightsBudget * 0.1);
 			rData.ferriesBudget += (rData.ferriesBudget * 0.1);
