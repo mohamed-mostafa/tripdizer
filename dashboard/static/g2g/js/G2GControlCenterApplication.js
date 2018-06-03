@@ -10,6 +10,26 @@ var g2gControlCenterApplication = angular.module("G2GControlCenterApplication", 
 		$locationProvider.html5Mode(false);
 		//    $locationProvider.html5Mode(true);
 	}])
+	.config(['$httpProvider', '$windowProvider', function ($httpProvider, $windowProvider) {
+		var $window = $windowProvider.$get();
+		$httpProvider.interceptors.push(function () {
+			return {
+				request: function (config) {
+					config.headers = config.headers || {};
+					const JWToken = $window.localStorage.getItem('token');
+					if (JWToken) {
+						config.headers['Authorization'] = JWToken;
+					}
+					return config;
+				},
+				responseError: function (response) {
+					if (response.status === 401) { // Unauthorized
+						$window.location.href = '/admin/login';
+					}
+				}
+			};
+		});
+	}])
 	.factory('CountriesService', ['$rootScope', '$http', function CountriesService($rootScope, $http) {
 		var prefix = $rootScope.serverURL + '/';
 

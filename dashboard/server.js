@@ -15,10 +15,10 @@ var start = function () {
 	app.use(cors());// add CORS middleware (to enable cross-domain requests from clients.)
 	app.set('view engine', 'ejs'); // let the res.render use ejs
 	// routes
-	app.get('/admin/home', function(req, res) {
+	app.get('/admin/login', function(req, res) {
 		res.render('pages/login');
 	});
-	app.get('/admin/index', function(req, res) {
+	app.get('/admin/home', function(req, res) {
 		res.render('pages/index');
 	});
 	app.get('/admin/non-admin-index', function(req, res) {
