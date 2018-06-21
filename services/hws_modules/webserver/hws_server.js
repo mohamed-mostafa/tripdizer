@@ -76,7 +76,7 @@ var start = function () {
 	app.post('/groupTrips', auth.isAuthenticated, grouptripsInterface.create);
 	app.post('/groupTrips/register', grouptripsInterface.register);
 	app.put('/groupTrips/toggle', auth.isAuthenticated, grouptripsInterface.toggle);
-	// app.put('/groupTrips', auth.isAuthenticated, grouptripsInterface.update);
+	app.put('/groupTrips', auth.isAuthenticated, grouptripsInterface.update);
 
 	//		countries
 	app.get('/countries', auth.isAuthenticated, countriesInterface.getAll);

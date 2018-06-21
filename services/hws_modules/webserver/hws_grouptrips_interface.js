@@ -93,6 +93,35 @@ var create = function (req, res) {
 	}
 };
 
+var update = function (req, res) {
+	try {
+		var form = new formidable.IncomingForm(),
+			groupTrip = {
+				mailAttachments: []
+			};
+		form.on('field', function (field, value) {
+			groupTrip[field] = value;
+		})
+		form.on('file', function (field, file) {
+			groupTrip.mailAttachments.push(file);
+		})
+		form.on('end', function () {
+			// call the business function and give it a callback function 
+			business.update(groupTrip, function (groupTrip) {
+					res.json(groupTrip);
+				},
+				function (error) {
+					res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for the inconvinence.");
+				});
+		});
+		form.parse(req);
+	} catch (error) {
+		console.log("An error occured in /groupTrips");
+		console.log(error);
+		res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+	}
+};
+
 var getAll = function (req, res) {
 	try {
 		// call the business function and give it a callback function 
@@ -130,6 +159,7 @@ var getAllCurrentTrips = function (req, res) {
 exports.register = register;
 exports.getById = getById;
 exports.create = create;
+exports.update = update;
 exports.toggle = toggle;
 exports.getAll = getAll;
 exports.getAllCurrentTrips = getAllCurrentTrips;

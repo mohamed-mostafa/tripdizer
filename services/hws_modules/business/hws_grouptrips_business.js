@@ -85,6 +85,25 @@ var create = function (trip, onSuccess, onFailure) {
 	}).catch(onFailure);
 };
 
+var update = function (trip, onSuccess, onFailure) {
+	const saveFiles = [];
+	for (let i = 0; i < trip.mailAttachments.length; ++i) {
+		const attachment = trip.mailAttachments[i];
+		saveFiles.push(new Promise((resolve, reject) => {
+			fs.rename(attachment.path, `./attachments/${attachment.name}`, function (err) {
+				if (err) reject(err);
+				resolve(attachment.name);
+			})
+		}));
+	}
+	Promise.all(saveFiles).then(savedFiles => {
+		trip.mailAttachments = savedFiles;
+		dao.update(trip, function (groupTrip) {
+			onSuccess(groupTrip);
+		}, onFailure);
+	}).catch(onFailure);
+};
+
 var getAllCurrentTrips = function (lang, onSuccess, onFailure) {
 	dao.getAll(lang, groupTrips => onSuccess(groupTrips.filter(gt => !gt.isEnded)), onFailure);
 }
@@ -92,6 +111,7 @@ var getAllCurrentTrips = function (lang, onSuccess, onFailure) {
 exports.register = register;
 exports.getById = dao.getById;
 exports.create = create;
+exports.update = update;
 exports.toggle = dao.toggle;
 exports.getAll = dao.getAll;
 exports.getAllCurrentTrips = getAllCurrentTrips;

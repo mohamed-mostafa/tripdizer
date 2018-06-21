@@ -137,7 +137,7 @@
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                  <h4 class="modal-title" id="myModalLabel">Add Group Trip</h4>
+                  <h4 class="modal-title" id="myModalLabel">{{editMode ? 'Update' : 'Add'}} Group Trip</h4>
                 </div>
                 <div class="modal-body">
                   <div class="callout callout-danger" ng-show="serverError==true">
@@ -216,7 +216,9 @@
                                 ta-text-editor-class="form-control richtext" ta-html-editor-class="form-control richtext" ta-toolbar="[['h1', 'h2', 'h3', 'p', 'pre', 'quote'],['insertImage','insertLink', 'insertVideo'],['html','wordcount'],['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent']]"></text-angular>
                             </div>
                             <div class="form-group">
-                              <label class="control-label" for="mailAttachments">Attachments:</label>
+                              <label class="control-label" for="mailAttachments">Attachments:
+                                <span class="text-red">{{editMode ? 'You have to upload the attachments again!' : ''}}</span>
+                              </label>
                               <input type="file" class="form-control" id="mailAttachments" ng-file-model="newGroupTrip.mailAttachments" multiple>
                             </div>
                             <!-- /.form group -->

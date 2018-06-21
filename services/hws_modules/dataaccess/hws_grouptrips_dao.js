@@ -33,11 +33,12 @@ var getById = function (id, lang, onSuccess, onFailure) {
 							arName: rows[0].AR_Name,
 							enDescription: rows[0].EN_Description,
 							arDescription: rows[0].AR_Description,
-							departureDate: rows[0].Departure_Date,
-							returnDate: rows[0].Return_Date,
+							departureDate: new Date(rows[0].Departure_Date).toString(),
+							returnDate: new Date(rows[0].Return_Date).toString(),
 							numOfPersons: rows[0].Num_Of_Persons,
 							totalCost: rows[0].Total_Cost,
 							needsVisa: rows[0].Needs_Visa,
+							image: rows[0].Image,
 							mailSubject: rows[0].Email_Subject,
 							mailBody: rows[0].Email_Body,
 							mailAttachments: JSON.parse(rows[0].Email_Attachments),
@@ -88,6 +89,8 @@ var create = function (trip, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
+					trip.departureDate = new Date(new Date(trip.departureDate).setHours(0, 0, 0, 0));
+					trip.returnDate = new Date(new Date(trip.returnDate).setHours(0, 0, 0, 0));
 					connection.query('INSERT INTO group_trips (`Iternary_Id`, `Departure_Date`, `Return_Date`, `Num_Of_Persons`, `Total_Cost`, `Image`, `Email_Subject`, `Email_Body`, `Email_Attachments`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [trip.iternaryId, trip.departureDate, trip.returnDate, trip.numOfPersons, trip.totalCost, trip.image, trip.mailSubject, trip.mailBody, JSON.stringify(trip.mailAttachments)], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
@@ -103,6 +106,50 @@ var create = function (trip, onSuccess, onFailure) {
 							connection.end();
 							// call the callback function provided by the caller, and give it the response
 							getById(result.insertId, null, onSuccess, onFailure);
+						}
+					});
+				}
+			});
+		}
+	});
+};
+
+var update = function (trip, onSuccess, onFailure) {
+	// get a connection and open it
+	var connection = daoUtilities.createConnection();
+	connection.connect(function (err) {
+		if (err) {
+			console.log("An error occurred while trying to open a database connection");
+			console.log(err);
+			onFailure(err);
+		} else {
+			// begin a transaction to insert the group trip and his addresses
+			connection.beginTransaction(function (err) {
+				// execute the query
+				if (err) {
+					// end the connection
+					connection.end();
+					console.log("An error occurred while trying to begin a database transaction");
+					console.log(err);
+					onFailure(err);
+				} else {
+					trip.departureDate = new Date(new Date(trip.departureDate).setHours(0, 0, 0, 0));
+					trip.returnDate = new Date(new Date(trip.returnDate).setHours(0, 0, 0, 0));
+					connection.query('UPDATE `group_trips` SET `Iternary_Id` = ?, `Departure_Date` = ?, `Return_Date` = ?, `Num_Of_Persons` = ?, `Total_Cost` = ?, `Image` = ?, `Email_Subject` = ?, `Email_Body` = ?, `Email_Attachments` = ? WHERE `Id` = ?', [trip.iternaryId, trip.departureDate, trip.returnDate, trip.numOfPersons, trip.totalCost, trip.image, trip.mailSubject, trip.mailBody, JSON.stringify(trip.mailAttachments), trip.id], function (err, result) {
+						// if an error is thrown, end the connection and throw an error
+						if (err) { // if the first insert statement fails
+							// end the connection
+							connection.end();
+							console.log("An error occurred while trying to update the existing group trip: " + trip.id);
+							console.log(err);
+							connection.rollback(); // rollback the transaction
+							onFailure(err);
+						} else {
+							// end the connection
+							connection.commit();
+							connection.end();
+							// call the callback function provided by the caller, and give it the response
+							getById(trip.id, null, onSuccess, onFailure);
 						}
 					});
 				}
@@ -189,12 +236,15 @@ var getAll = function (lang, onSuccess, onFailure) {
 							enDescription: rows[i].EN_Description,
 							arName: rows[i].AR_Name,
 							arDescription: rows[i].AR_Description,
-							departureDate: rows[i].Departure_Date,
-							returnDate: rows[i].Return_Date,
+							departureDate: new Date(rows[i].Departure_Date).toString(),
+							returnDate: new Date(rows[i].Return_Date).toString(),
 							numOfPersons: rows[i].Num_Of_Persons,
 							totalCost: rows[i].Total_Cost,
 							needsVisa: rows[i].Needs_Visa,
 							image: rows[i].Image,
+							mailSubject: rows[i].Email_Subject,
+							mailBody: rows[i].Email_Body,
+							mailAttachments: JSON.parse(rows[i].Email_Attachments),
 							isNew: rows[i].isNew,
 							isEnded: rows[i].isEnded
 						};
@@ -220,5 +270,6 @@ var getAll = function (lang, onSuccess, onFailure) {
 
 exports.getById = getById;
 exports.create = create;
+exports.update = update;
 exports.toggle = toggle;
 exports.getAll = getAll;

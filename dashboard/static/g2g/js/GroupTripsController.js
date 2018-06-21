@@ -97,6 +97,8 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 			}).success(
 				function (response) {
 					$scope.saving = false;
+					if (response.departureDate) response.departureDate = new Date(response.departureDate);
+					if (response.returnDate) response.returnDate = new Date(response.returnDate);
 					$scope.groupTrips.unshift(response);
 					if (close) {
 						$('#addModal').modal('hide');
@@ -117,10 +119,34 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 		$scope.resetValidationFlags();
 		if ($scope.newGroupTripIsValid()) {
 			$scope.saving = true;
-			$http.put($rootScope.serverURL + "/groupTrips", $scope.newGroupTrip).success(
+			$http({
+				method: "PUT",
+				url: $rootScope.serverURL + "/groupTrips",
+				headers: {
+					'Content-Type': undefined
+				},
+				transformRequest: function (data) {
+					var fd = new FormData();
+					for (var key in data) {
+						if (data.hasOwnProperty(key)) {
+							if (key === "mailAttachments") {
+								for (let i = 0; i < data[key].length; i++) {
+									fd.append("file", data[key][i]._file);
+								}
+							} else {
+								fd.append(key, data[key]);
+							}
+						}
+					}
+					return fd;
+				},
+				data: $scope.newGroupTrip
+			}).success(
 				function (response) {
 					for (var i = 0; i < $scope.groupTrips.length; i++) {
 						if ($scope.groupTrips[i].id == response.id) {
+							if (response.departureDate) response.departureDate = new Date(response.departureDate);
+							if (response.returnDate) response.returnDate = new Date(response.returnDate);
 							$scope.groupTrips[i] = response;
 							break;
 						}
@@ -128,7 +154,10 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 					$scope.saving = false;
 					$scope.editMode = false;
 					$('#addModal').modal('hide');
-					$scope.newGroupTrip = {};
+					$scope.newGroupTrip = {
+						mailBody: generateMailBody(),
+						mailAttachments: []
+					};
 					$scope.serverError = false;
 				}
 			).error(function (err) {
@@ -201,7 +230,11 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 				.sort((a, b) => b.id - a.id)
 				.sort((a, b) => new Date(b.returnDate) - new Date(a.returnDate))
 				.sort((a, b) => a.isEnded - b.isEnded)
-				.sort((a, b) => b.isNew - a.isNew);
+				.sort((a, b) => b.isNew - a.isNew)
+			for (let i = 0; i < $scope.groupTrips.length; ++i) {
+				if ($scope.groupTrips[i].departureDate) $scope.groupTrips[i].departureDate = new Date($scope.groupTrips[i].departureDate);
+				if ($scope.groupTrips[i].returnDate) $scope.groupTrips[i].returnDate = new Date($scope.groupTrips[i].returnDate);
+			}
 		});
 		ItinerariesService.getAll().then(function (itineraries) {
 			$scope.itineraries = itineraries;
