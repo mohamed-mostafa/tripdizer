@@ -5,78 +5,93 @@
 
 var fs = require("fs");
 var dao = require('../dataaccess/hws_grouptrips_dao.js');
-var emailBusiness = require('./hws_email_business.js');
+var requestBusiness = require('../business/hws_requests_business.js');
+var emailBusiness = require('../business/hws_email_business.js');
 
+var register = function (requestData, onSuccess, onFailure) {
+	dao.getById(requestData.groupTripId, null, function (groupTrip) {
+		if (groupTrip) {
+			var request = {
+				traveler: {
+					name: requestData.name,
+					mobile: requestData.phone,
+					emailAddress: requestData.email,
+					dateOfBirth: "",
+				},
+				departure_date: groupTrip.departureDate,
+				return_date: groupTrip.returnDate,
+				flexible_dates: 0,
+				leaving_country: 'Cairo',
+				itinerary_id: groupTrip.iternaryId,
+				first_country: 0,
+				second_country: 0,
+				third_country: 0,
+				travel_purpose: 4,
+				number_of_adults: requestData.pex,
+				number_of_kids: 0,
+				number_of_infants: 0,
+				budget_category: 3,
+				budget: requestData.pex * parseFloat(groupTrip.totalCost),
+				visa_assistance_needed: groupTrip.needsVisa,
+				tour_guide_needed: 1,
+				specialRequests: requestData.message,
+				estimatedCost: requestData.pex * parseFloat(groupTrip.totalCost),
+				interests: []
+			};
+			requestBusiness.placeRequest(request, function (request) {
+				const attachmentPromises = [];
+				for (let i = 0; i < groupTrip.mailAttachments.length; ++i) {
+					attachmentPromises.push(new Promise((resolve, reject) => {
+						const attachmentName = groupTrip.mailAttachments[i];
+						fs.readFile(`./attachments/${attachmentName}`, function (err, content) {
+							if (err) reject(err);
+							resolve({
+								'filename': attachmentName,
+								'content': content
+							});
+						})
+					}));
+				}
+				Promise.all(attachmentPromises).then(attachments => {
+					emailBusiness.sendEmail(request.traveler.emailAddress, "Tripdizer Bookings <bookings@tripdizer.com>", `Tripdizer - ${groupTrip.mailSubject}`, groupTrip.mailBody, attachments);
+				}).catch(onFailure);
+				// done
+				console.log("Changing status of request: " + request.id);
+				requestBusiness.changeRequestStatus(request.id, "Group Trip", onSuccess, onFailure);
+			}, onFailure, onFailure);
+		} else {
+			console.log("An error occurred while trying to find a group trip with id " + requestData.groupTripId);
+			onFailure("An error occurred while trying to find a group trip with id " + requestData.groupTripId);
+		}
+	}, onFailure);
+};
 
-var sendMoroccoMail = function (email, onSuccess, onFailure) {
-	fs.readFile("./attachments/MoroccoPackageResponse.html", function (err0, data0) {
-		fs.readFile("./attachments/Morocco Group Trip - 24 Nov-01 Dec 2017 - Hezaha W Safer.pdf", function (err1, data1) {
-			if (err1) throw err1;
-			fs.readFile("./attachments/Morocco Group Trip - 24 Nov-03 Dec 2017 - Hezaha W Safer.pdf", function (err2, data2) {
-				if (err2) throw err2;
-				emailBusiness.sendEmail(email, "Tripdizer Bookings <bookings@tripdizer.com>", "Hezaha w Safer - Morocco Trip Package", data0, [{
-						'filename': "Morocco Group Trip - 24 Nov-01 Dec 2017 - Hezaha W Safer.pdf",
-						'content': data1
-					}, {
-						'filename': "Morocco Group Trip - 24 Nov-03 Dec 2017 - Hezaha W Safer.pdf",
-						'content': data2
-					}])
-					.then(function (response) {
-						onSuccess(response)
-					})
-					.catch(function (response) {
-						onFailure(response)
-					})
-			});
-		});
-	});
-}
-
-var sendCapetownMail = function (email, onSuccess, onFailure) {
-	fs.readFile("./attachments/CapeTownPackageResponse.html", function (err0, data0) {
-		fs.readFile("./attachments/Cape Town Group Trip Itinerary - 25-31 Jan 2018.pdf", function (err2, data2) {
-			if (err2) throw err2;
-			emailBusiness.sendEmail(email, "Tripdizer Bookings <bookings@tripdizer.com>", "Hezaha w Safer - Cape Town Trip Package", data0, [{
-					'filename': "Cape Town Group Trip Itinerary - 25-31 Jan 2018.pdf",
-					'content': data2
-				}])
-				.then(function (response) {
-					onSuccess(response)
-				})
-				.catch(function (response) {
-					onFailure(response)
-				})
-		});
-	});
-}
-
-var sendBaliYogaRetreatMail = function (email, onSuccess, onFailure) {
-	fs.readFile("./attachments/BaliYogaRetreatPackageResponse.html", function (err0, data0) {
-		fs.readFile("./attachments/Bali Yoga and Cultural Retreat 04-11 May 2018.pdf", function (err2, data2) {
-			if (err2) throw err2;
-			emailBusiness.sendEmail(email, "Tripdizer Bookings <bookings@tripdizer.com>", "Tripdizer - Bali Yoga and Cultural Retreat Trip Package", data0, [{
-					'filename': "Bali Yoga & Cultural Retreat 04-11 May 2018.pdf",
-					'content': data2
-				}])
-				.then(function (response) {
-					onSuccess(response)
-				})
-				.catch(function (response) {
-					onFailure(response)
-				})
-		});
-	});
-}
+var create = function (trip, onSuccess, onFailure) {
+	const saveFiles = [];
+	for (let i = 0; i < trip.mailAttachments.length; ++i) {
+		const attachment = trip.mailAttachments[i];
+		saveFiles.push(new Promise((resolve, reject) => {
+			fs.rename(attachment.path, `./attachments/${attachment.name}`, function (err) {
+				if (err) reject(err);
+				resolve(attachment.name);
+			})
+		}));
+	}
+	Promise.all(saveFiles).then(savedFiles => {
+		trip.mailAttachments = savedFiles;
+		dao.create(trip, function (groupTrip) {
+			onSuccess(groupTrip);
+		}, onFailure);
+	}).catch(onFailure);
+};
 
 var getAllCurrentTrips = function (lang, onSuccess, onFailure) {
 	dao.getAll(lang, groupTrips => onSuccess(groupTrips.filter(gt => !gt.isEnded)), onFailure);
 }
 
-exports.sendMoroccoMail = sendMoroccoMail;
-exports.sendCapetownMail = sendCapetownMail;
-exports.sendBaliYogaRetreatMail = sendBaliYogaRetreatMail;
+exports.register = register;
 exports.getById = dao.getById;
-exports.create = dao.create;
+exports.create = create;
 exports.toggle = dao.toggle;
 exports.getAll = dao.getAll;
 exports.getAllCurrentTrips = getAllCurrentTrips;

@@ -144,50 +144,86 @@
                     <h4>Saving failed!</h4>
                     <p>{{serverErrorMessage}}</p>
                   </div>
-                  <form role="form" id="newVideoForm">
+                  <form role="form" id="newGroupTripForm" enctype="multipart/form-data">
                     <div class="box-body">
                       <div class="overlay" ng-show="saving == true">
                         <i class="fa fa-refresh fa-spin"></i>
                       </div>
-                      <div class="form-group" ng-show="saving==false">
-                        <label class="control-label text-red" for="itinerary" ng-show="itineraryMissing==true">
-                          <i class="fa fa-times-circle-o"></i>Itinerary is missing</label>
-                        <label for="itinerary" ng-show="itineraryMissing==false">Itinerary</label>
-                        <select class="form-control" id="itinerary" ng-model="newGroupTrip.iternaryId">
-                          <option ng-repeat="itinerary in itineraries" ng-value="itinerary.id" ng-selected="itinerary.id === newGroupTrip.iternaryId">{{itinerary.en_name}}</option>
-                        </select>
+                      <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                          <li class="active">
+                            <a href="#basicTab" data-toggle="tab">Basic</a>
+                          </li>
+                          <li>
+                            <a href="#mailSettingsTab" data-toggle="tab">Mail Settings</a>
+                          </li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="basicTab">
+                            <div class="form-group" ng-show="saving==false">
+                              <label class="control-label text-red" for="itinerary" ng-show="itineraryMissing==true">
+                                <i class="fa fa-times-circle-o"></i>Itinerary is missing</label>
+                              <label for="itinerary" ng-show="itineraryMissing==false">Itinerary</label>
+                              <select class="form-control" id="itinerary" ng-model="newGroupTrip.iternaryId">
+                                <option ng-repeat="itinerary in itineraries" ng-value="itinerary.id" ng-selected="itinerary.id === newGroupTrip.iternaryId">{{itinerary.en_name}}</option>
+                              </select>
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                              <label class="control-label text-red" for="departureDate" ng-show="departureDateMissing==true">
+                                <i class="fa fa-times-circle-o"></i>Departure Date is missing</label>
+                              <label for="departureDate" ng-show="departureDateMissing==false">Departure Date</label>
+                              <input type="date" class="form-control" id="departureDate" format="yyyy-MM-dd" ng-model="newGroupTrip.departureDate">
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                              <label class="control-label text-red" for="returnDate" ng-show="returnDateMissing==true">
+                                <i class="fa fa-times-circle-o"></i>Return Date is missing</label>
+                              <label for="returnDate" ng-show="returnDateMissing==false">Return Date</label>
+                              <input type="date" class="form-control" id="returnDate" format="yyyy-MM-dd" ng-model="newGroupTrip.returnDate">
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                              <label class="control-label text-red" for="numOfPersons" ng-show="numOfPersonsMissing==true">
+                                <i class="fa fa-times-circle-o"></i>Number Of Persons is missing</label>
+                              <label for="numOfPersons" ng-show="numOfPersonsMissing==false">Number Of Persons</label>
+                              <input type="number" class="form-control" id="numOfPersons" ng-model="newGroupTrip.numOfPersons" min="1" required>
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                              <label class="control-label text-red" for="totalCost" ng-show="totalCostMissing==true">
+                                <i class="fa fa-times-circle-o"></i>Total Cost is missing</label>
+                              <label for="totalCost" ng-show="totalCostMissing==false">Total Cost</label>
+                              <input type="number" class="form-control" id="totalCost" ng-model="newGroupTrip.totalCost" min="0" required>
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                              <label class="control-label text-red" for="image" ng-show="imageMissing==true">
+                                <i class="fa fa-times-circle-o"></i>Image is missing</label>
+                              <label for="image" ng-show="imageMissing==false">Image</label>
+                              <input type="text" class="form-control" id="image" ng-model="newGroupTrip.image" placeholder="Enter image URI" required>
+                            </div>
+                          </div>
+                          <!-- /.tab-pane -->
+                          <div class="tab-pane" id="mailSettingsTab">
+                            <div class="form-group" ng-show="saving==false">
+                              <label class="control-label text-red" for="mailSubject" ng-show="mailSubjectMissing==true">
+                                <i class="fa fa-times-circle-o"></i>Email Subject is missing</label>
+                              <label for="mailSubject" ng-show="mailSubjectMissing==false">Email Subject</label>
+                              <input type="text" class="form-control" id="mailSubject" ng-model="newGroupTrip.mailSubject" placeholder="Enter Email Subject"
+                                required>
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                              <label class="control-label text-red" for="mailBody" ng-show="mailBodyMissing==true">
+                                <i class="fa fa-times-circle-o"></i>Email Body is missing</label>
+                              <label for="mailBody" ng-show="mailBodyMissing==false">Email Body</label>
+                              <text-angular id="mailBody" ng-model="newGroupTrip.mailBody" ng-init="newGroupTrip.mailBody = generateMailBody()" placeholder="Enter body"
+                                ta-text-editor-class="form-control richtext" ta-html-editor-class="form-control richtext" ta-toolbar="[['h1', 'h2', 'h3', 'p', 'pre', 'quote'],['insertImage','insertLink', 'insertVideo'],['html','wordcount'],['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent']]"></text-angular>
+                            </div>
+                            <div class="form-group">
+                              <label class="control-label" for="mailAttachments">Attachments:</label>
+                              <input type="file" class="form-control" id="mailAttachments" ng-file-model="newGroupTrip.mailAttachments" multiple>
+                            </div>
+                            <!-- /.form group -->
+                          </div>
+                        </div>
+                        <!-- /.tab-content -->
                       </div>
-                      <div class="form-group" ng-show="saving==false">
-                        <label class="control-label text-red" for="departureDate" ng-show="departureDateMissing==true">
-                          <i class="fa fa-times-circle-o"></i>Departure Date is missing</label>
-                        <label for="departureDate" ng-show="departureDateMissing==false">Departure Date</label>
-                        <input type="date" class="form-control" id="departureDate" format="yyyy-MM-dd" ng-model="newGroupTrip.departureDate">
-                      </div>
-                      <div class="form-group" ng-show="saving==false">
-                        <label class="control-label text-red" for="returnDate" ng-show="returnDateMissing==true">
-                          <i class="fa fa-times-circle-o"></i>Return Date is missing</label>
-                        <label for="returnDate" ng-show="returnDateMissing==false">Return Date</label>
-                        <input type="date" class="form-control" id="returnDate" format="yyyy-MM-dd" ng-model="newGroupTrip.returnDate">
-                      </div>
-                      <div class="form-group" ng-show="saving==false">
-                        <label class="control-label text-red" for="numOfPersons" ng-show="numOfPersonsMissing==true">
-                          <i class="fa fa-times-circle-o"></i>Number Of Persons is missing</label>
-                        <label for="numOfPersons" ng-show="numOfPersonsMissing==false">Number Of Persons</label>
-                        <input type="number" class="form-control" id="numOfPersons" ng-model="newGroupTrip.numOfPersons" min="1" required>
-                      </div>
-                      <div class="form-group" ng-show="saving==false">
-                        <label class="control-label text-red" for="totalCost" ng-show="totalCostMissing==true">
-                          <i class="fa fa-times-circle-o"></i>Total Cost is missing</label>
-                        <label for="totalCost" ng-show="totalCostMissing==false">Total Cost</label>
-                        <input type="number" class="form-control" id="totalCost" ng-model="newGroupTrip.totalCost" min="0" required>
-                      </div>
-                      <div class="form-group" ng-show="saving==false">
-                        <label class="control-label text-red" for="image" ng-show="imageMissing==true">
-                          <i class="fa fa-times-circle-o"></i>Image is missing</label>
-                        <label for="image" ng-show="imageMissing==false">Image</label>
-                        <input type="text" class="form-control" id="image" ng-model="newGroupTrip.image" placeholder="Enter image URI" required>
-                      </div>
-                      <!-- /.form group -->
                     </div>
                     <!-- /.box-body -->
                   </form>

@@ -38,7 +38,9 @@ var getById = function (id, lang, onSuccess, onFailure) {
 							numOfPersons: rows[0].Num_Of_Persons,
 							totalCost: rows[0].Total_Cost,
 							needsVisa: rows[0].Needs_Visa,
-							image: rows[0].Image,
+							mailSubject: rows[0].Email_Subject,
+							mailBody: rows[0].Email_Body,
+							mailAttachments: JSON.parse(rows[0].Email_Attachments),
 							isNew: rows[0].isNew,
 							isEnded: rows[0].isEnded
 						};
@@ -86,7 +88,7 @@ var create = function (trip, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO group_trips (`Iternary_Id`, `Departure_Date`, `Return_Date`, `Num_Of_Persons`, `Total_Cost`, `Image`) VALUES (?, ?, ?, ?, ?, ?)', [trip.iternaryId, trip.departureDate, trip.returnDate, trip.numOfPersons, trip.totalCost, trip.image], function (err, result) {
+					connection.query('INSERT INTO group_trips (`Iternary_Id`, `Departure_Date`, `Return_Date`, `Num_Of_Persons`, `Total_Cost`, `Image`, `Email_Subject`, `Email_Body`, `Email_Attachments`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [trip.iternaryId, trip.departureDate, trip.returnDate, trip.numOfPersons, trip.totalCost, trip.image, trip.mailSubject, trip.mailBody, JSON.stringify(trip.mailAttachments)], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection

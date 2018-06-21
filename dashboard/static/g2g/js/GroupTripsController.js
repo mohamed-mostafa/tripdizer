@@ -18,6 +18,8 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 	$scope.numOfPersonsMissing = false;
 	$scope.totalCostMissing = false;
 	$scope.imageMissing = false;
+	$scope.mailSubjectMissing = false;
+	$scope.mailBodyMissing = false;
 	$scope.editMode = false;
 
 	$scope.loading = false;
@@ -31,6 +33,8 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 		$scope.numOfPersonsMissing = false;
 		$scope.totalCostMissing = false;
 		$scope.imageMissing = false;
+		$scope.mailSubjectMissing = false;
+		$scope.mailBodyMissing = false;
 		$scope.serverError = false;
 		$scope.serverErrorMessage = "";
 	};
@@ -54,21 +58,53 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 		if ($scope.newGroupTrip.image == null || $scope.newGroupTrip.image == "" || !isUrl($scope.newGroupTrip.image)) {
 			$scope.imageMissing = true;
 		}
+		if ($scope.newGroupTrip.mailSubject == null || $scope.newGroupTrip.mailSubject == "") {
+			$scope.mailSubjectMissing = true;
+		}
+		if ($scope.newGroupTrip.mailBody == null || $scope.newGroupTrip.mailBody == "") {
+			$scope.mailBodyMissing = true;
+		}
 		return $scope.itineraryMissing !== true && $scope.imageMissing !== true &&
 			$scope.departureDateMissing !== true && $scope.returnDateMissing !== true &&
-			$scope.numOfPersonsMissing !== true && $scope.totalCostMissing !== true
+			$scope.numOfPersonsMissing !== true && $scope.totalCostMissing !== true &&
+			$scope.mailSubjectMissing !== true && $scope.mailBodyMissing !== true
 	};
 	$scope.add = function (close) {
 		if ($scope.newGroupTripIsValid()) {
 			$scope.saving = true;
-			$http.post($rootScope.serverURL + "/groupTrips", $scope.newGroupTrip).success(
+			$http({
+				method: "POST",
+				url: $rootScope.serverURL + "/groupTrips",
+				headers: {
+					'Content-Type': undefined
+				},
+				transformRequest: function (data) {
+					var fd = new FormData();
+					for (var key in data) {
+						if (data.hasOwnProperty(key)) {
+							if (key === "mailAttachments") {
+								for (let i = 0; i < data[key].length; i++) {
+									fd.append("file", data[key][i]._file);
+								}
+							} else {
+								fd.append(key, data[key]);
+							}
+						}
+					}
+					return fd;
+				},
+				data: $scope.newGroupTrip
+			}).success(
 				function (response) {
 					$scope.saving = false;
 					$scope.groupTrips.unshift(response);
 					if (close) {
 						$('#addModal').modal('hide');
 					}
-					$scope.newGroupTrip = {};
+					$scope.newGroupTrip = {
+						mailBody: generateMailBody(),
+						mailAttachments: []
+					};
 				}
 			).error(function (err) {
 				$scope.saving = false;
@@ -102,7 +138,10 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 		}
 	};
 	$scope.openAddDialog = function () {
-		$scope.newGroupTrip = {};
+		$scope.newGroupTrip = {
+			mailBody: generateMailBody(),
+			mailAttachments: []
+		};
 		$scope.editMode = false;
 		$('#addModal').modal('show');
 	};
@@ -146,6 +185,10 @@ g2gControlCenterApplication.controller("GroupTripsController", ['$rootScope', '$
 			});
 		});
 	};
+
+	function generateMailBody() {
+		return `<table style="width: 100%"><tr><td style="direction: ltr; padding: 20px"><p>Hi,</p><p>TRIPDIZER is excited to announce the dates of its first group trip to {NAME}!</p><p>We will explore {NAME} from {DepartureDate} to {ReturnDate}</p><p>Attached is the detailed itinerary including booking and payment information.</p><p>We look forward to having you on our next trip :)</p></td><td style="direction: rtl; padding: 20px"><p>أهلا</p><p>إحنا في تريب ديزر متحمسين جدا لإعلان مواعيد أول رحلة ل{NAME}.</p><p>حنكتشف {NAME} مع بعض من {DepartureDate} إلى {ReturnDate}.</p><p>مرفق في الرسالة كل تفاصيل الحجز و طريقة الدفع.</p><p>مستنينك معانا في رحلتنا الجاية.</p></td></tr><tr><td style="direction: ltr; padding: 20px">Best Regards,<br><b>Tripdizer Bookings Team</b><br>+2 010-1907-5876<br><a href="tripdizer.com">www.tripidzer.com</a></td></tr></table>`;
+	}
 
 	function isUrl(str) {
 		regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
