@@ -28,13 +28,15 @@
     <link href="css/jquery.steps.css" rel="stylesheet">
     <link href="css/hws-overrides.css" rel="stylesheet">
     <link href="css/media-query.css" rel="stylesheet">
+    <link href="css/stepfiveStyle.css" rel="stylesheet">
+
     <style>
         @media (max-width: 33px) {
             span.form-description {
                 margin-right: 0;
             }
         }
-
+        
         .menu {
             height: 320px;
             width: 230px;
@@ -44,7 +46,19 @@
             box-shadow: 3px 3px 3px #333;
             position: fixed;
         }
-
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .gray {
+            color: gray !important;
+        }
+        
+        .visible {
+            display: block !important;
+        }
+        
         h5 {
             cursor: pointer;
             color: #fff;
@@ -63,14 +77,56 @@
 </head>
 
 <body ng-app="TripdizerApplication">
+    <!--Step Five [Recommended Countries Modal]-->
+    <!-- Modal -->
+
+    <div id="popup" class="popup pop " style="text-align: left">
+        <div class="top">
+            <h3 style="text-align: left">More Details</h3>
+            <hr>
+        </div>
+        <div class="row" style="height:100px;text-align: left">
+
+            <div class="col-sm-4">
+                <img id="imgSrc" src="">
+
+            </div>
+            <div class="col-sm-8 col-xs-12">
+                <h6 id="countryName" style="color:#b42b25;font-weight: 700;font-size: 16px; ">...</h6>
+                <b>Season Match </b> <span style="color: #d95456;font-weight: 700;">High</span>
+                <br>
+                <b>Purpose Match </b>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                        <span class="sr-only">70% Complete</span>
+                    </div>
+                </div>
+                <br>
+                <b>Visa Match </b><span style="color: #d95456; font-weight: 700;">Yes</span>
+                <br>
+                <b>Interests Match</b>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                        <span class="sr-only">70% Complete</span>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-top: 30px !important">
+            <span style="height: 1px"></span>
+            <p id="description" class="desc"></p>
+            <a href="javascropt:void(0)" class="btnModal btn btn-danger">Ok</a>
+        </div>
+
+    </div>
+
+    <!--Step Five [Recommended Countries Modal]-->
     <!-- Page-->
     <div class="page text-center">
         <!-- Page Head-->
         <header class="page-head slider-menu-position">
             <!-- RD Navbar Transparent-->
             <div class="rd-navbar-wrap">
-                <nav data-sm-layout="rd-navbar-static" data-sm-device-layout="rd-navbar-static" data-sm-auto-height="true" data-sm-stick-up="true"
-                    class="rd-navbar rd-navbar-default blackbg">
+                <nav data-sm-layout="rd-navbar-static" data-sm-device-layout="rd-navbar-static" data-sm-auto-height="true" data-sm-stick-up="true" class="rd-navbar rd-navbar-default blackbg">
                     <div class="rd-navbar-inner" style="padding-top: 10px;">
                         <!-- RD Navbar Panel-->
                         <div class="rd-navbar-panel">
@@ -114,8 +170,9 @@
                     <h5 class="two">Trip Information</h5>
                     <h5 class="three">Your Interests</h5>
                     <h5 class="four">Travel Assistance</h5>
-                    <h5 class="five">Your Details</h5>
-                    <h5 class="six">Confirmation</h5>
+                    <h5 class="five" id="menu-step">recommended Countries</h5>
+                    <h5 class="six">Your Details</h5>
+                    <h5 class="seven">Confirmation</h5>
 
                 </div>
             </div>
@@ -127,12 +184,13 @@
             <section id="home" ng-controller="ReservationController">
                 <div id="registerationflow" class="row col-lg-12 animated slideInDown">
                     <div class="col-lg-12 numeric-wizard-container noPadding">
-                        <form action="post" id="registrationForm">
+                        <form action="post" id="registrationForm" onclick="change()">
                             <div class="wizard-content-container" id="wizard">
                                 <h3 class="">Pick your desinations</h3>
 
                                 <fieldset class="">
-                                    <div class="wizard-tab-content row animate slideInLeft">
+
+                                    <div id="s" class="wizard-tab-content row animate slideInLeft">
                                         <div class="inner col-lg-12" id="first">
                                             <div class="col-lg-4 col-md-4 col-sm-4 left-side">
                                                 <div class="inner">
@@ -165,9 +223,12 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="(selectedDestinations[0] === '-1')"
-                                                                        />
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="(selectedDestinations[0] === '-1')" />
                                                                         <label for="otherCountries">Specify other countries</label>
+                                                                    </div>
+                                                                    <div class="input-field col s11" style="overflow:  visible;">
+                                                                        <input type="checkbox" onclick="chk()" id="help" name="help">
+                                                                        <label for="help" class="">Help me decide<i class="fas fa-question-circle"></i></label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -218,7 +279,7 @@
                                                                 <div class="col-lg-4 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <input type="checkbox" id="test5" ng-model="plusOrMinusThreeDays" />
-                                                                    <label for="test5">Flexible dates (+/- 3 days)</label>
+                                                                        <label for="test5">Flexible dates (+/- 3 days)</label>
 
                                                                     </div>
                                                                 </div>
@@ -259,8 +320,7 @@
                                                                 <label class="tittle full-width left-aligned-text">Purpose of travel:</label>
                                                                 <div class="radio-btn-container left">
                                                                     <p ng-repeat="purpose in purposes">
-                                                                        <input name="purpose" type="radio" id="purpose-{{purpose.id}}" ng-click="selectPurpose(purpose)" ng-checked="$index === 0"
-                                                                        />
+                                                                        <input name="purpose" type="radio" id="purpose-{{purpose.id}}" ng-click="selectPurpose(purpose)" ng-checked="$index === 0" />
                                                                         <label for="purpose-{{purpose.id}}" class="left-aligned-text">{{purpose.name}}</label>
                                                                     </p>
                                                                     <div class="input-field inline" ng-show="selectedPurpose.name.includes('Other')">
@@ -274,9 +334,9 @@
                                                                     <label class="tittle full-width left-aligned-text">Budget</label>
                                                                     <div class="radio-btn-container">
                                                                         <p ng-repeat="budgetCategory in budgetCategories">
-                                                                            <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)"
-                                                                                ng-checked="$index === 0" ng-hide = "($index === 3 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 4)" />
-                                                                            <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" id="budgetCategoryLabel-{{budgetCategory.id}}" ng-hide = "($index === 3 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 4)">{{budgetCategory.name}}</label>
+                                                                            <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-click="selectBudgetCategory(budgetCategory)" ng-checked="$index === 0" ng-hide="($index === 3 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 4)"
+                                                                            />
+                                                                            <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" id="budgetCategoryLabel-{{budgetCategory.id}}" ng-hide="($index === 3 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 4)">{{budgetCategory.name}}</label>
                                                                         </p>
                                                                         <div class="input-field inline" ng-show="   selectedBudgetCategory.name.includes('Own') && requestType == 'countries'">
                                                                             <input id="own_budget" name="own_budget" type="text" ng-model="myOwnBudget">
@@ -343,7 +403,7 @@
                                     </div>
                                 </fieldset>
                                 <h3 class="">Travel Assistance</h3>
-                                <fieldset class="">
+                                <fieldset class="travel">
                                     <div class="wizard-tab-content row animate slideInLeft">
                                         <div class="inner col-lg-12" id="forth">
                                             <div class="col-lg-9 left-side align-center-block">
@@ -372,8 +432,7 @@
                                                                 </div>
                                                                 <div class="col-lg-12 col-sm-12 left">
                                                                     <label for="specialRequests" class="left-aligned-text left">Special Requests</label>
-                                                                    <textarea class="specialRequestsTextArea fullWidth" id="specialRequests" name="specialRequests" ng-model="specialRequests"
-                                                                        placeholder="e.g. Private Villa, Diving Instructor, ... etc"></textarea>
+                                                                    <textarea class="specialRequestsTextArea fullWidth" id="specialRequests" name="specialRequests" ng-model="specialRequests" placeholder="e.g. Private Villa, Diving Instructor, ... etc"></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -389,8 +448,130 @@
                                         </div>
                                     </div>
                                 </fieldset>
+
+
+                                <!--start Recommended Countries-->
+                                <h3 class="">Recommended Countries</h3>
+                                <fieldset class="recommendedCountries" style="width:100%">
+
+                                    <div id="rec" class="wizard-tab-content row animate slideInLeft">
+                                        <div class="inner col-lg-12" id="">
+                                            <div class="col-lg-10 left-side align-center-block">
+                                                <div class="inner" style="padding: 30px;">
+                                                    <div class="tittle-container">
+                                                        <h3 class="flow-tittle flow-tittle-override">
+                                                            <span class="iconTitle yDetailsIconTitle"></span> Recommended Countries :
+                                                        </h3>
+                                                    </div>
+                                                    <div class="rec-country">
+                                                        <div class="row">
+                                                            <div class="col-sm-4 col-xs-12">
+                                                                <div class="left-top first">
+                                                                    <div class="bestMatch">
+                                                                        <span class="bmatch">Best Match</span>
+                                                                    </div>
+                                                                    <img src="Images/Holland.jpg" id="counImg1" class="img1">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country1" href="#">Holland</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod1" class="trip-cost">
+                                                                        <a href="" class="choose">Choose</a>
+                                                                        <span class="details-button" id="count1"><a href="javascript:void(0)" click="func()" class="wrap">More Details</a></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="left-bottom second">
+                                                                    <img src="Images/Georgia.jpg" id="counImg2" class="img2">
+                                                                    <div class="country-item">
+                                                                        <h2>
+                                                                            <a id="country2" href="#">Georgia</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod2" class="trip-cost">
+                                                                        <a href="" class="choose">Choose</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap1">More Details</a></span>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4 col-xs-12">
+                                                                <div class="center-top third">
+                                                                    <img src="Images/Cambodia.jpg" style="height: 220px;" id="counImg3" class="img1">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country3" href="#">Cambodia</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod3" class="trip-cost">
+                                                                        <a href="" class="choose">Choose</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap2">More Details</a></span>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="center-bottom forth">
+                                                                    <img src="Images/France.jpg" id="counImg4" style="height:300px ;" class="img2">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country4" href="#">France</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod4" class="trip-cost">
+                                                                        <a href="" class="choose">Choose</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap3">More Details</a></span>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4 col-xs-12">
+                                                                <div class="right-top fifth">
+                                                                    <img src="Images/Cambodia.jpg" id="counImg5" class="img1">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country5" href="#">Cambodia</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod5" class="trip-cost">
+                                                                        <a href="" class="choose">Choose</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap4">More Details</a></span>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="right-bottom sixth">
+                                                                    <img src="Images/France.jpg" id="counImg6" class="img2">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country6" href="#">France</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod6" class="trip-cost">
+                                                                        <a href="" class="choose">Choose</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap5">More Details</a></span>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <!--end Recommended Countries-->
+
+
+
                                 <h3 class="">Your Details</h3>
-                                <fieldset class="">
+                                <fieldset class="details">
                                     <div class="wizard-tab-content row animate slideInLeft">
                                         <div class="inner col-lg-12" id="fifth">
                                             <div class="col-lg-9 left-side align-center-block">
@@ -483,8 +664,8 @@
                                                                 <div class="budget">
                                                                     <h3 class="bold tittle">
                                                                         <span class="txt left">Budget</span>
-                                                                        <span class=" normal value" ng-bind="selectedBudgetCategory.name" ng-hide ="selectedBudgetCategory.name.includes('Own')"></span>
-                                                                        <span class=" normal value" ng-show ="selectedBudgetCategory.name.includes('Own')">{{myOwnBudget | currency:"egp ":0}}</span>
+                                                                        <span class=" normal value" ng-bind="selectedBudgetCategory.name" ng-hide="selectedBudgetCategory.name.includes('Own')"></span>
+                                                                        <span class=" normal value" ng-show="selectedBudgetCategory.name.includes('Own')">{{myOwnBudget | currency:"egp ":0}}</span>
 
                                                                     </h3>
                                                                 </div>
@@ -546,142 +727,150 @@
                                                 <img src="images/logo-checkout.png" />
                                             </div>
                                         </div>
-                                    
+
                                 </fieldset>
-                            </div>
+                                </div>
                         </form>
-                    </div>
-                </div>
-
-                <!-- Modal Structure -->
-                <div id="success-modal" class="modal modal-fixed-footer col-lg-5 col-sm-6 col-xs-10 no-bottom-margin" style="margin-bottom: 200px;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <img src="images/hand-icon.png" /> </div>
-                        <h3 class="bold thanks-msg">Thank You !</h3>
-                        <div class="progress" ng-show="submitting == true">
-                            <div class="indeterminate"></div>
                         </div>
-                        <p class="bold req-num-msg" ng-show="submitting == true">Your request is being sent to Tripdizer</p>
-
-                        <p class="bold req-num-msg" ng-show="submitting == false && submittingError == false">Your Request Number is</p>
-                        <p class="bold req-num" ng-show="submitting == false && submittingError == false">{{requestNumber}}</p>
-                        <p class="contact-msg" ng-show="submitting == false && submittingError == false">The best offer will come to you in less than 48 hours*</p>
-                        <p class="contact-msg" style="font-size: 10px;" ng-show="request.estimatedCost">* The costs are estimates and subject to change in the actual package</p>
-
-                        <p class="bold req-num-msg" ng-show="submitting == false && submittingError == true">Oops. This is embarrasing ...</p>
-                        <p class="req-num-msg" ng-show="submitting == false && submittingError == true">Tripdizer is experiencing some problems. We're now aware of them and will get them fixed right away</p>
                     </div>
-                    <div class="modal-footer">
-                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="okButtonClickedOnSubmitModal();">Ok</a>
-                    </div>
-                </div>
-                <div id="costEstimationModal" class="modal bottom-sheet">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat right" style="    height: inherit; line-height: inherit; padding: 0 0.5rem">X</a>
-                    <div class="modal-content">
-                        <div class="row">
-                            <div class="col-lg-3 col-sm-12 noPadding">
-                                <h4 class="budget-estimation-title">{{costEstimation.iternaryName}}</h4>
+
+                    <!-- Modal Structure -->
+                    <div id="success-modal" class="modal modal-fixed-footer col-lg-5 col-sm-6 col-xs-10 no-bottom-margin" style="margin-bottom: 200px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <img src="images/hand-icon.png" /> </div>
+                            <h3 class="bold thanks-msg">Thank You !</h3>
+                            <div class="progress" ng-show="submitting == true">
+                                <div class="indeterminate"></div>
                             </div>
-                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
-                                <h4 class="budget-estimation-title">{{travelersStatement}}</h4>
-                            </div>
-                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
-                                <h4 class="budget-estimation-title">{{nightsStatement}}</h4>
-                            </div>
-                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
-                                <h4 class="budget-estimation-title">{{costEstimation.totalBudget| currency:"egp ":0}}</h4>
-                            </div>
+                            <p class="bold req-num-msg" ng-show="submitting == true">Your request is being sent to Tripdizer</p>
+
+                            <p class="bold req-num-msg" ng-show="submitting == false && submittingError == false">Your Request Number is</p>
+                            <p class="bold req-num" ng-show="submitting == false && submittingError == false">{{requestNumber}}</p>
+                            <p class="contact-msg" ng-show="submitting == false && submittingError == false">The best offer will come to you in less than 48 hours*</p>
+                            <p class="contact-msg" style="font-size: 10px;" ng-show="request.estimatedCost">* The costs are estimates and subject to change in the actual package</p>
+
+                            <p class="bold req-num-msg" ng-show="submitting == false && submittingError == true">Oops. This is embarrasing ...</p>
+                            <p class="req-num-msg" ng-show="submitting == false && submittingError == true">Tripdizer is experiencing some problems. We're now aware of them and will get them fixed right away</p>
                         </div>
-                       <div class="row">
-                            <div class="col-lg-12 noPadding" ng-show = "calculatingBudget == true">
-                                <div class="progress">
-                                    <div class="indeterminate"></div>
+                        <div class="modal-footer">
+                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="okButtonClickedOnSubmitModal();">Ok</a>
+                        </div>
+                    </div>
+                    <div id="costEstimationModal" class="modal bottom-sheet">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat right" style="    height: inherit; line-height: inherit; padding: 0 0.5rem">X</a>
+                        <div class="modal-content">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-12 noPadding">
+                                    <h4 class="budget-estimation-title">{{costEstimation.iternaryName}}</h4>
+                                </div>
+                                <div class="col-lg-3 col-sm-12 noPadding" ng-show="calculatingBudget == false">
+                                    <h4 class="budget-estimation-title">{{travelersStatement}}</h4>
+                                </div>
+                                <div class="col-lg-3 col-sm-12 noPadding" ng-show="calculatingBudget == false">
+                                    <h4 class="budget-estimation-title">{{nightsStatement}}</h4>
+                                </div>
+                                <div class="col-lg-3 col-sm-12 noPadding" ng-show="calculatingBudget == false">
+                                    <h4 class="budget-estimation-title">{{costEstimation.totalBudget| currency:"egp ":0}}</h4>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == true">
-                                <p> Please wait while tripdizer does its magic !</p>
-                            </div>
-                            <h2  ng-show = "calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;">
-                                <span style="background:#fff; padding:0 10px; color: grey;">Cost Breakdown</span>
-                                
-                            </h2>
-                            <p class="contact-msg" style="font-size: 10px;">The costs are estimates and subject to change in the actual package</p>
-                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
-                               <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>Flights: {{costEstimation.flightsBudget| currency:"egp ":0}} *
-                            </div>
-                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
-                               <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image"/>Accomodation: {{costEstimation.accomodationBudget| currency:"egp ":0}}
-                            </div>
-                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false && costEstimation.ferriesBudget > 0">
-                               <img src="images/cost-estimation/ferries.png" class="budget-estimation-image"/>Ferries: {{costEstimation.ferriesBudget| currency:"egp ":0}}
-                            </div>
-                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
-                                <span class="badge green" style="color: white;">Hint</span>
-                               <img src="images/cost-estimation/daily-spendings.png" class="budget-estimation-image"/>
-                               <span>Daily Spendings: {{costEstimation.dailySpendings| currency:"egp ":0}} **</span>
-                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 noPadding" ng-show="calculatingBudget == true">
+                                    <div class="progress">
+                                        <div class="indeterminate"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == true">
+                                    <p> Please wait while tripdizer does its magic !</p>
+                                </div>
+                                <h2 ng-show="calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;">
+                                    <span style="background:#fff; padding:0 10px; color: grey;">Cost Breakdown</span>
 
+                                </h2>
+                                <p class="contact-msg" style="font-size: 10px;">The costs are estimates and subject to change in the actual package</p>
+                                <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
+                                    <img src="images/cost-estimation/flights.png" class="budget-estimation-image" />Flights: {{costEstimation.flightsBudget| currency:"egp ":0}} *
+                                </div>
+                                <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
+                                    <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image" />Accomodation: {{costEstimation.accomodationBudget| currency:"egp ":0}}
+                                </div>
+                                <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false && costEstimation.ferriesBudget > 0">
+                                    <img src="images/cost-estimation/ferries.png" class="budget-estimation-image" />Ferries: {{costEstimation.ferriesBudget| currency:"egp ":0}}
+                                </div>
+                                <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
+                                    <span class="badge green" style="color: white;">Hint</span>
+                                    <img src="images/cost-estimation/daily-spendings.png" class="budget-estimation-image" />
+                                    <span>Daily Spendings: {{costEstimation.dailySpendings| currency:"egp ":0}} **</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+
+                            <p ng-show="calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">* International + Domestic flights</p>
+                            <p ng-show="calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">** Just a hint, not included in the final cost</p>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                      
-                            <p ng-show = "calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">* International + Domestic flights</p>
-                            <p ng-show = "calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">** Just a hint, not included in the final cost</p>
-                    </div>
-                  </div>
             </section>
         </main>
-    </div>
-    <!-- Global Mailform Output-->
-    <div id="form-output-global" class="snackbars"></div>
-    <!-- Budget Modal Structure -->
-  
-    <!-- Java script-->
-    <script src="js/core.min.js"></script>
-    <script src="js/script.js"></script>
+        </div>
+        <!-- Global Mailform Output-->
+        <div id="form-output-global" class="snackbars"></div>
+        <!-- Budget Modal Structure -->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.validate.js"></script>
-    <script src="js/owl.carousel.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/materialize.min.js"></script>
-    <script src="js/wizard-control.js"></script>
-    <script src="js/jquery.steps.js"></script>
-    <script src="js/actions.js"></script>
-    <script src="js/ranger.js"></script>
-    <script src="js/menu.js"></script>
-    <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>-->
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8240g5AUl2JKdl2R8ujG1M_7C-RNkiCg"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcEbRjYjOIMp9CHdO6VJiB3PQFNOtUbBA&v=3.exp"></script>
-    <script src="application/TripdizerApplication.js"></script>
-    <script src="application/ReservationController.js"></script>
-    <!-- <script src="http://maps.google.com/maps/api/js?v=3.22&sensor=true&libraries=places&callback=initMap"></script> -->
-    <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        <!-- Java script-->
+        <script src="js/core.min.js"></script>
+        <script src="js/script.js"></script>
 
-        ga('create', 'UA-106443087-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-    <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/5ada4045227d3d7edc242893/default';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-</script>
-<!--End of Tawk.to Script-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.validate.js"></script>
+        <script src="js/owl.carousel.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="js/wizard-control.js"></script>
+        <script src="js/jquery.steps.js"></script>
+        <script src="js/actions.js"></script>
+        <script src="js/ranger.js"></script>
+        <script src="js/menu.js"></script>
+        <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>-->
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8240g5AUl2JKdl2R8ujG1M_7C-RNkiCg"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcEbRjYjOIMp9CHdO6VJiB3PQFNOtUbBA&v=3.exp"></script>
+        <script src="application/TripdizerApplication.js"></script>
+        <script src="application/ReservationController.js"></script>
+        <!-- <script src="http://maps.google.com/maps/api/js?v=3.22&sensor=true&libraries=places&callback=initMap"></script> -->
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-106443087-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var Tawk_API = Tawk_API || {},
+                Tawk_LoadStart = new Date();
+            (function() {
+                var s1 = document.createElement("script"),
+                    s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/5ada4045227d3d7edc242893/default';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+                s0.parentNode.insertBefore(s1, s0);
+            })();
+        </script>
+        <!--End of Tawk.to Script-->
+        <script src="js/stepfive.js"></script>
 </body>
 
 </html>

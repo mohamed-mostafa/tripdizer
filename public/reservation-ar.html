@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="css/materialdesignicons.min.css">
 
     <link rel="stylesheet" href="//cdn.materialdesignicons.com/1.9.32/css/materialdesignicons.min.css">
-
+    <link href="css/stepfiveStyle-ar.css" rel="stylesheet">
     <!--[if lt IE 10]>
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
@@ -42,19 +42,27 @@
         option {
             direction: rtl
         }
-
+        
         @media (max-width: 670px) {
             span.form-description {
                 margin-top: 40px;
             }
         }
-
+        
         @media (max-width: 33px) {
             span.form-description {
                 margin-right: 0;
             }
         }
-
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .gray {
+            color: gray !important;
+        }
+        
         .menu {
             height: 320px;
             width: 230px;
@@ -63,7 +71,7 @@
             box-shadow: 3px 3px 3px #333;
             position: fixed;
         }
-
+        
         h5 {
             cursor: pointer;
             color: #fff;
@@ -78,14 +86,54 @@
 </head>
 
 <body ng-app="TripdizerApplication">
+    <!--Step Five [Recommended Countries Modal]-->
+    <!-- Modal -->
+
+    <div id="popup" class="popup pop " style="text-align: left">
+        <div class="top">
+            <h3 style="text-align: right">المزيد من التفاصيل</h3>
+            <hr>
+        </div>
+        <div class="row" style="height:100px;text-align: left">
+            <div class="col-sm-4">
+                <img id="imgSrc" src="">
+            </div>
+            <div class="col-sm-8 col-xs-12">
+                <h6 id="countryName" style="color:#b42b25;font-weight: 700;font-size: 16px; ">...</h6>
+                <b>توافق فصول السنة </b> <span style="color: #d95456;font-weight: 700;">عال</span>
+                <br>
+                <b>توافق الغرض </b>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                        <span class="sr-only">70% Complete</span>
+                    </div>
+                </div>
+                <br>
+                <b>توافق الفيزا </b><span style="color: #d95456; font-weight: 700;">متوافق</span>
+                <br>
+                <b>توافق الاهتمامات</b>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                        <span class="sr-only">70% Complete</span>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-top: 30px !important">
+            <span style="height: 1px"></span>
+            <p id="description" class="desc"></p>
+            <a href="javascropt:void(0)" class="btnModal btn btn-danger">موافق</a>
+        </div>
+
+    </div>
+
+    <!--Step Five [Recommended Countries Modal]-->
     <!-- Page-->
     <div class="page text-center">
         <!-- Page Head-->
         <header class="page-head slider-menu-position">
             <!-- RD Navbar Transparent-->
             <div class="rd-navbar-wrap">
-                <nav data-sm-layout="rd-navbar-static" data-sm-device-layout="rd-navbar-static" data-sm-auto-height="true" data-sm-stick-up="true"
-                    class="rd-navbar rd-navbar-default blackbg">
+                <nav data-sm-layout="rd-navbar-static" data-sm-device-layout="rd-navbar-static" data-sm-auto-height="true" data-sm-stick-up="true" class="rd-navbar rd-navbar-default blackbg">
                     <div class="rd-navbar-inner" style="padding-top: 10px;">
                         <!-- RD Navbar Panel-->
                         <div class="rd-navbar-panel">
@@ -129,19 +177,21 @@
                     <h5 class="two">معلومات الرحلة</h5>
                     <h5 class="three">اهتماماتك</h5>
                     <h5 class="four">مساعدة السفر</h5>
-                    <h5 class="five">التفاصيل</h5>
-                    <h5 class="six">التأكيد</h5>
+                    <h5 class="five" id="menu-step"> بلدان موصي بها</h5>
+                    <h5 class="six">التفاصيل</h5>
+                    <h5 class="seven">التأكيد</h5>
 
                 </div>
             </div>
         </header>
+
         <!-- Page Contents-->
         <main class="page-content">
             <!--Top Travel Tours-->
             <section id="home" ng-controller="ReservationController">
                 <div id="registerationflow" class="row col-lg-12 animated slideInDown">
                     <div class="col-lg-12 numeric-wizard-container noPadding">
-                        <form action="post" id="registrationForm">
+                        <form action="post" id="registrationForm" onclick="change()">
                             <div class="wizard-content-container" id="wizard">
                                 <h3 class="txt1">حدد وجهتك</h3>
 
@@ -180,9 +230,12 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="input-field col s11">
-                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="(selectedDestinations[0] === '-1')"
-                                                                        />
+                                                                        <input type="text" id="otherCountries" ng-model="selectedOtherDestinations" name="otherCountries" ng-show="(selectedDestinations[0] === '-1')" />
                                                                         <label for="otherCountries" style="direction:rtl">حدد بلدان اخري</label>
+                                                                    </div>
+                                                                    <div class="input-field col s11" style="text-align: right; overflow:  visible;">
+                                                                        <input type="checkbox" onclick="chk()" id="help" name="help">
+                                                                        <label for="help" class="">ساعدني في الاختيار<i class="fas fa-question-circle"></i></label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -202,7 +255,7 @@
                                 <fieldset class="">
                                     <div class="wizard-tab-content row animate slideInLeft">
                                         <div class="inner col-lg-12" id="second">
-                                            <div class="col-lg-9 left-side align-center-block">
+                                            <div class="col-lg-9 left-side align-center-block wizard-inner">
                                                 <div class="inner">
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
@@ -233,7 +286,7 @@
                                                                 </div>
                                                                 <div class="col-lg-4 col-sm-12 noPadding">
                                                                     <div class="input-field col s12">
-                                                                         <input type="checkbox" id="test5" ng-model="plusOrMinusThreeDays" />
+                                                                        <input type="checkbox" id="test5" ng-model="plusOrMinusThreeDays" />
                                                                         <label for="test5"> (تواريخ قابلة للتعديل (+/- ٣ أيام </label>
                                                                     </div>
                                                                 </div>
@@ -242,8 +295,7 @@
                                                                 <div class="col-lg-4 col-sm-4 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                        <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active right-aligned-text"
-                                                                            ng-change="invalidateEstimation()">
+                                                                        <input id="infants_number" name="infants_number" type="number" ng-model="numberOfInfants" class="active right-aligned-text" ng-change="invalidateEstimation()">
                                                                         <label for="infants_number" class="right-aligned-text">عدد الرضع</label>
                                                                     </div>
                                                                 </div>
@@ -257,8 +309,7 @@
                                                                 <div class="col-lg-4 col-sm-4 noPadding">
                                                                     <div class="input-field col s12">
                                                                         <i class="material-icons prefix glyphicon glyphicon-user"></i>
-                                                                        <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active right-aligned-text"
-                                                                            ng-change="invalidateEstimation()">
+                                                                        <input id="adults_number" name="adults_number" type="number" ng-model="numberOfAdults" class="active right-aligned-text" ng-change="invalidateEstimation()">
                                                                         <label for="adults_number" class="right-aligned-text">عدد البالغين</label>
                                                                     </div>
                                                                 </div>
@@ -280,8 +331,7 @@
                                                                         <label for="other_people_number">اخري</label>
                                                                     </div>
                                                                     <p ng-repeat="purpose in purposes.slice().reverse()">
-                                                                        <input name="purpose" type="radio" id="purpose-{{purpose.id}}" ng-click="selectPurpose(purpose)" ng-checked="$index === purposes.length - 1"
-                                                                        />
+                                                                        <input name="purpose" type="radio" id="purpose-{{purpose.id}}" ng-click="selectPurpose(purpose)" ng-checked="$index === purposes.length - 1" />
                                                                         <label for="purpose-{{purpose.id}}" class="left-aligned-text">{{purpose.name}}</label>
 
                                                                     </p>
@@ -295,25 +345,25 @@
                                                                         <label for="own_budget">أدخل ميزانيتك</label>
                                                                     </div>
                                                                     <p ng-repeat="budgetCategory in budgetCategories.slice().reverse()">
-                                                                        <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-hide = "($index === 1 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 0)" ng-click="selectBudgetCategory(budgetCategory)"
+                                                                        <input name="budgetCategory" type="radio" id="budgetCategory-{{budgetCategory.id}}" class="budget-options" ng-hide="($index === 1 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 0)" ng-click="selectBudgetCategory(budgetCategory)"
                                                                             ng-checked="$index === budgetCategories.length - 1" />
-                                                                        <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" ng-hide = "($index === 1 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 0)">{{budgetCategory.name}}</label>
+                                                                        <label for="budgetCategory-{{budgetCategory.id}}" title="{{budgetCategory.description}}" ng-hide="($index === 1 && showSuperEconomy == false) || (requestType == 'itineraries' && $index === 0)">{{budgetCategory.name}}</label>
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                             <div class="row right" ng-hide="selectedDestinations[0] === '-1'">
-                                                                    <div class="col-lg-4 col-sm-12 noPadding">
-                                                                        <a class="waves-effect waves-light btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse cost-estimation-button" ng-click="estimateCost();">قدر مصاريف رحلتي</a>
-                                                                    </div>
-                                                                    <div class="col-lg-8 col-sm-12 noPadding">
-                                                                        <p class="right bold small">
-                                                                            <span class="red-color">جديد ! </span>اضغط لتري تقدير مصاريف رحلتك
-                                                                        </p>
-                                                                        <p class="right bold small">
-                                                                            لقد اطلقنا للتو خدمة تقدير مصاريف الرحلات, لنساعدك علي تخطيط رحلتك
-                                                                        </p>
-                                                                    </div>
+                                                                <div class="col-lg-4 col-sm-12 noPadding">
+                                                                    <a class="waves-effect waves-light btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse cost-estimation-button" ng-click="estimateCost();">قدر مصاريف رحلتي</a>
                                                                 </div>
+                                                                <div class="col-lg-8 col-sm-12 noPadding">
+                                                                    <p class="right bold small">
+                                                                        <span class="red-color">جديد ! </span>اضغط لتري تقدير مصاريف رحلتك
+                                                                    </p>
+                                                                    <p class="right bold small">
+                                                                        لقد اطلقنا للتو خدمة تقدير مصاريف الرحلات, لنساعدك علي تخطيط رحلتك
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -325,7 +375,7 @@
                                 <fieldset class="">
                                     <div class="wizard-tab-content row animate slideInLeft">
                                         <div class="inner col-lg-12" id="third">
-                                            <div class="col-lg-9 left-side align-center-block">
+                                            <div class="col-lg-9 left-side align-center-block wizard-inner">
                                                 <div class="inner">
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
@@ -336,14 +386,14 @@
                                                     <div class="row">
                                                         <span class="form-description">أخبرنا عن أكثر الأنشطة التي تحبها</span>
                                                         <div class="row" ng-repeat="interest in interests">
-                                                            <main class="row col-lg-12 sliders-row">
-                                                                <div class="col-lg-3 col-sm-4 noPadding right">
+                                                            <main class="row col-md-12 sliders-row">
+                                                                <div class="col-md-3   noPadding right">
                                                                     <h3 class="range-tittle">
-                                                                        <img src="images/{{interest.en_name}}.png" class="horizontally-flipped-image"/>
+                                                                        <img src="images/{{interest.en_name}}.png" class="horizontally-flipped-image" />
                                                                         <span>{{interest.name}}: {{interest.percent || 0}}%</span>
                                                                     </h3>
                                                                 </div>
-                                                                <div class="col-lg-9 col-sm-8 noPadding right">
+                                                                <div class="col-md-9 col-xs-12 noPadding right">
                                                                     <fieldset>
                                                                         <div class="range">
                                                                             <input name="range-{{interest.id}}" type="range" min="0" max="100" value="0" ng-model="interest.percent">
@@ -359,10 +409,10 @@
                                     </div>
                                 </fieldset>
                                 <h3 class="">مساعدة السفر</h3>
-                                <fieldset class="">
+                                <fieldset class="travel">
                                     <div class="wizard-tab-content row animate slideInLeft">
                                         <div class="inner col-lg-12" id="forth">
-                                            <div class="col-lg-9 left-side align-center-block">
+                                            <div class="col-lg-9 left-side align-center-block wizard-inner">
                                                 <div class="inner">
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
@@ -390,8 +440,7 @@
                                                                 <br>
                                                                 <div class="col-lg-12 col-sm-12 " style="margin-top:20px">
                                                                     <label for="specialRequests" class=" specialRequests" style="margin-top:20px">طلبات خاصة</label>
-                                                                    <textarea class="specialRequestsTextArea fullWidth" id="specialRequests" name="specialRequests" ng-model="specialRequests"
-                                                                        placeholder="مثال  فيلا خاصة،  مدرب الغوص ، ... الخ "></textarea>
+                                                                    <textarea class="specialRequestsTextArea fullWidth" id="specialRequests" name="specialRequests" ng-model="specialRequests" placeholder="مثال  فيلا خاصة،  مدرب الغوص ، ... الخ "></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -401,11 +450,132 @@
                                         </div>
                                     </div>
                                 </fieldset>
+
+                                <!--start Recommended Countries-->
+                                <h3 class="">بلدان موصي بها</h3>
+                                <fieldset class="recommendedCountries" style="width:100%">
+
+                                    <div id="rec" class="wizard-tab-content row animate slideInLeft">
+                                        <div class="inner col-lg-12" id="">
+                                            <div class="col-lg-10 left-side align-center-block">
+                                                <div class="inner" style="padding: 30px;">
+                                                    <div class="tittle-container">
+                                                        <h3 class="flow-tittle flow-tittle-override">
+                                                            <span class="iconTitle yDetailsIconTitle"></span>بلدان موصي بها :
+                                                        </h3>
+                                                    </div>
+                                                    <div class="rec-country">
+                                                        <div class="row reverse">
+                                                            <div class="col-sm-4 col-xs-12">
+                                                                <div class="right-top fifth">
+                                                                    <img src="Images/Cambodia.jpg" id="counImg5" class="img1">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country5" href="#">كمبوديا</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod5" class="trip-cost">
+                                                                        <a href="" class="choose">اختيار</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap4">تفاصيل اكثر</a></span>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="right-bottom sixth">
+                                                                    <img src="Images/France.jpg" id="counImg6" class="img2">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country6" href="#">فرنسا</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod6" class="trip-cost">
+                                                                        <a href="" class="choose">اختيار</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap5">تفاصيل اكثر</a></span>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-sm-4 col-xs-12">
+                                                                <div class="center-top third">
+                                                                    <img src="Images/Cambodia.jpg" style="height: 220px;" id="counImg3" class="img1">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country3" href="#">كمبوديا</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod3" class="trip-cost">
+                                                                        <a href="" class="choose">اختيار</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap2">تفاصيل اكثر</a></span>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="center-bottom forth">
+                                                                    <img src="Images/France.jpg" id="counImg4" style="height:300px ;" class="img2">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country4" href="#">فرنسا</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod4" class="trip-cost">
+                                                                        <a href="" class="choose">اختيار</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap3">تفاصيل اكثر</a></span>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4 col-xs-12">
+                                                                <div class="left-top first">
+                                                                    <div class="bestMatch">
+                                                                        <span class="bmatch">افضل اختيار</span>
+                                                                    </div>
+                                                                    <img src="Images/Holland.jpg" id="counImg1" class="img1">
+                                                                    <div class="country-item">
+                                                                        <h2 class="">
+                                                                            <a id="country1" href="#">هولاندا</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod1" class="trip-cost">
+                                                                        <a href="" class="choose">اختيار</a>
+                                                                        <span class="details-button" id="count1"><a href="javascript:void(0)" click="func()" class="wrap">تفاصيل أكثر</a></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="left-bottom second">
+                                                                    <img src="Images/Georgia.jpg" id="counImg2" class="img2">
+                                                                    <div class="country-item">
+                                                                        <h2>
+                                                                            <a id="country2" href="#">جورجيا</a>
+                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div id="prod2" class="trip-cost">
+                                                                        <a href="" class="choose">اختيار</a>
+                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap1">تفاصيل اكثر</a></span>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <!--end Recommended Countries-->
+
+
+
                                 <h3 class="">التفاصيل</h3>
-                                <fieldset class="">
+                                <fieldset class="details">
                                     <div class="wizard-tab-content row animate slideInLeft">
                                         <div class="inner col-lg-12" id="fifth">
-                                            <div class="col-lg-9 left-side align-center-block">
+                                            <div class="col-lg-9 left-side align-center-block wizard-inner">
                                                 <div class="inner">
                                                     <div class="tittle-container">
                                                         <h3 class="flow-tittle flow-tittle-override">
@@ -493,8 +663,8 @@
                                                                 </div>
                                                                 <div class="budget">
                                                                     <h3 class="bold tittle">
-                                                                        <span class="  bold tripdizer-red value" ng-bind="selectedBudgetCategory.name" ng-hide ="selectedBudgetCategory.name.includes('خاص')"></span>
-                                                                        <span class="  bold tripdizer-red value" ng-show ="selectedBudgetCategory.name.includes('خاص')">{{myOwnBudget | currency:"ج.م. ":0}}</span>
+                                                                        <span class="  bold tripdizer-red value" ng-bind="selectedBudgetCategory.name" ng-hide="selectedBudgetCategory.name.includes('خاص')"></span>
+                                                                        <span class="  bold tripdizer-red value" ng-show="selectedBudgetCategory.name.includes('خاص')">{{myOwnBudget | currency:"ج.م. ":0}}</span>
                                                                         <span class="txt ">الميزانية</span>
                                                                     </h3>
                                                                 </div>
@@ -544,7 +714,7 @@
                                                                     <h3 class="bold tittle" style="text-align: right; margin-right: 30px;" ng-repeat="interest in interests">
                                                                         <span class=" bold tripdizer-red value" style="direction: rtl;">{{interest.percent || 0}} %</span>
                                                                         <span class="txt" style="margin-right: 10px;">{{interest.name}}</span>
-                                                                        
+
                                                                     </h3>
                                                                 </div>
                                                             </div>
@@ -592,101 +762,110 @@
                             <div class="col-lg-3 col-sm-12 noPadding">
                                 <h4 class="budget-estimation-title">{{costEstimation.iternaryArabicName}}</h4>
                             </div>
-                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show="calculatingBudget == false">
                                 <h4 class="budget-estimation-title">{{travelersStatement}}
                                 </h4>
                             </div>
-                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show="calculatingBudget == false">
                                 <h4 class="budget-estimation-title"> {{nightsStatement}} </h4>
                             </div>
-                            <div class="col-lg-3 col-sm-12 noPadding" ng-show = "calculatingBudget == false">
+                            <div class="col-lg-3 col-sm-12 noPadding" ng-show="calculatingBudget == false">
                                 <h4 class="budget-estimation-title"> {{costEstimation.totalBudget| currency:"ج.م ":0}} </h4>
                             </div>
                         </div>
-                       <div class="row">
-                            <div class="col-lg-12 noPadding" ng-show = "calculatingBudget == true">
+                        <div class="row">
+                            <div class="col-lg-12 noPadding" ng-show="calculatingBudget == true">
                                 <div class="progress">
                                     <div class="indeterminate"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == true">
+                            <div class="col-lg-12 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == true">
                                 <p> انتظر حتي نقوم بالتقدير</p>
                             </div>
-                            <h2  ng-show = "calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#fff; padding:0 10px; color: grey;">التفاصيل</span></h2>
+                            <h2 ng-show="calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#fff; padding:0 10px; color: grey;">التفاصيل</span></h2>
                             <p class="contact-msg" style="font-size: 10px;">هذه التكاليف تقديرية و قد تتغير في تكاليف الرحلة النهائية</p>
-                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
-                              <span>الطيران: {{costEstimation.flightsBudget| currency:"ج.م ":0}} *</span>
-                               <img src="images/cost-estimation/flights.png" class="budget-estimation-image"/>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
+                                <span>الطيران: {{costEstimation.flightsBudget| currency:"ج.م ":0}} *</span>
+                                <img src="images/cost-estimation/flights.png" class="budget-estimation-image" />
                             </div>
-                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
-                              <span> الاقامة:  {{costEstimation.accomodationBudget| currency:"ج.م ":0}} </span>
-                               <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image"/>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
+                                <span> الاقامة:  {{costEstimation.accomodationBudget| currency:"ج.م ":0}} </span>
+                                <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image" />
                             </div>
-                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false && costEstimation.ferriesBudget > 0">
-                              <span>التنقلات البحرية: {{costEstimation.ferriesBudget| currency:"ج.م ":0}} </span>
-                               <img src="images/cost-estimation/ferries.png" class="budget-estimation-image"/>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false && costEstimation.ferriesBudget > 0">
+                                <span>التنقلات البحرية: {{costEstimation.ferriesBudget| currency:"ج.م ":0}} </span>
+                                <img src="images/cost-estimation/ferries.png" class="budget-estimation-image" />
                             </div>
-                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show = "calculatingBudget == false">
-                                
-                               <span>المصاريف اليومية: {{costEstimation.dailySpendings| currency:"ج.م ":0}} ** </span>
+                            <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
+
+                                <span>المصاريف اليومية: {{costEstimation.dailySpendings| currency:"ج.م ":0}} ** </span>
                                 <img src="images/cost-estimation/daily-spendings.png" class="budget-estimation-image"><span class="badge green" style="color: white;">معلومة</span></img>
                             </div>
                         </div>
                         <div class="modal-footer">
-                      
-                            <p ng-show = "calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">طيران دولي و داخلي *</p>
-                            <p ng-show = "calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">مجرد معلومةز ليست محتسبة مع القيمة النهائية ** </p>
-                    </div>
+
+                            <p ng-show="calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">طيران دولي و داخلي *</p>
+                            <p ng-show="calculatingBudget == false" style="background:#fff; padding:0 10px; color: grey;">مجرد معلومةز ليست محتسبة مع القيمة النهائية ** </p>
+                        </div>
                     </div>
             </section>
         </main>
-    </div>
-    <!-- Global Mailform Output-->
-    <div id="form-output-global" class="snackbars"></div>
-    <!-- Java script-->
-    <script src="js/core.min.js"></script>
-    <script src="js/script-ar.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.validate-ar.js"></script>
-    <script src="js/owl.carousel.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/materialize.min.js"></script>
-    <script src="js/wizard-control-ar.js"></script>
-    <script src="js/jquery.steps-ar.js"></script>
-    <script src="js/actions-ar.js"></script>
-    <script src="js/ranger-ar.js"></script>
-    <script src="js/menu-ar.js"></script>
-    <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>-->
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8240g5AUl2JKdl2R8ujG1M_7C-RNkiCg"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcEbRjYjOIMp9CHdO6VJiB3PQFNOtUbBA&v=3.exp"></script>
-    <script src="application/TripdizerApplication.js"></script>
-    <script src="application/ReservationController-ar.js"></script>
-    <!-- <script src="http://maps.google.com/maps/api/js?v=3.22&sensor=true&libraries=places&callback=initMap"></script> -->
-    <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        </div>
+        <!-- Global Mailform Output-->
+        <div id="form-output-global" class="snackbars"></div>
+        <!-- Java script-->
+        <script src="js/core.min.js"></script>
+        <script src="js/script-ar.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.validate-ar.js"></script>
+        <script src="js/owl.carousel.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="js/wizard-control-ar.js"></script>
+        <script src="js/jquery.steps-ar.js"></script>
+        <script src="js/actions-ar.js"></script>
+        <script src="js/ranger-ar.js"></script>
+        <script src="js/menu-ar.js"></script>
+        <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>-->
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8240g5AUl2JKdl2R8ujG1M_7C-RNkiCg"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcEbRjYjOIMp9CHdO6VJiB3PQFNOtUbBA&v=3.exp"></script>
+        <script src="application/TripdizerApplication.js"></script>
+        <script src="application/ReservationController-ar.js"></script>
+        <script src="js/stepfive-ar.js"></script>
 
-        ga('create', 'UA-106443087-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-    <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/5ada4045227d3d7edc242893/default';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-</script>
-<!--End of Tawk.to Script-->
+        <!-- <script src="http://maps.google.com/maps/api/js?v=3.22&sensor=true&libraries=places&callback=initMap"></script> -->
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-106443087-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var Tawk_API = Tawk_API || {},
+                Tawk_LoadStart = new Date();
+            (function() {
+                var s1 = document.createElement("script"),
+                    s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/5ada4045227d3d7edc242893/default';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+                s0.parentNode.insertBefore(s1, s0);
+            })();
+        </script>
+        <!--End of Tawk.to Script-->
 </body>
 
 </html>
