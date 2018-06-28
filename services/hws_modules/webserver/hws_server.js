@@ -47,7 +47,7 @@ var start = function () {
 	app.post('/request/statuses/sendmails', auth.isAuthenticated, requestsInterface.sendMailsToRequestTraveler);
 	app.post('/request/status', auth.isAuthenticated, requestsInterface.changeRequestStatus);
 	app.post('/request/budgetcalc', requestsInterface.budgetCalculation);
-	app.post('/request/recommendation', auth.isAuthenticated, requestsInterface.recommendation);
+	app.post('/request/recommendation', requestsInterface.recommendation);
 
 	// 		set status
 	app.post('/request/status/placed', auth.isAuthenticated, requestsInterface.markRequestPlaced);
