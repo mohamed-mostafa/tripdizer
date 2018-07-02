@@ -86,45 +86,6 @@
 </head>
 
 <body ng-app="TripdizerApplication">
-    <!--Step Five [Recommended Countries Modal]-->
-    <!-- Modal -->
-
-    <div id="popup" class="popup pop " style="text-align: left">
-        <div class="top">
-            <h3 style="text-align: right">المزيد من التفاصيل</h3>
-            <hr>
-        </div>
-        <div class="row" style="height:100px;text-align: left">
-            <div class="col-sm-4">
-                <img id="imgSrc" src="">
-            </div>
-            <div class="col-sm-8 col-xs-12">
-                <h6 id="countryName" style="color:#b42b25;font-weight: 700;font-size: 16px; ">...</h6>
-                <b>توافق فصول السنة </b> <span style="color: #d95456;font-weight: 700;">عال</span>
-                <br>
-                <b>توافق الغرض </b>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                        <span class="sr-only">70% Complete</span>
-                    </div>
-                </div>
-                <br>
-                <b>توافق الفيزا </b><span style="color: #d95456; font-weight: 700;">متوافق</span>
-                <br>
-                <b>توافق الاهتمامات</b>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                        <span class="sr-only">70% Complete</span>
-                    </div>
-                </div>
-            </div>
-            <hr style="margin-top: 30px !important">
-            <span style="height: 1px"></span>
-            <p id="description" class="desc"></p>
-            <a href="javascropt:void(0)" class="btnModal btn btn-danger">موافق</a>
-        </div>
-
-    </div>
 
     <!--Step Five [Recommended Countries Modal]-->
     <!-- Page-->
@@ -189,6 +150,45 @@
         <main class="page-content">
             <!--Top Travel Tours-->
             <section id="home" ng-controller="ReservationController">
+                <!--Step Five [Recommended Countries Modal]-->
+                <!-- Modal -->
+            
+                <div id="popup" class="popup pop " style="text-align: left">
+                    <div class="top">
+                        <h3 style="text-align: right">المزيد من التفاصيل</h3>
+                        <hr>
+                    </div>
+                    <div class="row" style="height:100px;text-align: left">
+                        <div class="col-sm-4">
+                            <img id="imgSrc" src="{{recommendedItinerary.image1}}">
+                        </div>
+                        <div class="col-sm-8 col-xs-12">
+                            <h6 id="countryName" style="color:#b42b25;font-weight: 700;font-size: 16px; ">{{recommendedItinerary.arName}}</h6>
+                            <b>توافق فصول السنة </b> <span style="color: #d95456;font-weight: 700;">{{recommendedItinerary.recommendationRanks.season > 50 ? 'عال' : 'منخفض'}}</span>
+                            <br>
+                            <b>توافق الغرض </b>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{recommendedItinerary.recommendationRanks.purpose}}" aria-valuemin="0" aria-valuemax="100" style="width:{{recommendedItinerary.recommendationRanks.purpose}}%">
+                                    <span class="sr-only">{{recommendedItinerary.recommendationRanks.purpose}}% Complete</span>
+                                </div>
+                            </div>
+                            <br>
+                            <b>توافق الفيزا </b><span style="color: #d95456; font-weight: 700;">{{recommendedItinerary.recommendationRanks.needsVisa > 50 ? 'متوافق' : 'غير متوافق'}}</span>
+                            <br>
+                            <b>توافق الاهتمامات</b>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{recommendedItinerary.recommendationRanks.interest}}" aria-valuemin="0" aria-valuemax="100" style="width:{{recommendedItinerary.recommendationRanks.interest}}%">
+                                    <span class="sr-only">{{recommendedItinerary.recommendationRanks.interest}}% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="margin-top: 30px !important">
+                        <span style="height: 1px"></span>
+                        <p id="description" class="desc"></p>
+                        <a href="javascropt:void(0)" class="btnModal btn btn-danger">موافق</a>
+                    </div>
+            
+                </div>
                 <div id="registerationflow" class="row col-lg-12 animated slideInDown">
                     <div class="col-lg-12 numeric-wizard-container noPadding">
                         <form action="post" id="registrationForm" onclick="change()">
@@ -234,7 +234,7 @@
                                                                         <label for="otherCountries" style="direction:rtl">حدد بلدان اخري</label>
                                                                     </div>
                                                                     <div class="input-field col s11" style="text-align: right; overflow:  visible;">
-                                                                        <input type="checkbox" onclick="chk()" id="help" name="help">
+                                                                        <input type="checkbox" ng-model="request.helpMeDecide" ng-change="helpMeDecide()" onclick="chk()" id="help" name="help">
                                                                         <label for="help" class="">ساعدني في الاختيار<i class="fas fa-question-circle"></i></label>
                                                                     </div>
                                                                 </div>
@@ -351,7 +351,7 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            <div class="row right" ng-hide="selectedDestinations[0] === '-1'">
+                                                            <div class="row right" ng-hide="request.helpMeDecide || selectedDestinations[0] === '-1'">
                                                                 <div class="col-lg-4 col-sm-12 noPadding">
                                                                     <a class="waves-effect waves-light btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse cost-estimation-button" ng-click="estimateCost();">قدر مصاريف رحلتي</a>
                                                                 </div>
@@ -466,97 +466,22 @@
                                                     </div>
                                                     <div class="rec-country">
                                                         <div class="row reverse">
-                                                            <div class="col-sm-4 col-xs-12">
-                                                                <div class="right-top fifth">
-                                                                    <img src="Images/Cambodia.jpg" id="counImg5" class="img1">
-                                                                    <div class="country-item">
-                                                                        <h2 class="">
-                                                                            <a id="country5" href="#">كمبوديا</a>
-                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div id="prod5" class="trip-cost">
-                                                                        <a href="" class="choose">اختيار</a>
-                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap4">تفاصيل اكثر</a></span>
-                                                                    </div>
-
+                                                            <div class="col-sm-4 col-xs-12 recommended-itinerary" ng-repeat="itinerary in recommendedItineraries">
+                                                                <div class="bestMatch" ng-show="$first">
+                                                                    <span class="bmatch">افضل اختيار</span>
                                                                 </div>
-                                                                <div class="right-bottom sixth">
-                                                                    <img src="Images/France.jpg" id="counImg6" class="img2">
-                                                                    <div class="country-item">
-                                                                        <h2 class="">
-                                                                            <a id="country6" href="#">فرنسا</a>
-                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div id="prod6" class="trip-cost">
-                                                                        <a href="" class="choose">اختيار</a>
-                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap5">تفاصيل اكثر</a></span>
-                                                                    </div>
-
+                                                                <img src="{{itinerary.image1}}" class="itinerary-img">
+                                                                <div class="country-item">
+                                                                    <h2 class="">
+                                                                        <a id="itinerary-id-{{itinerary.id}}" href="#">{{itinerary.arName}}</a>
+                                                                        <span style="float: left">{{itinerary.estimatedCost | currency:'ج.م. ':'0'}}</span>
+                                                                    </h2>
                                                                 </div>
-
-                                                            </div>
-                                                            <div class="col-sm-4 col-xs-12">
-                                                                <div class="center-top third">
-                                                                    <img src="Images/Cambodia.jpg" style="height: 220px;" id="counImg3" class="img1">
-                                                                    <div class="country-item">
-                                                                        <h2 class="">
-                                                                            <a id="country3" href="#">كمبوديا</a>
-                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div id="prod3" class="trip-cost">
-                                                                        <a href="" class="choose">اختيار</a>
-                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap2">تفاصيل اكثر</a></span>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="center-bottom forth">
-                                                                    <img src="Images/France.jpg" id="counImg4" style="height:300px ;" class="img2">
-                                                                    <div class="country-item">
-                                                                        <h2 class="">
-                                                                            <a id="country4" href="#">فرنسا</a>
-                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div id="prod4" class="trip-cost">
-                                                                        <a href="" class="choose">اختيار</a>
-                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap3">تفاصيل اكثر</a></span>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-4 col-xs-12">
-                                                                <div class="left-top first">
-                                                                    <div class="bestMatch">
-                                                                        <span class="bmatch">افضل اختيار</span>
-                                                                    </div>
-                                                                    <img src="Images/Holland.jpg" id="counImg1" class="img1">
-                                                                    <div class="country-item">
-                                                                        <h2 class="">
-                                                                            <a id="country1" href="#">هولاندا</a>
-                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div id="prod1" class="trip-cost">
-                                                                        <a href="" class="choose">اختيار</a>
-                                                                        <span class="details-button" id="count1"><a href="javascript:void(0)" click="func()" class="wrap">تفاصيل أكثر</a></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="left-bottom second">
-                                                                    <img src="Images/Georgia.jpg" id="counImg2" class="img2">
-                                                                    <div class="country-item">
-                                                                        <h2>
-                                                                            <a id="country2" href="#">جورجيا</a>
-                                                                            <span style="position: relative; left: 15%;">17,000 LE</span>
-                                                                        </h2>
-                                                                    </div>
-                                                                    <div id="prod2" class="trip-cost">
-                                                                        <a href="" class="choose">اختيار</a>
-                                                                        <span class="details-button"><a href="javascript:void(0)" class="wrap1">تفاصيل اكثر</a></span>
-                                                                    </div>
-
+                                                                <div class="trip-cost">
+                                                                    <a href="" class="choose" ng-click="chooseRecommendedItinerary(itinerary.id)">اختيار</a>
+                                                                    <span class="details-button">
+                                                                        <a href="javascript:void(0)" ng-click="moreDetails(itinerary.id)">تفاصيل اكثر</a>
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -664,7 +589,7 @@
                                                                 <div class="budget">
                                                                     <h3 class="bold tittle">
                                                                         <span class="  bold tripdizer-red value" ng-bind="selectedBudgetCategory.name" ng-hide="selectedBudgetCategory.name.includes('خاص')"></span>
-                                                                        <span class="  bold tripdizer-red value" ng-show="selectedBudgetCategory.name.includes('خاص')">{{myOwnBudget | currency:"ج.م. ":0}}</span>
+                                                                        <span class="  bold tripdizer-red value" ng-show="selectedBudgetCategory.name.includes('خاص')">{{myOwnBudget | currency:'ج.م. ':'0'}}</span>
                                                                         <span class="txt ">الميزانية</span>
                                                                     </h3>
                                                                 </div>
@@ -770,7 +695,7 @@
                                 <h4 class="budget-estimation-title"> {{nightsStatement}} </h4>
                             </div>
                             <div class="col-lg-3 col-sm-12 noPadding" ng-show="calculatingBudget == false">
-                                <h4 class="budget-estimation-title"> {{costEstimation.totalBudget| currency:"ج.م ":0}} </h4>
+                                <h4 class="budget-estimation-title"> {{costEstimation.totalBudget | currency:'ج.م. ':'0'}} </h4>
                             </div>
                         </div>
                         <div class="row">
@@ -785,20 +710,20 @@
                             <h2 ng-show="calculatingBudget == false" style="font-size: 12px; font-weight: normal; width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#fff; padding:0 10px; color: grey;">التفاصيل</span></h2>
                             <p class="contact-msg" style="font-size: 10px;">هذه التكاليف تقديرية و قد تتغير في تكاليف الرحلة النهائية</p>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
-                                <span>الطيران: {{costEstimation.flightsBudget| currency:"ج.م ":0}} *</span>
+                                <span>الطيران: {{costEstimation.flightsBudget | currency:'ج.م. ':'0'}} *</span>
                                 <img src="images/cost-estimation/flights.png" class="budget-estimation-image" />
                             </div>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
-                                <span> الاقامة:  {{costEstimation.accomodationBudget| currency:"ج.م ":0}} </span>
+                                <span> الاقامة:  {{costEstimation.accomodationBudget | currency:'ج.م. ':'0'}} </span>
                                 <img src="images/cost-estimation/accomodations.png" class="budget-estimation-image" />
                             </div>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false && costEstimation.ferriesBudget > 0">
-                                <span>التنقلات البحرية: {{costEstimation.ferriesBudget| currency:"ج.م ":0}} </span>
+                                <span>التنقلات البحرية: {{costEstimation.ferriesBudget | currency:'ج.م. ':'0'}} </span>
                                 <img src="images/cost-estimation/ferries.png" class="budget-estimation-image" />
                             </div>
                             <div class="col-lg-4 col-sm-12 noPadding budget-estimation-text" ng-show="calculatingBudget == false">
 
-                                <span>المصاريف اليومية: {{costEstimation.dailySpendings| currency:"ج.م ":0}} ** </span>
+                                <span>المصاريف اليومية: {{costEstimation.dailySpendings | currency:'ج.م. ':'0'}} ** </span>
                                 <img src="images/cost-estimation/daily-spendings.png" class="budget-estimation-image"><span class="badge green" style="color: white;">معلومة</span></img>
                             </div>
                         </div>

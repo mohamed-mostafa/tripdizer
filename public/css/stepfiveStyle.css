@@ -3,21 +3,21 @@
         height: 300px;
         margin-bottom: 20px;
     }
-    
+
     .left-bottom,
     .right-bottom {
         height: 220px;
     }
-    
+
     .center-top {
         height: 220px;
         margin-bottom: 20px;
     }
-    
+
     .center-bottom {
         height: 300px;
     }
-    
+
     .bestMatch {
         position: absolute;
         left: 14px;
@@ -27,7 +27,7 @@
         width: 160px;
         height: 130px;
     }
-    
+
     .bmatch {
         position: absolute;
         top: 25px;
@@ -44,23 +44,27 @@
         left: -28px;
         box-shadow: 3px 3px #0000003b;
     }
-    
+
+    .itinerary-img {
+        width: 100%;
+    }
+
     .img1 {
         width: 100%;
         height: 300px
     }
-    
+
     .rec-country img {
         width: 100%
     }
-    
+
     .img2 {
         height: 220px;
         width: 100%;
         position: relative;
         margin-top: -29px
     }
-    
+
     .country-item {
         height: 40px;
         background: none repeat scroll 0 0 rgba(255, 255, 255, 0.43);
@@ -70,14 +74,14 @@
         width: 100%;
         bottom: 105px;
     }
-    
+
     .country-item h2 {
         Padding-top: 10px;
         margin-bottom: 10px;
         font-weight: 500;
         font-size: 16px;
     }
-    
+
     .country-item a {
         color: rgb(17, 17, 17);
         font-family: 'Raleway', sans-serif;
@@ -90,21 +94,17 @@
         font-size: 18px;
         left: 10px
     }
-    
+
     .country-item a:hover {
         color: #ff6b6b;
         text-decoration: none
     }
-    
+
     .country-item span {
-        float: left;
-        position: relative;
-        right: 0;
-        left: 120px;
         font-size: 18px;
         color: #000;
     }
-    
+
     .trip-cost {
         position: relative;
         height: 40px;
@@ -123,7 +123,7 @@
         width: 100%;
         bottom: 105px;
     }
-    
+
     .choose {
         background-repeat: no-repeat;
         background-position: 10px 8px;
@@ -146,7 +146,7 @@
         font-weight: bold;
         text-decoration: none;
     }
-    
+
     .details-button {
         width: 30%;
         border: medium none;
@@ -158,7 +158,7 @@
         position: relative;
         text-shadow: none;
     }
-    
+
     .details-button a {
         background: none repeat scroll 0 0 transparent;
         float: none;
@@ -166,7 +166,7 @@
         font-size: 12px;
         font-weight: bold;
         line-height: 39px;
-        padding: 1px 28px!important;
+        padding: 1px 28px !important;
         background-image: url(../images/list-icon.png);
         background-repeat: no-repeat;
         font-family: 'Verdana, Geneva, sans-serif';
@@ -174,32 +174,13 @@
         font-weight: bold;
         color: #fff
     }
-    
-    .first:hover #prod1 {
+
+    .recommended-itinerary:hover .trip-cost {
         opacity: 1;
     }
-    
-    .second:hover #prod2 {
-        opacity: 1;
-    }
-    
-    .third:hover #prod3 {
-        opacity: 1;
-    }
-    
-    .forth:hover #prod4 {
-        opacity: 1;
-    }
-    
-    .fifth:hover #prod5 {
-        opacity: 1;
-    }
-    
-    .sixth:hover #prod6 {
-        opacity: 1;
-    }
+
     /* Modal */
-    
+
     .progress {
         height: 12px;
         /* margin-bottom: 20px; */
@@ -215,14 +196,14 @@
         position: relative;
         top: 5px;
     }
-    
+
     .popup h5,
-    {
+        {
         color: #d44126;
         font-weight: 700;
         font-size: 16px;
     }
-    
+
     .progress-bar {
         float: left;
         width: 0;
@@ -238,18 +219,18 @@
         -o-transition: width .6s ease;
         transition: width .6s ease;
     }
-    
+
     .btnModal {
         padding: 4px 24px !important;
         color: #f5f5f5 !important;
         float: right;
         border: none !important;
     }
-    
+
     .btnModal:hover {
         color: #f5f5f5 !important;
     }
-    
+
     .pop {
         display: none;
         z-index: 1000;
@@ -267,7 +248,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
-    
+
     .p {
         padding: 10px;
         color: black;
@@ -281,25 +262,25 @@
         text-align: left;
         position: fixed;
     }
-    
+
     .mod {}
-    
+
     .pop img {
         width: 160px
     }
-    
+
     .pop h2 {
         font-family: 'Pathway Gothic One', sans-serif;
         font-size: 20px;
         color: #000;
         text-transform: uppercase;
     }
-    
+
     .pop h3 {
         margin-top: 10px;
         margin-bottom: 15px;
     }
-    
+
     .pop a {
         font-family: 'Pathway Gothic One', sans-serif;
         font-size: 16px;
@@ -308,12 +289,12 @@
         -webkit-transition: .25s ease;
         transition: .25s ease;
     }
-    
+
     #wrap a:hover,
     .pop a:hover {
         color: #b42b25;
     }
-    
+
     .btnModal {
         padding: 4px 24px !important;
         color: #f5f5f5 !important;
@@ -324,11 +305,11 @@
         border-color: #d43f3a;
         margin-bottom: 8px;
     }
-    
+
     .pop h3 {
         font-size: 1.4rem;
     }
-    
+
     @media (max-width: 760) {
         .pop img {
             display: none;
@@ -350,7 +331,7 @@
             opacity: .6;
         }
     }
-    
+
     @media (min-width: 860px) {
         .pop {
             text-align: left;
@@ -359,7 +340,7 @@
             right: 0;
         }
     }
-    
+
     @media (max-width: 1200px) {
         .pop {
             text-align: left;
@@ -371,7 +352,7 @@
             padding-top: 10%;
         }
     }
-    
+
     @media (max-width: 992px) {
         .progress {
             left: 0
@@ -394,7 +375,7 @@
             padding: 0 !important;
         }
     }
-    
+
     @media (max-width: 450px) {
         .progress {
             left: 0
@@ -426,7 +407,7 @@
             padding-top: 40px
         }
     }
-    
+
     @media (max-width: 760px) {
         .pop {
             text-align: left;
@@ -443,7 +424,7 @@
             opacity: .6;
         }
     }
-    
+
     @media (max-width: 350px) {
         .pop {
             max-width: 250px;
@@ -455,8 +436,9 @@
             margin-left: -78px;
         }
     }
+
     /* Check button  */
-    
+
     #help+label {
         left: -15% !important;
         position: relative;
@@ -466,7 +448,7 @@
         height: 50px;
         line-height: 25px;
     }
-    
+
     .fa-question-circle {
         font-size: 17px;
         color: #ff6b68;

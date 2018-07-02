@@ -45,6 +45,8 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			dateOfBirth: "",
 		}
 	};
+	$scope.recommendedItinerary = {};
+	$scope.recommendedItineraries = [];
 
 	$scope.departureDateChanged = function() {
 		var date = new Date($scope.selectedFrom);
@@ -344,6 +346,8 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			return 'VALID';
 		} if ($scope.selectedDestinations[0] === '-1') { // if selected destination is a country (not an iternary)
 			return 'VALID';
+		} if ($scope.request.helpMeDecide) {
+			return 'VALID';
 		} else {
 			return "يجب ان تقدر مصاريف رحلتك اولا";
 		}
@@ -388,5 +392,44 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		for (var i = 0, interests = $scope.interests; i < interests.length; ++i)
 			$scope.request.interests.push({ id: interests[i].id, percentage: interests[i].percent || 0 });
 	}
-
+	$scope.helpMeDecide = function () {
+		$scope.selectedDestinations = [];
+		delete $scope.request.first_country;
+		delete $scope.request.second_country;
+		delete $scope.request.third_country;
+		delete $scope.request.itinerary_id;
+		delete $scope.request.estimatedCost;
+		$scope.calculatingBudget = false;
+		$scope.costEstimation = null;
+		$scope.travelersStatement = "";
+		$scope.nightsStatement = "";
+		$scope.invalidateEstimation();
+	}
+	$scope.getRecommendedCountries = function () {
+		$scope.buildRequestObj();
+		$http.post($rootScope.serverURL + "/request/recommendation", { request: $scope.request }).success(function (response) {
+			$scope.recommendedItineraries = response;
+		}).error(function (err) {
+			console.log("Failed to submit request for recommendation: " + JSON.stringify(err));
+		});
+	}
+	$scope.moreDetails = function (itineraryId) {
+		for (let i = 0; i < $scope.recommendedItineraries.length; ++i) {
+			if ($scope.recommendedItineraries[i].id === itineraryId) {
+				$scope.recommendedItinerary = $scope.recommendedItineraries[i];
+			}
+		}
+		if ($scope.recommendedItinerary.id) {
+			$(".popup").fadeIn("fast", function () {});
+		}
+	}
+	$scope.chooseRecommendedItinerary = function (itineraryId) {
+		for (let i = 0; i < $scope.recommendedItineraries.length; ++i) {
+			if ($scope.recommendedItineraries[i].id === itineraryId) {
+				$scope.selectedFirstDestination = `i::${$scope.recommendedItineraries[i].id}`;
+				$scope.countryChanged();
+				$scope.request.estimatedCost = $scope.recommendedItineraries[i].estimatedCost;
+			}
+		}
+	}
 }]);

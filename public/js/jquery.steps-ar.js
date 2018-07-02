@@ -467,8 +467,12 @@ function goToNextStep(wizard, options, state)
         }
         else
             return paginationClick(wizard, options, state, increaseCurrentIndexBy(state, 1));
-    } else
+    } else {
+        if (state.currentIndex == 3) {
+            angular.element(document.getElementById('home')).scope().getRecommendedCountries();
+        }
         return paginationClick(wizard, options, state, increaseCurrentIndexBy(state, 1));
+    }
 }
 
 /**
