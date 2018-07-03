@@ -431,15 +431,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$('#collapseExpandBtn').trigger('click');
 		}
 	};
-	$scope.getAllUsers = function () {
-		$http.get($rootScope.serverURL + "/users").success(
-			function (response) {
-				$scope.users = response;
-			}
-		).error(function (err) {
-			$scope.users = [];
-		});
-	};
 	$scope.searchOrders = function () {
 		$scope.currentOrders = $scope.originalOrders;
 
@@ -717,7 +708,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	// refresh the numbers every 30 seconds
 	$scope.refreshContent(); // refresh once
-	$scope.getAllUsers();
 	$scope.total.title = [];
 	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title); // initialize by loading the 'New' orders
 	window.setInterval($scope.refreshContent, 30000); // set the timer

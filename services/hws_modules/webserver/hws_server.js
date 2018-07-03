@@ -57,11 +57,11 @@ var start = function () {
 	app.get('/request/package/:requestId', auth.isAuthenticated, requestsInterface.getPackage);
 
 	//		users
-	app.get('/users', auth.isAuthenticated, usersInterface.getAllUsers);
-	app.get('/users/active', auth.isAuthenticated, usersInterface.getAllActiveUsers);
+	app.get('/users', auth.isAuthenticatedAsAdmin, usersInterface.getAllUsers);
+	app.get('/users/active', auth.isAuthenticatedAsAdmin, usersInterface.getAllActiveUsers);
 	app.post('/user/login', usersInterface.loginUser);
-	app.put('/user', auth.isAuthenticated, usersInterface.createUser);
-	app.post('/user', auth.isAuthenticated, usersInterface.updateUser);
+	app.put('/user', auth.isAuthenticatedAsAdmin, usersInterface.createUser);
+	app.post('/user', auth.isAuthenticatedAsAdmin, usersInterface.updateUser);
 
 	//		partners
 	app.get('/partners', auth.isAuthenticated, partnersInterface.getAllPartners);
