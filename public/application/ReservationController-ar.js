@@ -56,13 +56,13 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	}
 
 	// functions
-	$scope.selectPurpose = function (purpose) {
+	$scope.selectPurpose = function (purpose, reportToTracking) {
 		$scope.selectedPurpose = purpose;
 
 		if (purpose.id == 5) { // honeymoon
 			// if super economy was selected, modify it to economy
 			if ($scope.selectedBudgetCategory.id == 2) {
-				$scope.selectBudgetCategory($scope.budgetCategories[2]);
+				$scope.selectBudgetCategory($scope.budgetCategories[2], false);
 				var economyElement = document.getElementById("budgetCategory-3"); // economy
 				economyElement.click();
 				$scope.invalidateEstimation();
@@ -72,10 +72,28 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			// show super economy
 			$scope.showSuperEconomy = true;
 		}
+
+		// facebook events
+		if (reportToTracking == true) {
+			fbq('track', 'ViewContent', {
+			  content_name: purpose.en_name,
+			  content_category: 'Travel Purpose',
+			  content_type: 'product_group'
+			});
+		}
 	},
-	$scope.selectBudgetCategory = function (budgetCategory) {
+	$scope.selectBudgetCategory = function (budgetCategory, reportToTracking) {
 		$scope.selectedBudgetCategory = budgetCategory;
 		$scope.invalidateEstimation();
+
+		// facebook events
+		if (reportToTracking == true) {
+			fbq('track', 'ViewContent', {
+			  content_name: budgetCategory.en_name,
+			  content_category: 'Budget Category',
+			  content_type: 'product_group'
+			});
+		}
 	},
 
 	$scope.getDestinations = function () {
@@ -132,6 +150,12 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			$scope.validateEstimation();
 		}
 		$scope.selectedDestinations[0] = $scope.selectedFirstDestination.split('::')[1];
+		// facebook events
+		fbq('track', 'ViewContent', {
+		  content_name: $scope.itineraries[$scope.selectedDestinations[0] - 1].en_name,
+		  content_category: 'Destinations',
+		  content_type: 'product'
+		});
 	}
 	$scope.removeSecondDestination = function () {
 		$scope.secondDestinationShown = false;
@@ -183,7 +207,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			$scope.submitting = false;
 			$scope.requestNumber = response.id;
 
-			$scope.reportSubmitButtonClicked();
+			$scope.reportSubmitButtonClicked($scope.requestNumber, $scope.request.number_of_adults, $scope.request.estimatedCost);
 
 		}).error(function (err) {
 			$scope.submitting = false;
@@ -237,12 +261,12 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 
 	PurposesService.getAll('AR').then(function (purposes) {
 		$scope.purposes = purposes;
-		$scope.selectPurpose($scope.purposes[0]);
+		$scope.selectPurpose($scope.purposes[0], false);
 	});
 
 	BudgetCategoriesService.getAll('AR').then(function (budgetCategories) {
 		$scope.budgetCategories = budgetCategories;
-		$scope.selectBudgetCategory($scope.budgetCategories[0]);
+		$scope.selectBudgetCategory($scope.budgetCategories[0], false);
 	});
 
 	InterestsService.getAll('AR').then(function (interests) {
@@ -339,22 +363,17 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 	};
 
 	$scope.invalidateEstimation = function() {
-	// $scope.invalidateEstimation = function(input) {
-	// 	if (input === 'kids') {
-	// 		if ($scope.numberOfKids > 0) {
-	// 			$scope.kidsAge = "سن الاطفال";
-	// 			for (let i = 0; i < $scope.numberOfKids; ++i) {
-	// 				$scope.kidsAge += "\nالطفل #" + (i + 1) + ": ";
-	// 			}
-	// 		} else $scope.kidsAge = "";
-	// 	}
 		$scope.lastEstimationValid = false;
+
+		// validate estimation again - REMOVE THIS AFTER MARKETING TEST
+		$scope.validateEstimation(); 
 	};
 	$scope.validateEstimation = function() {
 		$scope.lastEstimationValid = true;
 	};
 
-	$scope.lastEstimationValid = false;
+	$scope.lastEstimationValid = true;
+	$scope.invalidateEstimation();
 
 	$scope.validateUserEstimated = function() {
 		// if estimation is valid and selected destination is an iternary (not a country)
@@ -378,8 +397,17 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
             ga('send', 'pageview');
         }
 	};
-	$scope.reportSubmitButtonClicked = function() {
+	$scope.reportSubmitButtonClicked = function(requestId, numberOfAdults, estimatedCost) {
 		ga('send', 'event', 'Submit Button', 'Submit Request');
+		fbq('track', 'Purchase', {
+		    contents: [
+		        {
+		            id: requestId,
+		            quantity: numberOfAdults,
+		            item_price: estimatedCost
+		        }
+		    ],
+		  });
 	};
 	$scope.reportEstimateButtonClicked = function() {
 		ga('send', 'event', 'Estimate Button', 'Estimate Cost');
