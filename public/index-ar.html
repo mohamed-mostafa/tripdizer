@@ -191,30 +191,33 @@
                 و إيضاً المعروفة! إليكم بعض الأمثلة.</p>
             </div>
           </div>
-          
-            <div class="cell-xs-10 cell-sm-6 cell-md-3 offset-top-50 offset-sm-top-0">
+          <h5 ng-if="groupTrips.length <= 0">تابع رحلاتنا القادمة</h5>
+          <div ng-if="groupTrips.length > 0" class="range range-xs-center offset-top-50 offset-sm-top-0">
+            <div class="cell-xs-10 cell-sm-6 cell-md-3" ng-repeat="trip in groupTrips">
               <div class="product">
-                <!-- <span class="label bg-primary">جديد</span> -->
-               <!--  <img src="images/bali-yoga-retreat2.jpg" width="270" height="360" alt="" class="img-responsive"> -->
+                <span ng-if="trip.isNew" class="label bg-primary">جديد</span>
+                <img src="{{trip.image}}" width="270" height="360" alt="" class="img-responsive">
                 <div class="offset-top-10">
-                  <h5><a href="reservation-ar.html">تابع رحلاتنا القادمة</a></h5>
+                  <h5>{{trip.arDescription}}</h5>
                 </div>
-                <!-- <p class="medium">من 4 مايو 2018 الي 11 مايو 2018 </p>
-                <p class="small">الفيزا غير مطلوبة</p>
-                <p class="small">المجموعة 20 مسافر</p>
+                <p class="small">{{trip.arName}}</p>
+                <p class="medium">{{trip.departureDate | date: 'MMM dd, yyyy'}} الى {{trip.returnDate | date: 'MMM dd, yyyy'}}</p>
+                <p class="small">الفيزا {{trip.needsVisa ? '' : 'غير '}}مطلوبة</p>
+                <p class="small">المجموعة {{trip.numOfPersons}} مسافر</p>
                 <ul class="list-inline">
                   <li>
-                    <h6 class="text-bold text-darker">19,750 جنيه</h6>
+                    <h6 class="text-bold text-darker">{{trip.totalCost}} جنيه</h6>
                   </li>
                   <br>
                   <li>
-                    <a href="#" class="text-bold btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" onclick="openSubmitGroupTripRequestDialog('Indonesia', '04 May, 2018', '11 May, 2018')">سجل الأن</a>
+                    <a href="#" class="text-bold btn btn-primary btn-icon btn-icon-left btn-sm btn-ellipse" data-trip-id="{{trip.id}}" onclick="openSubmitGroupTripRequestDialog(this)">سجل الأن!</a>
                   </li>
                 </ul> -->
               </div>
             </div>
           </div>
-      </section>
+        </div>
+    </section>
       <!-- Videos -->
       <section class="section-relative section-90">
         <div class="shell">
@@ -519,11 +522,8 @@
   	        scrollTop: $("#upcomingGroupTripsSection").offset().top
   	    }, 2000);
   	});
-    function openSubmitGroupTripRequestDialog(destination, from, to) {
-      jQuery('input[name="trip"]').val(destination);
-      jQuery('input[name="from"]').val(new Date(from).toISOString().substring(0, 10));
-      jQuery('input[name="to"]').val(new Date(to).toISOString().substring(0, 10));
-      jQuery('input[name="date"]').val(new Date().toISOString().substring(0, 10));
+    function openSubmitGroupTripRequestDialog(btn) {
+      jQuery('input[name="trip"]').val($(btn).data('trip-id'));
       $('#groupTripsRegistrationModal').modal('show');
     }
   </script>

@@ -275,17 +275,6 @@ g2gControlCenterApplication.controller("ItinerariesPageContentController", ['$ro
 			$scope.newItinerary.seasons.push({});
 		}
 	}])
-	.directive('format', function (dateFilter) {
-		return {
-			require: 'ngModel',
-			link: function (scope, elm, attrs, ctrl) {
-				var dateFormat = attrs['format'] || 'yyyy-MM-dd';
-				ctrl.$formatters.unshift(function (modelValue) {
-					return dateFilter(modelValue, dateFormat);
-				});
-			}
-		};
-	})
 	.directive('bullet', function () {
 		return {
 			restrict: 'A',

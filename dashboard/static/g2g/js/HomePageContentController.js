@@ -431,15 +431,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$('#collapseExpandBtn').trigger('click');
 		}
 	};
-	$scope.getAllUsers = function () {
-		$http.get($rootScope.serverURL + "/users").success(
-			function (response) {
-				$scope.users = response;
-			}
-		).error(function (err) {
-			$scope.users = [];
-		});
-	};
 	$scope.searchOrders = function () {
 		$scope.currentOrders = $scope.originalOrders;
 
@@ -717,7 +708,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	// refresh the numbers every 30 seconds
 	$scope.refreshContent(); // refresh once
-	$scope.getAllUsers();
 	$scope.total.title = [];
 	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title); // initialize by loading the 'New' orders
 	window.setInterval($scope.refreshContent, 30000); // set the timer
@@ -746,35 +736,6 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	$scope.refreshOrders($scope.currentRequest);
 }]);
 
-g2gControlCenterApplication.directive('ngFileModel', ['$parse', function ($parse) {
-	return {
-		restrict: 'A',
-		link: function (scope, element, attrs) {
-			var model = $parse(attrs.ngFileModel);
-			var isMultiple = attrs.multiple;
-			var modelSetter = model.assign;
-			element.bind('change', function () {
-				var values = [];
-				angular.forEach(element[0].files, function (item) {
-					var value = {
-						filename: item.name,
-						path: URL.createObjectURL(item),
-						contentType: item.type,
-						_file: item
-					};
-					values.push(value);
-				});
-				scope.$apply(function () {
-					if (isMultiple) {
-						modelSetter(scope, values);
-					} else {
-						modelSetter(scope, values[0]);
-					}
-				});
-			});
-		}
-	};
-}]);
 g2gControlCenterApplication.directive('exportExcel', function () {
 		return {
 			restrict: 'AE',
@@ -881,17 +842,6 @@ g2gControlCenterApplication.directive('exportExcel', function () {
 
 					return '"' + output + '"';
 				}
-			}
-		};
-	})
-	.directive('format', function (dateFilter) {
-		return {
-			require: 'ngModel',
-			link: function (scope, elm, attrs, ctrl) {
-				var dateFormat = attrs['format'] || 'yyyy-MM-dd';
-				ctrl.$formatters.unshift(function (modelValue) {
-					return dateFilter(modelValue, dateFormat);
-				});
 			}
 		};
 	});

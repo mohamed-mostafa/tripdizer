@@ -38,15 +38,13 @@ $("#groupTripsForm").submit(function(event){
         console.log(jqXHR);
         $('#groupTripsRegistrationModal').modal('hide');
         $('#thankYouModal').modal('show');
-        $.post("https://tripdizer-backend-dot-feisty-parity-188109.appspot.com/grouptrip/register", { email: jQuery('input[name="email"]').val(), name: jQuery('input[name="name"]').val(), phone: jQuery('input[name="phone"]').val(), trip: jQuery('input[name="trip"]').val(), message: jQuery('textarea[name="message"]').val(), pex: jQuery('input[name="pex"]').val(), from: jQuery('input[name="from"]').val(), to: jQuery('input[name="to"]').val() }, function (resp) {
+        $.post("https://tripdizer-backend-dot-feisty-parity-188109.appspot.com/groupTrips/register", { email: jQuery('input[name="email"]').val(), name: jQuery('input[name="name"]').val(), phone: jQuery('input[name="phone"]').val(), trip: jQuery('input[name="trip"]').val(), message: jQuery('textarea[name="message"]').val(), pex: jQuery('input[name="pex"]').val() }, function (resp) {
             jQuery('input[name="email"]').val("");
             jQuery('input[name="name"]').val("");
             jQuery('input[name="phone"]').val("");
             jQuery('input[name="trip"]').val("");
             jQuery('textarea[name="message"]').val("");
             jQuery('input[name="pex"]').val("");
-            jQuery('input[name="from"]').val("");
-            jQuery('input[name="to"]').val("");
             if (resp.done) console.log("Data sent also to server");
         });
     });

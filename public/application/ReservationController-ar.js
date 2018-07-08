@@ -171,10 +171,6 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.submitting = true;
 		$scope.submittingError = false;
 
-		$scope.request.departure_date = $scope.selectedFrom;
-		$scope.request.return_date = $scope.selectedTo;
-		$scope.request.flexible_dates = $scope.plusOrMinusThreeDays;
-		$scope.request.leaving_country = $scope.selectedSource;
 		if ($scope.selectedFirstDestination.split('::')[0] === 'c') {
 			delete $scope.request.itinerary_id;
 			$scope.request.first_country = $scope.selectedDestinations[0];
@@ -186,22 +182,8 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 			$scope.request.second_country = 0;
 			$scope.request.third_country = 0;
 		}
-		$scope.request.other_country = $scope.selectedOtherDestinations;
-		$scope.request.travel_purpose = $scope.selectedPurpose.id;
-		$scope.request.number_of_adults = $scope.numberOfAdults;
-		$scope.request.number_of_kids = $scope.numberOfKids;
-		// $scope.request.kids_age = $scope.kidsAge;
-		$scope.request.number_of_infants = $scope.numberOfInfants;
-		$scope.request.budget_category = $scope.selectedBudgetCategory.id;
-		$scope.request.budget = $scope.myOwnBudget;
-		$scope.request.visa_assistance_needed = $scope.needVisaAssistance;
-		$scope.request.tour_guide_needed = $scope.needTourGuide;
-		$scope.request.specialRequests = $scope.specialRequests;
-
-		$scope.request.interests = [];
-		for (var i = 0, interests = $scope.interests; i < interests.length; ++i)
-			$scope.request.interests.push({ id: interests[i].id, percentage: interests[i].percent || 0 });
-
+		$scope.buildRequestObj();
+		
 		$http.put($rootScope.serverURL + "/request/place", { request: $scope.request }).success(function (response) {
 			console.log("Request submitted");
 			$scope.submitting = false;
@@ -413,5 +395,26 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		ga('send', 'event', 'Estimate Button', 'Estimate Cost');
 	};
 	$scope.reportReservationPageOpened();
+	$scope.buildRequestObj=function () {
+		$scope.request.departure_date = $scope.selectedFrom;
+		$scope.request.return_date = $scope.selectedTo;
+		$scope.request.flexible_dates = $scope.plusOrMinusThreeDays;
+		$scope.request.leaving_country = $scope.selectedSource;
+		$scope.request.other_country = $scope.selectedOtherDestinations;
+		$scope.request.travel_purpose = $scope.selectedPurpose.id;
+		$scope.request.number_of_adults = $scope.numberOfAdults;
+		$scope.request.number_of_kids = $scope.numberOfKids;
+		// $scope.request.kids_age = $scope.kidsAge;
+		$scope.request.number_of_infants = $scope.numberOfInfants;
+		$scope.request.budget_category = $scope.selectedBudgetCategory.id;
+		$scope.request.budget = $scope.myOwnBudget;
+		$scope.request.visa_assistance_needed = $scope.needVisaAssistance;
+		$scope.request.tour_guide_needed = $scope.needTourGuide;
+		$scope.request.specialRequests = $scope.specialRequests;
+
+		$scope.request.interests = [];
+		for (var i = 0, interests = $scope.interests; i < interests.length; ++i)
+			$scope.request.interests.push({ id: interests[i].id, percentage: interests[i].percent || 0 });
+	}
 
 }]);

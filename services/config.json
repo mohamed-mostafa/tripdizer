@@ -4,5 +4,6 @@
   "MYSQL_USER": "application",
   "MYSQL_PASSWORD": "P@ssw0rd",
   "INSTANCE_CONNECTION_NAME": "feisty-parity-188109:europe-west1:tripdizer",
-  "NODE_ENV": "production"
+  "NODE_ENV": "production",
+  "SECRET": "TRIPDIZER-JWT-SECRET"
 }

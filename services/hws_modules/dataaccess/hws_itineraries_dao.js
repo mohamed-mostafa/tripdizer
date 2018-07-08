@@ -14,18 +14,18 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			var iternaryQuery = 'SELECT * FROM iternary WHERE id = ' + id + ';';
-			var countriesQuery = 'SELECT ic.Countries_Id as id, ic.Order as \'order\', ic.Days as days FROM iternary i join iternary_countries ic on i.Id = ic.Iternary_Id WHERE i.Id = ' + id + ';';
-			var ferryQuery = 'SELECT ife.*, mp.* FROM iternary i join iternary_ferry ife on i.Id = ife.iternary_id join month_price mp on mp.id = ife.price WHERE i.Id = ' + id + ';';
+			var iternaryQuery = `SELECT * FROM iternary WHERE id = ${connection.escape(id)};`;
+			var countriesQuery = `SELECT ic.Countries_Id as id, ic.Order as \'order\', ic.Days as days FROM iternary i join iternary_countries ic on i.Id = ic.Iternary_Id WHERE i.Id = ${connection.escape(id)};`;
+			var ferryQuery = `SELECT ife.*, mp.* FROM iternary i join iternary_ferry ife on i.Id = ife.iternary_id join month_price mp on mp.id = ife.price WHERE i.Id = ${connection.escape(id)};`;
 			var flightQuery = `SELECT ifl.*, mpa.JAN aJAN, mpa.FEB aFEB, mpa.MAR aMAR, mpa.APR aAPR, mpa.MAY aMAY, mpa.JUN aJUN, mpa.JUL aJUL, mpa.AUG aAUG, mpa.SEP aSEP, mpa.OCT aOCT, mpa.NOV aNOV, mpa.DEC aDEC, 
 			mpk.JAN kJAN, mpk.FEB kFEB, mpk.MAR kMAR, mpk.APR kAPR, mpk.MAY kMAY, mpk.JUN kJUN, mpk.JUL kJUL, mpk.AUG kAUG, mpk.SEP kSEP, mpk.OCT kOCT, mpk.NOV kNOV, mpk.DEC kDEC,
 			mpi.JAN iJAN, mpi.FEB iFEB, mpi.MAR iMAR, mpi.APR iAPR, mpi.MAY iMAY, mpi.JUN iJUN, mpi.JUL iJUL, mpi.AUG iAUG, mpi.SEP iSEP, mpi.OCT iOCT, mpi.NOV iNOV, mpi.DEC iDEC
-			FROM iternary i join iternary_flight ifl on i.Id = ifl.Iternary_id join month_price mpa on mpa.id = ifl.adult_price join month_price mpk on mpk.id = ifl.kid_price join month_price mpi on mpi.id = ifl.infant_price WHERE i.Id = ${id};`;
-			var hotelQuery = 'SELECT ih.*, c.EN_Name AS Country_Name, mp.* FROM iternary i join iternary_hotel ih on i.Id = ih.Iternary_id join month_price mp on mp.id = ih.night_price LEFT JOIN Countries c on c.Id = ih.Country_Id WHERE i.Id =  ' + id + ';';
-			var seasonQuery = 'SELECT Start AS start, End AS end, Type AS type FROM iternary i join iternary_season s on i.Id = s.Iternary_Id WHERE i.Id = ' + id + ';';
-			var budgetQuery = 'SELECT bg.* FROM iternary i join iternary_budget_category bg on i.Id = bg.iternary_Id WHERE i.Id = ' + id + ';';
-			var purposeQuery = 'SELECT tb.* FROM iternary i join iternary_travel_purpose tb on i.Id = tb.iternary_Id WHERE i.Id = ' + id + ';';
-			var interestQuery = 'SELECT ii.* FROM iternary i join iternary_interest ii on i.Id = ii.iternary_Id WHERE i.Id = ' + id + ';';
+			FROM iternary i join iternary_flight ifl on i.Id = ifl.Iternary_id join month_price mpa on mpa.id = ifl.adult_price join month_price mpk on mpk.id = ifl.kid_price join month_price mpi on mpi.id = ifl.infant_price WHERE i.Id = ${connection.escape(id)};`;
+			var hotelQuery = `SELECT ih.*, c.EN_Name AS Country_Name, mp.* FROM iternary i join iternary_hotel ih on i.Id = ih.Iternary_id join month_price mp on mp.id = ih.night_price LEFT JOIN Countries c on c.Id = ih.Country_Id WHERE i.Id =  ${connection.escape(id)};`;
+			var seasonQuery = `SELECT Start AS start, End AS end, Type AS type FROM iternary i join iternary_season s on i.Id = s.Iternary_Id WHERE i.Id = ${connection.escape(id)};`;
+			var budgetQuery = `SELECT bg.* FROM iternary i join iternary_budget_category bg on i.Id = bg.iternary_Id WHERE i.Id = ${connection.escape(id)};`;
+			var purposeQuery = `SELECT tb.* FROM iternary i join iternary_travel_purpose tb on i.Id = tb.iternary_Id WHERE i.Id = ${connection.escape(id)};`;
+			var interestQuery = `SELECT ii.* FROM iternary i join iternary_interest ii on i.Id = ii.iternary_Id WHERE i.Id = ${connection.escape(id)};`;
 			connection.query(iternaryQuery + countriesQuery + ferryQuery + flightQuery + hotelQuery + seasonQuery + budgetQuery + purposeQuery + interestQuery, [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
@@ -148,58 +148,66 @@ var update = function (itinerary, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					var updateQuery = `UPDATE iternary SET EN_Name = '${itinerary.en_name}', EN_Description = '${itinerary.en_description}', AR_Name = '${itinerary.ar_name}', AR_Description = '${itinerary.ar_description}', Daily_Spendings = '${itinerary.dailySpendings}', Needs_Visa = '${itinerary.needsVisa}', Introduction = '${itinerary.introduction}', Includes = '${itinerary.includes}', Excludes = '${itinerary.excludes}', Image1 = '${itinerary.image1}', Image2 = '${itinerary.image2}' WHERE Id = '${itinerary.id}';`;
-					var countriesQuery = `DELETE FROM iternary_countries WHERE Iternary_Id = ${itinerary.id};`;
+					var updateQuery = `UPDATE iternary SET EN_Name = ${connection.escape(itinerary.en_name || "")}, EN_Description = ${connection.escape(itinerary.en_description || "")}, AR_Name = ${connection.escape(itinerary.ar_name || "")}, AR_Description = ${connection.escape(itinerary.ar_description || "")}, Daily_Spendings = ${connection.escape(itinerary.dailySpendings || 0)}, Needs_Visa = ${connection.escape(itinerary.needsVisa || 0)}, Introduction = ${connection.escape(itinerary.introduction || "")}, Includes = ${connection.escape(itinerary.includes || "")}, Excludes = ${connection.escape(itinerary.excludes || "")}, Image1 = ${connection.escape(itinerary.image1)}, Image2 = ${connection.escape(itinerary.image2)} WHERE Id = ${connection.escape(itinerary.id)};`;
+					var countriesQuery = `DELETE FROM iternary_countries WHERE Iternary_Id = ${connection.escape(itinerary.id)};`;
 					for (let i = 0; i < itinerary.countries.length; i++) {
 						if (i === 0) countriesQuery += `INSERT INTO iternary_countries VALUES `;
 						else countriesQuery += ', ';
-						countriesQuery += `(${itinerary.id}, ${itinerary.countries[i].id}, ${itinerary.countries[i].order}, ${itinerary.countries[i].days})`;
+						countriesQuery += `(${connection.escape(itinerary.id)}, ${connection.escape(itinerary.countries[i].id)}, ${connection.escape(itinerary.countries[i].order || 0)}, ${connection.escape(itinerary.countries[i].days || 0)})`;
 						if (i === itinerary.countries.length - 1) countriesQuery += ';';
 					}
-					var ferriesQuery = `DELETE FROM month_price WHERE id in (SELECT price FROM iternary_ferry WHERE Iternary_Id = ${itinerary.id});DELETE FROM iternary_ferry WHERE Iternary_Id = ${itinerary.id};`;
+					var ferriesQuery = `DELETE FROM month_price WHERE id in (SELECT price FROM iternary_ferry WHERE Iternary_Id = ${connection.escape(itinerary.id)});DELETE FROM iternary_ferry WHERE Iternary_Id = ${connection.escape(itinerary.id)};`;
 					for (let i = 0; i < itinerary.ferries.length; i++) {
-						ferriesQuery += `INSERT INTO month_price VALUES (0, '${itinerary.ferries[i].JAN | 0}', '${itinerary.ferries[i].FEB | 0}', '${itinerary.ferries[i].MAR | 0}', '${itinerary.ferries[i].APR | 0}', '${itinerary.ferries[i].MAY | 0}', '${itinerary.ferries[i].JUN | 0}', '${itinerary.ferries[i].JUL | 0}', '${itinerary.ferries[i].AUG | 0}', '${itinerary.ferries[i].SEP | 0}', '${itinerary.ferries[i].OCT | 0}', '${itinerary.ferries[i].NOV | 0}', '${itinerary.ferries[i].DEC | 0}');`;
-						ferriesQuery += 'INSERT INTO iternary_ferry (`iternary_id`, `price`, `departing_from`, `arriving_to`, `carrier_name`) VALUES ';
-						ferriesQuery += `(${itinerary.id}, LAST_INSERT_ID(), '${itinerary.ferries[i].departing_from}', '${itinerary.ferries[i].arriving_to}', '${itinerary.ferries[i].carrier_name}');`;
+						if (itinerary.ferries[i].departing_from && itinerary.ferries[i].arriving_to) {
+							ferriesQuery += `INSERT INTO month_price VALUES (0, ${connection.escape(itinerary.ferries[i].JAN || 0)}, ${connection.escape(itinerary.ferries[i].FEB || 0)}, ${connection.escape(itinerary.ferries[i].MAR || 0)}, ${connection.escape(itinerary.ferries[i].APR || 0)}, ${connection.escape(itinerary.ferries[i].MAY || 0)}, ${connection.escape(itinerary.ferries[i].JUN || 0)}, ${connection.escape(itinerary.ferries[i].JUL || 0)}, ${connection.escape(itinerary.ferries[i].AUG || 0)}, ${connection.escape(itinerary.ferries[i].SEP || 0)}, ${connection.escape(itinerary.ferries[i].OCT || 0)}, ${connection.escape(itinerary.ferries[i].NOV || 0)}, ${connection.escape(itinerary.ferries[i].DEC || 0)});`;
+							ferriesQuery += 'INSERT INTO iternary_ferry (`iternary_id`, `price`, `departing_from`, `arriving_to`, `carrier_name`) VALUES ';
+							ferriesQuery += `(${connection.escape(itinerary.id)}, LAST_INSERT_ID(), ${connection.escape(itinerary.ferries[i].departing_from || "")}, ${connection.escape(itinerary.ferries[i].arriving_to || "")}, ${connection.escape(itinerary.ferries[i].carrier_name || "")});`;
+						}
 					}
-					var flightsQuery = `DELETE FROM month_price WHERE id in (SELECT adult_price FROM iternary_flight WHERE Iternary_Id = ${itinerary.id}) OR id in (SELECT kid_price FROM iternary_flight WHERE Iternary_Id = ${itinerary.id}) OR id in (SELECT infant_price FROM iternary_flight WHERE Iternary_Id = ${itinerary.id});DELETE FROM iternary_flight WHERE Iternary_Id = ${itinerary.id};`;
+					var flightsQuery = `DELETE FROM month_price WHERE id in (SELECT adult_price FROM iternary_flight WHERE Iternary_Id = ${connection.escape(itinerary.id)}) OR id in (SELECT kid_price FROM iternary_flight WHERE Iternary_Id = ${connection.escape(itinerary.id)}) OR id in (SELECT infant_price FROM iternary_flight WHERE Iternary_Id = ${connection.escape(itinerary.id)});DELETE FROM iternary_flight WHERE Iternary_Id = ${connection.escape(itinerary.id)};`;
 					for (let i = 0; i < itinerary.flights.length; i++) {
-						flightsQuery += `INSERT INTO month_price VALUES (0, '${itinerary.flights[i].aJAN | 0}', '${itinerary.flights[i].aFEB | 0}', '${itinerary.flights[i].aMAR | 0}', '${itinerary.flights[i].aAPR | 0}', '${itinerary.flights[i].aMAY | 0}', '${itinerary.flights[i].aJUN | 0}', '${itinerary.flights[i].aJUL | 0}', '${itinerary.flights[i].aAUG | 0}', '${itinerary.flights[i].aSEP | 0}', '${itinerary.flights[i].aOCT | 0}', '${itinerary.flights[i].aNOV | 0}', '${itinerary.flights[i].aDEC | 0}')`;
-						flightsQuery += `, (0, '${itinerary.flights[i].kJAN | 0}', '${itinerary.flights[i].kFEB | 0}', '${itinerary.flights[i].kMAR | 0}', '${itinerary.flights[i].kAPR | 0}', '${itinerary.flights[i].kMAY | 0}', '${itinerary.flights[i].kJUN | 0}', '${itinerary.flights[i].kJUL | 0}', '${itinerary.flights[i].kAUG | 0}', '${itinerary.flights[i].kSEP | 0}', '${itinerary.flights[i].kOCT | 0}', '${itinerary.flights[i].kNOV | 0}', '${itinerary.flights[i].kDEC | 0}')`;
-						flightsQuery += `, (0, '${itinerary.flights[i].iJAN | 0}', '${itinerary.flights[i].iFEB | 0}', '${itinerary.flights[i].iMAR | 0}', '${itinerary.flights[i].iAPR | 0}', '${itinerary.flights[i].iMAY | 0}', '${itinerary.flights[i].iJUN | 0}', '${itinerary.flights[i].iJUL | 0}', '${itinerary.flights[i].iAUG | 0}', '${itinerary.flights[i].iSEP | 0}', '${itinerary.flights[i].iOCT | 0}', '${itinerary.flights[i].iNOV | 0}', '${itinerary.flights[i].iDEC | 0}');`;
-						flightsQuery += 'INSERT INTO iternary_flight (`iternary_id`, `type`, `departing_from`, `arriving_to`, `departure_time`, `arrival_time`, `lay_over`, `airline_name`, `return`, `return_departure_time`, `return_arrival_time`, `return_lay_over`, `adult_price`, `kid_price`, `infant_price`) VALUES ';
-						flightsQuery += `(${itinerary.id}, ${itinerary.flights[i].type}, '${itinerary.flights[i].departing_from}', '${itinerary.flights[i].arriving_to}', '${itinerary.flights[i].departure_time}', '${itinerary.flights[i].arrival_time}', '${itinerary.flights[i].lay_over}', '${itinerary.flights[i].airline_name}', '${itinerary.flights[i].return || itinerary.flights[i].return == 1 ? 1 : 0}', '${itinerary.flights[i].return_departure_time}', '${itinerary.flights[i].return_arrival_time}', '${itinerary.flights[i].return_lay_over}', (SELECT id FROM month_price ORDER BY id DESC LIMIT 2, 1), (SELECT id FROM month_price ORDER BY id DESC LIMIT 1, 1), (SELECT id FROM month_price ORDER BY id DESC LIMIT 0, 1));`;
+						if (itinerary.flights[i].departing_from && itinerary.flights[i].arriving_to) {
+							flightsQuery += `INSERT INTO month_price VALUES (0, ${connection.escape(itinerary.flights[i].aJAN || 0)}, ${connection.escape(itinerary.flights[i].aFEB || 0)}, ${connection.escape(itinerary.flights[i].aMAR || 0)}, ${connection.escape(itinerary.flights[i].aAPR || 0)}, ${connection.escape(itinerary.flights[i].aMAY || 0)}, ${connection.escape(itinerary.flights[i].aJUN || 0)}, ${connection.escape(itinerary.flights[i].aJUL || 0)}, ${connection.escape(itinerary.flights[i].aAUG || 0)}, ${connection.escape(itinerary.flights[i].aSEP || 0)}, ${connection.escape(itinerary.flights[i].aOCT || 0)}, ${connection.escape(itinerary.flights[i].aNOV || 0)}, ${connection.escape(itinerary.flights[i].aDEC || 0)})`;
+							flightsQuery += `, (0, ${connection.escape(itinerary.flights[i].kJAN || 0)}, ${connection.escape(itinerary.flights[i].kFEB || 0)}, ${connection.escape(itinerary.flights[i].kMAR || 0)}, ${connection.escape(itinerary.flights[i].kAPR || 0)}, ${connection.escape(itinerary.flights[i].kMAY || 0)}, ${connection.escape(itinerary.flights[i].kJUN || 0)}, ${connection.escape(itinerary.flights[i].kJUL || 0)}, ${connection.escape(itinerary.flights[i].kAUG || 0)}, ${connection.escape(itinerary.flights[i].kSEP || 0)}, ${connection.escape(itinerary.flights[i].kOCT || 0)}, ${connection.escape(itinerary.flights[i].kNOV || 0)}, ${connection.escape(itinerary.flights[i].kDEC || 0)})`;
+							flightsQuery += `, (0, ${connection.escape(itinerary.flights[i].iJAN || 0)}, ${connection.escape(itinerary.flights[i].iFEB || 0)}, ${connection.escape(itinerary.flights[i].iMAR || 0)}, ${connection.escape(itinerary.flights[i].iAPR || 0)}, ${connection.escape(itinerary.flights[i].iMAY || 0)}, ${connection.escape(itinerary.flights[i].iJUN || 0)}, ${connection.escape(itinerary.flights[i].iJUL || 0)}, ${connection.escape(itinerary.flights[i].iAUG || 0)}, ${connection.escape(itinerary.flights[i].iSEP || 0)}, ${connection.escape(itinerary.flights[i].iOCT || 0)}, ${connection.escape(itinerary.flights[i].iNOV || 0)}, ${connection.escape(itinerary.flights[i].iDEC || 0)});`;
+							flightsQuery += 'INSERT INTO iternary_flight (`iternary_id`, `type`, `departing_from`, `arriving_to`, `departure_time`, `arrival_time`, `lay_over`, `airline_name`, `return`, `return_departure_time`, `return_arrival_time`, `return_lay_over`, `adult_price`, `kid_price`, `infant_price`) VALUES ';
+							flightsQuery += `(${connection.escape(itinerary.id)}, ${connection.escape(itinerary.flights[i].type || 0)}, ${connection.escape(itinerary.flights[i].departing_from || "")}, ${connection.escape(itinerary.flights[i].arriving_to || "")}, ${connection.escape(itinerary.flights[i].departure_time || "")}, ${connection.escape(itinerary.flights[i].arrival_time || "")}, ${connection.escape(itinerary.flights[i].lay_over || "")}, ${connection.escape(itinerary.flights[i].airline_name || "")}, ${connection.escape(itinerary.flights[i].return || itinerary.flights[i].return == 1 ? 1 : 0)}, ${connection.escape(itinerary.flights[i].return_departure_time || "")}, ${connection.escape(itinerary.flights[i].return_arrival_time || "")}, ${connection.escape(itinerary.flights[i].return_lay_over || "")}, (SELECT id FROM month_price ORDER BY id DESC LIMIT 2, 1), (SELECT id FROM month_price ORDER BY id DESC LIMIT 1, 1), (SELECT id FROM month_price ORDER BY id DESC LIMIT 0, 1));`;
+						}
 					}
-					var hotelsQuery = `DELETE FROM month_price WHERE id in (SELECT night_price FROM iternary_hotel WHERE Iternary_Id = ${itinerary.id});DELETE FROM iternary_hotel WHERE Iternary_Id = ${itinerary.id};`;
+					var hotelsQuery = `DELETE FROM month_price WHERE id in (SELECT night_price FROM iternary_hotel WHERE Iternary_Id = ${connection.escape(itinerary.id)});DELETE FROM iternary_hotel WHERE Iternary_Id = ${connection.escape(itinerary.id)};`;
 					for (let i = 0; i < itinerary.hotels.length; i++) {
-						hotelsQuery += `INSERT INTO month_price VALUES (0, '${itinerary.hotels[i].JAN | 0}', '${itinerary.hotels[i].FEB | 0}', '${itinerary.hotels[i].MAR | 0}', '${itinerary.hotels[i].APR | 0}', '${itinerary.hotels[i].MAY | 0}', '${itinerary.hotels[i].JUN | 0}', '${itinerary.hotels[i].JUL | 0}', '${itinerary.hotels[i].AUG | 0}', '${itinerary.hotels[i].SEP | 0}', '${itinerary.hotels[i].OCT | 0}', '${itinerary.hotels[i].NOV | 0}', '${itinerary.hotels[i].DEC | 0}');`;
-						hotelsQuery += 'INSERT INTO iternary_hotel (`Iternary_id`, `EN_Name`, `AR_Name`, `private`, `budget_category_id`, `Country_Id`, `night_price`) VALUES ';
-						hotelsQuery += `(${itinerary.id}, '${itinerary.hotels[i].EN_Name}', '${itinerary.hotels[i].AR_Name}', '${itinerary.hotels[i].private}', '${itinerary.hotels[i].budget_category_id}', '${itinerary.hotels[i].Country_Id}', LAST_INSERT_ID());`;
+						if (itinerary.hotels[i].EN_Name) {
+							hotelsQuery += `INSERT INTO month_price VALUES (0, ${connection.escape(itinerary.hotels[i].JAN || 0)}, ${connection.escape(itinerary.hotels[i].FEB || 0)}, ${connection.escape(itinerary.hotels[i].MAR || 0)}, ${connection.escape(itinerary.hotels[i].APR || 0)}, ${connection.escape(itinerary.hotels[i].MAY || 0)}, ${connection.escape(itinerary.hotels[i].JUN || 0)}, ${connection.escape(itinerary.hotels[i].JUL || 0)}, ${connection.escape(itinerary.hotels[i].AUG || 0)}, ${connection.escape(itinerary.hotels[i].SEP || 0)}, ${connection.escape(itinerary.hotels[i].OCT || 0)}, ${connection.escape(itinerary.hotels[i].NOV || 0)}, ${connection.escape(itinerary.hotels[i].DEC || 0)});`;
+							hotelsQuery += 'INSERT INTO iternary_hotel (`Iternary_id`, `EN_Name`, `AR_Name`, `private`, `budget_category_id`, `Country_Id`, `night_price`) VALUES ';
+							hotelsQuery += `(${connection.escape(itinerary.id)}, ${connection.escape(itinerary.hotels[i].EN_Name || "")}, ${connection.escape(itinerary.hotels[i].AR_Name || "")}, ${connection.escape(itinerary.hotels[i].private || 0)}, ${connection.escape(itinerary.hotels[i].budget_category_id || 1)}, ${connection.escape(itinerary.countries.length === 1 ? itinerary.countries[0].id : itinerary.hotels[i].Country_Id || 1)}, LAST_INSERT_ID());`;
+						}
 					}
-					var seasonsQuery = `DELETE FROM iternary_season WHERE Iternary_Id = ${itinerary.id};`;
+					var seasonsQuery = `DELETE FROM iternary_season WHERE Iternary_Id = ${connection.escape(itinerary.id)};`;
 					for (let i = 0; i < itinerary.seasons.length; i++) {
-						seasonsQuery += 'INSERT INTO iternary_season (`Start`, `End`, `Type`, `Iternary_Id`) VALUES ';
-						seasonsQuery += `('${new Date(itinerary.seasons[i].start).toLocaleDateString()}', '${new Date(itinerary.seasons[i].end).toLocaleDateString()}', '${itinerary.seasons[i].type}', '${itinerary.id}');`;
+						if (itinerary.seasons[i].type) {
+							seasonsQuery += 'INSERT INTO iternary_season (`Start`, `End`, `Type`, `Iternary_Id`) VALUES ';
+							seasonsQuery += `(${connection.escape(new Date(itinerary.seasons[i].start).toLocaleDateString())}, ${connection.escape(new Date(itinerary.seasons[i].end).toLocaleDateString())}, ${connection.escape(itinerary.seasons[i].type)}, ${connection.escape(itinerary.id)});`;
+						}
 					}
-					var budgetsQuery = `DELETE FROM iternary_budget_category WHERE iternary_Id = ${itinerary.id};`;
+					var budgetsQuery = `DELETE FROM iternary_budget_category WHERE iternary_Id = ${connection.escape(itinerary.id)};`;
 					for (var key in itinerary.budgetCategories) {
 						if (itinerary.budgetCategories.hasOwnProperty(key)) {
 							budgetsQuery += 'INSERT INTO iternary_budget_category (`iternary_Id`, `budget_category_Id`, `Percentage`) VALUES ';
-							budgetsQuery += `(${itinerary.id}, ${key}, ${itinerary.budgetCategories[key]});`;
+							budgetsQuery += `(${connection.escape(itinerary.id)}, ${connection.escape(key)}, ${connection.escape(itinerary.budgetCategories[key] || 0)});`;
 						}
 					}
-					var purposesQuery = `DELETE FROM iternary_travel_purpose WHERE iternary_Id = ${itinerary.id};`;
+					var purposesQuery = `DELETE FROM iternary_travel_purpose WHERE iternary_Id = ${connection.escape(itinerary.id)};`;
 					for (var key in itinerary.purposes) {
 						if (itinerary.purposes.hasOwnProperty(key)) {
 							purposesQuery += 'INSERT INTO iternary_travel_purpose (`iternary_Id`, `travel_purpose_Id`, `Percentage`) VALUES ';
-							purposesQuery += `(${itinerary.id}, ${key}, ${itinerary.purposes[key]});`;
+							purposesQuery += `(${connection.escape(itinerary.id)}, ${connection.escape(key)}, ${connection.escape(itinerary.purposes[key] || 0)});`;
 						}
 					}
-					var interestsQuery = `DELETE FROM iternary_interest WHERE iternary_Id = ${itinerary.id};`;
+					var interestsQuery = `DELETE FROM iternary_interest WHERE iternary_Id = ${connection.escape(itinerary.id)};`;
 					for (var key in itinerary.interests) {
 						if (itinerary.interests.hasOwnProperty(key)) {
 							interestsQuery += 'INSERT INTO iternary_interest (`iternary_Id`, `interests_Id`, `Percentage`) VALUES ';
-							interestsQuery += `(${itinerary.id}, ${key}, ${itinerary.interests[key]});`;
+							interestsQuery += `(${connection.escape(itinerary.id)}, ${connection.escape(key)}, ${connection.escape(itinerary.interests[key] || 0)});`;
 						}
 					}
 					connection.query(updateQuery + countriesQuery + ferriesQuery + flightsQuery + hotelsQuery + seasonsQuery + budgetsQuery + purposesQuery + interestsQuery, [], function (err, result) {

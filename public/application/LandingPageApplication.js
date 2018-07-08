@@ -19,7 +19,20 @@ var tripdizerApplication = angular.module("LandingPageApplication", [])
 		}
 
 		function getAll(lang) {
-			return $http.get(prefix + 'videos?lang=' + lang, {}).then(function (response) {
+			return $http.get(prefix + 'videos' + (lang ? '?lang=' + lang : ''), {}).then(function (response) {
+				return response.data
+			})
+		}
+	}])
+	.factory('GroupTripsService', ['$rootScope', '$http', function GroupTripsService($rootScope, $http) {
+		var prefix = $rootScope.serverURL + '/';
+
+		return {
+			getAll: getAll
+		}
+
+		function getAll(lang) {
+			return $http.get(prefix + 'groupTrips/current' + (lang ? '?lang=' + lang : ''), {}).then(function (response) {
 				return response.data
 			})
 		}

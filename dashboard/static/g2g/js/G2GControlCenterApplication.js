@@ -10,6 +10,66 @@ var g2gControlCenterApplication = angular.module("G2GControlCenterApplication", 
 		$locationProvider.html5Mode(false);
 		//    $locationProvider.html5Mode(true);
 	}])
+	.config(['$httpProvider', '$windowProvider', function ($httpProvider, $windowProvider) {
+		var $window = $windowProvider.$get();
+		$httpProvider.interceptors.push(function () {
+			return {
+				request: function (config) {
+					config.headers = config.headers || {};
+					const JWToken = $window.localStorage.getItem('token');
+					if (JWToken) {
+						config.headers['Authorization'] = JWToken;
+					}
+					return config;
+				},
+				responseError: function (response) {
+					if (response.status === 401) { // Unauthorized
+						$window.location.href = '/admin/login';
+					}
+				}
+			};
+		});
+	}])
+	.directive('ngFileModel', ['$parse', function ($parse) {
+		return {
+			restrict: 'A',
+			link: function (scope, element, attrs) {
+				var model = $parse(attrs.ngFileModel);
+				var isMultiple = attrs.multiple;
+				var modelSetter = model.assign;
+				element.bind('change', function () {
+					var values = [];
+					angular.forEach(element[0].files, function (item) {
+						var value = {
+							filename: item.name,
+							path: URL.createObjectURL(item),
+							contentType: item.type,
+							_file: item
+						};
+						values.push(value);
+					});
+					scope.$apply(function () {
+						if (isMultiple) {
+							modelSetter(scope, values);
+						} else {
+							modelSetter(scope, values[0]);
+						}
+					});
+				});
+			}
+		};
+	}])
+	.directive('format', function (dateFilter) {
+		return {
+			require: 'ngModel',
+			link: function (scope, elm, attrs, ctrl) {
+				var dateFormat = attrs['format'] || 'yyyy-MM-dd';
+				ctrl.$formatters.unshift(function (modelValue) {
+					return dateFilter(modelValue, dateFormat);
+				});
+			}
+		};
+	})
 	.factory('CountriesService', ['$rootScope', '$http', function CountriesService($rootScope, $http) {
 		var prefix = $rootScope.serverURL + '/';
 
@@ -83,7 +143,20 @@ var g2gControlCenterApplication = angular.module("G2GControlCenterApplication", 
 		}
 
 		function getAll(lang) {
-			return $http.get(prefix + 'videos?lang=' + lang, {}).then(function (response) {
+			return $http.get(prefix + 'videos' + (lang ? '?lang=' + lang : '') + lang, {}).then(function (response) {
+				return response.data
+			})
+		}
+	}])
+	.factory('GroupTripsService', ['$rootScope', '$http', function GroupTripsService($rootScope, $http) {
+		var prefix = $rootScope.serverURL + '/';
+
+		return {
+			getAll: getAll
+		}
+
+		function getAll(lang) {
+			return $http.get(prefix + 'groupTrips' + (lang ? '?lang=' + lang : ''), {}).then(function (response) {
 				return response.data
 			})
 		}
