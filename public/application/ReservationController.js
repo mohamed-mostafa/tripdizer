@@ -418,6 +418,9 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		$scope.buildRequestObj();
 		$http.post($rootScope.serverURL + "/request/recommendation", { request: $scope.request }).success(function (response) {
 			$scope.recommendedItineraries = response;
+				$scope.recommendedItineraries.sort(function(a, b) {
+			    return a.rank > b.rank ? -1 : 1;
+			});
 		}).error(function (err) {
 			console.log("Failed to submit request for recommendation: " + JSON.stringify(err));
 		});

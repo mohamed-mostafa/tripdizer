@@ -55,7 +55,8 @@
     }
 
     .rec-country img {
-        width: 100%
+        width: 100%;
+        height: 200px;
     }
 
     .img2 {
@@ -91,7 +92,8 @@
         text-decoration: none;
         left: 3px;
         position: relative;
-        font-size: 18px;
+        font-size: 12px;
+        font-weight: bolder;
         left: 10px
     }
 
@@ -101,8 +103,9 @@
     }
 
     .country-item span {
-        font-size: 18px;
+        font-size: 12px;
         color: #000;
+        font-weight: bold;
     }
 
     .trip-cost {
@@ -266,7 +269,8 @@
     .mod {}
 
     .pop img {
-        width: 160px
+        width: 160px;
+        height: 120px;
     }
 
     .pop h2 {
