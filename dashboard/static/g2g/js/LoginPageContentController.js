@@ -38,7 +38,7 @@ g2gControlCenterApplication.controller("LoginPageContentController", ['$rootScop
 					}
 				} else {
 					$scope.error = true;
-					$scope.errorMsg = err;
+					$scope.errorMsg = "Login error";
 					$scope.loading = false;
 				}
 			}
