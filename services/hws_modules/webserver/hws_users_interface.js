@@ -76,6 +76,22 @@ var getAllUsers = function(req, res) {
 	}
 };
 
+var getAllUsersToAssign = function(req, res) {	
+	try {
+		// call the business function and give it a callback function 
+		hwsUsersBusiness.getAllUsersToAssign(function(users) {
+			res.json(users);
+		},
+		function(error){
+			res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for the inconvinence.");
+		});
+	} catch (error) {
+		console.log("An error occured in /users/ToAssign");
+		console.log(error);
+		res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+	}
+};
+
 var getAllActiveUsers = function(req, res) {	
 	try {
 		// call the business function and give it a callback function 
@@ -97,4 +113,5 @@ exports.loginUser = loginUser;
 exports.updateUser = updateUser;
 exports.createUser = createUser;
 exports.getAllUsers = getAllUsers;
+exports.getAllUsersToAssign = getAllUsersToAssign;
 exports.getAllActiveUsers = getAllActiveUsers;

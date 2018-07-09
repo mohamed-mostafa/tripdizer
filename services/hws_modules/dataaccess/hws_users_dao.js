@@ -193,7 +193,7 @@ var updateExistingUser = function(user, onSuccess, onFailure) {
 
 //calls the onSuccess with a list of delivery persons or an empty list
 //calls the onFailure with an err object in case of technical error
-var getAllUsers = function(onSuccess, onFailure) {
+var getAllUsers = function(isFull, onSuccess, onFailure) {
 	// get a connection and open it
 	var connection = daoUtilities.createConnection();
 	connection.connect(function(err) {
@@ -218,12 +218,12 @@ var getAllUsers = function(onSuccess, onFailure) {
 					for (var i = 0; i < rows.length; i++) {
 						var user = {
 								id: rows[i].id,
-								username: rows[i].username,
-								password: rows[i].password,
+								username: isFull ? rows[i].username : null,
+								password: isFull ? rows[i].password : null,
 								fullName: rows[i].full_name,
-								phone: rows[i].phone,
-								active: rows[i].active,
-								admin: rows[i].admin
+								phone: isFull ? rows[i].phone : null,
+								active: isFull ? rows[i].active : null,
+								admin: isFull ? rows[i].admin : null
 						};
 						users.push(user);
 					}

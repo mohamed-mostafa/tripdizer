@@ -431,6 +431,15 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$('#collapseExpandBtn').trigger('click');
 		}
 	};
+	$scope.getAllUsersToAssign = function () {
+		$http.get($rootScope.serverURL + "/users/ToAssign").success(
+			function (response) {
+				$scope.users = response;
+			}
+		).error(function (err) {
+			$scope.users = [];
+		});
+	};
 	$scope.searchOrders = function () {
 		$scope.currentOrders = $scope.originalOrders;
 
@@ -708,6 +717,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	// refresh the numbers every 30 seconds
 	$scope.refreshContent(); // refresh once
+	$scope.getAllUsersToAssign();
 	$scope.total.title = [];
 	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title); // initialize by loading the 'New' orders
 	window.setInterval($scope.refreshContent, 30000); // set the timer
@@ -737,111 +747,111 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 }]);
 
 g2gControlCenterApplication.directive('exportExcel', function () {
-		return {
-			restrict: 'AE',
-			scope: {
-				data: '=',
-				filename: '=?',
-				reportFields: '=',
-				countries: '=',
-				budgetCategories: '=',
-				purposes: '=',
-				interests: '='
-			},
-			link: function (scope, element) {
-				scope.filename = !!scope.filename ? scope.filename : 'export-excel';
+	return {
+		restrict: 'AE',
+		scope: {
+			data: '=',
+			filename: '=?',
+			reportFields: '=',
+			countries: '=',
+			budgetCategories: '=',
+			purposes: '=',
+			interests: '='
+		},
+		link: function (scope, element) {
+			scope.filename = !!scope.filename ? scope.filename : 'export-excel';
 
-				var fields = [];
-				var header = [];
+			var fields = [];
+			var header = [];
 
-				angular.forEach(scope.reportFields, function (field, key) {
-					if (!field || !key) {
-						throw new Error('error json report fields');
-					}
+			angular.forEach(scope.reportFields, function (field, key) {
+				if (!field || !key) {
+					throw new Error('error json report fields');
+				}
 
-					fields.push(key);
-					header.push(field);
+				fields.push(key);
+				header.push(field);
+			});
+
+			element.bind('click', function () {
+				var bodyData = _bodyData();
+				var strData = _convertToExcel(bodyData);
+
+				var blob = new Blob([strData], {
+					type: "text/plain;charset=utf-8"
 				});
 
-				element.bind('click', function () {
-					var bodyData = _bodyData();
-					var strData = _convertToExcel(bodyData);
+				return saveAs(blob, [scope.filename + '.xls']);
+			});
 
-					var blob = new Blob([strData], {
-						type: "text/plain;charset=utf-8"
+			function _bodyData() {
+				var data = scope.data.map(request => {
+					request.firstCountryName = request.firstCountry && scope.countries ? scope.countries.find(country => country.id === request.firstCountry).en_name : '';
+					request.secondCountryName = request.secondCountry && scope.countries ? scope.countries.find(country => country.id === request.secondCountry).en_name : '';
+					request.thirdCountryName = request.thirdCountry && scope.countries ? scope.countries.find(country => country.id === request.thirdCountry).en_name : '';
+					request.budgetCategoryName = request.budgetCategory && scope.budgetCategories ? scope.budgetCategories.find(country => country.id === request.budgetCategory).en_name : '';
+					request.travelPurposeName = request.travelPurpose && scope.purposes ? scope.purposes.find(country => country.id === request.travelPurpose).en_name : '';
+					request.isVisaAssistanceNeeded = request.visaAssistanceNeeded === 1 ? 'True' : 'False';
+					request.isTourGuideNeeded = request.tourGuideNeeded === 1 ? 'True' : 'False';
+					request.interests = scope.interests ? request.interests.map(interest => {
+						interest.name = scope.interests.find(i => i.id === interest.id).en_name;
+						return interest;
+					}) : [];
+					return request
+				});
+				var body = "";
+				angular.forEach(data, function (dataItem) {
+					var rowItems = [];
+
+					angular.forEach(fields, function (field) {
+						if (field.indexOf('.')) {
+							field = field.split(".");
+							var curItem = dataItem;
+
+							// deep access to obect property
+							angular.forEach(field, function (prop) {
+								if (curItem !== null && curItem !== undefined) {
+									curItem = curItem[prop];
+								}
+							});
+
+							data = curItem;
+						} else {
+							data = dataItem[field];
+						}
+
+						var fieldValue = data !== null ? data : ' ';
+
+						if (fieldValue !== undefined && angular.isObject(fieldValue)) {
+							fieldValue = _objectToString(fieldValue);
+						}
+
+						if (fieldValue !== undefined) {
+							fieldValue = fieldValue.toString().replace(/,/g, " ");
+							fieldValue = fieldValue.toString().replace(/\n/g, " ");
+						}
+
+						rowItems.push(fieldValue);
 					});
 
-					return saveAs(blob, [scope.filename + '.xls']);
+					body += rowItems.toString() + '\n';
 				});
 
-				function _bodyData() {
-					var data = scope.data.map(request => {
-						request.firstCountryName = request.firstCountry && scope.countries ? scope.countries.find(country => country.id === request.firstCountry).en_name : '';
-						request.secondCountryName = request.secondCountry && scope.countries ? scope.countries.find(country => country.id === request.secondCountry).en_name : '';
-						request.thirdCountryName = request.thirdCountry && scope.countries ? scope.countries.find(country => country.id === request.thirdCountry).en_name : '';
-						request.budgetCategoryName = request.budgetCategory && scope.budgetCategories ? scope.budgetCategories.find(country => country.id === request.budgetCategory).en_name : '';
-						request.travelPurposeName = request.travelPurpose && scope.purposes ? scope.purposes.find(country => country.id === request.travelPurpose).en_name : '';
-						request.isVisaAssistanceNeeded = request.visaAssistanceNeeded === 1 ? 'True' : 'False';
-						request.isTourGuideNeeded = request.tourGuideNeeded === 1 ? 'True' : 'False';
-						request.interests = scope.interests ? request.interests.map(interest => {
-							interest.name = scope.interests.find(i => i.id === interest.id).en_name;
-							return interest;
-						}) : [];
-						return request
-					});
-					var body = "";
-					angular.forEach(data, function (dataItem) {
-						var rowItems = [];
-
-						angular.forEach(fields, function (field) {
-							if (field.indexOf('.')) {
-								field = field.split(".");
-								var curItem = dataItem;
-
-								// deep access to obect property
-								angular.forEach(field, function (prop) {
-									if (curItem !== null && curItem !== undefined) {
-										curItem = curItem[prop];
-									}
-								});
-
-								data = curItem;
-							} else {
-								data = dataItem[field];
-							}
-
-							var fieldValue = data !== null ? data : ' ';
-
-							if (fieldValue !== undefined && angular.isObject(fieldValue)) {
-								fieldValue = _objectToString(fieldValue);
-							}
-
-							if (fieldValue !== undefined) {
-								fieldValue = fieldValue.toString().replace(/,/g, " ");
-								fieldValue = fieldValue.toString().replace(/\n/g, " ");
-							}
-
-							rowItems.push(fieldValue);
-						});
-
-						body += rowItems.toString() + '\n';
-					});
-
-					return body;
-				}
-
-				function _convertToExcel(body) {
-					return header + '\n' + body;
-				}
-
-				function _objectToString(object) {
-					var output = '';
-					angular.forEach(object, function (value, key) {
-						output += key + ':' + value + ' ';
-					});
-
-					return '"' + output + '"';
-				}
+				return body;
 			}
-		};
-	});
+
+			function _convertToExcel(body) {
+				return header + '\n' + body;
+			}
+
+			function _objectToString(object) {
+				var output = '';
+				angular.forEach(object, function (value, key) {
+					output += key + ':' + value + ' ';
+				});
+
+				return '"' + output + '"';
+			}
+		}
+	};
+});

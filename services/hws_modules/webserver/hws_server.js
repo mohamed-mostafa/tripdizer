@@ -58,6 +58,7 @@ var start = function () {
 
 	//		users
 	app.get('/users', auth.isAuthenticatedAsAdmin, usersInterface.getAllUsers);
+	app.get('/users/ToAssign', usersInterface.getAllUsersToAssign);
 	app.get('/users/active', auth.isAuthenticatedAsAdmin, usersInterface.getAllActiveUsers);
 	app.post('/user/login', usersInterface.loginUser);
 	app.put('/user', auth.isAuthenticatedAsAdmin, usersInterface.createUser);

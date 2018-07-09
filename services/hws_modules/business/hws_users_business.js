@@ -26,12 +26,23 @@ var login = function (username, password, onSuccess, onUserNotFound, onIncorrect
 	}, onFailure);
 };
 
+var getAllUsers = function (onSuccess, onFailure) {
+	hwsUsersDao.getAllUsers(true, function (users) {
+		onSuccess(users);
+	}, onFailure);
+};
+
+var getAllUsersToAssign = function (onSuccess, onFailure) {
+	hwsUsersDao.getAllUsers(false, function (users) {
+		onSuccess(users);
+	}, onFailure);
+};
 
 var getAllActiveUsers = function (onSuccess, onFailure) {
-	g2gUsersDao.getAllUsers(function (users) {
+	getAllUsers(function (users) {
 		var activeUsers = [];
 		for (var i = 0; i < users.length; i++) {
-			if (user[i].active) {
+			if (users[i].active) {
 				activeUsers.push(users[i]);
 			}
 		}
@@ -42,6 +53,7 @@ var getAllActiveUsers = function (onSuccess, onFailure) {
 exports.login = login;
 exports.registerNewUser = hwsUsersDao.createNewUser;
 exports.updateExistingUser = hwsUsersDao.updateExistingUser;
-exports.getAllUsers = hwsUsersDao.getAllUsers;
+exports.getAllUsers = getAllUsers;
+exports.getAllUsersToAssign = getAllUsersToAssign;
 exports.getUserById = hwsUsersDao.getUserById;
 exports.getAllActiveUsers = getAllActiveUsers;
