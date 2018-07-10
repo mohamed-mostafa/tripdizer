@@ -53,7 +53,7 @@ var register = function (requestData, onSuccess, onFailure) {
 					}));
 				}
 				Promise.all(attachmentPromises).then(attachments => {
-					emailBusiness.sendEmail(request.traveler.emailAddress, "Tripdizer Bookings <bookings@tripdizer.com>", `Tripdizer - ${groupTrip.mailSubject}`, groupTrip.mailBody, attachments);
+					emailBusiness.sendEmail(request.traveler.emailAddress, "Tripdizer Bookings <bookings@tripdizer.com>", groupTrip.mailSubject, groupTrip.mailBody, attachments);
 				}).catch(onFailure);
 				// done
 				console.log("Changing status of request: " + request.id);
