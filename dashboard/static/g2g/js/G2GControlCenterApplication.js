@@ -143,7 +143,7 @@ var g2gControlCenterApplication = angular.module("G2GControlCenterApplication", 
 		}
 
 		function getAll(lang) {
-			return $http.get(prefix + 'videos' + (lang ? '?lang=' + lang : '') + lang, {}).then(function (response) {
+			return $http.get(prefix + 'videos' + (lang ? '?lang=' + lang : ''), {}).then(function (response) {
 				return response.data
 			})
 		}

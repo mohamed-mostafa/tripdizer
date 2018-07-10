@@ -119,7 +119,6 @@ g2gControlCenterApplication.controller("VideosController", ['$rootScope', '$scop
 	};
 	$scope.initialize = function () {
 		VideosService.getAll().then(function (videos) {
-			console.log(videos)
 			$scope.videos = videos;
 		});
 	};
