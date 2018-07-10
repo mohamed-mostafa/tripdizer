@@ -70,6 +70,31 @@ var g2gControlCenterApplication = angular.module("G2GControlCenterApplication", 
 			}
 		};
 	})
+	.directive('prefix', function () {
+		return {
+			restrict: 'A',
+			require: 'ngModel',
+			link: function (scope, elm, attrs, ctrl) {
+				const prefix = attrs['prefix'] || '';
+				const ensurePrefix = (value) => {
+					if (value && value.indexOf(prefix) !== 0) {
+						if (value.indexOf("https://www.youtube.com/watch?v=") === 0) {
+							value = value.split("https://www.youtube.com/watch?v=")[1];
+						}
+						if (prefix.indexOf(value) === 0) {
+							value = '';
+						}
+						ctrl.$setViewValue(prefix + value);
+						ctrl.$render();
+						return prefix + value;
+					} else
+						return value;
+				}
+				ctrl.$formatters.push(ensurePrefix);
+				ctrl.$parsers.splice(0, 0, ensurePrefix);
+			}
+		};
+	})
 	.factory('CountriesService', ['$rootScope', '$http', function CountriesService($rootScope, $http) {
 		var prefix = $rootScope.serverURL + '/';
 

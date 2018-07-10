@@ -174,7 +174,7 @@
                         <label class="control-label text-red" for="uri" ng-show="uriMissing==true">
                           <i class="fa fa-times-circle-o"></i>URI is missing</label>
                         <label for="uri" ng-show="uriMissing==false">URI</label>
-                        <input type="text" required class="form-control" id="uri" ng-model="newVideo.uri" placeholder="Video URI: https://www.youtube.com/embed/{VIDEOID}"
+                        <input type="text" prefix="https://www.youtube.com/embed/" class="form-control" id="uri" ng-model="newVideo.uri" placeholder="Video URI: https://www.youtube.com/embed/{VIDEOID}"
                           required>
                       </div>
                       <!-- /.form group -->
