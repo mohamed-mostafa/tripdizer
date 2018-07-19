@@ -16,7 +16,7 @@ var g2gControlCenterApplication = angular.module("G2GControlCenterApplication", 
 			return {
 				request: function (config) {
 					config.headers = config.headers || {};
-					const JWToken = $window.localStorage.getItem('token');
+					const JWToken = cuurentGlobalToken;
 					if (JWToken) {
 						config.headers['Authorization'] = JWToken;
 					}

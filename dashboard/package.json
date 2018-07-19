@@ -3,11 +3,16 @@
   "description": "Tripdizer Dashboard",
   "version": "1.0.0",
   "dependencies": {
-    "express": "3.x",
-    "cors": "latest",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
     "ejs": "latest",
+    "express": "3.x",
+    "express-flash": "0.0.2",
+    "google-auth-library": "0.*",
     "googleapis": "24.*",
-    "google-auth-library": "0.*"
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "request": "^2.87.0"
   },
   "author": {
     "name": "Mohamed Mostafa",

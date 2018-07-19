@@ -1,3 +1,4 @@
+<script>var cuurentGlobalToken = '<%= user.token %>';</script>
 <!-- Logo -->
 <a href="home" class="logo"><b>Admin</b>&nbsp;|&nbsp;Tripdizer</a>
 <!-- Header Navbar: style can be found in header.less -->
@@ -90,7 +91,7 @@
           <li class="user-header">
             <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
             <p>
-              {{userFullName}}
+              <%= user.fullName %>
               <small>Monitoring Tripdizer Dashboard</small>
             </p>
           </li>
@@ -99,7 +100,7 @@
             <div class="pull-left">
             </div>
             <div class="pull-right">
-              <a href="/admin/login" class="btn btn-default btn-flat">Sign out</a>
+              <a href="/admin/logout" class="btn btn-default btn-flat">Sign out</a>
             </div>
           </li>
         </ul>
