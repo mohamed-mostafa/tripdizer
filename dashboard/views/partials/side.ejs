@@ -14,7 +14,9 @@
   <ul class="sidebar-menu">
     <li class="header">MAIN NAVIGATION</li>
     <li><a href="home"><i class="fa fa-home text-info"></i> Home</a></li>
-    <li><a href="users"><i class="fa fa-user text-info"></i> Users</a></li>
+    <%if (user.isAdmin) { %>
+      <li><a href="users"><i class="fa fa-user text-info"></i> Users</a></li>
+    <% } %>
     <li><a href="partners"><i class="fa fa-users text-info"></i> Partners</a></li>    
     <li><a href="countries"><i class="fa fa-globe text-info"></i> Countries</a></li>   
     <li><a href="itineraries"><i class="fa fa-plane text-info"></i> Itineraries</a></li>    

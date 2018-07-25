@@ -3,7 +3,7 @@ const jwt = require('jwt-simple');
 const user = require('../../business/hws_users_business');
 const config = require('../../../config.json');
 
-const getToken = function (headers) {
+const getToken = (headers) => {
     if (headers && headers.authorization) {
         var parted = headers.authorization.split('JWT ');
         if (parted.length === 2) {
@@ -16,7 +16,7 @@ const getToken = function (headers) {
     }
 };
 
-const getDecodedToken = function (headers) {
+const getDecodedToken = (headers) => {
     try {
         return jwt.decode(getToken(headers), config.SECRET);
     } catch (ex) {
@@ -24,38 +24,34 @@ const getDecodedToken = function (headers) {
     }
 };
 
-const isAuthenticated = function (req, res, next) {
+const isAuthenticated = (req, res, next) => {
     const decodedData = getDecodedToken(req.headers);
-    if (decodedData && decodedData.id) {
-        user.getUserById(decodedData.id, function (user) {
-            if (decodedData.id === user.id && decodedData.username === user.username && decodedData.password === user.password) {
-                next();
-            } else {
-                res.send(401);
-            }
-        }, function (error) {
-            res.send(401);
-        })
-    } else {
+    user.login(decodedData.username, decodedData.password, (user) => {
+        next();
+    }, () => {
         res.send(401);
-    }
+    }, () => {
+        res.send(401);
+    }, () => {
+        res.send(401);
+    }, false);
 };
 
-const isAuthenticatedAsAdmin = function (req, res, next) {
+const isAuthenticatedAsAdmin = (req, res, next) => {
     const decodedData = getDecodedToken(req.headers);
-    if (decodedData && decodedData.id) {
-        user.getUserById(decodedData.id, function (user) {
-            if (decodedData.id === user.id && decodedData.username === user.username && decodedData.password === user.password && user.admin) {
-                next();
-            } else {
-                res.send(401);
-            }
-        }, function (error) {
+    user.login(decodedData.username, decodedData.password, (user) => {
+        if (user.admin) {
+            next();
+        } else {
             res.send(401);
-        })
-    } else {
+        }
+    }, () => {
         res.send(401);
-    }
+    }, () => {
+        res.send(401);
+    }, () => {
+        res.send(401);
+    }, false);
 };
 
 exports.getToken = getToken;

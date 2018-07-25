@@ -55,7 +55,7 @@ var start = function () {
 	app.get('/public', function (req, res) {
 		res.render('pages/submit_request');
 	});
-	app.get('/admin/users', auth.isAuthenticated, function (req, res) {
+	app.get('/admin/users', auth.isAuthenticatedAsAdmin, function (req, res) {
 		res.render('pages/users', {
 			user: req.user
 		});

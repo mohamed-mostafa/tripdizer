@@ -79,7 +79,6 @@
                     <thead>
                       <tr>
                         <th>Username</th>
-                        <th>Password</th>
                         <th>Full Name</th>
                         <th>Phone</th>
                         <th></th>
@@ -89,7 +88,6 @@
                     <tbody>
                       <tr ng-repeat="user in users">
                         <td ng-bind="user.username"></td>
-                        <td ng-bind="user.password"></td>
                         <td ng-bind="user.fullName"></td>
                         <td ng-bind="user.phone"></td>
                         <td><i class="fa fa-edit cursor" ng-click="openEditDialog(user.id)"> Edit</i></td>
@@ -102,7 +100,7 @@
                     </tbody>
 					<tfooter>
                       <tr>
-                        <td colspan="6"><button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="addUserModal" ng-click="openAddDialog()">Add User</button></td>
+                        <td colspan="5"><button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="addUserModal" ng-click="openAddDialog()">Add User</button></td>
                       </tr>
                     </tfooter>
                    </table>
@@ -140,6 +138,10 @@
 							<label class="control-label text-red" for="password" ng-show="passwordMissing==true"><i class="fa fa-times-circle-o"></i>Password is missing</label>
 	                      	<label for="password" ng-show="passwordMissing==false">Password</label>
 	                      	<input type="text" required class="form-control" id="password" ng-model="newUser.password" placeholder="Enter password" required>
+							
+							<label class="control-label text-red" for="password2" ng-show="password2Missing==true"><i class="fa fa-times-circle-o"></i>Confirmation password doesn't match</label>
+	                      	<label for="password2" ng-show="password2Missing==false">Confirmation password</label>
+	                      	<input type="text" required class="form-control" id="password2" ng-model="newUser.password2" placeholder="Enter confirmation password" required>
 							
 							<label class="control-label text-red" for="fullName" ng-show="fullNameMissing==true"><i class="fa fa-times-circle-o"></i>Full name is missing</label>
 	                      	<label for="fullName" ng-show="fullNameMissing==false">Full name</label>

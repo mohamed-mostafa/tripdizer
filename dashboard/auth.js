@@ -58,7 +58,7 @@ function isAuthenticatedAsAdmin(req, res, next) {
     if (req.isAuthenticated() && req.user.isAdmin) {
         next();
     } else {
-        res.redirect("/admin/login");
+        res.status(404).send(`Cannot GET ${req.originalUrl}`);
     }
 }
 

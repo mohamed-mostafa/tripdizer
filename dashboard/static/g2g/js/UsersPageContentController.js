@@ -9,6 +9,7 @@ g2gControlCenterApplication.controller("UsersPageContentController", ['$rootScop
 	// validation flags
 	$scope.usernameMissing = false;
 	$scope.passwordMissing = false;
+	$scope.password2Missing = false;
 	$scope.fullNameMissing = false;
 	$scope.phoneMissing = false;
 	$scope.serverError = false;
@@ -25,6 +26,7 @@ g2gControlCenterApplication.controller("UsersPageContentController", ['$rootScop
 	$scope.resetValidationFlags = function() {
 		$scope.usernameMissing = false;
 		$scope.passwordMissing = false;
+		$scope.password2Missing = false;
 		$scope.fullNameMissing = false;
 		$scope.phoneMissing = false;
 		$scope.serverError = false;
@@ -38,6 +40,9 @@ g2gControlCenterApplication.controller("UsersPageContentController", ['$rootScop
 		if ($scope.newUser.password == null || $scope.newUser.password == "") {
 			$scope.passwordMissing = true;
 		}
+		if ($scope.newUser.password !== $scope.newUser.password2) {
+			$scope.password2Missing = true;
+		}
 		if ($scope.newUser.fullName == null || $scope.newUser.fullName == "") {
 			$scope.fullNameMissing = true;
 		}
@@ -47,6 +52,7 @@ g2gControlCenterApplication.controller("UsersPageContentController", ['$rootScop
 		
 		return $scope.usernameMissing == false &&
 			$scope.passwordMissing == false &&
+			$scope.password2Missing == false &&
 			$scope.fullNameMissing == false &&
 			$scope.phoneMissing == false;
 	};
