@@ -14,10 +14,12 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			color: 'red',
 			watermark: 'bell',
 			size: {
-				xs: 4,
-				lg: 4
+				xs: 6,
+				sm: 6,
+				md: 6,
+				lg: 3
 			},
-			role: 0
+			role: 1
 		},
 		{
 			title: 'Group Trip',
@@ -27,192 +29,14 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			numberOfTravelers: 0,
 			refresh: false,
 			color: 'red',
-			watermark: 'gear',
+			watermark: 'people',
 			size: {
-				xs: 4,
-				lg: 4
-			},
-			role: 1
-		},
-		{
-			title: 'Total',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'white',
-			watermark: 'checkmark',
-			size: {
-				xs: 4,
-				lg: 4
-			},
-			role: 2
-		},
-		{
-			title: 'Pending Send to Dizer',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
+				xs: 6,
+				sm: 6,
+				md: 6,
+				lg: 3
 			},
 			role: 3
-		},
-		{
-			title: 'Pending Send to Customer',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 4
-		},
-		{
-			title: 'Sent to Customer',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 5
-		},
-		{
-			title: 'Follow Up',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 6
-		},
-		{
-			title: 'Urgent',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 7
-		},
-		{
-			title: 'Edit',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 8
-		},
-		{
-			title: 'Not Serious',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'gray-active',
-			watermark: 'gray',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 9
-		},
-		{
-			title: 'Rejected',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'gray-active',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 10
-		},
-		{
-			title: 'Unreachable',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'gray-active',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 11
-		},
-		{
-			title: 'Future Requests',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'gray-active',
-			watermark: 'purple',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 12
-		},
-		{
-			title: 'Confirmed',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'green-gradient',
-			watermark: 'gear',
-			size: {
-				xs: 3,
-				lg: 2
-			},
-			role: 13
 		},
 		{
 			title: 'Booked',
@@ -224,10 +48,233 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			color: 'green-active',
 			watermark: 'checkmark',
 			size: {
-				xs: 3,
+				xs: 12,
+				sm: 5,
+				md: 5,
+				lg: 3
+			},
+			role: 5
+		},
+		{
+			title: 'Total',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'white',
+			watermark: 'checkmark',
+			size: {
+				xs: 12,
+				sm: 7,
+				md: 7,
+				lg: 3
+			},
+			role: 7
+		},
+		{
+			title: 'Pending Send to Dizer',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'yellow',
+			watermark: 'gear',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
 				lg: 2
 			},
-			role: 14
+			role: 9
+		},
+		{
+			title: 'Pending Send to Customer',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'yellow',
+			watermark: 'gear',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 11
+		},
+		{
+			title: 'Sent to Customer',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'yellow',
+			watermark: 'gear',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 13
+		},
+		{
+			title: 'Follow Up',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'yellow',
+			watermark: 'gear',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 15
+		},
+		{
+			title: 'Urgent',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'yellow',
+			watermark: 'gear',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 17
+		},
+		{
+			title: 'Edit',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'yellow',
+			watermark: 'gear',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 19
+		},
+		{
+			title: 'Not Serious',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'gray-active',
+			watermark: 'gray',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 21
+		},
+		{
+			title: 'Rejected',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'gray-active',
+			watermark: 'close',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 23
+		},
+		{
+			title: 'Unreachable',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'gray-active',
+			watermark: 'gear',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 25
+		},
+		{
+			title: 'Future Requests',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'gray-active',
+			watermark: 'purple',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 27
+		},
+		{
+			title: 'Duplicated',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'gray-active',
+			watermark: 'copy',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 29
+		},
+		{
+			title: 'Confirmed',
+			count: 0,
+			revenue: 0,
+			profit: 0,
+			numberOfTravelers: 0,
+			refresh: false,
+			color: 'green-gradient',
+			watermark: 'gear',
+			size: {
+				xs: 6,
+				sm: 4,
+				md: 3,
+				lg: 2
+			},
+			role: 31
 		}
 	];
 	$scope.currentOrders = [];
