@@ -49,7 +49,13 @@ var start = () => {
 	});
 	app.get('/admin/logout', (req, res) => {
 		req.logout();
-		res.redirect('/admin/login');
+		var match = req.headers.referer ? (req.headers.referer).match(/^(?:[a-z][a-z0-9+\-.]*:(?:\/\/([^/?#]+))?)?(\/?[a-z0-9\-._~%!$&'()*+,;=@]+(?:\/[a-z0-9\-._~%!$&'()*+,;=:@]+)*\/?|\/)(?:[#?]|$)/) : null;
+		if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+			req.originalUrl = match[2];
+		} else {
+			delete req.originalUrl;
+		}
+		auth.redirectToLogin(req, res);
 	});
 	app.get('/admin/home', auth.isAuthenticated, (req, res) => {
 		res.locals = {

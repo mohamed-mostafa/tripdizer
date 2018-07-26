@@ -46,15 +46,15 @@ passport.use(new LocalStrategy({
     });
 }));
 
-function isAuthenticated(req, res, next) {
+const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         next();
     } else {
-        res.redirect(`/admin/login?redirectURL=${encodeURIComponent(req.originalUrl)}`);
+        redirectToLogin(req, res);
     }
 }
 
-function isAuthenticatedAsAdmin(req, res, next) {
+const isAuthenticatedAsAdmin = (req, res, next) => {
     if (req.isAuthenticated()) {
         if (req.user.isAdmin) {
             next();
@@ -62,11 +62,15 @@ function isAuthenticatedAsAdmin(req, res, next) {
             renderTo404(req, res);
         }
     } else {
-        res.redirect(`/admin/login?redirectURL=${encodeURIComponent(req.originalUrl)}`);
+        redirectToLogin(req, res);
     }
 }
 
-function renderTo404(req, res) {
+const redirectToLogin = (req, res) => {
+    res.redirect(`/admin/login${req.originalUrl ? `?redirectURL=${encodeURIComponent(req.originalUrl)}`:''}`);
+}
+
+const renderTo404 = (req, res) => {
     res.status(404).send(`Cannot GET ${req.originalUrl}`);
 }
 
@@ -74,5 +78,6 @@ module.exports = {
     passport: passport,
     isAuthenticated: isAuthenticated,
     isAuthenticatedAsAdmin: isAuthenticatedAsAdmin,
+    redirectToLogin: redirectToLogin,
     renderTo404: renderTo404
 };
