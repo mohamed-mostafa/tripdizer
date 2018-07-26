@@ -42,10 +42,11 @@ var start = () => {
 		});
 	});
 	app.post('/admin/login', passport.authenticate('local', {
-		successRedirect: '/admin/home', // redirect to the secure profile section
 		failureRedirect: '/admin/login', // redirect back to the signup page if there is an error
 		failureFlash: true
-	}));
+	}), (req, res) => {
+		res.redirect(req.query.redirectURL || '/admin/home');
+	});
 	app.get('/admin/logout', (req, res) => {
 		req.logout();
 		res.redirect('/admin/login');
