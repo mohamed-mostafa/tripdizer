@@ -55,15 +55,24 @@ function isAuthenticated(req, res, next) {
 }
 
 function isAuthenticatedAsAdmin(req, res, next) {
-    if (req.isAuthenticated() && req.user.isAdmin) {
-        next();
+    if (req.isAuthenticated()) {
+        if (req.user.isAdmin) {
+            next();
+        } else {
+            renderTo404(req, res);
+        }
     } else {
-        res.status(404).send(`Cannot GET ${req.originalUrl}`);
+        res.redirect(`/admin/login?redirectURL=${encodeURIComponent(req.originalUrl)}`);
     }
+}
+
+function renderTo404(req, res) {
+    res.status(404).send(`Cannot GET ${req.originalUrl}`);
 }
 
 module.exports = {
     passport: passport,
     isAuthenticated: isAuthenticated,
-    isAuthenticatedAsAdmin: isAuthenticatedAsAdmin
+    isAuthenticatedAsAdmin: isAuthenticatedAsAdmin,
+    renderTo404: renderTo404
 };

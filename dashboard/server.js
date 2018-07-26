@@ -114,6 +114,7 @@ var start = () => {
 			user: req.user
 		});
 	});
+	app.get('*', auth.isAuthenticated, auth.renderTo404);
 
 	// routes end
 	var port = process.env.PORT || 8081;
