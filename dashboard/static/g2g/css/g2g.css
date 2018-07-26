@@ -1,7 +1,9 @@
 .cursor {
-	cursor: pointer;
+    cursor: pointer;
 }
-.ta-editor.form-control.richtext, .ta-scroll-window.form-control.richtext  {
+
+.ta-editor.form-control.richtext,
+.ta-scroll-window.form-control.richtext {
     min-height: 100px;
     height: auto;
     overflow: auto;
@@ -9,7 +11,11 @@
     font-size: 100%;
 }
 
-.form-control.richtext > .ta-bind {
+.ta-hidden-input {
+    display: none;
+}
+
+.form-control.richtext>.ta-bind {
     height: auto;
     min-height: 100px;
     padding: 6px 12px;

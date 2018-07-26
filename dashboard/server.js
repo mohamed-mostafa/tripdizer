@@ -2,7 +2,7 @@
  * The g2g server exposing the REST services
  */
 
-var start = function () {
+var start = () => {
 	// initialize express
 	var express = require('express');
 	var cors = require('cors');
@@ -27,10 +27,18 @@ var start = function () {
 	app.use(passport.session());
 	app.use(flash());
 	app.set('view engine', 'ejs'); // let the res.render use ejs
+	app.use(require('express-ejs-layouts'));
+	app.set("layout extractScripts", true);
+	app.set("layout extractStyles", true);
+	app.set("layout extractMetas", true);
 	// routes
-	app.get('/admin/login', function (req, res) {
+	app.get('/admin/login', (req, res) => {
+		res.locals = {
+			title: 'Log in'
+		};
 		res.render('pages/login', {
-			errorMsg: req.flash('loginMessage')[0]
+			errorMsg: req.flash('loginMessage')[0],
+			layout: false
 		});
 	});
 	app.post('/admin/login', passport.authenticate('local', {
@@ -38,49 +46,69 @@ var start = function () {
 		failureRedirect: '/admin/login', // redirect back to the signup page if there is an error
 		failureFlash: true
 	}));
-	app.get('/admin/logout', function (req, res) {
+	app.get('/admin/logout', (req, res) => {
 		req.logout();
 		res.redirect('/admin/login');
 	});
-	app.get('/admin/home', auth.isAuthenticated, function (req, res) {
-		res.render(req.user.isAdmin ? 'pages/index' : 'pages/non-admin-index', {
+	app.get('/admin/home', auth.isAuthenticated, (req, res) => {
+		res.locals = {
+			title: 'Home',
+			controller: 'HomePageContent'
+		};
+		res.render('pages/index', {
 			user: req.user
 		});
 	});
-	app.get('/admin/non-admin-index', function (req, res) {
-		res.render(req.user.isAdmin ? 'pages/index' : 'pages/non-admin-index', {
-			user: req.user
-		});
-	});
-	app.get('/public', function (req, res) {
-		res.render('pages/submit_request');
-	});
-	app.get('/admin/users', auth.isAuthenticatedAsAdmin, function (req, res) {
+	app.get('/admin/users', auth.isAuthenticatedAsAdmin, (req, res) => {
+		res.locals = {
+			title: 'Users',
+			controller: 'UsersPageContent'
+		};
 		res.render('pages/users', {
 			user: req.user
 		});
 	});
-	app.get('/admin/partners', auth.isAuthenticated, function (req, res) {
+	app.get('/admin/partners', auth.isAuthenticated, (req, res) => {
+		res.locals = {
+			title: 'Partners',
+			controller: 'PartnersPageContent'
+		};
 		res.render('pages/partners', {
 			user: req.user
 		});
 	});
-	app.get('/admin/countries', auth.isAuthenticated, function (req, res) {
+	app.get('/admin/countries', auth.isAuthenticated, (req, res) => {
+		res.locals = {
+			title: 'Countries',
+			controller: 'CountriesPageContent'
+		};
 		res.render('pages/countries', {
 			user: req.user
 		});
 	});
-	app.get('/admin/itineraries', auth.isAuthenticated, function (req, res) {
+	app.get('/admin/itineraries', auth.isAuthenticated, (req, res) => {
+		res.locals = {
+			title: 'Itineraries',
+			controller: 'ItinerariesPageContent'
+		};
 		res.render('pages/itineraries', {
 			user: req.user
 		});
 	});
-	app.get('/admin/group-trips', auth.isAuthenticated, function (req, res) {
+	app.get('/admin/group-trips', auth.isAuthenticated, (req, res) => {
+		res.locals = {
+			title: 'Group Trips',
+			controller: 'GroupTrips'
+		};
 		res.render('pages/group-trips', {
 			user: req.user
 		});
 	});
-	app.get('/admin/videos', auth.isAuthenticated, function (req, res) {
+	app.get('/admin/videos', auth.isAuthenticated, (req, res) => {
+		res.locals = {
+			title: 'Videos',
+			controller: 'Videos'
+		};
 		res.render('pages/videos', {
 			user: req.user
 		});
@@ -88,7 +116,7 @@ var start = function () {
 
 	// routes end
 	var port = process.env.PORT || 8081;
-	app.listen(port, function () {
+	app.listen(port, () => {
 		console.log('%s: ControlCenter Node server started on %d ...', Date(Date.now()), port);
 	});
 };

@@ -7,6 +7,7 @@
     "cors": "^2.8.4",
     "ejs": "latest",
     "express": "3.x",
+    "express-ejs-layouts": "^2.4.0",
     "express-flash": "0.0.2",
     "google-auth-library": "0.*",
     "googleapis": "24.*",

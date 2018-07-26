@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tripdizer Dashboard |
+        <%= title %>
+    </title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <%- meta %>
+        <% include ./partials/styles %>
+            <%- style %>
+</head>
+
+<body ng-app="G2GControlCenterApplication" class="skin-blue">
+    <div class="wrapper">
+
+        <header class="main-header">
+            <% include ./partials/header %>
+        </header>
+
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <% include ./partials/side %>
+        </aside>
+
+        <!-- Contains the navbar and content of the page -->
+        <div class="content-wrapper" ng-controller="<%= controller %>Controller">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Tripdizer Dashboard
+                    <small>
+                        <%= title %>
+                    </small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="home">
+                            <i class="fa fa-dashboard"></i> Home</a>
+                    </li>
+                    <li class="active">
+                        <%= title %>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <%- body %>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <% include ./partials/footer %>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+
+    <% include ./partials/scripts %>
+        <%- script %>
+</body>
+
+</html>

@@ -1,1038 +1,894 @@
-<!DOCTYPE html>
-<html>
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">
+            <%= title %>
+        </h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="overlay" ng-show="loading == true">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
+        <div class="box-body table-responsive no-padding" ng-show="loading == false">
+            <table id="itinerariesTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="itinerary in itineraries">
+                        <td>
+                            <a ng-click="openDetailsDialog(itinerary.id)" href="#">{{itinerary.en_name}}</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfooter>
+                    <tr>
+                        <td colspan="7">
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="addItineraryModal" ng-click="openAddDialog()">Add Itinerary</button>
+                        </td>
+                    </tr>
+                </tfooter>
+            </table>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->
+<!-- Main row -->
+<div class="row">
 
-<head>
-    <meta charset="UTF-8">
-    <title>G2G | Dashboard</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.2 -->
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- FontAwesome 4.3.0 -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"
-    />
-    <!-- Ionicons 2.0.0 -->
-    <link href="https://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins 
-         folder instead of downloading all of them to reduce the load. -->
-    <link href="/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
-    <!-- iCheck -->
-    <link href="/plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
-    <!-- Morris chart -->
-    <!-- <link href="/plugins/morris/morris.css" rel="stylesheet" type="text/css" /> -->
-    <!-- jvectormap -->
-    <!-- <link href="/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" /> -->
-    <!-- Date Picker -->
-    <!-- <link href="/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" /> -->
-    <!-- Daterange picker -->
-    <!-- <link href="/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" /> -->
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link href="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
-    <!-- DATA TABLES -->
-    <link href="../../plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-    <!-- g2g stylesheet -->
-    <link href="/g2g/css/g2g.css" rel="stylesheet" type="text/css" />
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-</head>
+    <!-- MODALS -->
 
-<body ng-app="G2GControlCenterApplication" class="skin-blue">
-    <div class="wrapper">
-
-        <header class="main-header">
-            <% include ../partials/header %>
-        </header>
-
-        <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
-            <% include ../partials/side %>
-        </aside>
-
-        <!-- Contains the navbar and content of the page -->
-        <div class="content-wrapper" ng-controller="ItinerariesPageContentController">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <h1>
-                    HWS Dashboard
-                    <small>Itineraries</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li>
-                        <a href="home">
-                            <i class="fa fa-dashboard"></i> Home</a>
-                    </li>
-                    <li class="active">Itineraries</li>
-                </ol>
-            </section>
-            <!-- Main content -->
-            <section class="content">
-                <!-- Small boxes (Stat box) -->
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Itineraries</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <div class="overlay" ng-show="loading == true">
-                            <i class="fa fa-refresh fa-spin"></i>
-                        </div>
-                        <div class="box-body table-responsive no-padding" ng-show="loading == false">
-                            <table id="itinerariesTable" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="itinerary in itineraries">
-                                        <td>
-                                            <a ng-click="openDetailsDialog(itinerary.id)" href="#">{{itinerary.en_name}}</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfooter>
-                                    <tr>
-                                        <td colspan="7">
-                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="addItineraryModal" ng-click="openAddDialog()">Add Itinerary</button>
-                                        </td>
-                                    </tr>
-                                </tfooter>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
+    <div class="modal fade" id="addItineraryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add or Modify Itinerary</h4>
                 </div>
-                <!-- /.box -->
-                <!-- Main row -->
-                <div class="row">
-
-                    <!-- MODALS -->
-
-                    <div class="modal fade" id="addItineraryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="myModalLabel">Add or Modify Itinerary</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="callout callout-danger" ng-show="serverError==true">
-                                        <h4>Saving failed!</h4>
-                                        <p>{{serverErrorMessage}}</p>
-                                    </div>
-                                    <form role="form" id="newItineraryForm">
-                                        <div class="box-body">
-                                            <div class="overlay" ng-show="saving == true">
-                                                <i class="fa fa-refresh fa-spin"></i>
-                                            </div>
-                                            <div class="form-group form-group-6" ng-show="saving==false">
-                                                <label class="control-label text-red" for="en_name" ng-show="en_nameMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>English Name is missing</label>
-                                                <label for="en_name" ng-show="en_nameMissing==false">En Name</label>
-                                                <input type="text" required class="form-control" id="en_name" ng-model="newItinerary.en_name" placeholder="Enter name in English"
-                                                    required>
-                                            </div>
-                                            <div class="form-group form-group-6" ng-show="saving==false">
-                                                <label class="control-label text-red" for="ar_name" ng-show="ar_nameMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Arabic Name is missing</label>
-                                                <label for="ar_name" ng-show="ar_nameMissing==false">Ar Name</label>
-                                                <input type="text" required class="form-control" id="ar_name" ng-model="newItinerary.ar_name" placeholder="Enter name in Arabic"
-                                                    required>
-                                            </div>
-                                            <div class="form-group form-group-6" ng-show="saving==false">
-                                                <label class="control-label text-red" for="en_description" ng-show="en_descriptionMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>English Description is missing</label>
-                                                <label for="en_description" ng-show="en_descriptionMissing==false">En Desc</label>
-                                                <input type="text" required class="form-control" id="en_description" ng-model="newItinerary.en_description" placeholder="Enter description in English"
-                                                    required>
-                                            </div>
-                                            <div class="form-group form-group-6" ng-show="saving==false">
-                                                <label class="control-label text-red" for="ar_description" ng-show="ar_descriptionMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Arabic Description is missing</label>
-                                                <label for="ar_description" ng-show="ar_descriptionMissing==false">Ar Desc</label>
-                                                <input type="text" required class="form-control" id="ar_description" ng-model="newItinerary.ar_description" placeholder="Enter description in Arabic"
-                                                    required>
-                                            </div>
-                                            <div class="form-group" ng-show="saving==false">
-                                                <label class="control-label text-red" for="introduction" ng-show="introductionMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Introduction is missing</label>
-                                                <label for="introduction" ng-show="introductionMissing==false">Introduction</label>
-                                                <textarea class="form-control" id="introduction" ng-model="newItinerary.introduction" placeholder="Enter introduction" rows="2"></textarea>
-                                            </div>
-                                            <div class="form-group" ng-show="saving==false">
-                                                <label class="control-label text-red" for="includes" ng-show="includesMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Includes is missing</label>
-                                                <label for="includes" ng-show="includesMissing==false">Includes</label>
-                                                <textarea bullet class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
-                                            </div>
-                                            <div class="form-group" ng-show="saving==false">
-                                                <label class="control-label text-red" for="excludes" ng-show="excludesMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Excludes is missing</label>
-                                                <label for="excludes" ng-show="excludesMissing==false">Excludes</label>
-                                                <textarea bullet class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
-                                            </div>
-                                            <div class="form-group form-group-3" ng-show="saving==false">
-                                                <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
-                                                <label for="dailySpendings" ng-show="dailySpendingsMissing==false">Daily Spendings</label>
-                                                <input type="number" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
-                                                    required>
-                                            </div>
-                                            <div class="form-group form-group-2" ng-show="saving==false">
-                                                <label class="control-label text-red" for="needsVisa" ng-show="dailySpendingsMissing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Need a visa is missing</label>
-                                                <label for="needsVisa" ng-show="needsVisaMissing==false">Need a visa</label>
-                                                <select class="form-control" ng-model="newItinerary.needsVisa">
-                                                    <option value="1" ng-selected="true">Yes</option>
-                                                    <option value="0">No</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group form-group-7" ng-show="saving==false">
-                                                <label class="control-label text-red" for="image1" ng-show="image1Missing==true">
-                                                    <i class="fa fa-times-circle-o"></i>Image is missing</label>
-                                                <label for="image1" ng-show="image1Missing==false">Image URI (recommended width 600px)</label>
-                                                <input type="url" class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI" required>
-                                            </div>
-                                            <!-- <div class="form-group form-group-6" ng-show="saving==false">
+                <div class="modal-body">
+                    <div class="callout callout-danger" ng-show="serverError==true">
+                        <h4>Saving failed!</h4>
+                        <p>{{serverErrorMessage}}</p>
+                    </div>
+                    <form role="form" id="newItineraryForm">
+                        <div class="box-body">
+                            <div class="overlay" ng-show="saving == true">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                            <div class="form-group form-group-6" ng-show="saving==false">
+                                <label class="control-label text-red" for="en_name" ng-show="en_nameMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>English Name is missing</label>
+                                <label for="en_name" ng-show="en_nameMissing==false">En Name</label>
+                                <input type="text" required class="form-control" id="en_name" ng-model="newItinerary.en_name" placeholder="Enter name in English"
+                                    required>
+                            </div>
+                            <div class="form-group form-group-6" ng-show="saving==false">
+                                <label class="control-label text-red" for="ar_name" ng-show="ar_nameMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>Arabic Name is missing</label>
+                                <label for="ar_name" ng-show="ar_nameMissing==false">Ar Name</label>
+                                <input type="text" required class="form-control" id="ar_name" ng-model="newItinerary.ar_name" placeholder="Enter name in Arabic"
+                                    required>
+                            </div>
+                            <div class="form-group form-group-6" ng-show="saving==false">
+                                <label class="control-label text-red" for="en_description" ng-show="en_descriptionMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>English Description is missing</label>
+                                <label for="en_description" ng-show="en_descriptionMissing==false">En Desc</label>
+                                <input type="text" required class="form-control" id="en_description" ng-model="newItinerary.en_description" placeholder="Enter description in English"
+                                    required>
+                            </div>
+                            <div class="form-group form-group-6" ng-show="saving==false">
+                                <label class="control-label text-red" for="ar_description" ng-show="ar_descriptionMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>Arabic Description is missing</label>
+                                <label for="ar_description" ng-show="ar_descriptionMissing==false">Ar Desc</label>
+                                <input type="text" required class="form-control" id="ar_description" ng-model="newItinerary.ar_description" placeholder="Enter description in Arabic"
+                                    required>
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                                <label class="control-label text-red" for="introduction" ng-show="introductionMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>Introduction is missing</label>
+                                <label for="introduction" ng-show="introductionMissing==false">Introduction</label>
+                                <textarea class="form-control" id="introduction" ng-model="newItinerary.introduction" placeholder="Enter introduction" rows="2"></textarea>
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                                <label class="control-label text-red" for="includes" ng-show="includesMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>Includes is missing</label>
+                                <label for="includes" ng-show="includesMissing==false">Includes</label>
+                                <textarea bullet class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
+                            </div>
+                            <div class="form-group" ng-show="saving==false">
+                                <label class="control-label text-red" for="excludes" ng-show="excludesMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>Excludes is missing</label>
+                                <label for="excludes" ng-show="excludesMissing==false">Excludes</label>
+                                <textarea bullet class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
+                            </div>
+                            <div class="form-group form-group-3" ng-show="saving==false">
+                                <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
+                                <label for="dailySpendings" ng-show="dailySpendingsMissing==false">Daily Spendings</label>
+                                <input type="number" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
+                                    required>
+                            </div>
+                            <div class="form-group form-group-2" ng-show="saving==false">
+                                <label class="control-label text-red" for="needsVisa" ng-show="dailySpendingsMissing==true">
+                                    <i class="fa fa-times-circle-o"></i>Need a visa is missing</label>
+                                <label for="needsVisa" ng-show="needsVisaMissing==false">Need a visa</label>
+                                <select class="form-control" ng-model="newItinerary.needsVisa">
+                                    <option value="1" ng-selected="true">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-group-7" ng-show="saving==false">
+                                <label class="control-label text-red" for="image1" ng-show="image1Missing==true">
+                                    <i class="fa fa-times-circle-o"></i>Image is missing</label>
+                                <label for="image1" ng-show="image1Missing==false">Image URI (recommended width 600px)</label>
+                                <input type="url" class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI" required>
+                            </div>
+                            <!-- <div class="form-group form-group-6" ng-show="saving==false">
                                                 <label class="control-label text-red" for="image2" ng-show="image2Missing==true">
                                                     <i class="fa fa-times-circle-o"></i>Image 2 is missing</label>
                                                 <label for="image2" ng-show="image2Missing==false">Image 2 URI</label>
                                                 <input type="text" required class="form-control" id="image2" ng-model="newItinerary.image2" placeholder="Enter image 2 URI"
                                                     required>
                                             </div> -->
-                                            <!-- /.form group -->
-                                        </div>
-                                        <!-- /.box-body -->
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" ng-click="addItinerary(true)" ng-show="editMode==false">Save and close</button>
-                                    <button type="button" class="btn btn-primary" ng-click="addItinerary(false)" ng-show="editMode==false">Save and add another</button>
-                                    <button type="button" class="btn btn-primary" ng-click="editItinerary()" ng-show="editMode==true">Save</button>
-                                </div>
-                            </div>
+                            <!-- /.form group -->
                         </div>
+                        <!-- /.box-body -->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="addItinerary(true)" ng-show="editMode==false">Save and close</button>
+                    <button type="button" class="btn btn-primary" ng-click="addItinerary(false)" ng-show="editMode==false">Save and add another</button>
+                    <button type="button" class="btn btn-primary" ng-click="editItinerary()" ng-show="editMode==true">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODALS END -->
+
+
+    <!-- MODALS -->
+
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Itinerary Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="callout callout-danger" ng-show="serverError==true">
+                        <h4>Saving failed!</h4>
+                        <p>{{serverErrorMessage}}</p>
                     </div>
-                    <!-- MODALS END -->
-
-
-                    <!-- MODALS -->
-
-                    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="myModalLabel">Itinerary Details</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="callout callout-danger" ng-show="serverError==true">
-                                        <h4>Saving failed!</h4>
-                                        <p>{{serverErrorMessage}}</p>
-                                    </div>
-                                    <form role="form" id="newItineraryForm">
-                                        <div class="box-body">
-                                            <div class="overlay" ng-show="saving == true">
-                                                <i class="fa fa-refresh fa-spin"></i>
-                                            </div>
-                                            <div class="nav-tabs-custom">
-                                                <ul class="nav nav-tabs">
-                                                    <li class="active">
-                                                        <a href="#itineraryTab" data-toggle="tab">Basic</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#countriesTab" data-toggle="tab">Countries</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#ferriesTab" data-toggle="tab">Ferries</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#flightsTab" data-toggle="tab">Flights</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#hotelsTab" data-toggle="tab">Hotels</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#seasonsTab" data-toggle="tab">Seasons</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#budgetTab" data-toggle="tab">Budget</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#purposeTab" data-toggle="tab">Purpose</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#interestTab" data-toggle="tab">Interest</a>
-                                                    </li>
-                                                </ul>
-                                                <div class="tab-content">
-                                                    <div class="tab-pane active" id="itineraryTab">
-                                                        <div class="form-group form-group-6" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="en_name" ng-show="en_nameMissing">
-                                                                <i class="fa fa-times-circle-o"></i>English Name is missing</label>
-                                                            <label for="en_name" ng-show="!en_nameMissing">En Name</label>
-                                                            <input type="text" required class="form-control" id="en_name" ng-model="newItinerary.en_name" placeholder="Enter name in English"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-group form-group-6" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="ar_name" ng-show="ar_nameMissing">
-                                                                <i class="fa fa-times-circle-o"></i>Arabic Name is missing</label>
-                                                            <label for="ar_name" ng-show="!ar_nameMissing">Ar Name</label>
-                                                            <input type="text" required class="form-control" id="ar_name" ng-model="newItinerary.ar_name" placeholder="Enter name in Arabic"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-group form-group-6" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="en_description" ng-show="en_descriptionMissing">
-                                                                <i class="fa fa-times-circle-o"></i>English Description is missing</label>
-                                                            <label for="en_description" ng-show="!en_descriptionMissing">En Desc</label>
-                                                            <input type="text" required class="form-control" id="en_description" ng-model="newItinerary.en_description" placeholder="Enter description in English"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-group form-group-6" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="ar_description" ng-show="ar_descriptionMissing">
-                                                                <i class="fa fa-times-circle-o"></i>Arabic Description is missing</label>
-                                                            <label for="ar_description" ng-show="!ar_descriptionMissing">Ar Desc</label>
-                                                            <input type="text" required class="form-control" id="ar_description" ng-model="newItinerary.ar_description" placeholder="Enter description in Arabic"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-group" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="introduction" ng-show="introductionMissing">
-                                                                <i class="fa fa-times-circle-o"></i>Introduction is missing</label>
-                                                            <label for="introduction" ng-show="!introductionMissing">Introduction</label>
-                                                            <textarea class="form-control" id="introduction" ng-model="newItinerary.introduction" placeholder="Enter introduction" rows="2"></textarea>
-                                                        </div>
-                                                        <div class="form-group" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="includes" ng-show="includesMissing">
-                                                                <i class="fa fa-times-circle-o"></i>Includes is missing</label>
-                                                            <label for="includes" ng-show="!includesMissing">Includes</label>
-                                                            <textarea bullet class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
-                                                        </div>
-                                                        <div class="form-group" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="excludes" ng-show="excludesMissing">
-                                                                <i class="fa fa-times-circle-o"></i>Excludes is missing</label>
-                                                            <label for="excludes" ng-show="!excludesMissing">Excludes</label>
-                                                            <textarea bullet class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
-                                                        </div>
-                                                        <div class="form-group form-group-3" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing">
-                                                                <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
-                                                            <label for="dailySpendings" ng-show="!dailySpendingsMissing">Daily Spendings</label>
-                                                            <input type="number" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-group form-group-2" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="needsVisa" ng-show="needsVisaMissing">
-                                                                <i class="fa fa-times-circle-o"></i>Need a visa is missing</label>
-                                                            <label for="needsVisa" ng-show="!needsVisaMissing">Need a visa</label>
-                                                            <select class="form-control" ng-model="newItinerary.needsVisa">
-                                                                <option value="1" ng-selected="newItinerary.needsVisa == 1">Yes</option>
-                                                                <option value="0" ng-selected="newItinerary.needsVisa != 1">No</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group form-group-7" ng-show="saving==false">
-                                                            <label class="control-label text-red" for="image1" ng-show="image1Missing">
-                                                                <i class="fa fa-times-circle-o"></i>Image is missing</label>
-                                                            <label for="image1" ng-show="!image1Missing">Image URI (recommended width 600px)</label>
-                                                            <input type="url" class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI" required>
-                                                        </div>
-                                                        <!-- <div class="form-group form-group-4" ng-show="saving==false">
+                    <form role="form" id="newItineraryForm">
+                        <div class="box-body">
+                            <div class="overlay" ng-show="saving == true">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#itineraryTab" data-toggle="tab">Basic</a>
+                                    </li>
+                                    <li>
+                                        <a href="#countriesTab" data-toggle="tab">Countries</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ferriesTab" data-toggle="tab">Ferries</a>
+                                    </li>
+                                    <li>
+                                        <a href="#flightsTab" data-toggle="tab">Flights</a>
+                                    </li>
+                                    <li>
+                                        <a href="#hotelsTab" data-toggle="tab">Hotels</a>
+                                    </li>
+                                    <li>
+                                        <a href="#seasonsTab" data-toggle="tab">Seasons</a>
+                                    </li>
+                                    <li>
+                                        <a href="#budgetTab" data-toggle="tab">Budget</a>
+                                    </li>
+                                    <li>
+                                        <a href="#purposeTab" data-toggle="tab">Purpose</a>
+                                    </li>
+                                    <li>
+                                        <a href="#interestTab" data-toggle="tab">Interest</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="itineraryTab">
+                                        <div class="form-group form-group-6" ng-show="saving==false">
+                                            <label class="control-label text-red" for="en_name" ng-show="en_nameMissing">
+                                                <i class="fa fa-times-circle-o"></i>English Name is missing</label>
+                                            <label for="en_name" ng-show="!en_nameMissing">En Name</label>
+                                            <input type="text" required class="form-control" id="en_name" ng-model="newItinerary.en_name" placeholder="Enter name in English"
+                                                required>
+                                        </div>
+                                        <div class="form-group form-group-6" ng-show="saving==false">
+                                            <label class="control-label text-red" for="ar_name" ng-show="ar_nameMissing">
+                                                <i class="fa fa-times-circle-o"></i>Arabic Name is missing</label>
+                                            <label for="ar_name" ng-show="!ar_nameMissing">Ar Name</label>
+                                            <input type="text" required class="form-control" id="ar_name" ng-model="newItinerary.ar_name" placeholder="Enter name in Arabic"
+                                                required>
+                                        </div>
+                                        <div class="form-group form-group-6" ng-show="saving==false">
+                                            <label class="control-label text-red" for="en_description" ng-show="en_descriptionMissing">
+                                                <i class="fa fa-times-circle-o"></i>English Description is missing</label>
+                                            <label for="en_description" ng-show="!en_descriptionMissing">En Desc</label>
+                                            <input type="text" required class="form-control" id="en_description" ng-model="newItinerary.en_description" placeholder="Enter description in English"
+                                                required>
+                                        </div>
+                                        <div class="form-group form-group-6" ng-show="saving==false">
+                                            <label class="control-label text-red" for="ar_description" ng-show="ar_descriptionMissing">
+                                                <i class="fa fa-times-circle-o"></i>Arabic Description is missing</label>
+                                            <label for="ar_description" ng-show="!ar_descriptionMissing">Ar Desc</label>
+                                            <input type="text" required class="form-control" id="ar_description" ng-model="newItinerary.ar_description" placeholder="Enter description in Arabic"
+                                                required>
+                                        </div>
+                                        <div class="form-group" ng-show="saving==false">
+                                            <label class="control-label text-red" for="introduction" ng-show="introductionMissing">
+                                                <i class="fa fa-times-circle-o"></i>Introduction is missing</label>
+                                            <label for="introduction" ng-show="!introductionMissing">Introduction</label>
+                                            <textarea class="form-control" id="introduction" ng-model="newItinerary.introduction" placeholder="Enter introduction" rows="2"></textarea>
+                                        </div>
+                                        <div class="form-group" ng-show="saving==false">
+                                            <label class="control-label text-red" for="includes" ng-show="includesMissing">
+                                                <i class="fa fa-times-circle-o"></i>Includes is missing</label>
+                                            <label for="includes" ng-show="!includesMissing">Includes</label>
+                                            <textarea bullet class="form-control" id="includes" ng-model="newItinerary.includes" placeholder="Enter includes" rows="2"></textarea>
+                                        </div>
+                                        <div class="form-group" ng-show="saving==false">
+                                            <label class="control-label text-red" for="excludes" ng-show="excludesMissing">
+                                                <i class="fa fa-times-circle-o"></i>Excludes is missing</label>
+                                            <label for="excludes" ng-show="!excludesMissing">Excludes</label>
+                                            <textarea bullet class="form-control" id="excludes" ng-model="newItinerary.excludes" placeholder="Enter excludes" rows="2"></textarea>
+                                        </div>
+                                        <div class="form-group form-group-3" ng-show="saving==false">
+                                            <label class="control-label text-red" for="dailySpendings" ng-show="dailySpendingsMissing">
+                                                <i class="fa fa-times-circle-o"></i>Daily Spendings is missing</label>
+                                            <label for="dailySpendings" ng-show="!dailySpendingsMissing">Daily Spendings</label>
+                                            <input type="number" required class="form-control" id="dailySpendings" ng-model="newItinerary.dailySpendings" placeholder="Enter daily spendings"
+                                                required>
+                                        </div>
+                                        <div class="form-group form-group-2" ng-show="saving==false">
+                                            <label class="control-label text-red" for="needsVisa" ng-show="needsVisaMissing">
+                                                <i class="fa fa-times-circle-o"></i>Need a visa is missing</label>
+                                            <label for="needsVisa" ng-show="!needsVisaMissing">Need a visa</label>
+                                            <select class="form-control" ng-model="newItinerary.needsVisa">
+                                                <option value="1" ng-selected="newItinerary.needsVisa == 1">Yes</option>
+                                                <option value="0" ng-selected="newItinerary.needsVisa != 1">No</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group form-group-7" ng-show="saving==false">
+                                            <label class="control-label text-red" for="image1" ng-show="image1Missing">
+                                                <i class="fa fa-times-circle-o"></i>Image is missing</label>
+                                            <label for="image1" ng-show="!image1Missing">Image URI (recommended width 600px)</label>
+                                            <input type="url" class="form-control" id="image1" ng-model="newItinerary.image1" placeholder="Enter image URI" required>
+                                        </div>
+                                        <!-- <div class="form-group form-group-4" ng-show="saving==false">
                                                             <label class="control-label text-red" for="image2" ng-show="image2Missing">
                                                                 <i class="fa fa-times-circle-o"></i>Image 2 is missing</label>
                                                             <label for="image2" ng-show="!image2Missing">Image 2 URI</label>
                                                             <input type="text" required class="form-control" id="image2" ng-model="newItinerary.image2" placeholder="Enter image 2 URI"
                                                                 required>
                                                         </div> -->
-                                                        <!-- /.form group -->
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                    <div class="tab-pane" id="countriesTab">
-                                                        <div class="text-center">
-                                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addCountry()"></i>
-                                                        </div>
-                                                        <div class="box box-primary" ng-repeat="country in newItinerary.countries">
-                                                            <div class="box-header with-border">
-                                                                <h3 class="box-title">{{getCountryById(country.id).en_name}}</h3>
-                                                                <div class="box-tools pull-right">
-                                                                    <button class="btn btn-box-tool" ng-click="removeCountry($index)">
-                                                                        <i class="fa fa-times-circle text-danger"></i>
-                                                                    </button>
-                                                                    <button class="btn btn-box-tool" data-widget="collapse">
-                                                                        <i class="fa fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <!-- /.box-tools -->
-                                                            </div>
-                                                            <!-- /.box-header -->
-                                                            <div class="box-body">
-                                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
-                                                                    <div class="form-control-4">
-                                                                        <label>Country name</label>
-                                                                        <select class="form-control" ng-model="country.id">
-                                                                            <option ng-repeat="orgCountry in countries" ng-value="orgCountry.id" ng-selected="orgCountry.id == country.id">{{orgCountry.en_name}}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Order #</label>
-                                                                        <input class="form-control" type="number" ng-model="country.order" required>
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Days %</label>
-                                                                        <input class="form-control" type="number" ng-model="country.days" required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                    <style>
-                                                        .form-control-1,
-                                                        .form-group-1 {
-                                                            width: calc(8.33% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-2,
-                                                        .form-group-2 {
-                                                            width: calc(16.62% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-3,
-                                                        .form-group-3 {
-                                                            width: calc(24.85% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-4,
-                                                        .form-group-4 {
-                                                            width: calc(33.33% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-5,
-                                                        .form-group-5 {
-                                                            width: calc(41.67% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-6,
-                                                        .form-group-6 {
-                                                            width: calc(50% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-7,
-                                                        .form-group-7 {
-                                                            width: calc(58.33% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-8,
-                                                        .form-group-8 {
-                                                            width: calc(66.67% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-9,
-                                                        .form-group-9 {
-                                                            width: calc(75% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-10,
-                                                        .form-group-10 {
-                                                            width: calc(83.33% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-11,
-                                                        .form-group-11 {
-                                                            width: calc(91.67% - 2px);
-                                                            display: inline-block;
-                                                        }
-
-                                                        .form-control-12,
-                                                        .form-group-12 {
-                                                            width: calc(100% - 2px);
-                                                            display: inline-block;
-                                                        }
-                                                    </style>
-                                                    <div class="tab-pane" id="ferriesTab">
-                                                        <div class="text-center">
-                                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addFerry()"></i>
-                                                        </div>
-                                                        <div class="box box-primary" ng-repeat="ferry in newItinerary.ferries">
-                                                            <div class="box-header with-border">
-                                                                <h3 class="box-title">{{ferry.departing_from ? ferry.departing_from : 'From'}}
-                                                                    > {{ferry.arriving_to ? ferry.arriving_to : 'To'}}</h3>
-                                                                <div class="box-tools pull-right">
-                                                                    <button class="btn btn-box-tool" ng-click="removeFerry($index)">
-                                                                        <i class="fa fa-times-circle text-danger"></i>
-                                                                    </button>
-                                                                    <button class="btn btn-box-tool" data-widget="collapse">
-                                                                        <i class="fa fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <!-- /.box-tools -->
-                                                            </div>
-                                                            <!-- /.box-header -->
-                                                            <div class="box-body">
-                                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
-                                                                    <div class="form-control-6">
-                                                                        <label>Departing From:</label>
-                                                                        <input class="form-control" type="text" ng-model="ferry.departing_from" required>
-                                                                    </div>
-                                                                    <div class="form-control-6">
-                                                                        <label>Arriving To:</label>
-                                                                        <input class="form-control" type="text" ng-model="ferry.arriving_to" required>
-                                                                    </div>
-                                                                    <label>Carrier Name:</label>
-                                                                    <input class="form-control" type="text" ng-model="ferry.carrier_name" required>
-                                                                    <label>Price:</label>
-                                                                    <br>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jan:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.JAN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Feb:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.FEB" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Mar:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.MAR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Apr:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.APR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>May:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.MAY" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jun:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.JUN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jul:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.JUL" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Aug:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.AUG" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Sept:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.SEP" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Oct:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.OCT" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Nov:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.NOV" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Dec:</label>
-                                                                        <input class="form-control" type="number" ng-model="ferry.DEC" required>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- /.form group -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                    <div class="tab-pane" id="flightsTab">
-                                                        <div class="text-center">
-                                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addFlight()"></i>
-                                                        </div>
-                                                        <div class="box box-primary" ng-repeat="flight in newItinerary.flights">
-                                                            <div class="box-header with-border">
-                                                                <h3 class="box-title">{{flight.departing_from ? flight.departing_from : 'From'}}
-                                                                    {{flight.return ? '
-                                                                    <>' : '>'}} {{flight.arriving_to ? flight.arriving_to :
-                                                                        'To '}} with return:
-                                                                        <input type="checkbox" ng-model="flight.return" ng-checked="flight.return">
-                                                                </h3>
-                                                                <div class="box-tools pull-right">
-                                                                    <button class="btn btn-box-tool" ng-click="removeFlight($index)">
-                                                                        <i class="fa fa-times-circle text-danger"></i>
-                                                                    </button>
-                                                                    <button class="btn btn-box-tool" data-widget="collapse">
-                                                                        <i class="fa fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <!-- /.box-tools -->
-                                                            </div>
-                                                            <!-- /.box-header -->
-                                                            <div class="box-body">
-                                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
-                                                                    <div class="form-control-6">
-                                                                        <label>Departing From:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.departing_from" required>
-                                                                    </div>
-                                                                    <div class="form-control-6">
-                                                                        <label>Arriving To:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.arriving_to" required>
-                                                                    </div>
-                                                                    <div class="form-control-6">
-                                                                        <label>Airline:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.airline_name" required>
-                                                                    </div>
-                                                                    <div class="form-control-6">
-                                                                        <label>Type:</label>
-                                                                        <select class="form-control" ng-model="flight.type">
-                                                                            <option value="0" ng-selected="flight.type == 0">External</option>
-                                                                            <option value="1" ng-selected="flight.type == 1">Internal</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Departing Time:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.departure_time" required>
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Arrival Time:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.arrival_time" required>
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Lay Over:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.lay_over" required>
-                                                                    </div>
-                                                                    <div class="form-control-4" ng-if="flight.return">
-                                                                        <label>Return Departing Time:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.return_departure_time" required>
-                                                                    </div>
-                                                                    <div class="form-control-4" ng-if="flight.return">
-                                                                        <label>Return Arrival Time:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.return_arrival_time" required>
-                                                                    </div>
-                                                                    <div class="form-control-4" ng-if="flight.return">
-                                                                        <label>Return Lay Over:</label>
-                                                                        <input class="form-control" type="text" ng-model="flight.return_lay_over" required>
-                                                                    </div>
-                                                                    <label>Adult Price:</label>
-                                                                    <br>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jan:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aJAN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Feb:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aFEB" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Mar:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aMAR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Apr:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aAPR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>May:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aMAY" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jun:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aJUN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jul:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aJUL" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Aug:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aAUG" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Sept:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aSEP" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Oct:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aOCT" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Nov:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aNOV" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Dec:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.aDEC" required>
-                                                                    </div>
-                                                                    <label>Kid Price:</label>
-                                                                    <br>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jan:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kJAN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Feb:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kFEB" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Mar:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kMAR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Apr:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kAPR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>May:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kMAY" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jun:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kJUN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jul:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kJUL" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Aug:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kAUG" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Sept:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kSEP" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Oct:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kOCT" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Nov:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kNOV" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Dec:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.kDEC" required>
-                                                                    </div>
-                                                                    <label>Infant Price:</label>
-                                                                    <br>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jan:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iJAN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Feb:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iFEB" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Mar:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iMAR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Apr:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iAPR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>May:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iMAY" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jun:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iJUN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jul:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iJUL" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Aug:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iAUG" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Sept:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iSEP" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Oct:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iOCT" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Nov:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iNOV" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Dec:</label>
-                                                                        <input class="form-control" type="number" ng-model="flight.iDEC" required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                    <div class="tab-pane" id="hotelsTab">
-                                                        <div class="text-center">
-                                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addHotel()"></i>
-                                                        </div>
-                                                        <div class="box box-primary" ng-repeat="hotel in newItinerary.hotels">
-                                                            <div class="box-header with-border">
-                                                                <h3 class="box-title">{{hotel.EN_Name}}</h3>
-                                                                <div class="box-tools pull-right">
-                                                                    <button class="btn btn-box-tool" ng-click="removeHotel($index)">
-                                                                        <i class="fa fa-times-circle text-danger"></i>
-                                                                    </button>
-                                                                    <button class="btn btn-box-tool" data-widget="collapse">
-                                                                        <i class="fa fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <!-- /.box-tools -->
-                                                            </div>
-                                                            <!-- /.box-header -->
-                                                            <div class="box-body">
-                                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
-                                                                    <div class="form-control-6">
-                                                                        <label>Name in EN:</label>
-                                                                        <input class="form-control" type="text" ng-model="hotel.EN_Name" required>
-                                                                    </div>
-                                                                    <div class="form-control-6">
-                                                                        <label>Name in AR:</label>
-                                                                        <input class="form-control" type="text" ng-model="hotel.AR_Name" required>
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Private:</label>
-                                                                        <select class="form-control" ng-model="hotel.private">
-                                                                            <option value="1" ng-selected="flight.private == 1">Yes</option>
-                                                                            <option value="0" ng-selected="flight.private == 0">No</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Budget Category:</label>
-                                                                        <select class="form-control" id="budget" ng-model="hotel.budget_category_id">
-                                                                            <option ng-repeat="budget in budgetCategories" ng-value="budget.id" ng-selected="hotel.budget_category_id === budget.id">{{budget.en_name}}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Country:</label>
-                                                                        <select class="form-control" id="country" ng-model="hotel.Country_Id">
-                                                                            <option ng-repeat="country in newItinerary.countries" ng-value="country.id" ng-selected="hotel.Country_Id === country.id">{{getCountryById(country.id).en_name}}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <label>Night price:</label>
-                                                                    <br>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jan:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.JAN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Feb:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.FEB" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Mar:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.MAR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Apr:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.APR" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>May:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.MAY" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jun:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.JUN" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Jul:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.JUL" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Aug:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.AUG" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Sept:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.SEP" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Oct:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.OCT" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Nov:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.NOV" required>
-                                                                    </div>
-                                                                    <div class="form-control-2">
-                                                                        <label>Dec:</label>
-                                                                        <input class="form-control" type="number" ng-model="hotel.DEC" required>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- /.form group -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                    <div class="tab-pane" id="seasonsTab">
-                                                        <div class="text-center">
-                                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addSeason()"></i>
-                                                        </div>
-                                                        <div class="box box-primary" ng-repeat="season in newItinerary.seasons">
-                                                            <div class="box-header with-border">
-                                                                <h3 class="box-title">{{getSeasonById(season.type)}}</h3>
-                                                                <div class="box-tools pull-right">
-                                                                    <button class="btn btn-box-tool" ng-click="removeSeason($index)">
-                                                                        <i class="fa fa-times-circle text-danger"></i>
-                                                                    </button>
-                                                                    <button class="btn btn-box-tool" data-widget="collapse">
-                                                                        <i class="fa fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <!-- /.box-tools -->
-                                                            </div>
-                                                            <!-- /.box-header -->
-                                                            <div class="box-body">
-                                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
-                                                                    <div class="form-control-4">
-                                                                        <label>Start Date:</label>
-                                                                        <input class="form-control" type="date" format="yyyy-MM-dd" ng-model="season.start">
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>End Date:</label>
-                                                                        <input class="form-control" type="date" format="yyyy-MM-dd" ng-model="season.end">
-                                                                    </div>
-                                                                    <div class="form-control-4">
-                                                                        <label>Type:</label>
-                                                                        <select class="form-control" ng-model="season.type">
-                                                                            <option ng-repeat="curSeason in seasons" ng-value="curSeason.id" ng-selected="curSeason.id == season.type">{{curSeason.name}}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- /.form group -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                    <div class="tab-pane" id="budgetTab">
-                                                        <div class="form-group" ng-repeat="budget in budgetCategories" ng-if="budget.id !== 1">
-                                                            <label>{{budget.en_name}}: {{newItinerary.budgetCategories[budget.id]}}%</label>
-                                                            <input type="range" min="0" max="100" ng-model="newItinerary.budgetCategories[budget.id]">
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                    <div class="tab-pane" id="purposeTab">
-                                                        <div class="form-group" ng-repeat="purpose in purposes" ng-if="purpose.id !== 1">
-                                                            <label>{{purpose.en_name}}: {{newItinerary.purposes[purpose.id]}}%</label>
-                                                            <input type="range" min="0" max="100" ng-model="newItinerary.purposes[purpose.id]">
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                    <div class="tab-pane" id="interestTab">
-                                                        <div class="form-group" ng-repeat="interest in interests">
-                                                            <label>{{interest.en_name}}: {{newItinerary.interests[interest.id]}}%</label>
-                                                            <input type="range" min="0" max="100" ng-model="newItinerary.interests[interest.id]">
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                    </div>
-                                                    <!-- /.tab-pane -->
+                                        <!-- /.form group -->
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="countriesTab">
+                                        <div class="text-center">
+                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addCountry()"></i>
+                                        </div>
+                                        <div class="box box-primary" ng-repeat="country in newItinerary.countries">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">{{getCountryById(country.id).en_name}}</h3>
+                                                <div class="box-tools pull-right">
+                                                    <button class="btn btn-box-tool" ng-click="removeCountry($index)">
+                                                        <i class="fa fa-times-circle text-danger"></i>
+                                                    </button>
+                                                    <button class="btn btn-box-tool" data-widget="collapse">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
                                                 </div>
-                                                <!-- /.tab-content -->
+                                                <!-- /.box-tools -->
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body">
+                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
+                                                    <div class="form-control-4">
+                                                        <label>Country name</label>
+                                                        <select class="form-control" ng-model="country.id">
+                                                            <option ng-repeat="orgCountry in countries" ng-value="orgCountry.id" ng-selected="orgCountry.id == country.id">{{orgCountry.en_name}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Order #</label>
+                                                        <input class="form-control" type="number" ng-model="country.order" required>
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Days %</label>
+                                                        <input class="form-control" type="number" ng-model="country.days" required>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <!-- /.box-body -->
-                                    </form>
+                                        <!-- /.form group -->
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <style>
+                                        .form-control-1,
+                                        .form-group-1 {
+                                            width: calc(8.33% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-2,
+                                        .form-group-2 {
+                                            width: calc(16.62% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-3,
+                                        .form-group-3 {
+                                            width: calc(24.85% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-4,
+                                        .form-group-4 {
+                                            width: calc(33.33% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-5,
+                                        .form-group-5 {
+                                            width: calc(41.67% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-6,
+                                        .form-group-6 {
+                                            width: calc(50% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-7,
+                                        .form-group-7 {
+                                            width: calc(58.33% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-8,
+                                        .form-group-8 {
+                                            width: calc(66.67% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-9,
+                                        .form-group-9 {
+                                            width: calc(75% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-10,
+                                        .form-group-10 {
+                                            width: calc(83.33% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-11,
+                                        .form-group-11 {
+                                            width: calc(91.67% - 2px);
+                                            display: inline-block;
+                                        }
+
+                                        .form-control-12,
+                                        .form-group-12 {
+                                            width: calc(100% - 2px);
+                                            display: inline-block;
+                                        }
+                                    </style>
+                                    <div class="tab-pane" id="ferriesTab">
+                                        <div class="text-center">
+                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addFerry()"></i>
+                                        </div>
+                                        <div class="box box-primary" ng-repeat="ferry in newItinerary.ferries">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">{{ferry.departing_from ? ferry.departing_from : 'From'}} > {{ferry.arriving_to
+                                                    ? ferry.arriving_to : 'To'}}</h3>
+                                                <div class="box-tools pull-right">
+                                                    <button class="btn btn-box-tool" ng-click="removeFerry($index)">
+                                                        <i class="fa fa-times-circle text-danger"></i>
+                                                    </button>
+                                                    <button class="btn btn-box-tool" data-widget="collapse">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- /.box-tools -->
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body">
+                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
+                                                    <div class="form-control-6">
+                                                        <label>Departing From:</label>
+                                                        <input class="form-control" type="text" ng-model="ferry.departing_from" required>
+                                                    </div>
+                                                    <div class="form-control-6">
+                                                        <label>Arriving To:</label>
+                                                        <input class="form-control" type="text" ng-model="ferry.arriving_to" required>
+                                                    </div>
+                                                    <label>Carrier Name:</label>
+                                                    <input class="form-control" type="text" ng-model="ferry.carrier_name" required>
+                                                    <label>Price:</label>
+                                                    <br>
+                                                    <div class="form-control-2">
+                                                        <label>Jan:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.JAN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Feb:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.FEB" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Mar:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.MAR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Apr:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.APR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>May:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.MAY" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jun:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.JUN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jul:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.JUL" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Aug:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.AUG" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Sept:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.SEP" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Oct:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.OCT" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Nov:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.NOV" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Dec:</label>
+                                                        <input class="form-control" type="number" ng-model="ferry.DEC" required>
+                                                    </div>
+                                                </div>
+                                                <!-- /.form group -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="flightsTab">
+                                        <div class="text-center">
+                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addFlight()"></i>
+                                        </div>
+                                        <div class="box box-primary" ng-repeat="flight in newItinerary.flights">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">{{flight.departing_from ? flight.departing_from : 'From'}} {{flight.return
+                                                    ? '
+                                                    <>' : '>'}} {{flight.arriving_to ? flight.arriving_to : 'To '}} with return:
+                                                        <input type="checkbox" ng-model="flight.return" ng-checked="flight.return">
+                                                </h3>
+                                                <div class="box-tools pull-right">
+                                                    <button class="btn btn-box-tool" ng-click="removeFlight($index)">
+                                                        <i class="fa fa-times-circle text-danger"></i>
+                                                    </button>
+                                                    <button class="btn btn-box-tool" data-widget="collapse">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- /.box-tools -->
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body">
+                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
+                                                    <div class="form-control-6">
+                                                        <label>Departing From:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.departing_from" required>
+                                                    </div>
+                                                    <div class="form-control-6">
+                                                        <label>Arriving To:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.arriving_to" required>
+                                                    </div>
+                                                    <div class="form-control-6">
+                                                        <label>Airline:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.airline_name" required>
+                                                    </div>
+                                                    <div class="form-control-6">
+                                                        <label>Type:</label>
+                                                        <select class="form-control" ng-model="flight.type">
+                                                            <option value="0" ng-selected="flight.type == 0">External</option>
+                                                            <option value="1" ng-selected="flight.type == 1">Internal</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Departing Time:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.departure_time" required>
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Arrival Time:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.arrival_time" required>
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Lay Over:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.lay_over" required>
+                                                    </div>
+                                                    <div class="form-control-4" ng-if="flight.return">
+                                                        <label>Return Departing Time:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.return_departure_time" required>
+                                                    </div>
+                                                    <div class="form-control-4" ng-if="flight.return">
+                                                        <label>Return Arrival Time:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.return_arrival_time" required>
+                                                    </div>
+                                                    <div class="form-control-4" ng-if="flight.return">
+                                                        <label>Return Lay Over:</label>
+                                                        <input class="form-control" type="text" ng-model="flight.return_lay_over" required>
+                                                    </div>
+                                                    <label>Adult Price:</label>
+                                                    <br>
+                                                    <div class="form-control-2">
+                                                        <label>Jan:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aJAN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Feb:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aFEB" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Mar:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aMAR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Apr:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aAPR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>May:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aMAY" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jun:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aJUN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jul:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aJUL" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Aug:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aAUG" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Sept:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aSEP" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Oct:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aOCT" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Nov:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aNOV" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Dec:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.aDEC" required>
+                                                    </div>
+                                                    <label>Kid Price:</label>
+                                                    <br>
+                                                    <div class="form-control-2">
+                                                        <label>Jan:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kJAN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Feb:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kFEB" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Mar:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kMAR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Apr:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kAPR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>May:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kMAY" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jun:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kJUN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jul:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kJUL" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Aug:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kAUG" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Sept:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kSEP" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Oct:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kOCT" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Nov:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kNOV" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Dec:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.kDEC" required>
+                                                    </div>
+                                                    <label>Infant Price:</label>
+                                                    <br>
+                                                    <div class="form-control-2">
+                                                        <label>Jan:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iJAN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Feb:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iFEB" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Mar:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iMAR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Apr:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iAPR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>May:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iMAY" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jun:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iJUN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jul:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iJUL" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Aug:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iAUG" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Sept:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iSEP" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Oct:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iOCT" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Nov:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iNOV" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Dec:</label>
+                                                        <input class="form-control" type="number" ng-model="flight.iDEC" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.form group -->
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="hotelsTab">
+                                        <div class="text-center">
+                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addHotel()"></i>
+                                        </div>
+                                        <div class="box box-primary" ng-repeat="hotel in newItinerary.hotels">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">{{hotel.EN_Name}}</h3>
+                                                <div class="box-tools pull-right">
+                                                    <button class="btn btn-box-tool" ng-click="removeHotel($index)">
+                                                        <i class="fa fa-times-circle text-danger"></i>
+                                                    </button>
+                                                    <button class="btn btn-box-tool" data-widget="collapse">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- /.box-tools -->
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body">
+                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
+                                                    <div class="form-control-6">
+                                                        <label>Name in EN:</label>
+                                                        <input class="form-control" type="text" ng-model="hotel.EN_Name" required>
+                                                    </div>
+                                                    <div class="form-control-6">
+                                                        <label>Name in AR:</label>
+                                                        <input class="form-control" type="text" ng-model="hotel.AR_Name" required>
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Private:</label>
+                                                        <select class="form-control" ng-model="hotel.private">
+                                                            <option value="1" ng-selected="flight.private == 1">Yes</option>
+                                                            <option value="0" ng-selected="flight.private == 0">No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Budget Category:</label>
+                                                        <select class="form-control" id="budget" ng-model="hotel.budget_category_id">
+                                                            <option ng-repeat="budget in budgetCategories" ng-value="budget.id" ng-selected="hotel.budget_category_id === budget.id">{{budget.en_name}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Country:</label>
+                                                        <select class="form-control" id="country" ng-model="hotel.Country_Id">
+                                                            <option ng-repeat="country in newItinerary.countries" ng-value="country.id" ng-selected="hotel.Country_Id === country.id">{{getCountryById(country.id).en_name}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <label>Night price:</label>
+                                                    <br>
+                                                    <div class="form-control-2">
+                                                        <label>Jan:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.JAN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Feb:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.FEB" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Mar:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.MAR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Apr:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.APR" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>May:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.MAY" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jun:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.JUN" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Jul:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.JUL" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Aug:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.AUG" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Sept:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.SEP" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Oct:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.OCT" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Nov:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.NOV" required>
+                                                    </div>
+                                                    <div class="form-control-2">
+                                                        <label>Dec:</label>
+                                                        <input class="form-control" type="number" ng-model="hotel.DEC" required>
+                                                    </div>
+                                                </div>
+                                                <!-- /.form group -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="seasonsTab">
+                                        <div class="text-center">
+                                            <i class="fa fa-plus-circle" style="font-size: 30px" aria-hidden="true" ng-click="addSeason()"></i>
+                                        </div>
+                                        <div class="box box-primary" ng-repeat="season in newItinerary.seasons">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">{{getSeasonById(season.type)}}</h3>
+                                                <div class="box-tools pull-right">
+                                                    <button class="btn btn-box-tool" ng-click="removeSeason($index)">
+                                                        <i class="fa fa-times-circle text-danger"></i>
+                                                    </button>
+                                                    <button class="btn btn-box-tool" data-widget="collapse">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- /.box-tools -->
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body">
+                                                <div class="form-group" style="border: 1px solid #eee;padding: 15px;">
+                                                    <div class="form-control-4">
+                                                        <label>Start Date:</label>
+                                                        <input class="form-control" type="date" format="yyyy-MM-dd" ng-model="season.start">
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>End Date:</label>
+                                                        <input class="form-control" type="date" format="yyyy-MM-dd" ng-model="season.end">
+                                                    </div>
+                                                    <div class="form-control-4">
+                                                        <label>Type:</label>
+                                                        <select class="form-control" ng-model="season.type">
+                                                            <option ng-repeat="curSeason in seasons" ng-value="curSeason.id" ng-selected="curSeason.id == season.type">{{curSeason.name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <!-- /.form group -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="budgetTab">
+                                        <div class="form-group" ng-repeat="budget in budgetCategories" ng-if="budget.id !== 1">
+                                            <label>{{budget.en_name}}: {{newItinerary.budgetCategories[budget.id]}}%</label>
+                                            <input type="range" min="0" max="100" ng-model="newItinerary.budgetCategories[budget.id]">
+                                        </div>
+                                        <!-- /.form group -->
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="purposeTab">
+                                        <div class="form-group" ng-repeat="purpose in purposes" ng-if="purpose.id !== 1">
+                                            <label>{{purpose.en_name}}: {{newItinerary.purposes[purpose.id]}}%</label>
+                                            <input type="range" min="0" max="100" ng-model="newItinerary.purposes[purpose.id]">
+                                        </div>
+                                        <!-- /.form group -->
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="interestTab">
+                                        <div class="form-group" ng-repeat="interest in interests">
+                                            <label>{{interest.en_name}}: {{newItinerary.interests[interest.id]}}%</label>
+                                            <input type="range" min="0" max="100" ng-model="newItinerary.interests[interest.id]">
+                                        </div>
+                                        <!-- /.form group -->
+                                    </div>
+                                    <!-- /.tab-pane -->
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" ng-click="addItinerary(true)" ng-show="editMode==false">Save and close</button>
-                                    <button type="button" class="btn btn-primary" ng-click="addItinerary(false)" ng-show="editMode==false">Save and add another</button>
-                                    <button type="button" class="btn btn-primary" ng-click="editItinerary()" ng-show="editMode==true">Save</button>
-                                </div>
+                                <!-- /.tab-content -->
                             </div>
                         </div>
-                    </div>
-                    <!-- MODALS END -->
-
+                        <!-- /.box-body -->
+                    </form>
                 </div>
-                <!-- /.row (main row) -->
-            </section>
-            <!-- /.content -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="addItinerary(true)" ng-show="editMode==false">Save and close</button>
+                    <button type="button" class="btn btn-primary" ng-click="addItinerary(false)" ng-show="editMode==false">Save and add another</button>
+                    <button type="button" class="btn btn-primary" ng-click="editItinerary()" ng-show="editMode==true">Save</button>
+                </div>
+            </div>
         </div>
-        <!-- /.content-wrapper -->
-
-        <footer class="main-footer">
-            <% include ../partials/footer %>
-        </footer>
     </div>
-    <!-- ./wrapper -->
+    <!-- MODALS END -->
 
-    <!-- jQuery 2.1.3 -->
-    <script src="/plugins/jQuery/jQuery-2.1.3.min.js"></script>
-    <!-- jQuery UI 1.11.2 -->
-    <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button);
-    </script>
-    <!-- Bootstrap 3.3.2 JS -->
-    <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <!-- Morris.js charts -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> -->
-    <!-- <script src="/plugins/morris/morris.min.js" type="text/javascript"></script> -->
-    <!-- Sparkline -->
-    <!-- <script src="/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script> -->
-    <!-- jvectormap -->
-    <!-- <script src="/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script> -->
-    <!-- <script src="/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script> -->
-    <!-- jQuery Knob Chart -->
-    <!-- <script src="/plugins/knob/jquery.knob.js" type="text/javascript"></script> -->
-    <!-- daterangepicker -->
-    <!-- <script src="/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script> -->
-    <!-- datepicker -->
-    <!-- <script src="/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script> -->
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
-    <!-- iCheck -->
-    <script src="/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-    <!-- Slimscroll -->
-    <script src="/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <!-- FastClick -->
-    <script src='/plugins/fastclick/fastclick.min.js'></script>
-    <!-- AdminLTE App -->
-    <script src="/dist/js/app.min.js" type="text/javascript"></script>
-
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <!-- <script src="/dist/js/pages/dashboard.js" type="text/javascript"></script> -->
-
-    <!-- AdminLTE for demo purposes -->
-    <!-- <script src="/dist/js/demo.js" type="text/javascript"></script> -->
-    <!-- DATA TABES SCRIPT -->
-    <script src="../../plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
-
-    <!-- angular js library and g2g angular js controllers -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-
-    <!-- textAngular -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-rangy.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-sanitize.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular.min.js'></script>
-    <script src='https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js'></script>
-
-    <script src="/g2g/js/G2GControlCenterApplication.js" type="text/javascript"></script>
-    <script src="/g2g/js/ItinerariesPageContentController.js" type="text/javascript"></script>
-    <script src="/g2g/js/HeaderContentController.js" type="text/javascript"></script>
-</body>
-
-</html>
+</div>
