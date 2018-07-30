@@ -577,6 +577,13 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.reachable;
 
+		if ($scope.searchCriteria.packageSent) {
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i)
+				if ($scope.currentOrders[i].packageSent == $scope.searchCriteria.packageSent) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
+		} else delete $scope.searchCriteria.packageSent;
+
 		if ($scope.searchCriteria.estimatedFrom) {
 			var ordersArr = [];
 			for (let i = 0; i < $scope.currentOrders.length; ++i)

@@ -135,6 +135,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								estimatedCost: rows[i].Estimated_Cost,
 								edit: rows[i].Edit,
 								reachable: rows[i].Reachable,
+								packageSent: rows[i].Package_Sent,
 								interests: []
 							};
 							var interest = {
@@ -187,6 +188,7 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 			if (filter.estimatedTo) query += " AND `Estimated_Cost` <= '" + filter.estimatedTo + "'";
 			if (filter.edit) query += " AND `Edit` = '" + filter.edit + "'";
 			if (filter.reachable) query += " AND `Reachable` = '" + filter.reachable + "'";
+			if (filter.packageSent) query += " AND `Package_Sent` = '" + filter.packageSent + "'";
 			// execute the query
 			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit, sum(Number_Of_Adults + Number_Of_Kids + Number_Of_Infants) as numberOfTravelers FROM traveler_request WHERE status IN (?)' + query, [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
@@ -259,6 +261,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							estimatedCost: rows[0].Estimated_Cost,
 							edit: rows[0].Edit,
 							reachable: rows[0].Reachable,
+							packageSent: rows[0].Package_Sent,
 							interests: [],
 							mailsHistory: [],
 						};
