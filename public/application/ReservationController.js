@@ -2,7 +2,7 @@
  * 
  */
 
-tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
+tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope', '$http', '$location', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', 'ReferralTypesService', function ($rootScope, $scope, $http, $location, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService, ReferralTypesService) {
 	// fields
 	$scope.selectedSource = "",
 	$scope.selectedDestinations = [],
@@ -266,6 +266,10 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
 		var otherCountry = $scope.itineraries[0];
 		$scope.itineraries.splice(0, 1);
 		$scope.itineraries.push(otherCountry);
+	});
+
+	ReferralTypesService.getAll('EN').then(function (referralTypes) {
+		$scope.referralTypes = referralTypes;
 	});
 
 	$scope.calculatingBudget = false;

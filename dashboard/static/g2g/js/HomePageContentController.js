@@ -2,7 +2,7 @@
  * 
  */
 
-g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService) {
+g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', 'ReferralTypesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService, ReferralTypesService) {
 	// fields
 	$scope.statuses = [{
 			title: 'New',
@@ -584,6 +584,13 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			$scope.currentOrders = ordersArr;
 		} else delete $scope.searchCriteria.packageSent;
 
+		if ($scope.searchCriteria.referralType) {
+			var ordersArr = [];
+			for (let i = 0; i < $scope.currentOrders.length; ++i)
+				if ($scope.currentOrders[i].referralType == $scope.searchCriteria.referralType) ordersArr.push($scope.currentOrders[i]);
+			$scope.currentOrders = ordersArr;
+		} else delete $scope.searchCriteria.referralType;
+
 		if ($scope.searchCriteria.estimatedFrom) {
 			var ordersArr = [];
 			for (let i = 0; i < $scope.currentOrders.length; ++i)
@@ -795,6 +802,10 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	ItinerariesService.getAll().then(function (itineraries) {
 		$scope.itineraries = itineraries;
+	});
+
+	ReferralTypesService.getAll().then(function (referralTypes) {
+		$scope.referralTypes = referralTypes;
 	});
 
 	$scope.refreshOrders($scope.currentRequest);

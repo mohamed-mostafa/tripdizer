@@ -23,6 +23,7 @@ var start = function () {
 	var purposesInterface = require('./hws_purposes_interface.js');
 	var interestsInterface = require('./hws_interests_interface.js');
 	var budgetcategoriesInterface = require('./hws_budgetcategories_interface.js');
+	var referralTypesInterface = require('./hws_referraltypes_interface.js');
 
 	var json2xls = require('json2xls');
 	var app = express();
@@ -109,6 +110,12 @@ var start = function () {
 	app.get('/budgetcategory/:id', auth.isAuthenticated, budgetcategoriesInterface.getById);
 	app.put('/budgetcategory', auth.isAuthenticated, budgetcategoriesInterface.create);
 	app.post('/budgetcategory', auth.isAuthenticated, budgetcategoriesInterface.update);
+
+	//		Referral Types
+	app.get('/referraltypes', referralTypesInterface.getAll);
+	app.get('/referraltype/:id', auth.isAuthenticated, referralTypesInterface.getById);
+	app.put('/referraltype', auth.isAuthenticated, referralTypesInterface.create);
+	app.post('/referraltype', auth.isAuthenticated, referralTypesInterface.update);
 
 	// Videos
 	app.get('/public/videos', publicInterface.getVideos);

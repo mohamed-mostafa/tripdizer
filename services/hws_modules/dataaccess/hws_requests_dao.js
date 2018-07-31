@@ -25,7 +25,7 @@ var createNewRequest = function (request, onSuccess, onFailure) {
 				} else {
 					request.departure_date = new Date(new Date(request.departure_date).setHours(0, 0, 0, 0));
 					request.return_date = new Date(new Date(request.return_date).setHours(0, 0, 0, 0));
-					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Traveler_Name`, `Traveler_Mobile`, `Traveler_Birth_Date`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [request.date, request.traveler.emailAddress, request.traveler.name, request.traveler.mobile, request.traveler.dateOfBirth, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost],
+					connection.query('INSERT INTO `traveler_request` (`Date`, `Traveler_Email_Address`, `Traveler_Name`, `Traveler_Mobile`, `Traveler_Birth_Date`, `Departure_Date`, `Return_Date`, `Flexible_Dates`, `Leaving_Country`, `First_Country`, `Other_Country`, `Second_Country`, `Third_Country`, `Travel_Purpose`, `Number_Of_Adults`, `Number_Of_Kids`, `Number_Of_Infants`, `Budget_Category`, `Budget`, `Visa_Assistance_Needed`, `Tour_Guide_Needed`, `Itinerary_id`, `Comments`, `Estimated_Cost`, `Referral_Type`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [request.date, request.traveler.emailAddress, request.traveler.name, request.traveler.mobile, request.traveler.dateOfBirth, request.departure_date, request.return_date, request.flexible_dates, request.leaving_country, request.first_country, request.other_country, request.second_country, request.third_country, request.travel_purpose, request.number_of_adults, request.number_of_kids, request.number_of_infants, request.budget_category, request.budget || 0, request.visa_assistance_needed, request.tour_guide_needed, request.itinerary_id, request.specialRequests, request.estimatedCost, request.referralType],
 						function (err, result) {
 							// if an error is thrown, end the connection and throw an error
 							if (err) { // if the first insert statement fails
@@ -136,6 +136,7 @@ var getRequestSummariesByStatus = function (statuses, onSuccess, onFailure) {
 								edit: rows[i].Edit,
 								reachable: rows[i].Reachable,
 								packageSent: rows[i].Package_Sent,
+								referralType: rows[i].Referral_Type,
 								interests: []
 							};
 							var interest = {
@@ -189,6 +190,7 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 			if (filter.edit) query += " AND `Edit` = '" + filter.edit + "'";
 			if (filter.reachable) query += " AND `Reachable` = '" + filter.reachable + "'";
 			if (filter.packageSent) query += " AND `Package_Sent` = '" + filter.packageSent + "'";
+			if (filter.referralType) query += " AND `Referral_Type` = " + connection.escape(filter.referralType);
 			// execute the query
 			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit, sum(Number_Of_Adults + Number_Of_Kids + Number_Of_Infants) as numberOfTravelers FROM traveler_request WHERE status IN (?)' + query, [statuses], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
@@ -262,6 +264,7 @@ var getRequestById = function (requestId, onSuccess, onFailure) {
 							edit: rows[0].Edit,
 							reachable: rows[0].Reachable,
 							packageSent: rows[0].Package_Sent,
+							referralType: rows[0].Referral_Type,
 							interests: [],
 							mailsHistory: [],
 						};

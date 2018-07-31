@@ -111,6 +111,14 @@
                     <option ng-value="0">False</option>
                 </select>
             </div>
+
+            <div class="col-xs-4">
+                <label>Request's Referral Type</label>
+                <select class="form-control" ng-model="searchCriteria.referralType">
+                    <option value="">Select Referral Type</option>
+                    <option ng-repeat="type in referralTypes" ng-value="type.id">{{type.enName}}</option>
+                </select>
+            </div>
         </div>
 
         <div class="row">

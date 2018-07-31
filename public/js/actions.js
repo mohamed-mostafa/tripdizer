@@ -220,7 +220,8 @@
                 mobile: {
                     required: true
                 },
-                birth_date: "required"
+                birth_date: "required",
+                referral_type: "required"
 
                 /*options: {
                      required: true,
@@ -275,6 +276,9 @@
                     number: "Please enter numbers only"
                 },
                 birth_date: {
+                    required: "This field is required"
+                },
+                referral_type: {
                     required: "This field is required"
                 },
             }

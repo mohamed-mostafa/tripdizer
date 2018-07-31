@@ -17,6 +17,12 @@
 .select-override {
 	color: black !important;
 }
+.referral-type {
+    margin-right: 39px;
+    border-bottom: 2px solid black !important;
+    text-shadow: 0 0 0 black !important;
+    width: 93%;
+}
 
 .menu-item-overried {
 	font-weight: bolder;
@@ -73,6 +79,10 @@
 
 }
 
+.input-field label.error {
+    margin-top: 0;
+    margin-bottom: 0;
+}
 
 label[for="icon_prefix"], [type="radio"]:not(:checked)+label, [type="radio"]:checked+label {
     color: black !important;

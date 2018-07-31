@@ -186,6 +186,10 @@
                             <input type="text" disabled class="form-control" id="email" ng-model="currentOrder.traveler.emailAddress">
                             <label for="dob">Date of birth</label>
                             <input type="text" disabled class="form-control" id="dob" format="MMM d, y" ng-model="currentOrder.traveler.dateOfBirth">
+                            <label for="referralType">Referral</label>
+                            <select disabled class="form-control" id="referralType" ng-model="currentOrder.referralType">
+                              <option ng-repeat="type in referralTypes" ng-value="type.id" ng-selected="type.id === currentOrder.referralType">{{type.enName}}</option>
+                            </select>
                           </div>
                         </div>
                         <!-- /.tab-pane -->

@@ -62,4 +62,17 @@ var tripdizerApplication = angular.module("TripdizerApplication", [])
 				return response.data
 			})
 		}
+	}])
+	.factory('ReferralTypesService', ['$rootScope', '$http', function ReferralTypesService($rootScope, $http) {
+		var prefix = $rootScope.serverURL + '/';
+
+		return {
+			getAll: getAll
+		}
+
+		function getAll(lang) {
+			return $http.get(prefix + 'referralTypes' + (lang ? '?lang=' + lang : ''), {}).then(function (response) {
+				return response.data
+			})
+		}
 	}]);

@@ -17,6 +17,12 @@
 .select-override {
 	color: black !important;
 }
+.referral-type {
+	margin-left: 45px;
+    border-bottom: 2px solid black !important;
+    text-shadow: 0 0 0 black !important;
+	width: 96.5%;
+}
 
 .menu-item-overried {
 	font-weight: bolder;
@@ -71,6 +77,11 @@
 
 .input-field .prefix ~ input, .input-field .prefix ~ textarea, .input-field .prefix ~ label, .input-field .prefix ~ .validate ~ label, .input-field .prefix ~ .autocomplete-content, .input-field label {
     color: black !important;
+}
+
+.input-field label.error {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 label[for="icon_prefix"], [type="radio"]:not(:checked)+label, [type="radio"]:checked+label {

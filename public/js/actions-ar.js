@@ -223,7 +223,8 @@
                 mobile: {
                     required: true
                 },
-                birth_date: "required"
+                birth_date: "required",
+                referral_type: "required"
 
                 /*options: {
                      required: true,
@@ -278,6 +279,9 @@
                     number: "برجاء إدخال أرقام فقط"
                 },
                 birth_date: {
+                    required: "هذه الخانة مطلوبه"
+                },
+                referral_type: {
                     required: "هذه الخانة مطلوبه"
                 },
             }

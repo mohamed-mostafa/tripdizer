@@ -458,6 +458,13 @@
                                                                     <input id="birth_date" name="birth_date" type="text" class="birthDate" ng-model="request.traveler.dateOfBirth" style="direction:rtl">
                                                                     <label for="birth_date" class="left-aligned-text">تاريخ الميلاد</label>
                                                                 </div>
+                                                                <div class="input-field col s12">
+                                                                    <i class="material-icons prefix glyphicon glyphicon-share-alt"></i>
+                                                                    <select id="referral_type" name="referral_type" ng-model="request.referralType" class="referral-type select-override" style="direction:rtl">
+                                                                        <option ng-repeat="type in referralTypes" ng-value="type.id" ng-selected="type.id === 1">{{type.name}}</option>
+                                                                    </select>
+                                                                    <label for="referral_type" class="left-aligned-text active">كيف عرفت عنا؟</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <!--<div class="wizard-footer-container">

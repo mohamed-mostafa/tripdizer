@@ -549,7 +549,7 @@ span.caret {
 .left-side .inner,
 .right-side .inner {
     box-shadow: 1px 1px 5px #ccc;
-    min-height: 400px;
+    min-height: 500px;
     position: relative;
 }
 
