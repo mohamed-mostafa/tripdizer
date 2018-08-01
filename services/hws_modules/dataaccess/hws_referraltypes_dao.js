@@ -14,7 +14,7 @@ var getById = function (id, lang, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM Referral_Types WHERE id = ?', [id], function (err, rows) {
+			connection.query('SELECT * FROM referral_types WHERE id = ?', [id], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -74,7 +74,7 @@ var create = function (referralType, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('INSERT INTO Referral_Types (EN_Name, AR_Name) values (?, ?)', [referralType.enName, referralType.arName], function (err, result) {
+					connection.query('INSERT INTO referral_types (EN_Name, AR_Name) values (?, ?)', [referralType.enName, referralType.arName], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection
@@ -121,7 +121,7 @@ var update = function (referralType, onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('UPDATE Referral_Types SET EN_Name = ?, AR_Name = ? WHERE Id = ?', [referralType.enName, referralType.arName, referralType.id], function (err, result) {
+					connection.query('UPDATE referral_types SET EN_Name = ?, AR_Name = ? WHERE Id = ?', [referralType.enName, referralType.arName, referralType.id], function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							console.log("An error occurred while trying to update the existing referral type: " + referralType.enName);
@@ -155,7 +155,7 @@ var getAll = function (lang, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('SELECT * FROM Referral_Types ORDER BY Id DESC', [], function (err, rows) {
+			connection.query('SELECT * FROM referral_types ORDER BY Id DESC', [], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
