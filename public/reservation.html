@@ -448,8 +448,8 @@
                                                                 </div>
                                                                 <div class="input-field col s12">
                                                                     <i class="material-icons prefix glyphicon glyphicon-share-alt"></i>
-                                                                    <select id="referral_type" name="referral_type" ng-model="request.referralType"  class="referral-type select-override">
-                                                                        <option ng-repeat="type in referralTypes" ng-value="type.id" ng-selected="type.id === 1">{{type.name}}</option>
+                                                                    <select id="referral_type" name="referral_type" ng-model="request.referralType" ng-init="request.referralType = 1" class="referral-type select-override">
+                                                                        <option ng-repeat="type in referralTypes" ng-value="type.id" ng-selected="type.id === request.referralType">{{type.name}}</option>
                                                                     </select>
                                                                     <label for="referral_type" class="left-aligned-text active">How did you know about us?</label>
                                                                 </div>
