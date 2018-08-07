@@ -24,6 +24,7 @@ var start = function () {
 	var interestsInterface = require('./hws_interests_interface.js');
 	var budgetcategoriesInterface = require('./hws_budgetcategories_interface.js');
 	var referralTypesInterface = require('./hws_referraltypes_interface.js');
+	var statusesInterface = require('./hws_statuses_interface.js');
 
 	var json2xls = require('json2xls');
 	var app = express();
@@ -43,7 +44,7 @@ var start = function () {
 	app.get('/request/:requestId', auth.isAuthenticated, requestsInterface.getRequestById);
 	app.put('/request', auth.isAuthenticated, requestsInterface.updateRequest);
 	app.post('/request/assign', auth.isAuthenticated, requestsInterface.assignRequestToUser);
-	app.get('/request/statuses/summaries', auth.isAuthenticated, auth.isAuthenticated, requestsInterface.getRequestSummaries);
+	app.get('/request/statuses/summaries', auth.isAuthenticated, requestsInterface.getRequestSummaries);
 	app.get('/request/statuses/count', auth.isAuthenticated, requestsInterface.getRequestSummariesCount);
 	app.post('/request/statuses/sendmails', auth.isAuthenticated, requestsInterface.sendMailsToRequestTraveler);
 	app.post('/request/status', auth.isAuthenticated, requestsInterface.changeRequestStatus);
@@ -74,7 +75,7 @@ var start = function () {
 	// Group Trips
 	app.get('/groupTrips', auth.isAuthenticated, grouptripsInterface.getAll);
 	app.get('/groupTrips/current', grouptripsInterface.getAllCurrentTrips);
-	app.get('/groupTrips/:id', auth.isAuthenticated, auth.isAuthenticated, grouptripsInterface.getById);
+	app.get('/groupTrips/:id', auth.isAuthenticated, grouptripsInterface.getById);
 	app.post('/groupTrips', auth.isAuthenticated, grouptripsInterface.create);
 	app.post('/groupTrips/register', grouptripsInterface.register);
 	app.put('/groupTrips/toggle', auth.isAuthenticated, grouptripsInterface.toggle);
@@ -116,6 +117,12 @@ var start = function () {
 	app.get('/referraltype/:id', auth.isAuthenticated, referralTypesInterface.getById);
 	app.put('/referraltype', auth.isAuthenticated, referralTypesInterface.create);
 	app.post('/referraltype', auth.isAuthenticated, referralTypesInterface.update);
+
+	//		Statuses
+	app.get('/statuses', auth.isAuthenticated, statusesInterface.getAll);
+	app.get('/status/:id', auth.isAuthenticated, statusesInterface.getById);
+	app.put('/status', auth.isAuthenticated, statusesInterface.update);
+	app.post('/status', auth.isAuthenticated, statusesInterface.create);
 
 	// Videos
 	app.get('/public/videos', publicInterface.getVideos);

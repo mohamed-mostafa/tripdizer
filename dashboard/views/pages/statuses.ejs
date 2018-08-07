@@ -1,0 +1,149 @@
+<div class="box">
+  <div class="box-header">
+    <h3 class="box-title">
+      <%= title %>
+    </h3>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <div class="overlay" ng-show="loading == true">
+      <i class="fa fa-refresh fa-spin"></i>
+    </div>
+    <div class="box-body table-responsive no-padding" ng-show="loading == false">
+      <table id="statusesTable" class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Box Color</th>
+            <th>Box Watermark</th>
+            <th>Sizes (xs, sm, md, lg)</th>
+            <th>Order</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="status in statuses">
+            <td>{{status.title}}</td>
+            <td>
+              <span style="width: 20px;height: 20px;float: left;margin-right: 5px" ng-class="'bg-' + status.color"></span>{{status.color}}</td>
+            <td>
+              <i ng-class="'ion-ios-' + status.watermark + '-outline'"></i> {{status.watermark}}</td>
+            <td>{{status.size.xs}}, {{status.size.sm}}, {{status.size.md}}, {{status.size.lg}}</td>
+            <td>{{status.order}}</td>
+            <td>
+              <i class="fa fa-edit cursor" ng-click="openEditDialog(status.id)"> Edit</i>
+            </td>
+          </tr>
+        </tbody>
+        <tfooter>
+          <tr>
+            <td colspan="6">
+              <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="addStatusModal" ng-click="openAddDialog()">Add Status</button>
+            </td>
+          </tr>
+        </tfooter>
+      </table>
+    </div>
+  </div>
+  <!-- /.box-body -->
+</div>
+<!-- /.box -->
+<!-- Main row -->
+<div class="row">
+
+  <!-- MODALS -->
+
+  <div class="modal fade" id="addStatusModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Add or Modify Status</h4>
+        </div>
+        <div class="modal-body">
+          <div class="callout callout-danger" ng-show="serverError==true">
+            <h4>Saving failed!</h4>
+            <p>{{serverErrorMessage}}</p>
+          </div>
+          <form role="form" id="newStatusForm">
+            <div class="box-body">
+              <div class="overlay" ng-show="saving == true">
+                <i class="fa fa-refresh fa-spin"></i>
+              </div>
+              <div class="form-group" ng-show="saving==false">
+                <label class="control-label text-red" for="title" ng-show="titleMissing==true">
+                  <i class="fa fa-times-circle-o"></i>Title is missing</label>
+                <label for="title" ng-show="titleMissing==false">Title</label>
+                <input type="text" required class="form-control" id="title" ng-model="newStatus.title" placeholder="Enter title" required>
+              </div>
+              <div class="form-group" ng-show="saving==false">
+                <label class="control-label text-red" for="color" ng-show="colorMissing==true">
+                  <i class="fa fa-times-circle-o"></i>Box color is missing</label>
+                <label for="color" ng-show="colorMissing==false">Box color</label>
+                <select class="form-control" id="color" ng-model="newStatus.color">
+                  <option ng-repeat="color in colors" ng-value="color" ng-selected="newCountry.color === color" ng-class="'bg-' + color">{{color}}</option>
+                </select>
+              </div>
+              <div class="form-group" ng-show="saving==false">
+                <label for="refresh">Refresh</label>
+                <select class="form-control" ng-model="newStatus.refresh">
+                  <option ng-value="1" ng-selected="newStatus.refresh == 1">True</option>
+                  <option ng-value="0" ng-selected="newStatus.refresh == 0">False</option>
+                </select>
+              </div>
+              <div class="form-group" ng-show="saving==false">
+                <label class="control-label text-red" for="watermark" ng-show="watermarkMissing==true">
+                  <i class="fa fa-times-circle-o"></i>Box watermark is missing</label>
+                <label for="watermark" ng-show="watermarkMissing==false">Watermark</label>
+                <input type="text" required class="form-control" id="watermark" ng-model="newStatus.watermark" placeholder="Enter watermark"
+                  required>
+              </div>
+              <div class="form-group">
+                <label style="width: 100%">Sizes: (total must not exceed 12)</label>
+                <label class="form-control-1">XS: </label>
+                <input class="form-control-2" type="number" ng-model="newStatus.size.xs" min="1" step="1" max="12">
+                <label class="form-control-1">SM: </label>
+                <input class="form-control-2" type="number" ng-model="newStatus.size.sm" min="1" step="1" max="12">
+                <label class="form-control-1">MD: </label>
+                <input class="form-control-2" type="number" ng-model="newStatus.size.md" min="1" step="1" max="12">
+                <label class="form-control-1">LG: </label>
+                <input class="form-control-2" type="number" ng-model="newStatus.size.lg" min="1" step="1" max="12">
+              </div>
+              <style>
+                .form-control-1,
+                .form-group-1 {
+                  width: calc(8.33% - 2px);
+                  display: inline-block;
+                }
+
+                .form-control-2,
+                .form-group-2 {
+                  width: calc(16.5% - 2px);
+                  display: inline-block;
+                }
+              </style>
+              <div class="form-group" ng-show="saving==false">
+                <label class="control-label text-red" for="order" ng-show="orderMissing==true">
+                  <i class="fa fa-times-circle-o"></i>Order is missing</label>
+                <label for="order" ng-show="orderMissing==false">Order</label>
+                <input type="number" required class="form-control" id="order" ng-model="newStatus.order" min="0" step="1">
+              </div>
+              <!-- /.form group -->
+            </div>
+            <!-- /.box-body -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" ng-click="addStatus(true)" ng-show="editMode==false">Save and close</button>
+          <button type="button" class="btn btn-primary" ng-click="addStatus(false)" ng-show="editMode==false">Save and add another</button>
+          <button type="button" class="btn btn-primary" ng-click="editStatus()" ng-show="editMode==true">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODALS END -->
+
+</div>

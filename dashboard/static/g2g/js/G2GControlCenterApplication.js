@@ -198,4 +198,17 @@ var g2gControlCenterApplication = angular.module("G2GControlCenterApplication", 
 				return response.data
 			})
 		}
+	}])
+	.factory('StatusesService', ['$rootScope', '$http', function StatusesService($rootScope, $http) {
+		var prefix = $rootScope.serverURL + '/';
+
+		return {
+			getAll: getAll
+		}
+
+		function getAll() {
+			return $http.get(prefix + 'statuses', {}).then(function (response) {
+				return response.data
+			})
+		}
 	}]);

@@ -177,19 +177,19 @@ var getRequestSummariesCountByStatus = function (statuses, filter, onSuccess, on
 		} else {
 			var query = "";
 			// if (filter.name) query += " AND Date > '" + filter.name + "'";
-			if (filter.from) query += " AND `Date` >= '" + filter.from + "'";
-			if (filter.to) query += " AND `Date` <= '" + filter.to + "'";
-			if (filter.departureDateFrom) query += " AND `Departure_Date` >= '" + filter.departureDateFrom + "'";
-			if (filter.departureDateTo) query += " AND `Departure_Date` <= '" + filter.departureDateTo + "'";
-			if (filter.destination) query += " AND (`First_Country` = '" + filter.destination + "' OR `Second_Country` = '" + filter.destination + "' OR `Third_Country` = '" + filter.destination + "')";
+			if (filter.from) query += " AND `Date` >= " + connection.escape(filter.from);
+			if (filter.to) query += " AND `Date` <= " + connection.escape(filter.to);
+			if (filter.departureDateFrom) query += " AND `Departure_Date` >= " + connection.escape(filter.departureDateFrom);
+			if (filter.departureDateTo) query += " AND `Departure_Date` <= " + connection.escape(filter.departureDateTo);
+			if (filter.destination) query += " AND (`First_Country` = '" + connection.escape(filter.destination) + "' OR `Second_Country` = " + connection.escape(filter.destination) + " OR `Third_Country` = " + connection.escape(filter.destination) + ")";
 			// if (filter.status) statuses = [filter.status];
-			if (filter.travelPurpose) query += " AND `Travel_Purpose` = '" + filter.travelPurpose + "'";
-			if (filter.budgetCategory) query += " AND `Budget_Category` = '" + filter.budgetCategory + "'";
-			if (filter.estimatedFrom) query += " AND `Estimated_Cost` >= '" + filter.estimatedFrom + "'";
-			if (filter.estimatedTo) query += " AND `Estimated_Cost` <= '" + filter.estimatedTo + "'";
-			if (filter.edit) query += " AND `Edit` = '" + filter.edit + "'";
-			if (filter.reachable) query += " AND `Reachable` = '" + filter.reachable + "'";
-			if (filter.packageSent) query += " AND `Package_Sent` = '" + filter.packageSent + "'";
+			if (filter.travelPurpose) query += " AND `Travel_Purpose` = " + connection.escape(filter.travelPurpose);
+			if (filter.budgetCategory) query += " AND `Budget_Category` = " + connection.escape(filter.budgetCategory);
+			if (filter.estimatedFrom) query += " AND `Estimated_Cost` >= " + connection.escape(filter.estimatedFrom);
+			if (filter.estimatedTo) query += " AND `Estimated_Cost` <= " + connection.escape(filter.estimatedTo);
+			if (filter.edit) query += " AND `Edit` = " + connection.escape(filter.edit);
+			if (filter.reachable) query += " AND `Reachable` = " + connection.escape(filter.reachable);
+			if (filter.packageSent) query += " AND `Package_Sent` = " + connection.escape(filter.packageSent);
 			if (filter.referralType) query += " AND `Referral_Type` = " + connection.escape(filter.referralType);
 			// execute the query
 			connection.query('SELECT count(id) as count, sum(revenue) as revenue, sum(profit) as profit, sum(Number_Of_Adults + Number_Of_Kids + Number_Of_Infants) as numberOfTravelers FROM traveler_request WHERE status IN (?)' + query, [statuses], function (err, rows) {
@@ -332,7 +332,7 @@ var updateRequest = function (request, onSuccess, onFailure) {
 			request.departureDate = new Date(new Date(request.departureDate).setHours(0, 0, 0, 0));
 			request.returnDate = new Date(new Date(request.returnDate).setHours(0, 0, 0, 0));
 			// execute the query
-			connection.query('UPDATE `traveler_request` SET `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Itinerary_id` = ?, `Comments` = ?, Revenue = ?, Profit = ?, Edit = ?, Reachable = ? WHERE Id = ?', [request.departureDate, request.returnDate, request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.itineraryId, request.comments || '', request.revenue, request.profit, request.edit, request.reachable, request.id],
+			connection.query('UPDATE `traveler_request` SET `Status` = ?, `Departure_Date` = ?, `Return_Date` = ?, `Flexible_Dates` = ?, `Leaving_Country` = ?, `First_Country` = ?, `Other_Country` = ?, `Second_Country` = ?, `Third_Country` = ?, `Travel_Purpose` = ?, `Number_Of_Adults` = ?, `Number_Of_Kids` = ?, `Number_Of_Infants` = ?, `Budget_Category` = ?, `Budget` = ?, `Visa_Assistance_Needed` = ?, `Tour_Guide_Needed` = ?, `Itinerary_id` = ?, `Comments` = ?, Revenue = ?, Profit = ?, Edit = ?, Reachable = ? WHERE Id = ?', [request.status, request.departureDate, request.returnDate, request.flexibleDates, request.leavingCountry, request.firstCountry, request.otherCountry, request.secondCountry, request.thirdCountry, request.travelPurpose, request.numberOfAdults, request.numberOfKids, request.numberOfInfants, request.budgetCategory, request.budget || 0, request.visaAssistanceNeeded, request.tourGuideNeeded, request.itineraryId, request.comments || '', request.revenue, request.profit, request.edit, request.reachable, request.id],
 				function (err, rows) {
 					// if an error is thrown, end the connection and throw an error
 					//				connection.end();
@@ -365,10 +365,7 @@ var modifyRequestStatusById = function (orderId, status, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			var statement = 'UPDATE traveler_request SET status = ' + connection.escape(status);
-
-			statement += ' WHERE id = ?';
-			connection.query(statement, [orderId], function (err, rows) {
+			connection.query('UPDATE `traveler_request` SET `Status` = ? WHERE `Id` = ?', [status, orderId], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				//				connection.end();
 				if (err) {
@@ -487,7 +484,7 @@ var getRequestCounts = function (onSuccess, onFailure) {
 					console.log(err);
 					onFailure(err);
 				} else {
-					connection.query('SELECT `Status`, COUNT(*) AS `Count`, SUM(Number_Of_Adults + Number_Of_Kids + Number_Of_Infants) AS `Total_Travellers`, SUM(Number_Of_Adults) AS `Adults`, SUM(Number_Of_Kids) AS `Kids`, SUM(Number_Of_Infants) AS `Infants` FROM traveler_request GROUP BY `Status`', function (err, result) {
+					connection.query('SELECT `s`.`Title` AS `Status`, COUNT(*) AS `Count`, SUM(`tr`.`Number_Of_Adults` + `tr`.`Number_Of_Kids` + `tr`.`Number_Of_Infants`) AS `Total_Travellers`, SUM(`tr`.`Number_Of_Adults`) AS `Adults`, SUM(`tr`.`Number_Of_Kids`) AS `Kids`, SUM(`tr`.`Number_Of_Infants`) AS `Infants` FROM `traveler_request` `tr` JOIN `statuses` `s` ON `tr`.`Status` = `s`.`Id` GROUP BY `tr`.`Status`', function (err, result) {
 						// if an error is thrown, end the connection and throw an error
 						if (err) { // if the first insert statement fails
 							// end the connection

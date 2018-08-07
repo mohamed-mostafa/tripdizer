@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-{{status.size.lg}} col-md-{{status.size.md}} col-sm-{{status.size.sm}} col-xs-{{status.size.xs}}" ng-repeat="status in statuses | orderBy: 'role'">
+    <div class="col-lg-{{status.size.lg}} col-md-{{status.size.md}} col-sm-{{status.size.sm}} col-xs-{{status.size.xs}}" ng-repeat="status in statuses | orderBy: 'order'">
         <!-- small box -->
         <div class="small-box bg-{{status.color}}">
             <div class="inner">
@@ -12,8 +12,8 @@
                 <i class="ion-ios-{{status.watermark}}-outline" ng-show="status.refresh==false"></i>
                 <i class="fa fa-refresh fa-spin" ng-show="status.refresh==true"></i>
             </div>
-            <a href="#" class="small-box-footer col-xs-6" ng-click="showMailModal('request', status.title)">Send Email <i class="fa fa-envelope"></i></a>
-            <a href="#" class="small-box-footer col-xs-6" ng-click="refreshOrders(status.title)">View All <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="#" class="small-box-footer col-xs-6" ng-click="showMailModal('request', status.id)">Send Email <i class="fa fa-envelope"></i></a>
+            <a href="#" class="small-box-footer col-xs-6" ng-click="refreshOrders(status.id)">View All <i class="fa fa-arrow-circle-right"></i></a>
             <div style="clear: both;"></div>
         </div>
     </div>
