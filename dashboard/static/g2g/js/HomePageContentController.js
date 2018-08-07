@@ -243,13 +243,13 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 			role: 27
 		},
 		{
-			title: 'Duplicated',
+			title: 'Omama, Mariam & Abdallah',
 			count: 0,
 			revenue: 0,
 			profit: 0,
 			numberOfTravelers: 0,
 			refresh: false,
-			color: 'gray-active',
+			color: 'blue',
 			watermark: 'copy',
 			size: {
 				xs: 6,
