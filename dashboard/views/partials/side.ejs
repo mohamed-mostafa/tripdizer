@@ -22,7 +22,9 @@
     <li><a href="itineraries"><i class="fa fa-plane text-info"></i> Itineraries</a></li>    
     <li><a href="group-trips"><i class="fa fa-group text-info"></i> Group Trips</a></li>
     <li><a href="videos"><i class="fa fa-youtube-play text-info"></i> Videos</a></li>
-    <li><a href="statuses"><i class="fa fa-align-left text-info"></i> Folders</a></li>
+    <%if (user.isAdmin) { %>
+      <li><a href="statuses"><i class="fa fa-align-left text-info"></i> Folders</a></li>
+    <% } %>
   </ul>
 </section>
 <!-- /.sidebar -->
