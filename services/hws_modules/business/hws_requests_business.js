@@ -463,8 +463,14 @@ var getPackage = function (requestId, onSuccess, onFailure) {
 							if (response.statusCode === 200 && isUrl(body)) {
 								onSuccess(body);
 							} else {
-								console.log("An error occured while getting request package: " + error);
-								onFailure("An error occured while getting request package: " + error);
+								const errorBody = body.match(/<body(?:.*?)>([^<].*?)<\/.*>/);
+								if (errorBody[1]) {
+									console.log("An error occured while getting request package: " + errorBody[1]);
+									onFailure("An error occured while getting request package: " + errorBody[1]);
+								} else {
+									console.log("An error occured while getting request package: " + error);
+									onFailure("An error occured while getting request package: " + error);
+								}
 							}
 						});
 					},
