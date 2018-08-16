@@ -24,13 +24,28 @@
         </thead>
         <tbody>
           <tr ng-repeat="status in statuses">
-            <td>{{status.title}}</td>
-            <td>
-              <span style="width: 20px;height: 20px;float: left;margin-right: 5px" ng-class="'bg-' + status.color"></span>{{status.color}}</td>
-            <td>
-              <i ng-class="'ion-ios-' + status.watermark + '-outline'"></i> {{status.watermark}}</td>
-            <td>{{status.size.xs}}, {{status.size.sm}}, {{status.size.md}}, {{status.size.lg}}</td>
-            <td>{{status.order}}</td>
+            <td style="padding: 0">
+              <input type="text" ng-model="status.title" ng-blur="quickEditStatus(status.id)" style="background-color: transparent;border: 0;width: 100%;padding: 8px;">
+            </td>
+            <td style="padding: 0">
+              <span style="width: 8%;height: 25px;float: left;margin: 5px 3px 0 0" ng-class="'bg-' + status.color"></span>
+              <select class="form-control" id="color" ng-model="status.color" ng-change="quickEditStatus(status.id)" style="width: 90%">
+                <option ng-repeat="color in colors" ng-value="color" ng-selected="status.color === color" ng-class="'bg-' + color">{{color}}</option>
+              </select>
+            </td>
+            <td style="padding: 0">
+              <i ng-class="'ion-ios-' + status.watermark + '-outline'"></i>
+              <input type="text" ng-model="status.watermark" ng-blur="quickEditStatus(status.id)" style="background-color: transparent;border: 0;width: 90%;padding: 8px;">
+            </td>
+            <td style="padding: 0">
+              <input type="number" ng-model="status.size.xs" min="1" step="1" max="12" ng-blur="quickEditStatus(status.id)" style="background-color: transparent;border: 0;width: 24%;padding: 8px;">
+              <input type="number" ng-model="status.size.sm" min="1" step="1" max="12" ng-blur="quickEditStatus(status.id)" style="background-color: transparent;border: 0;width: 24%;padding: 8px;">
+              <input type="number" ng-model="status.size.md" min="1" step="1" max="12" ng-blur="quickEditStatus(status.id)" style="background-color: transparent;border: 0;width: 24%;padding: 8px;">
+              <input type="number" ng-model="status.size.lg" min="1" step="1" max="12" ng-blur="quickEditStatus(status.id)" style="background-color: transparent;border: 0;width: 24%;padding: 8px;">
+            </td>
+            <td style="padding: 0">
+              <input type="number" ng-model="status.order" min="1" step="1" ng-blur="quickEditStatus(status.id)" style="background-color: transparent;border: 0;width: 100%;padding: 8px;">
+            </td>
             <td>
               <i class="fa fa-edit cursor" ng-click="openEditDialog(status.id)"> Edit</i>
             </td>
@@ -64,7 +79,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">Add or Modify Status</h4>
+          <h4 class="modal-title" id="myModalLabel">{{editMode ? 'Modify' : 'Add'}} Status{{editMode ? ' "' + newStatus.title + '"' : ''}}</h4>
         </div>
         <div class="modal-body">
           <div class="callout callout-danger" ng-show="serverError==true">

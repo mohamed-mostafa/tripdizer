@@ -178,6 +178,10 @@ g2gControlCenterApplication.controller("StatusesController", ['$rootScope', '$sc
 		$scope.newStatus = $scope.statuses.find(s => s.id === id);
 		$('#deleteStatusModal').modal('show');
 	};
+	$scope.quickEditStatus = function (id) {
+		$scope.newStatus = $scope.statuses.find(s => s.id === id);
+		$scope.editStatus($scope.newStatus.id);
+	};
 	$scope.buildTable = function () {
 		// initialize the table
 		$(function () {
