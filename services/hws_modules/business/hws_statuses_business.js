@@ -8,4 +8,5 @@ var dao = require('../dataaccess/hws_statuses_dao.js');
 exports.getById = dao.getById;
 exports.create = dao.create;
 exports.update = dao.update;
+exports.delete = dao.delete;
 exports.getAll = dao.getAll;

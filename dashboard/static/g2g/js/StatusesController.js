@@ -105,6 +105,7 @@ g2gControlCenterApplication.controller("StatusesController", ['$rootScope', '$sc
 				function (response) {
 					$scope.saving = false;
 					$scope.statuses.push(response);
+					$scope.statuses.sort((a, b) => a.order - b.order);
 					if (close) {
 						$('#addStatusModal').modal('hide');
 					}
@@ -131,10 +132,11 @@ g2gControlCenterApplication.controller("StatusesController", ['$rootScope', '$sc
 							break;
 						}
 					}
+					$scope.statuses.sort((a, b) => a.order - b.order);
 					$scope.saving = false;
 					$scope.editMode = false;
 					$('#addStatusModal').modal('hide');
-					$scope.newItinerary = {};
+					$scope.newStatus = {};
 					$scope.serverError = false;
 				}
 			).error(function (err) {
@@ -143,15 +145,38 @@ g2gControlCenterApplication.controller("StatusesController", ['$rootScope', '$sc
 			});
 		}
 	};
+	$scope.deleteStatus = function () {
+		const id = $scope.newStatus.id;
+		$scope.saving = true;
+		$http.delete($rootScope.serverURL + "/status/" + id).success(function (response) {
+			if (response && response.success) {
+				$scope.statuses.splice($scope.statuses.findIndex(s => s.id == response.id), 1);
+				$scope.saving = false;
+				$('#deleteStatusModal').modal('hide');
+				$scope.newStatus = {};
+				$scope.serverError = false;
+			} else {
+				$scope.serverError = true;
+				$scope.serverErrorMessage = "An error occured at the server side";
+			}
+		}).error(function (err) {
+			$scope.serverError = true;
+			$scope.serverErrorMessage = "An error occured at the server side: " + err;
+		});
+	};
 	$scope.openAddDialog = function (id) {
 		$scope.newStatus = {};
 		$scope.editMode = false;
 		$('#addStatusModal').modal('show');
 	};
 	$scope.openEditDialog = function (id) {
-		$scope.newStatus = $scope.statuses.find(v => v.id === id);
+		$scope.newStatus = $scope.statuses.find(s => s.id === id);
 		$scope.editMode = true;
 		$('#addStatusModal').modal('show');
+	};
+	$scope.openDeleteDialog = function (id) {
+		$scope.newStatus = $scope.statuses.find(s => s.id === id);
+		$('#deleteStatusModal').modal('show');
 	};
 	$scope.buildTable = function () {
 		// initialize the table

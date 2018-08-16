@@ -53,6 +53,22 @@ var create = function (req, res) {
 	}
 };
 
+var deleteFunc = function (req, res) {
+	try {
+		// call the business function and give it a callback function 
+		var id = req.params.id;
+		business.delete(id, function (status) {
+			res.json(status);
+		}, function (error) {
+			res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for the inconvinence.");
+		});
+	} catch (error) {
+		console.log("An error occured in /status/:id");
+		console.log(error);
+		res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for any inconvinence.");
+	}
+};
+
 var getAll = function (req, res) {
 	try {
 		// call the business function and give it a callback function 
@@ -72,4 +88,5 @@ var getAll = function (req, res) {
 exports.getById = getById;
 exports.create = create;
 exports.update = update;
+exports.delete = deleteFunc;
 exports.getAll = getAll;

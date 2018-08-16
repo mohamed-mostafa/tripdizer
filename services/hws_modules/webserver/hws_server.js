@@ -123,6 +123,7 @@ var start = function () {
 	app.get('/status/:id', auth.isAuthenticated, statusesInterface.getById);
 	app.put('/status', auth.isAuthenticated, statusesInterface.update);
 	app.post('/status', auth.isAuthenticated, statusesInterface.create);
+	app.delete('/status/:id', auth.isAuthenticated, statusesInterface.delete);
 
 	// Videos
 	app.get('/public/videos', publicInterface.getVideos);

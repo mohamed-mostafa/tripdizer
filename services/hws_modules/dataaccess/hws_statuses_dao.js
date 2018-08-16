@@ -146,6 +146,49 @@ var update = function (status, onSuccess, onFailure) {
 	});
 };
 
+var deleteFunc = function (id, onSuccess, onFailure) {
+	// get a connection and open it
+	var connection = daoUtilities.createConnection();
+	connection.connect(function (err) {
+		if (err) {
+			console.log("An error occurred while trying to open a database connection");
+			console.log(err);
+			onFailure(err);
+		} else {
+			// execute the query
+			connection.query('DELETE FROM statuses WHERE id = ?', [id], function (err, rows) {
+				// if an error is thrown, end the connection and throw an error
+				if (err) {
+					// end the connection
+					connection.end();
+					console.log("An error occurred while trying to find a status type with id " + id);
+					console.log(err);
+					onFailure(err);
+				} else {
+					// no error is thrown
+					if (rows.affectedRows > 0) {
+						// end the connection
+						connection.end();
+						// call the callback function provided by the caller, and give it the response
+						onSuccess({
+							success: true,
+							id: id
+						});
+					} else {
+						// no status is found with the id
+						connection.end();
+						onSuccess({
+							success: false,
+							id: id
+						});
+					}
+				}
+
+			});
+		}
+	});
+};
+
 //calls the onSuccess with a list of delivery persons or an empty list
 //calls the onFailure with an err object in case of technical error
 var getAll = function (onSuccess, onFailure) {
@@ -200,4 +243,5 @@ var getAll = function (onSuccess, onFailure) {
 exports.getById = getById;
 exports.create = create;
 exports.update = update;
+exports.delete = deleteFunc;
 exports.getAll = getAll;
