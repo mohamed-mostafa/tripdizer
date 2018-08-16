@@ -26,32 +26,36 @@ const getDecodedToken = (headers) => {
 
 const isAuthenticated = (req, res, next) => {
     const decodedData = getDecodedToken(req.headers);
-    user.login(decodedData.username, decodedData.password, (user) => {
-        next();
-    }, () => {
-        res.send(401);
-    }, () => {
-        res.send(401);
-    }, () => {
-        res.send(401);
-    }, false);
+    if (decodedData) {
+        user.login(decodedData.username, decodedData.password, (user) => {
+            next();
+        }, () => {
+            res.send(401);
+        }, () => {
+            res.send(401);
+        }, () => {
+            res.send(401);
+        }, false);
+    } else res.send(401);
 };
 
 const isAuthenticatedAsAdmin = (req, res, next) => {
     const decodedData = getDecodedToken(req.headers);
-    user.login(decodedData.username, decodedData.password, (user) => {
-        if (user.admin) {
-            next();
-        } else {
+    if (decodedData) {
+        user.login(decodedData.username, decodedData.password, (user) => {
+            if (user.admin) {
+                next();
+            } else {
+                res.send(401);
+            }
+        }, () => {
             res.send(401);
-        }
-    }, () => {
-        res.send(401);
-    }, () => {
-        res.send(401);
-    }, () => {
-        res.send(401);
-    }, false);
+        }, () => {
+            res.send(401);
+        }, () => {
+            res.send(401);
+        }, false);
+    } else res.send(401);
 };
 
 exports.getToken = getToken;
