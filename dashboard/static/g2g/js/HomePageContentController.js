@@ -474,17 +474,17 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	$scope.generatePackage = () => {
 		$scope.loading = true;
-		$http.get($rootScope.serverURL + "/request/package/" + $scope.currentOrder.id).success(function (response) {
+		$http.get($rootScope.serverURL + "/request/package/" + $scope.currentOrder.id).then(function (response) {
 			if (response) {
 				$scope.serverError = false;
 				$scope.currentOrder.generatedFile = response;
 				// $window.open(response, "popup");
 			} else {
 				$scope.serverError = true;
-				$scope.serverErrorMessage = err;
+				$scope.serverErrorMessage = "An error occurred while generating the package.";
 			}
 			$scope.loading = false;
-		}).error(function (err) {
+		}, function (err) {
 			$scope.serverError = true;
 			$scope.serverErrorMessage = err;
 			$scope.loading = false;
