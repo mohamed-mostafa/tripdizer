@@ -57,7 +57,8 @@ var deleteFunc = function (req, res) {
 	try {
 		// call the business function and give it a callback function 
 		var id = req.params.id;
-		business.delete(id, function (status) {
+		var migrateToId = req.query.migrateTo;
+		business.delete(id, migrateToId, function (status) {
 			res.json(status);
 		}, function (error) {
 			res.status(500).send("Tripdizer servers are unable to serve your request at this time. We're sorry for the inconvinence.");

@@ -146,7 +146,7 @@ var update = function (status, onSuccess, onFailure) {
 	});
 };
 
-var deleteFunc = function (id, onSuccess, onFailure) {
+var deleteFunc = function (id, migrateToId, onSuccess, onFailure) {
 	// get a connection and open it
 	var connection = daoUtilities.createConnection();
 	connection.connect(function (err) {
@@ -156,7 +156,7 @@ var deleteFunc = function (id, onSuccess, onFailure) {
 			onFailure(err);
 		} else {
 			// execute the query
-			connection.query('DELETE FROM statuses WHERE id = ?', [id], function (err, rows) {
+			connection.query('UPDATE `traveler_request` SET `Status` = ? WHERE `Status` = ?;DELETE FROM statuses WHERE id = ?', [migrateToId, id, id], function (err, rows) {
 				// if an error is thrown, end the connection and throw an error
 				if (err) {
 					// end the connection
@@ -166,7 +166,7 @@ var deleteFunc = function (id, onSuccess, onFailure) {
 					onFailure(err);
 				} else {
 					// no error is thrown
-					if (rows.affectedRows > 0) {
+					if (rows[1].affectedRows > 0) {
 						// end the connection
 						connection.end();
 						// call the callback function provided by the caller, and give it the response

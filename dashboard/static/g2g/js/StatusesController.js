@@ -60,6 +60,7 @@ g2gControlCenterApplication.controller("StatusesController", ['$rootScope', '$sc
 	$scope.serverErrorMessage = "";
 	// form fields
 	$scope.newStatus = {};
+	$scope.migratedStatus;
 	$scope.editMode = false;
 
 	$scope.loading = false;
@@ -148,7 +149,7 @@ g2gControlCenterApplication.controller("StatusesController", ['$rootScope', '$sc
 	$scope.deleteStatus = function () {
 		const id = $scope.newStatus.id;
 		$scope.saving = true;
-		$http.delete($rootScope.serverURL + "/status/" + id).success(function (response) {
+		$http.delete($rootScope.serverURL + "/status/" + id + "?migrateTo=" + $scope.migratedStatus).success(function (response) {
 			if (response && response.success) {
 				$scope.statuses.splice($scope.statuses.findIndex(s => s.id == response.id), 1);
 				$scope.saving = false;
