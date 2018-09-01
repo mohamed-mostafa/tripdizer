@@ -220,6 +220,11 @@
                     required: true,
                     email: true
                 },
+                email2: {
+                    required: true,
+                    email: true,
+                    equalTo: "#email"
+                },
                 mobile: {
                     required: true
                 },
@@ -273,6 +278,11 @@
                 email: {
                     required: "هذه الخانة مطلوبه",
                     email: "الرجاء إدخال عنوان بريد إلكتروني صالح"
+                },
+                email2: {
+                    required: "هذه الخانة مطلوبه",
+                    email: "الرجاء إدخال عنوان بريد إلكتروني صالح",
+                    equalTo: "عنوان البريد غير متطابق"
                 },
                 mobile:  {
                     required: "هذه الخانة مطلوبه",

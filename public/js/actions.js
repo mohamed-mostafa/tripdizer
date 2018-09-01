@@ -217,6 +217,11 @@
                     required: true,
                     email: true
                 },
+                email2: {
+                    required: true,
+                    email: true,
+                    equalTo: "#email"
+                },
                 mobile: {
                     required: true
                 },
@@ -270,6 +275,11 @@
                 email: {
                     required: "This field is required",
                     email: "Please enter a valid email address"
+                },
+                email2: {
+                    required: "This field is required",
+                    email: "Please enter a valid email address",
+                    equalTo: "Email address is not the same"
                 },
                 mobile:  {
                     required: "This field is required",
