@@ -477,7 +477,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$http.get($rootScope.serverURL + "/request/package/" + $scope.currentOrder.id).then(function (response) {
 			if (response) {
 				$scope.serverError = false;
-				$scope.currentOrder.generatedFile = response;
+				$scope.currentOrder.generatedFile = response.data;
 				// $window.open(response, "popup");
 			} else {
 				$scope.serverError = true;
