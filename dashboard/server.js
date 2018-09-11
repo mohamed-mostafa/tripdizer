@@ -120,6 +120,15 @@ var start = () => {
 			user: req.user
 		});
 	});
+	app.get('/admin/statuses', auth.isAuthenticatedAsAdmin, (req, res) => {
+		res.locals = {
+			title: 'Folders',
+			controller: 'Statuses'
+		};
+		res.render('pages/statuses', {
+			user: req.user
+		});
+	});
 	app.get('*', auth.isAuthenticated, auth.renderTo404);
 
 	// routes end

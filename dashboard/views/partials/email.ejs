@@ -15,7 +15,7 @@
                             <label class="control-label" for="recipients" ng-show="email.recipientsMissing == false">To:</label>
                             <label class="control-label text-red" for="recipients" ng-show="email.recipientsMissing == true"><i class="fa fa-times-circle-o"></i>Recipients is missing</label>
                             <label ng-show="email.type == 'request'" ng-repeat="status in statuses" style="background-color: #ecf0f5; padding: 5px 10px; margin: 0 2.5px 2.5px; border-radius: 5px">
-                                <input type="checkbox" ng-checked="existsCheckBox(status.title, email.recipients)" ng-click="toggleCheckBox(status.title, email.recipients)"/>
+                                <input type="checkbox" ng-checked="existsCheckBox(status.id, email.recipients)" ng-click="toggleCheckBox(status.id, email.recipients)"/>
                                 {{ status.title }}
                             </label>
                             <label ng-show="email.type == 'traveler'" ng-repeat="recipient in email.recipients" style="background-color: #ecf0f5; padding: 5px 10px; margin: 0 2.5px 2.5px; border-radius: 5px">

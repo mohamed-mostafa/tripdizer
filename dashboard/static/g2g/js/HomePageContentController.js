@@ -2,284 +2,12 @@
  * 
  */
 
-g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', 'ReferralTypesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService, ReferralTypesService) {
+g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope', '$scope', '$http', '$location', 'CountriesService', 'PurposesService', 'BudgetCategoriesService', 'InterestsService', 'ItinerariesService', 'ReferralTypesService', 'StatusesService', function ($rootScope, $scope, $http, $location, CountriesService, PurposesService, BudgetCategoriesService, InterestsService, ItinerariesService, ReferralTypesService, StatusesService) {
 	// fields
-	$scope.statuses = [{
-			title: 'New',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'red',
-			watermark: 'bell',
-			size: {
-				xs: 6,
-				sm: 6,
-				md: 6,
-				lg: 3
-			},
-			role: 1
-		},
-		{
-			title: 'Group Trip',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'red',
-			watermark: 'people',
-			size: {
-				xs: 6,
-				sm: 6,
-				md: 6,
-				lg: 3
-			},
-			role: 3
-		},
-		{
-			title: 'Booked',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'green-active',
-			watermark: 'checkmark',
-			size: {
-				xs: 12,
-				sm: 5,
-				md: 5,
-				lg: 3
-			},
-			role: 5
-		},
-		{
-			title: 'Total',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'white',
-			watermark: 'checkmark',
-			size: {
-				xs: 12,
-				sm: 7,
-				md: 7,
-				lg: 3
-			},
-			role: 7
-		},
-		{
-			title: 'Pending Send to Dizer',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 9
-		},
-		{
-			title: 'Pending Send to Customer',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 11
-		},
-		{
-			title: 'Sent to Customer',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 13
-		},
-		{
-			title: 'Follow Up',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 15
-		},
-		{
-			title: 'Urgent',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 17
-		},
-		{
-			title: 'Edit',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'yellow',
-			watermark: 'gear',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 19
-		},
-		{
-			title: 'Not Serious',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'gray-active',
-			watermark: 'gray',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 21
-		},
-		{
-			title: 'Rejected',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'gray-active',
-			watermark: 'close',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 23
-		},
-		{
-			title: 'Unreachable',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'gray-active',
-			watermark: 'gear',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 25
-		},
-		{
-			title: 'Future Requests',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'gray-active',
-			watermark: 'purple',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 27
-		},
-		{
-			title: 'Omama, Mariam & Abdallah',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'blue',
-			watermark: 'copy',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 29
-		},
-		{
-			title: 'Confirmed',
-			count: 0,
-			revenue: 0,
-			profit: 0,
-			numberOfTravelers: 0,
-			refresh: false,
-			color: 'green-gradient',
-			watermark: 'gear',
-			size: {
-				xs: 6,
-				sm: 4,
-				md: 3,
-				lg: 2
-			},
-			role: 31
-		}
-	];
+	$scope.statuses = [];
 	$scope.currentOrders = [];
 	$scope.total = {
-		title: '',
+		statusIds: '',
 		count: 0,
 		revenue: 0,
 		profit: 0,
@@ -326,49 +54,52 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		'isVisaAssistanceNeeded': 'Visa Assistance Needed',
 		'isTourGuideNeeded': 'Tour Guide Needed',
 	};
-	$scope.currentRequest = "New";
+	$scope.currentRequest = 1;
 
 	// functions
-	$scope.refreshOrdersCount = function (title) {
-		var query = '';
-		if (title == 'Total') {
-			$scope.total.title = [];
-			for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title);
-			query = $scope.total.title;
+	$scope.refreshOrdersCount = function (statusId) {
+		let query = statusId;
+		const statusIndex = $scope.statuses.findIndex(state => state.id === statusId);
+		const statusTitle = statusIndex !== -1 ? $scope.statuses[statusIndex].title : '';
+		if (statusTitle === 'Total') {
+			$scope.total.statusIds = [];
+			for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.statusIds.push($scope.statuses[i].id);
+			query = $scope.total.statusIds;
 		} else {
-			i = $scope.statuses.findIndex(state => state.title === title);
-			query = $scope.statuses[i].title
+			query = [$scope.statuses[statusIndex].id]
 		}
-		var index = $scope.statuses.findIndex(state => state.title === title);
-		$scope.statuses[index].refresh = true;
+		$scope.statuses[statusIndex].refresh = true;
 		$http.get($rootScope.serverURL + "/request/statuses/count?statuses=" + query + "&filter=" + JSON.stringify($scope.searchCriteria)).success(
 			function (response) {
 				if (!response.count) response.count = 0;
 				if (!response.revenue) response.revenue = 0;
 				if (!response.profit) response.profit = 0;
 				if (!response.numberOfTravelers) response.numberOfTravelers = 0;
-				$scope.statuses[index].count = response.count;
-				$scope.statuses[index].revenue = response.revenue;
-				$scope.statuses[index].profit = response.profit;
-				$scope.statuses[index].numberOfTravelers = response.numberOfTravelers;
-				$scope.statuses[index].refresh = false;
+				$scope.statuses[statusIndex].count = response.count;
+				$scope.statuses[statusIndex].revenue = response.revenue;
+				$scope.statuses[statusIndex].profit = response.profit;
+				$scope.statuses[statusIndex].numberOfTravelers = response.numberOfTravelers;
+				$scope.statuses[statusIndex].refresh = false;
 				$scope.calculateTotals();
 			}
 		).error(function (err) {
-			$scope.statuses[index].count = "N/A";
-			$scope.statuses[index].refresh = false;
+			$scope.statuses[statusIndex].count = "N/A";
+			$scope.statuses[statusIndex].refresh = false;
 		});
 	};
-	$scope.refreshOrders = function (request) {
-		$scope.currentRequest = request;
+	$scope.refreshOrders = function (statusId) {
+		$scope.currentRequest = statusId;
+		const statusIndex = $scope.statuses.findIndex(state => state.id === statusId);
+		const statusTitle = statusIndex !== -1 ? $scope.statuses[statusIndex].title : '';
+		if (statusTitle === 'Total') {
+			$scope.total.statusIds = [];
+			for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.statusIds.push($scope.statuses[i].id);
+			$scope.currentRequest = $scope.total.statusIds;
+		}
 		$scope.refreshingOrders = true;
 		$scope.collapseAdvancedSearchIfExpanded();
 
-		if (request === 'Total') {
-			request = $scope.total.title;
-		}
-
-		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses=" + request).success(
+		$http.get($rootScope.serverURL + "/request/statuses/summaries?statuses=" + $scope.currentRequest).success(
 			function (response) {
 				response = response.sort((a, b) => b.id - a.id).map(function (request) {
 					if (request.date) request.date = new Date(request.date);
@@ -652,8 +383,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	};
 
 	$scope.refreshContent = function () {
-		for (var i = 0; i < $scope.statuses.length; ++i) $scope.refreshOrdersCount($scope.statuses[i].title);
-		//		$scope.refreshRegisteredUsersCount();
+		for (var i = 0; i < $scope.statuses.length; ++i) $scope.refreshOrdersCount($scope.statuses[i].id);
 	};
 	$scope.openFullDetailsDialog = function (requestId) {
 		$scope.loading = true;
@@ -747,7 +477,7 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 		$http.get($rootScope.serverURL + "/request/package/" + $scope.currentOrder.id).then(function (response) {
 			if (response) {
 				$scope.serverError = false;
-				$scope.currentOrder.generatedFile = response;
+				$scope.currentOrder.generatedFile = response.data;
 				// $window.open(response, "popup");
 			} else {
 				$scope.serverError = true;
@@ -777,10 +507,9 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 	// $scope.searchCriteria.placedAtRange.to = to.toDate();
 
 	// refresh the numbers every 30 seconds
-	$scope.refreshContent(); // refresh once
 	$scope.getAllUsersToAssign();
-	$scope.total.title = [];
-	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.title.push($scope.statuses[i].title); // initialize by loading the 'New' orders
+	$scope.total.statusIds = [];
+	for (var i = 0; i < $scope.statuses.length; ++i) $scope.total.statusIds.push($scope.statuses[i].id); // initialize by loading the 'New' orders
 	window.setInterval($scope.refreshContent, 30000); // set the timer
 	window.setInterval($scope.refreshLocations, 5000); // set the timer
 
@@ -806,6 +535,19 @@ g2gControlCenterApplication.controller("HomePageContentController", ['$rootScope
 
 	ReferralTypesService.getAll().then(function (referralTypes) {
 		$scope.referralTypes = referralTypes;
+	});
+
+	StatusesService.getAll().then(function (statuses) {
+		for (let i = 0; i < statuses.length; ++i) {
+			statuses[i].count = 0;
+			statuses[i].revenue = 0;
+			statuses[i].profit = 0;
+			statuses[i].numberOfTravelers = 0;
+			if (i + 1 === statuses.length) {
+				$scope.statuses = statuses;
+				$scope.refreshContent();
+			}
+		}
 	});
 
 	$scope.refreshOrders($scope.currentRequest);

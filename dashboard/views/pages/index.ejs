@@ -42,7 +42,7 @@
                   <td>{{order.date | date: 'mediumDate'}}</td>
                   <td>
                     <select ng-model="order.status" ng-change="changeOrderStatus(order)">
-                      <option ng-repeat="status in statuses" ng-value="status.title">{{status.title}}</option>
+                      <option ng-repeat="status in statuses" ng-value="status.id" ng-selected="status.id == order.status">{{status.title}}</option>
                     </select>
                   </td>
                   <%if (user.isAdmin) { %>
