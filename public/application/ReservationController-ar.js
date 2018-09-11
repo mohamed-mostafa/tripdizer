@@ -384,7 +384,7 @@ tripdizerApplication.controller("ReservationController", ['$rootScope', '$scope'
         }
 	};
 	$scope.reportSubmitButtonClicked = function(requestId, numberOfAdults, estimatedCost) {
-		ga('send', 'event', 'Submit Button', 'Submit Request');
+		ga('send', 'event', 'Submit Button', 'Submit Request', 'N/A', requestId);
 		fbq('track', 'Purchase', {
 		    contents: [
 		        {
